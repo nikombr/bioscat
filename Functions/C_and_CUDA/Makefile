@@ -1,7 +1,7 @@
 # Makefile 
 
-SOURCES	= src/cholesky.cu src/cudaMalloc2d.cu src/covariance_matrix.cu  src/realisation.cu src/normal_random_vector.cu src/gaussian_process_inner.cpp src/GaussianProcess.cpp
-OBJECTS	= obj/cholesky.o obj/cudaMalloc2d.o obj/covariance_matrix.o obj/realisation.o obj/normal_random_vector.o  obj/gaussian_process_inner.o obj/GaussianProcess.o
+SOURCES	= src/cholesky.cu src/cudaMalloc2d.cu src/covariance_matrix.cu  src/realisation.cu src/gaussian_process_inner.cpp src/GaussianProcess.cpp
+OBJECTS	= obj/cholesky.o obj/cudaMalloc2d.o obj/covariance_matrix.o obj/realisation.o  obj/gaussian_process_inner.o obj/GaussianProcess.o
 
 # options and settings for the GCC compilers
 
@@ -14,7 +14,7 @@ IPO		=
 ISA		= 
 CHIP	= 
 ARCH	= 
-PARA	= -fopenmp -llapack -lblas -lopenblas -lcusolver -lcublas
+PARA	= -fopenmp -llapack -lblas -lopenblas -lcusolver -lcublas -lcurand
 XOPTS 	= -Xptxas=-v -arch=sm_90 -lineinfo -diag-suppress 2464 -diag-suppress 68  -diag-suppress 177 # Suppressing error regarding string conversion
 CFLAGS	= $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) -lstdc++
 CXXFLAGS= --compiler-options "$(OPT) $(PARA)" $(XOPTS)

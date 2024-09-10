@@ -74,7 +74,7 @@ void GaussianProcess::cholesky() {
         cusolverDnHandle_t cusolverH;
         cusolverDnCreate(&cusolverH);
 
-        // Workspace size query
+        // Get workspace size
         int workspace_size = 0;
         cusolverDnDpotrf_bufferSize(cusolverH, CUBLAS_FILL_MODE_UPPER, n, M_log, n, &workspace_size);
 
@@ -86,8 +86,9 @@ void GaussianProcess::cholesky() {
         int *info_d;
         cudaMalloc((void**)&info_d, sizeof(int));
 
-        // Perform Cholesky factorization
+        // Cholesky factorization on device
         cusolverDnDpotrf(cusolverH, CUBLAS_FILL_MODE_UPPER, n, M_log, n, workspace, workspace_size, info_d);
+        cudaDeviceSynchronize();
 
 
         /*double *tempsum;

@@ -31,38 +31,32 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
 
     //device = false;
     string location = device ? "device" : "host";
+
+
     
 
     if (y_h == NULL) printf("We are computing curves on %s!\n",location.c_str());
     else printf("We are computing planes on %s!\n",location.c_str());
 
-    host_malloc_2d(&M_h, n);
+    if (n < 21) host_malloc_2d(&M_h, n);
+
     if (!device) {
         // Allocate matrices on host
-
+        if (n >= 21) host_malloc_2d(&M_h, n);
         // Check allocation
         if (M_h == NULL) {
             printf("Allocation of matrix failed on host!\n");
             return;
         }
-        // Allocate vectors on host
-        cudaMallocHost((void **) &p_h, n*sizeof(double));
-        // Check allocation
-        if (p_h == NULL) {
-            printf("Allocation of vectors failed on host!\n");
-            return;
-        }
-
 
     }
-    
 
     // Allocate vectors on host
-    cudaMallocHost((void **) &z_h, n*sizeof(double));
+    cudaMallocHost((void **) &p_h, n*sizeof(double));
 
     // Check allocation
-    if (z_h == NULL) {
-        printf("Allocation of vectors failed on host!\n");
+    if (p_h == NULL ) {
+        printf("Allocation of vector failed on host!\n");
         return;
     }
     
@@ -80,12 +74,11 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
         // Allocate vectors on device
         cudaMalloc((void **) &x_d,     n*sizeof(double));
         if (y_h != NULL) cudaMalloc((void **) &y_d,     n*sizeof(double));
-        cudaMalloc((void **) &z_d,     n*sizeof(double));
         cudaMalloc((void **) &p_d,     n*sizeof(double));
         cudaMalloc((void **) &hyper_d,     dim*sizeof(double));
 
         // Check allocation
-        if (x_d == NULL || !(y_h == NULL || (y_h != NULL && y_d != NULL)) || z_d == NULL || p_d == NULL) {
+        if (x_d == NULL || !(y_h == NULL || (y_h != NULL && y_d != NULL)) || p_d == NULL) {
             printf("Allocation of vectors failed on device!\n");
             return;
         }
@@ -103,43 +96,20 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
 }
 
 GaussianProcess::~GaussianProcess() {
-
-    printf("start destruction!\n");
-
-    if (device) {
-        cudaMemcpy(*M_h, M_log, n * n * sizeof(double), cudaMemcpyDeviceToHost);
-    }
-    if (n < 21) {
-        printf("\n");
-        printf("<");
-        for (int k = 0; k < n; k++) {
-            for (int i = 0; i < n; i++) {
-                if (i != n-1) printf("%.8f, ",M_h[k][i]);
-                else printf("%.8f",M_h[k][i]);
-            }
-            if (k != n-1) printf(";\n");
-            
-        }
-        printf(">");
-        printf("\n");
-        printf("\n");
-    }
     
 
     if (!device) {
         host_free_2d(M_h);
     }
-    printf("Hej!\n");
     cudaFreeHost(x_h);
     if (dim == 2) cudaFreeHost(y_h);
-    cudaFreeHost(z_h);
     cudaFreeHost(p_h);
 
     if (device) {
         device_free_2d(M_d,M_log);
         cudaFree(x_d);
         if (dim == 2) cudaFree(y_d);
-        cudaFree(z_d);
+
         cudaFree(p_d);
     }
 

@@ -1,6 +1,7 @@
 import ctypes
 import numpy as np
-
+from scipy.io import savemat
+import os
 
 def gaussian_process(x, y, tau = 1, ell = 1):
 
@@ -31,15 +32,25 @@ def gaussian_process(x, y, tau = 1, ell = 1):
     c_func.gaussian_process(X_arr, Y_arr, n, hyper_arr, 2, dim)
 
     # Get result from file
-    z = 0
+    data = np.loadtxt('../../Data/gaussian_process_realisations/output.txt')
+    print(data)
 
-    # Return reshaped result
-    #return np.reshape(z,(len(x),len(y)))
-    return z
+    # Remove txt output
+    os.remove("../../Data/gaussian_process_realisations/output.txt")
+
+    # Save in mat file
+    if len(y) == 0:
+        mdic = {"data": data, "x": x}
+        savemat(f"../../Data/gaussian_process_realisations/curve_squared_exponential_tau_{tau}_ell_{ell}.mat", mdic)
+    else:
+        mdic = {"data": data, "x": x, "y": y}
+        savemat(f"../../Data/gaussian_process_realisations/plane_squared_exponential_tau_{tau}_ell_{ell}.mat", mdic)
+            
+    return data
 
 if __name__ == "__main__":
-    x = np.linspace(-1,1,3)
-    y = np.linspace(-1,1,2)
-    #y = np.array([]);
+    x = np.linspace(-1,1,200)
+    y = np.linspace(-1,1,200)
+    y = np.array([]);
     Z = gaussian_process(x, y, tau = 1, ell = 1)
     print("Hej fra Python")
