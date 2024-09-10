@@ -83,13 +83,23 @@ void GaussianProcess::cholesky() {
         cudaMalloc((void**)&workspace, workspace_size * sizeof(double));
 
         // Allocate info variable
-        int *info_d;
+        int *info_d,*info_h;
         cudaMalloc((void**)&info_d, sizeof(int));
+        cudaMallocHost((void**)&info_h, sizeof(int));
 
         // Cholesky factorization on device
         cusolverDnDpotrf(cusolverH, CUBLAS_FILL_MODE_UPPER, n, M_log, n, workspace, workspace_size, info_d);
         cudaDeviceSynchronize();
 
+        cudaMemcpy(info_h, info_d, sizeof(int), cudaMemcpyDeviceToHost);
+
+        if (*info_h == 0) {
+            printf("Cholesky factorization successful.\n");
+        } else if (*info_h > 0) {
+            printf("Matrix is not positive definite at leading minor %d.\n", *info_h);
+        } else {
+            printf("Error with argument %d.\n", -*info_h);
+        }
 
         /*double *tempsum;
         cudaMalloc((void**)&tempsum, sizeof(double));
@@ -134,6 +144,14 @@ void GaussianProcess::cholesky() {
         int N = n*n;
         int info;
         dpotrf_(&uplo, &n, *M_h, &n,&info);
+
+        if (info == 0) {
+            printf("Cholesky factorization successful.\n");
+        } else if (info > 0) {
+            printf("The leading minor of order %d is not positive definite.\n", info);
+        } else {
+            printf("Illegal value in LAPACKE_dpotrf arguments.\n");
+        }
         /*double tempsum;
         for (int k = 0; k < n; k++) {
 

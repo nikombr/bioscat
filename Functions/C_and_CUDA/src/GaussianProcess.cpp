@@ -29,11 +29,9 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
     device = (!cudaSuccess && temp > 0) ? true : false;
     printf("devices = %d\n",cudaSuccess);
 
-    //device = false;
+    device = false;
     string location = device ? "device" : "host";
 
-
-    
 
     if (y_h == NULL) printf("We are computing curves on %s!\n",location.c_str());
     else printf("We are computing planes on %s!\n",location.c_str());

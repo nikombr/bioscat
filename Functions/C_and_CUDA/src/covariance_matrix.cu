@@ -22,17 +22,21 @@ __device__ __host__ double squared_exponential(double* a, double* b, int dim,  d
 
 __global__ void covariance_matrix_device_1d(double ** Sigma, double* x, int dim, double* hyper, int n) {
     double a[1], b[1];
+    double val;
     int k = threadIdx.x + blockIdx.x * blockDim.x;
     int i = threadIdx.y + blockIdx.y * blockDim.y;
     if (k < n && i >= k && i < n) {
         a[0] = x[k];
         b[0] = x[i];
-        Sigma[i][k] = kfunc(a, b, dim, hyper);
+        val =  kfunc(a, b, dim, hyper);
+        Sigma[i][k] = val;
+        Sigma[k][i] = val;
+        if (k == i) Sigma[i][k] += 1e-10;
     }
 }
 
 __global__ void covariance_matrix_device_2d(double ** Sigma, double* x, double* y, int dim, double* hyper, int n) {
-    
+    double val;
     double a[2], b[2];
     int k = threadIdx.x + blockIdx.x * blockDim.x;
     int i = threadIdx.y + blockIdx.y * blockDim.y;
@@ -41,7 +45,10 @@ __global__ void covariance_matrix_device_2d(double ** Sigma, double* x, double* 
         b[0] = x[i];
         a[1] = y[k];
         b[1] = y[i];
-        Sigma[i][k] = kfunc(a, b, dim, hyper);
+        val =  kfunc(a, b, dim, hyper);
+        Sigma[i][k] = val;
+        Sigma[k][i] = val;
+        if (k == i) Sigma[i][k] += 1e-10;
     }
 }
 
@@ -71,6 +78,7 @@ void GaussianProcess::covariance_matrix() {
 
     }
     else {
+        double val;
 
         if (dim == 1) {
             double a[1], b[1];
@@ -78,8 +86,10 @@ void GaussianProcess::covariance_matrix() {
                 for (int i = k; i < n; i++) {
                     a[0] = x_h[k];
                     b[0] = x_h[i];
-                    
-                    M_h[i][k] = kfunc(a, b, dim, hyper_h);
+                    val = kfunc(a, b, dim, hyper_h);
+                    M_h[i][k] = val;
+                    M_h[k][i] = val;
+                    if (k == i) M_h[i][k] += 1e-10;
                 }
             }
         }
@@ -93,7 +103,10 @@ void GaussianProcess::covariance_matrix() {
                     a[1] = y_h[k];
                     b[1] = y_h[i];
 
-                    M_h[i][k] = kfunc(a, b, dim, hyper_h);
+                    val = kfunc(a, b, dim, hyper_h);
+                    M_h[i][k] = val;
+                    M_h[k][i] = val;
+                    if (k == i) M_h[i][k] += 1e-10;
                 }
             }
         }
