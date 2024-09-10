@@ -38,18 +38,14 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
     if (y_h == NULL) printf("We are computing curves on %s!\n",location.c_str());
     else printf("We are computing planes on %s!\n",location.c_str());
 
-    if (n < 21) host_malloc_2d(&M_h, n);
-
-    if (!device) {
-        // Allocate matrices on host
-        if (n >= 21) host_malloc_2d(&M_h, n);
-        // Check allocation
-        if (M_h == NULL) {
-            printf("Allocation of matrix failed on host!\n");
-            return;
-        }
-
+    // Allocate matrices on host
+    host_malloc_2d(&M_h, n);
+    // Check allocation
+    if (M_h == NULL) {
+        printf("Allocation of matrix failed on host!\n");
+        return;
     }
+    memset(*M_h,0,n*n*sizeof(double));
 
     // Allocate vectors on host
     cudaMallocHost((void **) &p_h, n*sizeof(double));
@@ -75,7 +71,7 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
         cudaMalloc((void **) &x_d,     n*sizeof(double));
         if (y_h != NULL) cudaMalloc((void **) &y_d,     n*sizeof(double));
         cudaMalloc((void **) &p_d,     n*sizeof(double));
-        cudaMalloc((void **) &hyper_d,     dim*sizeof(double));
+        cudaMalloc((void **) &hyper_d,     num*sizeof(double));
 
         // Check allocation
         if (x_d == NULL || !(y_h == NULL || (y_h != NULL && y_d != NULL)) || p_d == NULL) {
@@ -86,11 +82,8 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
         // Send to device
         cudaMemcpy(x_d, x_h, n * sizeof(double), cudaMemcpyHostToDevice);
         if (y_h != NULL) cudaMemcpy(y_d, y_h, n * sizeof(double), cudaMemcpyHostToDevice);
-
-        // Send data
-        cudaMemcpy(x_d, x_h, n * sizeof(double), cudaMemcpyHostToDevice);
-        cudaMemcpy(y_d, y_h, n * sizeof(double), cudaMemcpyHostToDevice);
-        cudaMemcpy(hyper_d, hyper_h, dim * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(M_log, *M_h, n * n * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(hyper_d, hyper_h, num * sizeof(double), cudaMemcpyHostToDevice);
         
     }
 }

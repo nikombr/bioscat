@@ -12,6 +12,7 @@ __device__ __host__ double squared_exponential(double* a, double* b, int dim,  d
     for (int i = 0; i < dim; i++) {
         temp += (a[i]-b[i]) * (a[i]-b[i]);
     }
+
     return tau*tau*exp(-temp/(2*ell*ell));
 
 }
@@ -23,7 +24,7 @@ __global__ void covariance_matrix_device_1d(double ** Sigma, double* x, int dim,
     double a[1], b[1];
     int k = threadIdx.x + blockIdx.x * blockDim.x;
     int i = threadIdx.y + blockIdx.y * blockDim.y;
-    if (k < n && i < n) {
+    if (k < n && i >= k && i < n) {
         a[0] = x[k];
         b[0] = x[i];
         Sigma[i][k] = kfunc(a, b, dim, hyper);
