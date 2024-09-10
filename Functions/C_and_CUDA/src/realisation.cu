@@ -1,16 +1,25 @@
 #include <stdlib.h>
 #include <cublas_v2.h>
 #include <stdio.h>
+#include <math.h>
 
 extern "C" {
 #include "../lib/GaussianProcess.h"
 #include <cblas.h>
 #include <ctime>
 
+
 void GaussianProcess::generate_random_vector() {
 
-    for (int i = 0; i < n; i++) {
-        p_h[i] = ((double) rand())/((double) RAND_MAX);
+    double pi = 3.14159265358979323846;
+    double U1, U2;
+
+    for (int i = 0; i < n; i+=2) {
+        U1 = ((double) rand())/((double) RAND_MAX);
+        U2 = ((double) rand())/((double) RAND_MAX);
+        p_h[i]   = sqrt(-2*log(U1))*cos(2*pi*U2);
+        p_h[i+1] = sqrt(-2*log(U1))*sin(2*pi*U2);
+
     }
 
     if (n < 21) {

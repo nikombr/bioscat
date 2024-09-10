@@ -49,8 +49,8 @@ def gaussian_process(x, y, tau = 1, ell = 1):
     return data
 
 if __name__ == "__main__":
-    x = np.linspace(-1,1,200)
-    y = np.linspace(-1,1,200)
+    x = np.linspace(0,10,200)
+    y = np.linspace(0,10,200)
     y = np.array([]);
-    Z = gaussian_process(x, y, tau = 10, ell = 1)
+    Z = gaussian_process(x, y, tau = 1, ell = 10)
     print("Hej fra Python")

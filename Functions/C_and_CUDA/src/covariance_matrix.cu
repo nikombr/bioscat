@@ -12,7 +12,7 @@ __device__ __host__ double squared_exponential(double* a, double* b, int dim,  d
     for (int i = 0; i < dim; i++) {
         temp += (a[i]-b[i]) * (a[i]-b[i]);
     }
-    return tau*tau*exp(-(temp)/(2*ell*ell));
+    return tau*tau*exp(-temp/(2*ell*ell));
 
 }
 
