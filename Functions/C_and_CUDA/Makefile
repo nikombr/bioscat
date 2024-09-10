@@ -14,7 +14,7 @@ IPO		=
 ISA		= 
 CHIP	= 
 ARCH	= 
-PARA	= -fopenmp
+PARA	= -fopenmp -llapack -lblas -lopenblas -lcusolver -lcublas
 XOPTS 	= -Xptxas=-v -arch=sm_90 -lineinfo -diag-suppress 2464 -diag-suppress 68  -diag-suppress 177 # Suppressing error regarding string conversion
 CFLAGS	= $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) -lstdc++
 CXXFLAGS= --compiler-options "$(OPT) $(PARA)" $(XOPTS)
@@ -43,7 +43,7 @@ obj/%.o: src/%.cpp
 
 clean:
 	@/bin/rm -f core *.o *~
-	@/bin/rm -f core src/*.o
+	@/bin/rm -f core obj/*.o
 	
 
 realclean: clean

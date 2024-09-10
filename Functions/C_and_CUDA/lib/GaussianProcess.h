@@ -6,7 +6,6 @@
     // num: number of hyperparameters
 class GaussianProcess {
     private:        
-        bool device;        // true if a device is available else false
         int n;              // number of points for estimating plane
         double *hyper_h;    // hyperparameters on host
         double *hyper_d;    // hyperparameters on device
@@ -20,14 +19,12 @@ class GaussianProcess {
         double *z_d;        // height of plane in location (x,y) on device
         double *p_h;        // random vector on host
         double *p_d;        // random vector on device
-        double **Sigma_h;   // covariance matrix on host
-        double **Sigma_d;   // covariance matrix on device
-        double *Sigma_log;  // Sigma_d[0] on device
-        double **L_h;       // lower triangular matrix from Cholesky factorization on host
-        double **L_d;       // lower triangular matrix from Cholesky factorization on device
-        double *L_log;      // L_d[0] on device
+        double **M_d;       // covariance matrix and later lower triangular matrix from Cholesky factorization on device
 
     public:
+        double **M_h;       // covariance matrix and later lower triangular matrix from Cholesky factorization on host
+        double *M_log;      // M_d[0] on device
+        bool device;
         GaussianProcess(double* x_h, double* y_h, int n, double* hyper, int num, int dim);  // Constructer, sets default values and allocates
         ~GaussianProcess();                                                                 // Destructer
         void covariance_matrix();                                                           // Computes covariance matrix K

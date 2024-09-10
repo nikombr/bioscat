@@ -26,7 +26,7 @@ __global__ void covariance_matrix_device_1d(double ** Sigma, double* x, int dim,
     if (k < n && i < n) {
         a[0] = x[k];
         b[0] = x[i];
-        Sigma[k][i] = kfunc(a, b, dim, hyper);
+        Sigma[i][k] = kfunc(a, b, dim, hyper);
     }
 }
 
@@ -40,7 +40,7 @@ __global__ void covariance_matrix_device_2d(double ** Sigma, double* x, double* 
         b[0] = x[i];
         a[1] = y[k];
         b[1] = y[i];
-        Sigma[k][i] = kfunc(a, b, dim, hyper);
+        Sigma[i][k] = kfunc(a, b, dim, hyper);
     }
 }
 
@@ -54,7 +54,7 @@ void GaussianProcess::covariance_matrix() {
             dim3 dimBlock(32,32);
             dim3 dimGrid((n+dimBlock.x-1)/dimBlock.x,(n+dimBlock.y-1)/dimBlock.y);
             // Call kernel
-            covariance_matrix_device_1d<<<dimGrid, dimBlock>>>(Sigma_d, x_d, dim, hyper_d, n);
+            covariance_matrix_device_1d<<<dimGrid, dimBlock>>>(M_d, x_d, dim, hyper_d, n);
             cudaDeviceSynchronize();
         }
         else if (dim == 2) {
@@ -62,7 +62,7 @@ void GaussianProcess::covariance_matrix() {
             dim3 dimBlock(32,32);
             dim3 dimGrid((n+dimBlock.x-1)/dimBlock.x,(n+dimBlock.y-1)/dimBlock.y);
             // Call kernel
-            covariance_matrix_device_2d<<<dimGrid, dimBlock>>>(Sigma_d, x_d, y_d, dim, hyper_d, n);
+            covariance_matrix_device_2d<<<dimGrid, dimBlock>>>(M_d, x_d, y_d, dim, hyper_d, n);
             cudaDeviceSynchronize();
 
         }
@@ -78,7 +78,7 @@ void GaussianProcess::covariance_matrix() {
                     a[0] = x_h[k];
                     b[0] = x_h[i];
                     
-                    Sigma_h[k][i] = kfunc(a, b, dim, hyper_h);
+                    M_h[i][k] = kfunc(a, b, dim, hyper_h);
                 }
             }
         }
@@ -92,7 +92,7 @@ void GaussianProcess::covariance_matrix() {
                     a[1] = y_h[k];
                     b[1] = y_h[i];
 
-                    Sigma_h[k][i] = kfunc(a, b, dim, hyper_h);
+                    M_h[i][k] = kfunc(a, b, dim, hyper_h);
                 }
             }
         }

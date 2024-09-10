@@ -39,7 +39,7 @@ def gaussian_process(x, y, tau = 1, ell = 1):
 
 if __name__ == "__main__":
     x = np.linspace(-1,1,3)
-    y = np.linspace(-1,1,3)
+    y = np.linspace(-1,1,2)
     #y = np.array([]);
     Z = gaussian_process(x, y, tau = 1, ell = 1)
     print("Hej fra Python")
