@@ -29,7 +29,7 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
     device = (!cudaSuccess && temp > 0) ? true : false;
     printf("devices = %d\n",cudaSuccess);
 
-    //device = false;
+    device = false;
     string location = device ? "device" : "host";
 
 
