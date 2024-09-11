@@ -50,13 +50,13 @@ def gaussian_process(x, y, tau = 1, ell = 1):
     return data
 
 if __name__ == "__main__":
-    x = np.linspace(0,10,200)
-    y = np.linspace(0,10,200)
-    y = np.array([]);
+    x = np.linspace(0,10,100)
+    y = np.linspace(0,10,100)
+    #y = np.array([]);
     ells = [1, 2, 4];
     taus = [0.25, 0.5, 1];
     for ell in ells:
         for tau in taus:
             Z = gaussian_process(x, y, tau = tau, ell = ell)
-            time.sleep(10)
+            time.sleep(2)
     print("Hej fra Python")
