@@ -9,9 +9,12 @@ def gaussian_process(x, y, tau = 1, ell = 1, p=1, device = True, covfunc = "squa
     if covfunc == "squared_exponential":
         type_covfunc = 1
         hyper = np.array([tau,ell])
+        var = "tau"
     elif covfunc == "matern":
         type_covfunc = 2
         hyper = np.array([p,ell])
+        var = "p"
+        tau = p
     else:
         print("Please input a valid covariance function")
         return
@@ -54,10 +57,10 @@ def gaussian_process(x, y, tau = 1, ell = 1, p=1, device = True, covfunc = "squa
     # Save in mat file
     if len(y) == 0:
         mdic = {"data": data, "x": x}
-        savemat(f"../../Data/gaussian_process_realisations/curve_{covfunc}_tau_{tau}_ell_{ell}.mat", mdic)
+        savemat(f"../../Data/gaussian_process_realisations/curve_{covfunc}_{var}_{tau}_ell_{ell}.mat", mdic)
     else:
         mdic = {"data": data, "x": x, "y": y}
-        savemat(f"../../Data/gaussian_process_realisations/plane_{covfunc}_tau_{tau}_ell_{ell}.mat", mdic)
+        savemat(f"../../Data/gaussian_process_realisations/plane_{covfunc}_{var}_{tau}_ell_{ell}.mat", mdic)
             
     return data
 
