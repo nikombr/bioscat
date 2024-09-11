@@ -9,7 +9,7 @@ extern "C" {
 #include "../lib/cudaMalloc2d.h"
 using namespace std;
 
-GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int num, int dim, int dev) {
+GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int num, int dim, int dev, int type_covfunc) {
 
     if (dim == 1) {
         y = NULL;
@@ -22,6 +22,7 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
     this->hyper_h   = hyper;
     this->num       = num;
     this->dim       = dim;
+    this->type_covfunc = type_covfunc;
 
     // Check if device is available
     int temp;

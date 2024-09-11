@@ -28,29 +28,13 @@ void print_matrix(double **M_h, double * M_log, bool device, int n) {
 
 }
 
-void print_vector(double *p_h, double * p_d, bool device, int n) {
-    if (n < 21) {
-        if (device) {
-            cudaMemcpy(p_h, p_d, n * sizeof(double), cudaMemcpyDeviceToHost);
-        }
-        printf("\n");
-        for (int k = 0; k < n; k++) {
-            if (k != n-1) printf("%.8f, ",p_h[k]);
-            else printf("%.8f",p_h[k]);
-            
-        }
-        printf("\n");
-        printf("\n");
-    }
 
-}
-
-void gaussian_process_inner(double * x, double * y, int n, double * hyper, int num, int dim, int dev) {
+void gaussian_process_inner(double * x, double * y, int n, double * hyper, int num, int dim, int dev, int type_covfunc) {
     double start, stop;
 
 
     start = omp_get_wtime();
-    GaussianProcess GP = GaussianProcess(x, y, n, hyper, num, dim, dev);
+    GaussianProcess GP = GaussianProcess(x, y, n, hyper, num, dim, dev, type_covfunc);
     stop = omp_get_wtime();
 
     printf("Initialization and allocation: %.4f seconds\n\n", stop - start);
@@ -93,7 +77,6 @@ void gaussian_process_inner(double * x, double * y, int n, double * hyper, int n
 
     printf("Computation of random vector and realisation: %.4f seconds\n\n", stop - start);
 
-    //print_vector(GP.p_h, GP.p_d, GP.device, n);
 
 
 }

@@ -4,7 +4,18 @@ from scipy.io import savemat
 import os
 import time
 
-def gaussian_process(x, y, tau = 1, ell = 1, device = True):
+def gaussian_process(x, y, tau = 1, ell = 1, p=1, device = True, covfunc = "squared_exponential"):
+    # covfunc: covariance function
+    if covfunc == "squared_exponential":
+        type_covfunc = 1
+        hyper = np.array([tau,ell])
+    elif covfunc == "matern":
+        type_covfunc = 2
+        hyper = np.array([p,ell])
+    else:
+        print("Please input a valid covariance function")
+        return
+    
 
     so_file = "./gaussian_process.so"
     
@@ -23,7 +34,6 @@ def gaussian_process(x, y, tau = 1, ell = 1, device = True):
     n = len(X)
     X_arr = (ctypes.c_double * len(X))(*X)
     Y_arr = (ctypes.c_double * len(Y))(*Y)
-    hyper = np.array([tau,ell])
     hyper_arr = (ctypes.c_double * len(hyper))(*hyper)
     dev = 1 if device else 0
 
@@ -32,7 +42,7 @@ def gaussian_process(x, y, tau = 1, ell = 1, device = True):
     c_func = ctypes.CDLL(so_file)
 
     # Execute C implementation
-    c_func.gaussian_process(X_arr, Y_arr, n, hyper_arr, 2, dim, dev)
+    c_func.gaussian_process(X_arr, Y_arr, n, hyper_arr, 2, dim, dev, type_covfunc)
 
     # Get result from file
     data = np.loadtxt('../../Data/gaussian_process_realisations/output.txt')
@@ -44,20 +54,32 @@ def gaussian_process(x, y, tau = 1, ell = 1, device = True):
     # Save in mat file
     if len(y) == 0:
         mdic = {"data": data, "x": x}
-        savemat(f"../../Data/gaussian_process_realisations/curve_squared_exponential_tau_{tau}_ell_{ell}.mat", mdic)
+        savemat(f"../../Data/gaussian_process_realisations/curve_{covfunc}_tau_{tau}_ell_{ell}.mat", mdic)
     else:
         mdic = {"data": data, "x": x, "y": y}
-        savemat(f"../../Data/gaussian_process_realisations/plane_squared_exponential_tau_{tau}_ell_{ell}.mat", mdic)
+        savemat(f"../../Data/gaussian_process_realisations/plane_{covfunc}_tau_{tau}_ell_{ell}.mat", mdic)
             
     return data
 
 if __name__ == "__main__":
     x = np.linspace(0,10,200)
     y = np.linspace(0,10,200)
-    #y = np.array([]);
-    ells = [1, 2, 4];
-    taus = [0.25, 0.5, 1];
-    for ell in ells:
-        for tau in taus:
-            Z = gaussian_process(x, y, tau = tau, ell = ell, device = True)
-            time.sleep(2)
+    y = np.array([]);
+
+    covfunc = "matern" # "squared_exponential" "matern"
+
+    if covfunc == "squared_exponential":
+        ells = [1, 2, 4];
+        taus = [0.25, 0.5, 1];
+        for ell in ells:
+            for tau in taus:
+                Z = gaussian_process(x, y, tau = tau, ell = ell, device = True, covfunc = covfunc)
+                time.sleep(2)
+
+    elif covfunc == "matern":
+        ells = [1, 2, 4];
+        ps = [0, 1, 2];
+        for ell in ells:
+            for p in ps:
+                Z = gaussian_process(x, y, p = p, ell = ell, device = True, covfunc = covfunc)
+                time.sleep(2)

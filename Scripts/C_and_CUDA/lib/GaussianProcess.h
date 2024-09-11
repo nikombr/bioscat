@@ -16,14 +16,14 @@ class GaussianProcess {
         double *y_h;        // y coordinates for estimating plane on host
         double *y_d;        // y coordinates for estimating plane on device
         double **M_d;       // covariance matrix and later lower triangular matrix from Cholesky factorization on device
-
+        int type_covfunc;
     public:
         double **M_h;       // covariance matrix and later lower triangular matrix from Cholesky factorization on host
         double *M_log;      // M_d[0] on device
         bool device;
         double *p_h;        // random vector and later height of plane in location (x,y) on host
         double *p_d;        // random vector and later height of plane in location (x,y) on device
-        GaussianProcess(double* x_h, double* y_h, int n, double* hyper, int num, int dim, int dev);  // Constructer, sets default values and allocates
+        GaussianProcess(double* x_h, double* y_h, int n, double* hyper, int num, int dim, int dev, int type_covfunc);  // Constructer, sets default values and allocates
         ~GaussianProcess();                                                                 // Destructer
         void covariance_matrix();                                                           // Computes covariance matrix K
         void cholesky();                                                                    // Does cholesky factorization of K to compute L

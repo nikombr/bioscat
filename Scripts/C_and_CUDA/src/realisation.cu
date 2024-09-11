@@ -35,46 +35,12 @@ void GaussianProcess::generate_random_vector() {
     if (device) {
         // Send to device
         cudaMemcpy(p_d, p_h, n * sizeof(double), cudaMemcpyHostToDevice);
-
     }
 
-
-    /*if (device) {
-
-        // Blocks and threads
-        dim3 dimBlock(32);
-        dim3 dimGrid((n+dimBlock.x-1)/dimBlock.x);
-
-        // Allocate memory for random number states
-        curandState *states;
-        cudaMalloc((void **)&states, n * sizeof(curandState));
-
-        // Generate random states
-        generate_random_states<<<dimGrid, dimBlock>>>(states, time(0), n);
-        cudaDeviceSynchronize();
-
-        // Generate random numbers
-        generate_random_vector_device<<<dimGrid, dimBlock>>>(states, p_d, n);
-        cudaDeviceSynchronize();
-
-
-    }
-
-    else {
-
-        for (int i = 0; i < n; i++) {
-            p_h[i] = ((double) rand())/((double) RAND_MAX);
-        }
-
-    }*/
 
 }
 
 void GaussianProcess::realisation() {
-
-    // Seed the random number generator with the current time
-    //srand(time(NULL));
-    //srand(0);
 
     generate_random_vector();
 
@@ -90,7 +56,6 @@ void GaussianProcess::realisation() {
             return;
         }
         
-
         status = cublasDtrmv(handle, CUBLAS_FILL_MODE_UPPER, CUBLAS_OP_T, CUBLAS_DIAG_NON_UNIT, n, M_log, n, p_d, 1);
         
         // Check if cublasDtrmv was successful
@@ -106,8 +71,6 @@ void GaussianProcess::realisation() {
     }
 
 }
-
-
 
 
 }
