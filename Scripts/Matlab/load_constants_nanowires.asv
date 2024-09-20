@@ -1,0 +1,11 @@
+function [eta0, n0, ns, lambda0, Gamma_r, Gamma_t, k0] = load_constants_nanowires()
+
+% Used the same constants as Mirza
+ns      = 0.571 - 1i*0.636;      % Refractive index of the dielectric substrate
+eta0    = 377;                   % 377 Ohm, impedance of free space
+n0      = 1;                     % Refractive index of air
+lambda0 = 325*10^(-9);           % Wavelength in free space
+Gamma_r = (n0 - ns)/(n0 + ns);   % Fresnel reflection coefficient
+Gamma_t = 2*n0/(n0 + ns);        % Fresnel transmission coefficient
+k0      = 2*pi/lambda0;          % Wave number in free space
+k1 = k0*n1/n0                    & 
