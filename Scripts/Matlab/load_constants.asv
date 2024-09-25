@@ -1,4 +1,0 @@
-function [eta0, n0] = load_constants_nanowires()
-
-eta0 = 377; % 377 Ohm, impedance of free space
-n0 = 1;     % Refractive index of air
