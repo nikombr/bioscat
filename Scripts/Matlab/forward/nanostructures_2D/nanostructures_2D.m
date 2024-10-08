@@ -7,6 +7,7 @@ protein_structure    = "Retinin2x2"; % Retinin2x2 demoleus2x2
 num_segments_choices = [1 5 10 20]; % 1 5 10 20
 total_x_grid_points  = 1000;
 
+far_field_approximation = false;
 views = {"far","close","far_approximation"};
 
 % Illustrate nanostructure
@@ -76,7 +77,7 @@ for num_segments = num_segments_choices
         if strcmp(view,"far_approximation")
             [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_far_fields(coord, segments);
         else
-            [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_fields(coord, segments);
+            [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_fields(coord, segments, far_field_approximation);
         end
         stop = toc;
         fprintf("\nIt took %.4f seconds to compute the fields.\n\n",stop)

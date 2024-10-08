@@ -5,6 +5,8 @@ const    = load_constants(lambda0);
 k0       = const.k0;
 epsilon0 = const.epsilon0;
 mu0      = const.mu0;
+Gamma_r  = const.Gamma_r;
+eta0     = const.eta0;
 
 % Get coordinates
 x     = coord.x;

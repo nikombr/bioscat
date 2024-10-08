@@ -1,4 +1,4 @@
-function [Eref, Href] = reflected_fields(coord,scenario)
+function [Eref, Href] = reflected_fields(coord, scenario, lambda0)
 
 y = coord.y;
 
@@ -9,7 +9,7 @@ Eref = zeros(M,3);
 Href = zeros(M,3);
 
 % Load constants
-const   = load_constants();
+const   = load_constants(lambda0);
 k0      = const.k0;
 eta0    = const.eta0;
 Gamma_r = const.Gamma_r;
