@@ -2,6 +2,7 @@
 clear; close all; clc;
 
 addpath('../fields_2D/')
+addpath('../../utils')
 
 protein_structure    = "Retinin2x2"; % Retinin2x2 demoleus2x2
 num_segments_choices = [1 5 10 20]; % 1 5 10 20

@@ -49,9 +49,11 @@ for k = 1:length(segments)
     % Compute scattered fields
     [Escat_matrix, Hscat_matrix] = scattered_fields(coord, coord_int, scenario, lambda0, far_field_approximation);
     if canUseGPU
+        tic;
         C = gpuArray(C);
         Escat_matrix = gpuArray(Escat_matrix);
         Hscat_matrix = gpuArray(Hscat_matrix);
+        toc;
     end
     if scenario == 1
         Escat(:,3) = Escat(:,3) + Escat_matrix(:,:,3) * C;
