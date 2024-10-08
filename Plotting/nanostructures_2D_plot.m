@@ -1,6 +1,7 @@
 set(groot,'defaultAxesTickLabelInterpreter','latex'); 
 set(groot,'defaulttextinterpreter','latex');
-set(groot,'defaultLegendInterpreter','latex')
+set(groot,'defaultLegendInterpreter','latex');
+set(groot, 'DefaultColorbarTickLabelInterpreter', 'latex');
 
 %% Plot some results fast for quick visualisation
 clear; close all; clc; 
@@ -94,8 +95,6 @@ for j = 1:2
     
     view = views{j};
     load(sprintf("../Results/nanostructures_2D/%s_%s_num_segments_1.mat",filename,view))
-    Etot = Etot(50:end,:,:);
-    Htot = Htot(50:end,:,:);
     for k = 1:3
         climmaxE = max(climmaxE,max(max(abs(Etot(:,:,k)).^2)));
     end
@@ -111,15 +110,6 @@ tiledlayout(2,3,'TileSpacing','compact');
 for k = 1:2
     view = views{k};
     load(sprintf("../Results/nanostructures_2D/%s_%s_num_segments_1.mat",filename,view))
-
-    
-
-    if k == 2
-        Etot = Etot(50:end,:,:);
-        Htot = Htot(50:end,:,:);
-        X = X(50:end);
-        Y = Y(50:end);
-    end
 
     if k == 1
         yshift = 3*10^(-2); % 3 cm
@@ -152,10 +142,10 @@ exportgraphics(gcf,destination,'Resolution',300);
 
 clear; close all; clc; 
 
-filename = 'demoleus2x2'; % Retinin2x2 demoleus2x2
+filename = 'Retinin2x2'; % Retinin2x2 demoleus2x2
 views = {'far', 'close'};
 
-num_segments = 5;
+num_segments = 20;
 
 climmaxE = -1;
 climmaxHx = -1;
@@ -165,8 +155,13 @@ for j = 1:2
     
     view = views{j};
     load(sprintf("../Results/nanostructures_2D/%s_%s_num_segments_1.mat",filename,view))
-    Etot = Etot(50:end,:,:);
-    Htot = Htot(50:end,:,:);
+    for k = 1:3
+        climmaxE = max(climmaxE,max(max(abs(Etot(:,:,k)).^2)));
+    end
+    climmaxHx = max(climmaxHx,max(max(abs(Htot(:,:,1)).^2)));
+    climmaxHy = max(climmaxHy,max(max(abs(Htot(:,:,2)).^2)));
+
+    load(sprintf("../Results/nanostructures_2D/%s_%s_num_segments_%d.mat",filename,view,num_segments))
     for k = 1:3
         climmaxE = max(climmaxE,max(max(abs(Etot(:,:,k)).^2)));
     end
@@ -190,38 +185,129 @@ for k = 1:2
 
     load(sprintf("../Results/nanostructures_2D/%s_%s_num_segments_1.mat",filename,view))
 
-    if k == 2
-        Etot_1 = Etot(50:end,:,:);
-        Htot_1 = Htot(50:end,:,:);
-        X = X(50:end);
-        Y = Y(50:end);
-    else
-        Etot_1 = Etot;
-    end
+    Etot_1 = Etot;
     
     varnum = 3;
 
     nexttile;
     plot_2D_field(X,Y,Etot_1,"E",climmaxE,varnum,yshift,ylabel)
+    if k == 1
+        title('1 Segment','fontsize',14)
+    end
 
     load(sprintf("../Results/nanostructures_2D/%s_%s_num_segments_%d.mat",filename,view,num_segments))
-
-    if k == 2
-        Etot = Etot(50:end,:,:);
-        Htot = Htot(50:end,:,:);
-        X = X(50:end);
-        Y = Y(50:end);
-    end
  
     nexttile;
     plot_2D_field(X,Y,Etot,"E",climmaxE,varnum,yshift,ylabel)
+    
+    if k == 1
+        title(sprintf('%d Segments',num_segments),'fontsize',14)
+    end
 
     nexttile;
     plot_2D_field(X,Y,Etot-Etot_1,"E",-1,varnum,yshift,ylabel)
-
+    if k == 1
+        title('Absolute Error','fontsize',14)
+    end
 
 
 end
 
 destination = sprintf('../Illustrations/nanostructures_2D/%s_Ez_%d_segments.png',filename,num_segments);
 exportgraphics(gcf,destination,'Resolution',300);
+
+
+figure('Renderer', 'painters', 'Position', [400 400 1000 500]);
+tiledlayout(2,3,'TileSpacing','compact');
+
+for k = 1:2
+    view = views{k};
+    
+    if k == 1
+        yshift = 3*10^(-2); % 3 cm
+        ylabel = '$y-3\textrm{ cm}$ [$\mu$m]';
+    else
+        yshift = 0;
+        ylabel = '$y$ [$\mu$m]';
+    end
+
+    load(sprintf("../Results/nanostructures_2D/%s_%s_num_segments_1.mat",filename,view))
+
+    Htot_1 = Htot;
+    
+    varnum = 1;
+
+    nexttile;
+    plot_2D_field(X,Y,Htot_1,"H",climmaxHx,varnum,yshift,ylabel)
+    if k == 1
+        title('1 Segment','fontsize',14)
+    end
+
+    load(sprintf("../Results/nanostructures_2D/%s_%s_num_segments_%d.mat",filename,view,num_segments))
+ 
+    nexttile;
+    plot_2D_field(X,Y,Htot,"H",climmaxHx,varnum,yshift,ylabel)
+    if k == 1
+        title(sprintf('%d Segments',num_segments),'fontsize',14)
+    end
+
+    nexttile;
+    plot_2D_field(X,Y,Htot-Htot_1,"H",-1,varnum,yshift,ylabel)
+    if k == 1
+        title('Absolute Error','fontsize',14)
+    end
+
+
+end
+
+destination = sprintf('../Illustrations/nanostructures_2D/%s_Hx_%d_segments.png',filename,num_segments);
+exportgraphics(gcf,destination,'Resolution',300);
+
+figure('Renderer', 'painters', 'Position', [400 400 1000 500]);
+tiledlayout(2,3,'TileSpacing','compact');
+
+for k = 1:2
+    view = views{k};
+    
+    if k == 1
+        yshift = 3*10^(-2); % 3 cm
+        ylabel = '$y-3\textrm{ cm}$ [$\mu$m]';
+    else
+        yshift = 0;
+        ylabel = '$y$ [$\mu$m]';
+    end
+
+    load(sprintf("../Results/nanostructures_2D/%s_%s_num_segments_1.mat",filename,view))
+
+    Htot_1 = Htot;
+    
+    varnum = 2;
+
+    nexttile;
+    plot_2D_field(X,Y,Htot_1,"H",climmaxHx,varnum,yshift,ylabel)
+    if k == 1
+        title('1 Segment','fontsize',14)
+    end
+
+    load(sprintf("../Results/nanostructures_2D/%s_%s_num_segments_%d.mat",filename,view,num_segments))
+ 
+    nexttile;
+    plot_2D_field(X,Y,Htot,"H",climmaxHx,varnum,yshift,ylabel)
+    
+    if k == 1
+        title(sprintf('%d Segments',num_segments),'fontsize',14)
+    end
+
+    nexttile;
+    plot_2D_field(X,Y,Htot-Htot_1,"H",-1,varnum,yshift,ylabel)
+    if k == 1
+        title('Absolute Error','fontsize',14)
+    end
+
+
+
+end
+
+destination = sprintf('../Illustrations/nanostructures_2D/%s_Hy_%d_segments.png',filename,num_segments);
+exportgraphics(gcf,destination,'Resolution',300);
+

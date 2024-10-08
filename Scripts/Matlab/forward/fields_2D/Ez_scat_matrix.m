@@ -1,9 +1,15 @@
-function Ez_scat = Ez_scat_matrix(x,y,x_int,y_int)
-% x and y has to be vectors of same length
-assert(length(x)==length(y),"x and y does not have the same length!")
-assert(length(x_int)==length(y_int),"x' and y' does not have the same length!")
+function Ez_scat = Ez_scat_matrix(coord,coord_int)
 
-[eta0, n0, ns, lambda0, Gamma_r, Gamma_t, k0, ks, n1, alpha, k1] = load_constants();
+% Get coordinates
+x     = coord.x;
+y     = coord.y;
+x_int = coord_int.x;
+y_int = coord_int.y;
+
+% Load constants
+const   = load_constants();
+Gamma_r = const.Gamma_r;
+k0      = const.k0;
 
 % Do precomputations
 H02 = @(z) besselh(0,2,z);

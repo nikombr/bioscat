@@ -2,9 +2,6 @@ function [C,D,x_int,y_int,x_ext,y_ext] = forward(nanowires)
 
 m = length(nanowires);
 
-% Load general constants
-[eta0, n0, ns, lambda0, Gamma_r, Gamma_t, k0, ks, n1, alpha, k1] = load_constants();
-
 % Make vectors ready for shared points
 phi = []; x = []; y = []; x_int = []; y_int = []; x_ext = []; y_ext = [];
 
@@ -23,13 +20,28 @@ for k = 1:m
     y_ext = [y_ext nw.y_ext];
 end
 
+coord = struct;
+coord_int = struct;
+coord_ext = struct;
+coord.x = x;
+coord.y = y;
+coord_int.x = x_int;
+coord_int.y = y_int;
+coord_ext.x = x_ext;
+coord_ext.y = y_ext;
+
+% Compute incident and reflected fields
+scenario = 1;
+[Einc, Hinc] =  incident_fields(coord, scenario);
+[Eref, Href] = reflected_fields(coord, scenario);
+
 % Compute incident fields
-Ez_inc = Ez_inc_vector(x,y);
-Hx_inc = Hx_inc_vector(x,y);
+Ez_inc = Einc(:,3);
+Hx_inc = Hinc(:,1);
 
 % Compute reflected fields
-Ez_ref = Ez_ref_vector(x,y);
-Hx_ref = Hx_ref_vector(x,y);
+Ez_ref = Eref(:,3);
+Hx_ref = Href(:,1);
     
 % Setup vector
 b1 = - Ez_inc - Ez_ref;
@@ -37,14 +49,14 @@ b2 = sin(phi) .* (Hx_inc + Hx_ref);
 b = [b1; b2];
 
 % Compute scattered fields
-Ez_scat = Ez_scat_matrix(x,y,x_int,y_int);
-Hx_scat = Hx_scat_matrix(x,y,x_int,y_int);
-Hy_scat = Hy_scat_matrix(x,y,x_int,y_int);
+Ez_scat = Ez_scat_matrix(coord, coord_int);
+Hx_scat = Hx_scat_matrix(coord, coord_int);
+Hy_scat = Hy_scat_matrix(coord, coord_int);
 
 % Compute total fields inside the nanowires
-Ez_tot_inside = Ez_tot_inside_matrix(x,y,x_ext,y_ext);
-Hx_tot_inside = Hx_tot_inside_matrix(x,y,x_ext,y_ext);
-Hy_tot_inside = Hy_tot_inside_matrix(x,y,x_ext,y_ext);
+Ez_tot_inside = Ez_tot_inside_matrix(coord, coord_ext);
+Hx_tot_inside = Hx_tot_inside_matrix(coord, coord_ext);
+Hy_tot_inside = Hy_tot_inside_matrix(coord, coord_ext);
     
 % Steup matrix
 a1 = Ez_scat;
@@ -52,6 +64,7 @@ a2 = -Ez_tot_inside;
 a3 = -sin(phi) .* Hx_scat       + cos(phi) .* Hy_scat;
 a4 =  sin(phi) .* Hx_tot_inside - cos(phi) .* Hy_tot_inside;
 A = [a1 a2; a3 a4];
+
 
 % Solve linear system
 c = A\b;

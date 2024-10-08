@@ -3,7 +3,9 @@ function nw = setup_nanowire(N, xc, r)
 nw = struct;
 
 % Load general constants
-[eta0, n0, ns, lambda0, Gamma_r, Gamma_t, k0, ks, n1, alpha, k1] = load_constants();
+const = load_constants();
+lambda0 = const.lambda0;
+alpha   = const.alpha;
 
 if nargin < 2
     % Default values if we have no input

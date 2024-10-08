@@ -1,0 +1,39 @@
+function E_scat = E_scat_matrix(x,y,z,x_int,y_int,z_int)
+% Allocate vectors
+E_scat = zeros(length(x),length(x_ext),3);
+
+% Get constants
+[eta0, n0, ns, lambda0, Gamma_r, Gamma_t, k0, ks, n1, k1] = load_constants();
+
+% Translation of coordinate system to have origo at (x_ext,y_ext,z_ext)
+X = x - x_ext;
+Y = y - y_ext;
+Y_ref = y + y_ext;
+Z = z - z_ext;
+
+% What should these numbers be?
+I = 1;
+dl = 1;
+k = 1;
+
+% Compute variables in the spherical coordinate system with origo at (x_ext,y_ext,z_ext)
+rho = sqrt(X.^2 + Y.^2 + Z.^2);
+rho_ref = sqrt(X.^2 + Y_ref.^2 + Z.^2);
+theta = acos(Z./rho);
+theta_ref = acos(Z./rho_ref);
+phi = pi + sign(Y) .* (acos(X./rho) - pi);
+phi_ref = pi + sign(Y_ref) .* (acos(X./rho_ref) - pi);
+
+% Compute fields in the spherical coordinate system
+EH_rho   = @(rho, theta, phi) 1i * eta0 * I * dl/(4*pi) * (k./rho - 1i./rho.^2 - 1./(k*rho.^3)).*exp(-1i*k*rho).*sin(theta);
+EH_theta = @(rho, theta, phi)     eta0 * I * dl/(4*pi) * (1./rho.^2 - 1i./(k*rho.^3)).*exp(-1i*k*rho).*cos(theta);
+
+% Compute fields
+EHx = @(rho, theta, phi) EH_rho .* sin(theta) .* cos(phi) + EH_theta .* cos(theta) .* cos(phi);
+EHy = @(rho, theta, phi) EH_rho .* sin(theta) .* sin(phi) + EH_theta .* cos(theta) .* sin(phi);
+EHz = @(rho, theta, phi) 
+
+% Compute fields in the Cartesian coordinate system
+E_scat(:,:,1) = EH_rho .* sin(theta) .* cos(phi) + EH_theta .* cos(theta) .* cos(phi);
+E_scat(:,:,2) = EH_rho .* sin(theta) .* sin(phi) + EH_theta .* cos(theta) .* sin(phi);
+E_scat(:,:,3) = EH_rho .* cos(theta)             - EH_theta .* sin(theta);

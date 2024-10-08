@@ -109,3 +109,12 @@ segment.x_int = x_int;
 segment.y_int = y_int;
 segment.x_ext = x_ext;
 segment.y_ext = y_ext;
+
+coord_int = struct;
+coord_ext = struct;
+coord_int.x = x_int;
+coord_int.y = y_int;
+coord_ext.x = x_ext;
+coord_ext.y = y_ext;
+segment.coord_int = coord_int;
+segment.coord_ext = coord_ext;

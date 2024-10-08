@@ -1,9 +1,16 @@
-function Hx_tot_inside = Hx_tot_inside_matrix(x,y,x_ext,y_ext)
-% x and y has to be vectors of same length
-assert(length(x)==length(y),"x and y does not have the same length!")
-assert(length(x_ext)==length(y_ext),"x' and y' does not have the same length!")
+function Hx_tot_inside = Hx_tot_inside_matrix(coord,coord_ext)
 
-[eta0, n0, ns, lambda0, Gamma_r, Gamma_t, k0, ks, n1, alpha, k1] = load_constants();
+% Get coordinates
+x     = coord.x;
+y     = coord.y;
+x_ext = coord_ext.x;
+y_ext = coord_ext.y;
+
+% Load constants
+const   = load_constants();
+k1      = const.k1;
+n1      = const.n1;
+eta0    = const.eta0;
 
 % Do precomputations
 H12 = @(z) besselh(1,2,z);

@@ -1,43 +1,44 @@
-function [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_2D_field(X,Y,nanowires,C,D,x_int,y_int,x_ext,y_ext)
+function [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_fields(coord,coord_int,coord_ext,nanowires,C,D,scenario)
 
+if nargin < 7
+    % Determines the polarisation of the incident and reflected plane wave
+    scenario = 1;
+end
 
-% Load general constants
-[eta0, n0, ns, lambda0, Gamma_r, Gamma_t, k0, ks, n1, alpha, k1] = load_constants();
+x_int = coord_int.x;
+y_int = coord_int.y;
+x_ext = coord_ext.x;
+y_ext = coord_ext.y;
 
 % Get size of field to compute
-[n,m] = size(X);
-X = reshape(X,[],1);
-Y = reshape(Y,[],1);
+[n,m] = size(coord.x);
+coord.x = reshape(coord.x,[],1);
+coord.y = reshape(coord.y,[],1);
 M = n*m;
 
 % Get the number of seperate computations that have been done
 [~, num_computations] = size(C);
 
-% Compute incident fields
-Einc = zeros(M,3);
-Einc(:,3) = Ez_inc_vector(X,Y);
-Hinc = zeros(M,3);
-Hinc(:,1) = Hx_inc_vector(X,Y);
-
-% Compute reflected field
-Eref = zeros(M,3);
-Eref(:,3) = Ez_ref_vector(X,Y);
-Href = zeros(M,3);
-Href(:,1) = Hx_ref_vector(X,Y);
+% Compute incident and reflected fields
+[Einc, Hinc] =  incident_fields(coord, scenario);
+[Eref, Href] = reflected_fields(coord, scenario);
 
 % Compute scattered fields
 Escat = zeros(M,3);
 Hscat = zeros(M,3);
 if num_computations > 1
+    coord_temp = struct;
     for k = 1:num_computations
-        Escat(:,3) = Escat(:,3) + Ez_scat_matrix(X,Y,x_int(k,:),y_int(k,:)) * C(:,k);
-        Hscat(:,1) = Hscat(:,1) + Hx_scat_matrix(X,Y,x_int(k,:),y_int(k,:)) * C(:,k);
-        Hscat(:,2) = Hscat(:,2) + Hy_scat_matrix(X,Y,x_int(k,:),y_int(k,:)) * C(:,k);
+        coord_temp.x = x_int(k,:);
+        coord_temp.y = y_int(k,:);
+        Escat(:,3) = Escat(:,3) + Ez_scat_matrix(coord, coord_temp) * C(:,k);
+        Hscat(:,1) = Hscat(:,1) + Hx_scat_matrix(coord, coord_temp) * C(:,k);
+        Hscat(:,2) = Hscat(:,2) + Hy_scat_matrix(coord, coord_temp) * C(:,k);
     end
 else
-    Escat(:,3) = Escat(:,3) + Ez_scat_matrix(X,Y,x_int,y_int) * C;
-    Hscat(:,1) = Hscat(:,1) + Hx_scat_matrix(X,Y,x_int,y_int) * C;
-    Hscat(:,2) = Hscat(:,2) + Hy_scat_matrix(X,Y,x_int,y_int) * C;
+    Escat(:,3) = Escat(:,3) + Ez_scat_matrix(coord,coord_int) * C;
+    Hscat(:,1) = Hscat(:,1) + Hx_scat_matrix(coord,coord_int) * C;
+    Hscat(:,2) = Hscat(:,2) + Hy_scat_matrix(coord,coord_int) * C;
 end
 
 % Get the total fields
@@ -49,7 +50,7 @@ numerical = @(x,y) sqrt(x.^2+y.^2);
 find_interior = zeros(m*n,1);
 for j = 1:length(nanowires)
     nw = nanowires{j};
-    dist = numerical(X - nw.xc, Y - nw.r);
+    dist = numerical(coord.x - nw.xc, coord.y - nw.r);
     find_interior = find_interior + (dist < nw.r);
 end
 
@@ -60,12 +61,15 @@ Htot(find_interior > 0,:) = 0;
 
 % Compute total fields inside nanowires
 if num_computations > 1
+    coord_temp = struct;
     for k = 1:num_computations
         Etot_inside = zeros(M,3);
         Htot_inside = zeros(M,3);
-        Etot_inside(:,3) = Ez_tot_inside_matrix(X,Y,x_ext(k,:),y_ext(k,:)) * D(:,k);
-        Htot_inside(:,1) = Hx_tot_inside_matrix(X,Y,x_ext(k,:),y_ext(k,:)) * D(:,k);
-        Htot_inside(:,2) = Hy_tot_inside_matrix(X,Y,x_ext(k,:),y_ext(k,:)) * D(:,k);
+        coord_temp.x = x_ext(k,:);
+        coord_temp.y = y_ext(k,:);
+        Etot_inside(:,3) = Ez_tot_inside_matrix(coord, coord_temp) * D(:,k);
+        Htot_inside(:,1) = Hx_tot_inside_matrix(coord, coord_temp) * D(:,k);
+        Htot_inside(:,2) = Hy_tot_inside_matrix(coord, coord_temp) * D(:,k);
     
         % Remove field outside of nanowires
         Etot_inside(~find_interior,:) = 0;
@@ -79,9 +83,9 @@ else
     Etot_inside = zeros(M,3);
     Htot_inside = zeros(M,3);
 
-    Etot_inside(:,3) = Ez_tot_inside_matrix(X,Y,x_ext,y_ext) * D;
-    Htot_inside(:,1) = Hx_tot_inside_matrix(X,Y,x_ext,y_ext) * D;
-    Htot_inside(:,2) = Hy_tot_inside_matrix(X,Y,x_ext,y_ext) * D;
+    Etot_inside(:,3) = Ez_tot_inside_matrix(coord, coord_ext) * D;
+    Htot_inside(:,1) = Hx_tot_inside_matrix(coord, coord_ext) * D;
+    Htot_inside(:,2) = Hy_tot_inside_matrix(coord, coord_ext) * D;
 
     % Remove field outside of nanowires
     Etot_inside(~find_interior,:) = 0;
@@ -93,12 +97,12 @@ else
 
 end
 
-Etot = reshape(Etot,n,m,3);
-Htot = reshape(Htot,n,m,3);
-Einc = reshape(Einc,n,m,3);
-Hinc = reshape(Hinc,n,m,3);
-Eref = reshape(Eref,n,m,3);
-Href = reshape(Href,n,m,3);
+Etot  = reshape(Etot,n,m,3);
+Htot  = reshape(Htot,n,m,3);
+Einc  = reshape(Einc,n,m,3);
+Hinc  = reshape(Hinc,n,m,3);
+Eref  = reshape(Eref,n,m,3);
+Href  = reshape(Href,n,m,3);
 Escat = reshape(Escat,n,m,3);
 Hscat = reshape(Hscat,n,m,3);
 

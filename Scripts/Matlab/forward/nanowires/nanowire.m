@@ -6,6 +6,7 @@ set(groot,'defaultLegendInterpreter','latex')
 clear; clc; close all; 
 
 addpath('../fields_2D')
+addpath('../../utils/')
 
 num_grid_points = 300; % Number of grid points for plotting
 N               = 100; % Number of auxiliary sources, either interior or exterior, or test points
@@ -65,15 +66,25 @@ for view_choice = 1:3
             end
             filename = sprintf('../../../../Results/nanowires/%s_computation_%s%s_%s_N_%d.mat',computation,view,extra,settings{choice},N);
             [Xmesh,Ymesh] = meshgrid(X,Y);
+            coord = struct;
+            coord.x = Xmesh;
+            coord.y = Ymesh;
+            coord_int = struct;
+            coord_int.x = x_int;
+            coord_int.y = y_int;
             if strcmp(view,"far") && far_field_approximation
+                
                 tic;
-                [Etot, Htot, Escat, Hscat, Einc, Hinc, Eref, Href] = compute_far_fields(Xmesh,Ymesh,C,x_int,y_int);
+                [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_far_fields(coord,coord_int,C);
                 stop = toc;
                 fprintf("\nIt took %.4f seconds to compute the far fields.\n\n",stop)
                 save(filename,'Etot','Htot','Einc','Hinc','Eref','Href','Escat','Hscat','X','Y','nanowires','C','D','x_int','y_int','x_ext','y_ext');
             else
+                coord_ext = struct;
+                coord_ext.x = x_ext;
+                coord_ext.y = y_ext;
                 tic;
-                [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_fields(Xmesh,Ymesh,nanowires,C,D,x_int,y_int,x_ext,y_ext);
+                [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_fields(coord,coord_int,coord_ext,nanowires,C,D);
                 stop = toc;
                 fprintf("\nIt took %.4f seconds to compute the fields.\n\n",stop)
                 save(filename,'Etot','Htot','Einc','Hinc','Eref','Href','Escat','Hscat','X','Y','nanowires','C','D','x_int','y_int','x_ext','y_ext');
@@ -180,6 +191,12 @@ relative_E_error = 0 * distances;
 absolute_H_error = 0 * distances;
 relative_H_error = 0 * distances;
 
+coord     = struct;
+coord_int = struct;
+
+coord.x = X;
+coord.y = Y;
+
 wb = waitbar(0,'Computing fields...');
 br = 0;
 for j = 1:length(distances)
@@ -217,9 +234,10 @@ for j = 1:length(distances)
             stop = toc;
             fprintf("\nIt took %.4f seconds to solve the combined linear system.\n\n",stop)
         end
-    
+        coord_int.x = x_int;
+        coord_int.y = y_int;
         tic;
-        [Etot, Htot, Escat, Hscat, Einc, Hinc, Eref, Href] = compute_far_fields(X,Y,C,x_int,y_int);
+        [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_far_fields(coord,coord_int,C);
         stop = toc;
         fprintf("\nIt took %.4f seconds to compute the far fields.\n\n",stop)
     
@@ -261,12 +279,14 @@ plot(distances*10^6,absolute_E_error,'.-','LineWidth',1,'color',"#0072BD",'marke
 grid on
 ylabel('Absolute Error','fontsize', 14)
 xlabel('Distance [$\mu$m]','fontsize', 14)
+ylim([0,1.1*max(absolute_E_error)])
 
 nexttile;
 plot(distances*10^6,absolute_H_error,'o-','LineWidth',1,'color',"#D95319")
 grid on
 ylabel('Absolute Error','fontsize', 14)
 xlabel('Distance [$\mu$m]','fontsize', 14)
+ylim([0,1.1*max(absolute_H_error)])
 
 nexttile;
 plot(distances*10^6,relative_E_error*100,'.-','LineWidth',1,'color',"#0072BD",'DisplayName','\textbf{E}-field error','markersize',10)
@@ -281,20 +301,28 @@ l.Layout.Tile = "south";
 destination = sprintf('../../../../Illustrations/nanowires/two_nanowires_with_distance_error.png');
 exportgraphics(gcf,destination,'Resolution',300);
 
-%%
+%% Compute transmission error
 
 clear; close all; clc;
 
 addpath('../fields_2D')
 
 
+coord_int = struct;
+coord_ext = struct;
+
 settings = {'one_nanowire','two_far_nanowires','two_close_nanowires','multiple_nanowires'};
 choice = 1;
 filename = sprintf('../../../../Results/nanowires/combined_computation_close_%s_N_100.mat',settings{choice});
 load(filename);
 
+coord_int.x = x_int;
+coord_int.y = y_int;
+coord_ext.x = x_ext;
+coord_ext.y = y_ext;
+
 n = 1000;
-[E_error, H_error] = transmission_error(C,D,x_int,y_int,x_ext,y_ext,nanowires,n);
+[E_error, H_error] = transmission_error(coord_int,coord_ext,C,D,nanowires,n);
 for k = 1:length(nanowires)
     for hej = 1:14
         E_error(:,k) = smooth(E_error(:,k));
@@ -307,24 +335,26 @@ num_nanowires = length(nanowires);
 figure('Renderer', 'painters', 'Position', [400 400 800 250]);
 tiledlayout(1,2,'TileSpacing','compact');
 nexttile;
-plot(phi,E_error,'LineWidth',1.5)
+semilogy(phi,E_error,'LineWidth',1.5)
 set(gca,'xtick',0:(pi/4):(2*pi), 'xticklabels',{'0','$\frac{\pi}{4}$','$\frac{\pi}{2}$','$\frac{3\pi}{4}$','$\pi$','$\frac{5\pi}{4}$','$\frac{3\pi}{2}$','$\frac{7\pi}{4}$','$2\pi$'}) 
 ax=gca;
 ax.XAxis.FontSize = 14;
 grid on
 xlim([0,2*pi])
 xlabel('$\phi$','FontSize',14)
-ylabel('Transmission Error','FontSize',14)
+ylabel('Relative Transmission Error','FontSize',14)
 title('\textbf{E}-field','FontSize',14)
+ylim([10^(-9),10^(-5)])
 
 nexttile;
-plot(phi,H_error,'LineWidth',1.5)
+semilogy(phi,H_error,'LineWidth',1.5)
 set(gca,'xtick',0:(pi/4):(2*pi), 'xticklabels',{'0','$\frac{\pi}{4}$','$\frac{\pi}{2}$','$\frac{3\pi}{4}$','$\pi$','$\frac{5\pi}{4}$','$\frac{3\pi}{2}$','$\frac{7\pi}{4}$','$2\pi$'}) 
 ax=gca;
 ax.XAxis.FontSize = 14;
 grid on
 xlim([0,2*pi])
 title('\textbf{H}-field','FontSize',14)
+ylim([10^(-9),10^(-5)])
 
 xlabel('$\phi$','FontSize',14)
 
@@ -333,11 +363,9 @@ sgtitle(sprintf('\\textbf{Setup %d}',choice),'FontSize',16,'inteRpreter','latex'
 destination = '../../../../Illustrations/nanowires/nanowire_transmission_error_one_nanowire.png';
 exportgraphics(gcf,destination,'Resolution',300);
 
-
-
-
-
 %%
+
+
 computation = "seperate"; % seperate combined
 
 figure('Renderer', 'painters', 'Position', [400 400 1000 500]);
@@ -346,9 +374,14 @@ for choice = 2:4
     
     filename = sprintf('../../../../Results/nanowires/%s_computation_close_%s_N_100.mat',computation,settings{choice});
     load(filename);
+
+    coord_int.x = x_int;
+    coord_int.y = y_int;
+    coord_ext.x = x_ext;
+    coord_ext.y = y_ext;
     
     n = 1000;
-    [E_error, H_error] = transmission_error(C,D,x_int,y_int,x_ext,y_ext,nanowires,n);
+    [E_error, H_error] = transmission_error(coord_int,coord_ext,C,D,nanowires,n);
     if strcmp(computation,"combined")
         for k = 1:length(nanowires)
             for hej = 1:14
@@ -363,7 +396,7 @@ for choice = 2:4
     if strcmp(computation,"combined")
         semilogy(phi,E_error,'LineWidth',1.5)
     else
-        plot(phi,E_error,'LineWidth',1.5)
+        semilogy(phi,E_error,'LineWidth',1.5)
     end
     set(gca,'xtick',0:(pi/4):(2*pi), 'xticklabels',{'0','$\frac{\pi}{4}$','$\frac{\pi}{2}$','$\frac{3\pi}{4}$','$\pi$','$\frac{5\pi}{4}$','$\frac{3\pi}{2}$','$\frac{7\pi}{4}$','$2\pi$'}) 
     ax=gca;
@@ -373,12 +406,12 @@ for choice = 2:4
     title(sprintf('\\textbf{Setup %d}',choice),'FontSize',14)
     xlabel('$\phi$','FontSize',14)
     if choice == 2
-        ylabel({'\textbf{E}-field','Transmission Error'},'FontSize',14)
+        ylabel({'\textbf{E}-field','Relative Transmission Error'},'FontSize',14)
     end
     if strcmp(computation,"combined")
-        ylim([10^(-10),10^(-4)])
+        ylim([10^(-9),10^(-2)])
     else
-        ylim([0,1])
+        ylim([10^(-3),10^2])
     end
 end
 
@@ -386,9 +419,14 @@ for choice = 2:4
     
     filename = sprintf('../../../../Results/nanowires/%s_computation_close_%s_N_100.mat',computation,settings{choice});
     load(filename);
+
+    coord_int.x = x_int;
+    coord_int.y = y_int;
+    coord_ext.x = x_ext;
+    coord_ext.y = y_ext;
     
     n = 1000;
-    [E_error, H_error] = transmission_error(C,D,x_int,y_int,x_ext,y_ext,nanowires,n);
+    [E_error, H_error] = transmission_error(coord_int,coord_ext,C,D,nanowires,n);
     if strcmp(computation,"combined")
         for k = 1:length(nanowires)
             for hej = 1:14
@@ -397,13 +435,13 @@ for choice = 2:4
         end
     end
 
-    phi = linspace(0,2*pi,n);
+    %phi = linspace(0,2*pi,n);
     num_nanowires = length(nanowires);
     nexttile;
     if strcmp(computation,"combined")
         semilogy(phi,H_error,'LineWidth',1.5)
     else
-        plot(phi,H_error,'LineWidth',1.5)
+        semilogy(phi,H_error,'LineWidth',1.5)
     end
     set(gca,'xtick',0:(pi/4):(2*pi), 'xticklabels',{'0','$\frac{\pi}{4}$','$\frac{\pi}{2}$','$\frac{3\pi}{4}$','$\pi$','$\frac{5\pi}{4}$','$\frac{3\pi}{2}$','$\frac{7\pi}{4}$','$2\pi$'}) 
     ax=gca;
@@ -412,12 +450,12 @@ for choice = 2:4
     xlim([0,2*pi])
     xlabel('$\phi$','FontSize',14)
     if choice == 2
-        ylabel({'\textbf{H}-field','Transmission Error'},'FontSize',14)
+        ylabel({'\textbf{H}-field','Relative Transmission Error'},'FontSize',14)
     end
     if strcmp(computation,"combined")
-        ylim([10^(-11),10^(-5)])
+        ylim([10^(-9),10^(-2)])   
     else
-        ylim([0,0.002])
+        ylim([10^(-3),10^2])
     end
 end
 
