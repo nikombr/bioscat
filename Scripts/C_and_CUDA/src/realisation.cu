@@ -52,7 +52,7 @@ void GaussianProcess::realisation() {
         status = cublasCreate(&handle);
 
         if (status != CUBLAS_STATUS_SUCCESS) {
-            printf("cuBLAS initialization failed\n");
+            printf("cuBLAS initialization failed %d\n",status);
             return;
         }
         
