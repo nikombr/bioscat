@@ -1,0 +1,15 @@
+
+clear; close all; clc;
+
+dir = '/Users/nikolinerehn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/DTU/11. speciale/BioScat/';
+
+addpath(sprintf('%s/Scripts/Matlab/utils/',dir))
+addpath(sprintf('%s/Scripts/Matlab/forward/nanostructures_2D',dir))
+addpath(sprintf('%s/Scripts/Matlab/forward/fields_2D',dir))
+
+warning('off', 'MATLAB:singularMatrix');  % Suppresses singular matrix warnings
+warning('off', 'MATLAB:nearlySingularMatrix')
+
+preConditionedCrankNicholsonScheme()
+
+delete(gcp('nocreate'))

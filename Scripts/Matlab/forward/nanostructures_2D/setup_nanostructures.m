@@ -118,3 +118,4 @@ coord_ext.x = x_ext;
 coord_ext.y = y_ext;
 segment.coord_int = coord_int;
 segment.coord_ext = coord_ext;
+segment.ymax = max(segy);

@@ -1,108 +1,97 @@
 
+%% Setup segments
+
+clear; clc; close all;
+
+addpath('../fields_2D/')
+addpath('../../utils')
+
+protein_structures    = {"Retinin2x2", "demoleus2x2"};  % Retinin2x2 demoleus2x2
+num_segments_choices = [1 5 10 20]; % 1 5 10 20
+total_x_grid_points  = 1000;
+
+for k = 1:2
+    protein_structure = protein_structures{k};
+    for num_segments = num_segments_choices
+    
+        setup_settings(protein_structure, total_x_grid_points, num_segments);
+    
+    end
+end
+
+
+%% Compute solution in window
 clear; close all; clc;
 
 addpath('../fields_2D/')
 addpath('../../utils')
 
-protein_structure    = "Retinin2x2"; % Retinin2x2 demoleus2x2
+protein_structure    = "demoleus2x2"; % Retinin2x2 demoleus2x2
 num_segments_choices = [1 5 10 20]; % 1 5 10 20
 total_x_grid_points  = 1000;
+obs_grid             = 300;
 
 far_field_approximation = false;
-views = {"far","close","far_approximation"};
+views = {"close","far","far_approximation"};
 
-% Illustrate nanostructure
+% Load nanostructure
 load(sprintf("../../../../Data/%s_2D.mat",protein_structure))
-figure('Renderer', 'painters', 'Position', [400 400 800 250]);
-plot(X,Y,'LineWidth',1.5)
-xlim([min(X),max(X)])
-grid on
-hold on
-
-% Do precomputations
-x = linspace(min(X),max(X),total_x_grid_points);
-d = x(2)-x(1);
-alpha = 2*d;
 
 moveY = 1.05*max(Y);
 
 coord = struct;
 
-%wb = waitbar(0,'Computing fields...');
-%br = 0;
-for num_segments = num_segments_choices
-    load(sprintf("../../../../Data/%s_2D.mat",protein_structure))
-    n = round(total_x_grid_points/num_segments);
-    m = num_segments * n;
+for scenario = 1:2
+    for num_segments = num_segments_choices
 
-    x = linspace(min(X),max(X),m + 1);
-    y = interp1(X,Y,x);
+        load(sprintf('../../../../Data/segments_2D/%s_total_x_grid_points_%d_num_segments_%d.mat',protein_structure,total_x_grid_points,num_segments))
 
-    segments = cell(num_segments,1);
-
-    % Setup segments
-    for k = 1:num_segments
-    
-        segx = x((k-1)*n+1:k*n+1);
-        segy = y((k-1)*n+1:k*n+1);
-        segments{k} = setup_nanostructures(segx,segy,alpha);
-
-    end
-
-    % Solve linear system for each segment
-    tic;
-    for k = 1:length(segments)
-        segments{k} = forward(segments{k});
-    end
-    stop = toc;
-    n = 300;
-    fprintf("\nIt took %.4f seconds to solve all the linear systems.\n\n",stop)
-
-    for view_choice = 1:3
-        view = views{view_choice};
-
-        % Form grid in which the fields are computed in
-        Y = linspace(0,21*10^(-7),n);
-        X = linspace(-0.5*10^(-7),20.5*10^(-7),n);
-        if strcmp("far",view) || strcmp("far_approximation",view)
-            Y = Y + 3*10^(-2);
-        else
-            Y = Y + moveY;
-        end
-        [Xmesh,Ymesh] = meshgrid(X,Y);
-        coord.x = Xmesh;
-        coord.y = Ymesh;
-        
-        % Compute the fields
+        % Solve linear system for each segment
         tic;
-        if strcmp(view,"far_approximation")
-            [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_far_fields(coord, segments);
-        else
-            [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_fields(coord, segments, far_field_approximation);
+        for k = 1:length(segments)
+            segments{k} = forward(segments{k},scenario);
         end
         stop = toc;
-        fprintf("\nIt took %.4f seconds to compute the fields.\n\n",stop)
-        
-        % Save results
-        filename = sprintf('../../../../Results/nanostructures_2D/%s_%s_num_segments_%d.mat',protein_structure,view,num_segments);
-        save(filename,'Etot','Htot','Einc','Hinc','Eref','Href','Escat','Hscat','X','Y','segments');
-
-        %br = br + 1;
-        %waitbar(br/(3*length(num_segments_choices)),wb);
+       
+        fprintf("\nIt took %.4f seconds to solve all the linear systems.\n\n",stop)
+    
+        for view_choice = 1:3
+            view = views{view_choice};
+            fprintf('-------------------------------\n');
+            fprintf("Computing fields!\n\tScenario: %d\n\tNumber of segments: %d\n\tView: %s\n",scenario,num_segments,view);
+            fprintf('-------------------------------\n');
+    
+            % Form grid in which the fields are computed in
+            Y = linspace(0,21*10^(-7),obs_grid);
+            X = linspace(-0.5*10^(-7),20.5*10^(-7),obs_grid);
+            if strcmp("far",view) || strcmp("far_approximation",view)
+                Y = Y + 3*10^(-2);
+            else
+                Y = Y + moveY;
+            end
+            if strcmp("far_approximation",view)
+                far_field_approximation = true;
+            else
+                far_field_approximation = false;
+            end
+            [Xmesh,Ymesh] = meshgrid(X,Y);
+            coord.x = Xmesh;
+            coord.y = Ymesh;
+            
+            % Compute the fields
+            tic;
+            [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_fields(coord, segments, far_field_approximation, scenario);
+            stop = toc;
+            fprintf("\nIt took %.4f seconds to compute the fields.\n\n",stop)
+            
+            % Save results
+            filename = sprintf('../../../../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_%d.mat',protein_structure,scenario,view,num_segments);
+            save(filename,'Etot','Htot','Einc','Hinc','Eref','Href','Escat','Hscat','X','Y','segments');
+    
+        end
     end
 end
-%close(wb);
-%%
-figure;
-imagesc(x,y,abs(Etot(:,:,3)).^2)
-set(gca,'YDir','normal')
-colorbar
-hold on
-for j = 1:length(segments{1}.x)
-    %plot(segments{1}.x{j},segments{1}.y{j},'r.','LineWidth',1.5,'Markersize',10)
-end
-axis equal
-axis tight
+
 
 %% Illustrate the segments
 
@@ -110,19 +99,20 @@ clear; close all; clc;
 
 view = "close";
 num_segments = 5;
+scenario = 1;
 protein_structure = "demoleus2x2"; % Retinin2x2 demoleus2x2
 
-filename = sprintf('../../../../Results/nanostructures_2D/%s_%s_num_segments_%d.mat',protein_structure,view,num_segments);
+filename = sprintf('../../../../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_%d.mat',protein_structure,scenario,view,num_segments);
 load(filename);
 
 
 figure('Renderer', 'painters', 'Position', [400 400 1000 800]);
 for k = 1:num_segments
     
-    segx = x((k-1)*n+1:k*n+1);
-    segy = y((k-1)*n+1:k*n+1);
+    %segx = x((k-1)*n+1:k*n+1);
+    %segy = y((k-1)*n+1:k*n+1);
     
-    segments{k} = setup_nanostructures(segx,segy,alpha);
+    %segments{k} = setup_nanostructures(segx,segy,alpha);
     for j =1:length(segments{k}.x)
         plot(segments{k}.x{j},segments{k}.y{j},'r.','LineWidth',1.5,'Markersize',10)
         hold on
@@ -146,16 +136,17 @@ protein_structure = "Retinin2x2"; % Retinin2x2 demoleus2x2
 addpath('../../utils')
 
 num_segments = 20;
+scenario = 1;
 
 view = "far"; % close far far_approximation
 choice = 3;
 
-filename = sprintf('../../../../Results/nanostructures_2D/%s_%s_num_segments_%d.mat',protein_structure,view,num_segments);
+filename = sprintf('../../../../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_%d.mat',protein_structure,scenario,view,num_segments);
 load(filename);
 
 predicted_field = Escat;
 
-filename = sprintf('../../../../Results/nanostructures_2D/%s_%s_num_segments_1.mat',protein_structure,view);
+filename = sprintf('../../../../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_1.mat',protein_structure,scenario,view);
 load(filename);
 
 true_field = Escat;
@@ -172,12 +163,12 @@ error = compute_error(true_field,predicted_field,relative);
 min(error,[],'all')
 max(error,[],'all')
 
-filename = sprintf('../../../../Results/nanostructures_2D/%s_%s_num_segments_%d.mat',protein_structure,view,num_segments);
+filename = sprintf('../../../../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_%d.mat',protein_structure,scenario,view,num_segments);
 load(filename);
 
 predicted_field = Hscat;
 
-filename = sprintf('../../../../Results/nanostructures_2D/%s_%s_num_segments_1.mat',protein_structure,view);
+filename = sprintf('../../../../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_1.mat',protein_structure,scenario,view);
 load(filename);
 
 true_field = Hscat;
@@ -476,3 +467,54 @@ end
 
 destination = sprintf('../../../../Illustrations/nanostructures_2D/%s_far_field_patterns_relative_error.png',protein_structure);
 exportgraphics(gcf,destination,'Resolution',300);
+
+%% Compute reflectance and generate synthetic data
+
+clear; close all; clc;
+
+protein_structure    = "Retinin2x2"; % Retinin2x2 demoleus2x2
+num_segments = 20; % 1 5 10 20
+total_x_grid_points  = 1000;
+
+coord_obs = struct;
+coord_obs.x = linspace(-10^(-3),10^(-3),6);
+coord_obs.y = coord_obs.x*0 + 3*10^(-2);
+far_field_approximation = false;
+
+lambda0 = 325*10^(-9); % Default value of wavelength in free space
+
+lambdas = linspace(0.9,1.1,7)*lambda0;
+
+betas = linspace(0,pi/2,30);
+
+
+[RE, RH] = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas,far_field_approximation);
+
+% Save clean data (without noise)
+filename = sprintf('../../../../Data/reflectance_2D/clean/%s_total_x_grid_points_%d_num_segments_%d.mat',protein_structure,total_x_grid_points,num_segments);
+save(filename,'betas','lambdas','RH','RE', 'coord_obs')
+
+
+%% Add white noise to data
+
+clear; close all; clc;
+
+protein_structure    = "Retinin2x2"; % Retinin2x2 demoleus2x2
+num_segments = 1; % 1 5 10 20
+total_x_grid_points  = 1000;
+
+for num_segments = [1 5 10 20]
+    % Load clean data (without noise)
+    filename = sprintf('../../../../Data/reflectance_2D/clean/%s_total_x_grid_points_%d_num_segments_%d.mat',protein_structure,total_x_grid_points,num_segments);
+    load(filename)
+    
+    sigma = 0.01;
+    
+    RE = RE + randn(size(RE))*sigma;
+    RH = RH + randn(size(RH))*sigma;
+    
+    % Save noisy data
+    filename = sprintf('../../../../Data/reflectance_2D/noisy/%s_total_x_grid_points_%d_num_segments_%d.mat',protein_structure,total_x_grid_points,num_segments);
+    save(filename,'betas','lambdas','RH','RE', 'coord_obs')
+
+end

@@ -1,4 +1,14 @@
-function [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_fields(coord, segments, far_field_approximation, scenario, lambda0)
+function [Etot, Htot, Einc, Hinc, Eref, Href, Escat, Hscat] = compute_fields(coord, segments, far_field_approximation, scenario, lambda0, show_waitbar)
+
+if nargin < 6
+    show_waitbar = true;
+end
+
+[n,~] = size(coord.x);
+if n == 1
+    coord.x = coord.x';
+    coord.y = coord.y';
+end
 
 if nargin < 4
     % Determines the polarisation of the incident and reflected plane wave
@@ -25,18 +35,14 @@ Etot_inside = zeros(M,3);
 Htot_inside = zeros(M,3);
 if ~far_field_approximation
     interiors = zeros(M,1);
-    num = 2;
-end
-
-if canUseGPU
-    Escat = gpuArray(Escat);
-    Hscat = gpuArray(Hscat);
 end
 
 maxtop = -1;
 
-wb = waitbar(0,'Computing fields...');
-br = 0;
+if show_waitbar
+    wb = waitbar(0,'Computing fields...');
+    br = 0;
+end
 for k = 1:length(segments)
     % Load segment values
     segment = segments{k};
@@ -48,13 +54,7 @@ for k = 1:length(segments)
 
     % Compute scattered fields
     [Escat_matrix, Hscat_matrix] = scattered_fields(coord, coord_int, scenario, lambda0, far_field_approximation);
-    if canUseGPU
-        tic;
-        C = gpuArray(C);
-        Escat_matrix = gpuArray(Escat_matrix);
-        Hscat_matrix = gpuArray(Hscat_matrix);
-        toc;
-    end
+
     if scenario == 1
         Escat(:,3) = Escat(:,3) + Escat_matrix(:,:,3) * C;
         Hscat(:,1) = Hscat(:,1) + Hscat_matrix(:,:,1) * C;
@@ -67,13 +67,10 @@ for k = 1:length(segments)
     %Escat(:,3) = Escat(:,3) + Ez_scat_matrix(coord, coord_int) * C;
     %Hscat(:,1) = Hscat(:,1) + Hx_scat_matrix(coord, coord_int) * C;
     %Hscat(:,2) = Hscat(:,2) + Hy_scat_matrix(coord, coord_int) * C;
-
-    br=br+1;
-    waitbar(br/(num*length(segments)),wb);
     
-    hej = max(segment.y_top) < min(coord.y)
+   
     maxtop = max(maxtop,max(segment.y_top));
-    if ~far_field_approximation && max(segment.y_top) < min(coord.y)
+    if max(segment.y_top) > min(coord.y) % If the nanostructure is not in field of view 
         % Find the interior of the nanostructures
         f = interp1(segment.x_top,segment.y_top,coord.x);
         interior = coord.y < f;
@@ -107,18 +104,16 @@ for k = 1:length(segments)
         Etot_inside = Etot_inside + E_inside;
         Htot_inside = Htot_inside + H_inside;
     end
-
-    br=br+1;
-    waitbar(br/(num*length(segments)),wb);
+    if show_waitbar
+        br=br+1;
+        waitbar(br/(length(segments)),wb);
+    end
 end
-close(wb);
-
-if canUseGPU
-    Escat = gather(Escat);
-    Hscat = gather(Hscat);
+if show_waitbar
+    close(wb);
 end
 
-if maxtop < min(coord.y)
+if maxtop > min(coord.y)
     % Remove the fields in the interior of nanostructures
     remove = interiors > 0;
     Escat(remove, :) = 0;

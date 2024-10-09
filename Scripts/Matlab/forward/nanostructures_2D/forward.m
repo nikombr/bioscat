@@ -1,4 +1,8 @@
-function segment = forward(segment,scenario,lambda0)
+function segment = forward(segment,scenario,lambda0,output_error)
+
+if nargin < 4
+    output_error = true;
+end
 
 if nargin < 2
     scenario = 1; % If no scenario is chosen, we run the first
@@ -92,6 +96,7 @@ segment.D = c(length(x_int)+1:end);
 
 % Look at the error of the linear system
 error = max(abs(A*c - b));
-fprintf("\nThe error from solving the linear system was %.4e\n\n",error);
-
+if output_error
+    fprintf("\nThe error from solving the linear system was %.4e\n\n",error);
+end
 
