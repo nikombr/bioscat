@@ -65,6 +65,13 @@ void GaussianProcess::realisation() {
 
         // Send to host
         cudaMemcpy(p_h, p_d, n * sizeof(double), cudaMemcpyDeviceToHost);
+
+        // Destroy cuBLAS handle
+        status = cublasDestroy(handle);
+        if (status != CUBLAS_STATUS_SUCCESS) {
+            printf("CUBLAS destruction failed\n");
+            return;
+        }
     }
     else {
         cblas_dtrmv(CblasRowMajor, CblasLower, CblasNoTrans, CblasNonUnit, n, *M_h, n, p_h, 1);

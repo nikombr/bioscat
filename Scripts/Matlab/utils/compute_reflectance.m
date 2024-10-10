@@ -4,7 +4,7 @@ function [RE] = compute_reflectance(protein_structure, total_x_grid_points, num_
 % coord_obs: where we want to observe the reflectance
 
 dir = '/Users/nikolinerehn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/DTU/11. speciale/BioScat/';
-
+dir = '/zhome/00/b/147112/bioscat/';
 if nargin < 7
     far_field_approximation = false; % If not specified, we do not use far field approximations
 end

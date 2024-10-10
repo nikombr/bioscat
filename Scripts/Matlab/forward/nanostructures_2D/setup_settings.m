@@ -1,7 +1,7 @@
 function setup_settings(protein_structure, total_x_grid_points, num_segments, illustrate)
 
 dir = '/Users/nikolinerehn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/DTU/11. speciale/BioScat/';
-
+dir = '/zhome/00/b/147112/bioscat/';
 if nargin < 4
     illustrate = false;
 end

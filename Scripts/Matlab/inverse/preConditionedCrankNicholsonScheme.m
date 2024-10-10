@@ -1,10 +1,11 @@
 function preConditionedCrankNicholsonScheme()
 parpool;
 dir = '/Users/nikolinerehn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/DTU/11. speciale/BioScat/';
+dir = '/zhome/00/b/147112/bioscat/';
 
 num_segments = 10;
 total_x_grid_points = 1000;
-protein_structure = 'demoleus2x2';
+protein_structure = 'Retinin2x2';  % Retinin2x2 demoleus2x2
 data_quality = 'noisy';
 
 filename = sprintf('%sData/reflectance_2D/%s/%s_total_x_grid_points_%d_num_segments_%d.mat',dir,data_quality,protein_structure,total_x_grid_points,num_segments);
@@ -44,9 +45,9 @@ plot(X,Y,'m-','LineWidth',1.5)
 
 [RE_last] = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas);
 
-delta = 0.3;
+delta = 0.1;
 
-num = 30;
+num = 2000;
 alpha_array = [];
 Lprev_array = [];
 
@@ -59,9 +60,18 @@ for n = 2:num
 
     fstar = sqrt(1-2*delta)*f+sqrt(2*delta)*phi;
     Y = fstar;
-    figure(1);
+    if n < 1000
+        figure(1);
+        destination = 'figure01.png';
+    else
+        figure(4);
+        destination = 'figure04.png';
+    end
     plot(X,Y,'r-','LineWidth',0.5)
     plot(X,phi,'y-','LineWidth',0.5)
+    destination = 'figure01.png';
+    exportgraphics(gcf,destination,'Resolution',300);
+
     
     save(filename,"Y","X");
     
@@ -78,7 +88,13 @@ for n = 2:num
     alpha_array = [alpha_array alpha];
 
     u = rand();
-    figure(1);
+    if n < 1000
+        figure(1);
+        destination = 'figure01.png';
+    else
+        figure(4);
+        destination = 'figure04.png';
+    end
     if u < alpha
         f = fstar;
         RE_last = RE;
@@ -86,15 +102,23 @@ for n = 2:num
     else
         plot(X,Y,'g-','LineWidth',0.5)
     end
+    
+    exportgraphics(gcf,destination,'Resolution',300);
     figure(2);
     plot(alpha_array,'.-')
     grid on
     title('$\alpha$')
+    destination = 'figure02.png';
+    exportgraphics(gcf,destination,'Resolution',300);
 
     figure(3);
     plot(Lprev_array,'.-')
     grid on
     title('$L$')
+    
+    destination = 'figure03.png';
+    exportgraphics(gcf,destination,'Resolution',300);
+    
 
 
 
