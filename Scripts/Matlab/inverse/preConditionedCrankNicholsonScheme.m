@@ -11,6 +11,7 @@ data_quality = 'noisy';
 filename = sprintf('%sData/reflectance_2D/%s/%s_total_x_grid_points_%d_num_segments_%d.mat',dir,data_quality,protein_structure,total_x_grid_points,num_segments);
 load(filename)
 
+
 filename = sprintf("%sData/%s_2D.mat",dir,protein_structure);
 load(filename)
 
@@ -21,7 +22,10 @@ xlim([min(X),max(X)])
 grid on
 RE_true = RE;
 
-load(sprintf('%sData/gaussian_process_realisations/curve_matern_p_1_ell_2.mat',dir),'data','x');
+X_hmm = X;
+Y_hmm = Y;
+
+load(sprintf('%sData/gaussian_process_realisations/curve_matern_p_4_ell_0.5.mat',dir),'data','x');
 
 
 protein_structure = 'backward';
@@ -33,10 +37,10 @@ maxx = 2.0068e-06;
 
 X = x/max(x)*(maxx-minx) + minx;
 
-f = data(1,:);
+f = data(2,:);
 %f = f - min(f);
-f = f*10^(-8) + 3*10^(-8);
-
+f = f*10^(-8) + 2*10^(-8);
+f = interp1(X_hmm,Y_hmm,X);
 Y = f;
 
 save(filename,"Y","X");
@@ -45,18 +49,18 @@ plot(X,Y,'m-','LineWidth',1.5)
 
 [RE_last] = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas);
 
-delta = 0.1;
+delta = 0.2;
 
 num = 2000;
 alpha_array = [];
 Lprev_array = [];
 
-for n = 2:num
+for n = 3:num
     
     
     phi = data(n,:);
     %phi = phi - min(phi);
-    phi = phi*10^(-8) + 3*10^(-8);
+    phi = phi*10^(-8) + 2*10^(-8);
 
     fstar = sqrt(1-2*delta)*f+sqrt(2*delta)*phi;
     Y = fstar;
@@ -70,7 +74,10 @@ for n = 2:num
     plot(X,Y,'r-','LineWidth',0.5)
     plot(X,phi,'y-','LineWidth',0.5)
     destination = 'figure01.png';
-    exportgraphics(gcf,destination,'Resolution',300);
+    if mod(n,10)
+        %plot(X,Y,'k-','LineWidth',2)
+        exportgraphics(gcf,destination,'Resolution',300);
+    end
 
     
     save(filename,"Y","X");
@@ -79,9 +86,10 @@ for n = 2:num
     [RE] = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas);
     stop = toc;
     fprintf("\nIt took %.4f seconds to compute the reflectance.\n\n",stop)
-
+    RE_true
+    RE_last
     Lstar = -sum(abs(RE_true-RE).^2,'all')/2;
-    Lprev = -sum(abs(RE_true-RE_last).^2,'all')/2;
+    Lprev = -sum(abs(RE_true-RE_last).^2,'all')/2
     Lprev_array = [Lprev_array Lprev];
 
     alpha = min(1,exp(Lstar-Lprev));
@@ -103,25 +111,21 @@ for n = 2:num
         plot(X,Y,'g-','LineWidth',0.5)
     end
     
-    exportgraphics(gcf,destination,'Resolution',300);
-    figure(2);
-    plot(alpha_array,'.-')
-    grid on
-    title('$\alpha$')
-    destination = 'figure02.png';
-    exportgraphics(gcf,destination,'Resolution',300);
+    %exportgraphics(gcf,destination,'Resolution',300);
+    if mod(n,10)
+        figure(2);
+        plot(alpha_array)
+        destination = 'figure02.png';
+        exportgraphics(gcf,destination,'Resolution',300);
 
-    figure(3);
-    plot(Lprev_array,'.-')
-    grid on
-    title('$L$')
+        figure(3);
+        plot(Lprev_array)
+        destination = 'figure03.png';
+        exportgraphics(gcf,destination,'Resolution',300);
+    end
     
-    destination = 'figure03.png';
-    exportgraphics(gcf,destination,'Resolution',300);
     
 
 
 
 end
-
-alpha_array

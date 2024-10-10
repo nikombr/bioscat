@@ -81,9 +81,9 @@ if __name__ == "__main__":
 
     elif covfunc == "matern":
         ells = [0.1, 1, 2, 4];
-        ells = [0.1];
+        ells = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
         ps = [1, 2, 4];
-        
+
         for ell in ells:
             for p in ps:
                 Z = gaussian_process(x, y, p = p, ell = ell, device = True, covfunc = covfunc)
