@@ -51,7 +51,7 @@ plot(X,Y,'m-','LineWidth',1.5)
 
 delta = 0.2;
 
-num = 2000;
+num = 4;
 alpha_array = [];
 Lprev_array = [];
 
@@ -86,8 +86,7 @@ for n = 3:num
     [RE] = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas);
     stop = toc;
     fprintf("\nIt took %.4f seconds to compute the reflectance.\n\n",stop)
-    RE_true
-    RE_last
+    RE_last(1,1,1)
     Lstar = -sum(abs(RE_true-RE).^2,'all')/2;
     Lprev = -sum(abs(RE_true-RE_last).^2,'all')/2
     Lprev_array = [Lprev_array Lprev];

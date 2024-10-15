@@ -81,15 +81,15 @@ parfor k = 1:n1
         % Solve linear system for each segment
         for j = 1:n3
             idx = (k-1) * (n2 * n3) + (scenario-1) * n3 + j;
-            local_segments{j} = compute_segments{idx};
+            local_segments{j} = compute_segments{idx}
         end
        
         %fprintf("\nIt took %.4f seconds to solve all the linear systems.\n\n",stop)
 
         % Compute the fields
         [~, ~,  Einc, ~, Eref, ~, Escat, ~] = compute_fields(coord_obs.Value, local_segments, far_field_approximation, scenario, lambda, show_waitbar);
-        E1_local{scenario} = Einc;
-        E2_local{scenario} = Eref + Escat;
+        E1_local{scenario} = Einc
+        E2_local{scenario} = Eref + Escat
         
     end
 
@@ -97,7 +97,7 @@ parfor k = 1:n1
         beta = betas.Value(j);
         
     
-        E1 = E1_local{1}*cos(beta) + E1_local{2}*sin(beta);
+        E1 = E1_local{1}*cos(beta) + E1_local{2}*sin(beta)
         E2 = E2_local{1}*cos(beta) + E2_local{2}*sin(beta);
         
         RE_local(j,:) = normfunc(abs(E1)).^2./normfunc(abs(E2));
