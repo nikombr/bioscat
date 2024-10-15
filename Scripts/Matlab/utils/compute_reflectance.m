@@ -1,22 +1,28 @@
-function [RE] = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas,far_field_approximation)
+function [RE] = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas, X, Y)
 % beta: angle of displacement of polarisation
 % lambda0: wavelength of incident plane wave in free space
 % coord_obs: where we want to observe the reflectance
 
-dir = '/Users/nikolinerehn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/DTU/11. speciale/BioScat/';
-dir = '/zhome/00/b/147112/bioscat/';
-if nargin < 7
-    far_field_approximation = false; % If not specified, we do not use far field approximations
+
+far_field_approximation = false; %
+
+
+
+if strcmp(protein_structure,'backward')
+    % If we are doing inverse/backward computations, we do not save
+    % segments to a file
+    segments = setup_segments(X,Y,num_segments,total_x_grid_points);
+else
+    dir = '/Users/nikolinerehn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/DTU/11. speciale/BioScat/';
+    segment_filename = sprintf('%sData/segments_2D/%s_total_x_grid_points_%d_num_segments_%d.mat',dir,protein_structure,total_x_grid_points,num_segments);
+    if ~isfile(segment_filename)
+        % Setup segments if they are not yet saved
+        setup_settings(protein_structure, total_x_grid_points, num_segments);
+    else
+        % Get how the segments are planned out
+        load(segment_filename,'segments');
+    end
 end
-
-segment_filename = sprintf('%sData/segments_2D/%s_total_x_grid_points_%d_num_segments_%d.mat',dir,protein_structure,total_x_grid_points,num_segments);
-
-if ~isfile(segment_filename) || strcmp(protein_structure,'backward')
-    setup_settings(protein_structure, total_x_grid_points, num_segments);
-end
-
-% Get how the segments are planned out
-load(segment_filename,'segments');
 
 % Loop sizes
 n1 = length(lambdas);
@@ -61,7 +67,6 @@ tic;
 parfor k = 1:n1
     M = length(coord_obs.Value.x);
     RE_local = zeros(length(betas.Value),M);
-    RH_local = zeros(length(betas.Value),M);
 
     far_field_approximation = false;
     show_waitbar = false;
@@ -110,6 +115,18 @@ end
 %tocBytes(gcp)
 stop = toc;
 fprintf('It took %.4f seconds to comupute the reflectance from computed segments.\n',stop)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
