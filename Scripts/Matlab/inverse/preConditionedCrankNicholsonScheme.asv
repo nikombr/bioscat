@@ -53,7 +53,7 @@ Y = f;
 
 delta = 0.001;
 
-num = 100;
+num = 10;
 alpha_array = [];
 Lprev_array = [];
 Lstar_array = [];
@@ -65,8 +65,8 @@ for n = 3:num
     %phi = phi - min(phi);
     phi = phi*10^(-8) + 2*10^(-8);
     minphi = min(phi);
-    if minphi > 10^(-8)
-        
+    if all(phi > 10^(-8))
+        break;
         
         fstar = sqrt(1-2*delta)*f+sqrt(2*delta)*phi;
         Y = fstar;
@@ -88,12 +88,13 @@ for n = 3:num
         
         %save(filename,"Y","X");
         
-        start = tic;
+        tic;
         [RE] = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas, X, Y);
-        stop = toc(start);
+        stop = toc;
         fprintf("\nIt took %.4f seconds to compute the reflectance.\n\n",stop)
-        Lstar = -sum(abs(RE_true-RE).^2,'all')*2;
-        Lprev = -sum(abs(RE_true-RE_last).^2,'all')*2;
+        hej = RE_last(1,1,1)
+        Lstar = -sum(abs(RE_true-RE).^2,'all')/2;
+        Lprev = -sum(abs(RE_true-RE_last).^2,'all')/2
         Lprev_array = [Lprev_array Lprev];
         Lstar_array = [Lstar_array Lstar];
     
@@ -133,7 +134,6 @@ for n = 3:num
             %destination = 'figure03.png';
             %exportgraphics(gcf,destination,'Resolution',300);
         end
-        
     end
     
 

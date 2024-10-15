@@ -17,4 +17,4 @@ warning('off', 'MATLAB:nearlySingularMatrix')
 
 preConditionedCrankNicholsonScheme()
 
-delete(gcp('nocreate'))
+%delete(gcp('nocreate'))

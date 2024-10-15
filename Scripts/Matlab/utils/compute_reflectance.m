@@ -6,8 +6,6 @@ function [RE] = compute_reflectance(protein_structure, total_x_grid_points, num_
 
 far_field_approximation = false; %
 
-
-
 if strcmp(protein_structure,'backward')
     % If we are doing inverse/backward computations, we do not save
     % segments to a file
@@ -23,6 +21,8 @@ else
         load(segment_filename,'segments');
     end
 end
+
+
 
 % Loop sizes
 n1 = length(lambdas);
@@ -47,6 +47,7 @@ parfor idx = 1:(n1*n2*n3)
     % Suppresses singular matrix warnings
     warning('off', 'MATLAB:singularMatrix');  
     warning('off','MATLAB:nearlySingularMatrix')
+    warning('off','MATLAB:rankDeficientMatrix')
 
     % Get true indices
     k = mod(floor((idx-1) / (n2 * n3)), n1) + 1;
@@ -58,9 +59,11 @@ parfor idx = 1:(n1*n2*n3)
 
     % Do forward
     compute_segments{idx} = forward(segments.Value{j},scenario,lambda,false);
+  
 end
 %tocBytes(gcp)
 stop = toc;
+
 fprintf('It took %.4f seconds to comupute the segments.\n',stop)
 tic;
 %ticBytes(gcp);
