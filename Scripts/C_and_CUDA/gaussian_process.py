@@ -65,8 +65,8 @@ def gaussian_process(x, y, tau = 1, ell = 1, p=1, device = True, covfunc = "squa
     return data
 
 if __name__ == "__main__":
-    x = np.linspace(0,10,200)
-    y = np.linspace(0,10,200)
+    x = np.linspace(0,10,1000)
+    y = np.linspace(0,10,1000)
     y = np.array([]);
 
     covfunc = "matern" # "squared_exponential" "matern"
@@ -80,8 +80,8 @@ if __name__ == "__main__":
                 time.sleep(2)
 
     elif covfunc == "matern":
-        ells = [0.1, 1, 2, 4];
-        ells = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
+
+        ells = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2, 4, 8];
         ps = [1, 2, 4];
 
         for ell in ells:

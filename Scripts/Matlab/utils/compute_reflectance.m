@@ -12,6 +12,7 @@ if strcmp(protein_structure,'backward')
     segments = setup_segments(X,Y,num_segments,total_x_grid_points);
 else
     dir = '/Users/nikolinerehn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/DTU/11. speciale/BioScat/';
+    dir = '/zhome/00/b/147112/bioscat/';
     segment_filename = sprintf('%sData/segments_2D/%s_total_x_grid_points_%d_num_segments_%d.mat',dir,protein_structure,total_x_grid_points,num_segments);
     if ~isfile(segment_filename)
         % Setup segments if they are not yet saved

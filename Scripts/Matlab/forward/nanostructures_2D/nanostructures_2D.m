@@ -471,28 +471,29 @@ exportgraphics(gcf,destination,'Resolution',300);
 %% Compute reflectance and generate synthetic data
 
 clear; close all; clc;
-
 protein_structure    = "Retinin2x2"; % Retinin2x2 demoleus2x2
-num_segments = 20; % 1 5 10 20
+num_segments = 10; % 1 5 10 20
 total_x_grid_points  = 1000;
 
 coord_obs = struct;
-coord_obs.x = linspace(-10^(-3),10^(-3),6);
-coord_obs.y = coord_obs.x*0 + 3*10^(-2);
+r = 3*10^(-2);
+phi = linspace(pi/2,2*pi/3,100);
+coord_obs.x = cos(phi)*r;
+coord_obs.y = sin(phi)*r;
 far_field_approximation = false;
 
 lambda0 = 325*10^(-9); % Default value of wavelength in free space
 
-lambdas = linspace(0.9,1.1,7)*lambda0;
+lambdas = linspace(0.9,1.1,50)*lambda0;
 
-betas = linspace(0,pi/2,30);
+betas = linspace(0,pi/2,100);
 
 
-[RE, RH] = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas,far_field_approximation);
+RE = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas);
 
 % Save clean data (without noise)
 filename = sprintf('../../../../Data/reflectance_2D/clean/%s_total_x_grid_points_%d_num_segments_%d.mat',protein_structure,total_x_grid_points,num_segments);
-save(filename,'betas','lambdas','RH','RE', 'coord_obs')
+save(filename,'betas','lambdas','RE', 'coord_obs')
 
 
 %% Add white noise to data
