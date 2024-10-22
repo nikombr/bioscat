@@ -65,7 +65,7 @@ void gaussian_process_inner(double * x, double * y, int n, double * hyper, int n
     // Seed the random number generator with the current time
     srand(time(NULL));
     //srand(0);
-    for (int k = 0; k < 5000; k++) {
+    for (int k = 0; k < 50000; k++) {
         GP.realisation();
         for (int j = 0; j < n; j++) {
             fprintf(file, "%.4f ", GP.p_h[j]);
