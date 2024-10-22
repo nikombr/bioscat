@@ -58,13 +58,13 @@ n = 1;
 % Get log-likelihood of initial curve
 Lprev = setupFunction(X, Y, true_val, args{:});
 
-alpha_array = zeros(num,1);
-Lprev_array = zeros(num,1);
-Lstar_array = zeros(num,1);
-Lmean_array = zeros(num,1);
+alpha_array = zeros(2*num,1);
+Lprev_array = zeros(2*num,1);
+Lstar_array = zeros(2*num,1);
+Lmean_array = zeros(2*num,1);
 Y_array     = Y;
-
-while n < num
+n_used = 0;
+while n_used < num
     
     % Get random curve from file
     phi = data(n,:);
@@ -115,6 +115,7 @@ while n < num
         
         Lprev = Lstar;
         plot(X,Y,'-','LineWidth',0.5, 'Color',[0.2 0.5 0.9 0.2])
+        n_used = n_used + 1;
     else
         %plot(X,Y,'g-','LineWidth',0.3)
     end
