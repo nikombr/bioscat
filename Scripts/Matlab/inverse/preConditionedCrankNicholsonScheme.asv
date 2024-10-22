@@ -4,10 +4,10 @@ function preConditionedCrankNicholsonScheme(setup,protein_structure,total_grid_p
 num = 10000;
 
 if strcmp(protein_structure,"demoleus2x2")
-    shift = 3*10^(-8);
+    shift = 2*10^(-8);
 elseif strcmp(protein_structure,"Retinin2x2")
     shift = 2*10^(-8);
-end
+    e
 
 % Choose functions to use
 if strcmp(setup,"test")
@@ -163,9 +163,9 @@ while n < num
 end
 
 if strcmp(setup,"test")
-    filename = sprintf('../../../Results/inverse_%s/%s_%s_%s_%s_total_x_grid_points_%d.mat',setup,covfunc,arg1,arg2,protein_structure,total_grid_points);
+    filename = sprintf('../../../Results/inverse_%s/%s_total_x_grid_points_%d.mat',setup,protein_structure,total_grid_points);
 else
-    filename = sprintf('../../../Results/inverse_%s/%s/%s_%s_%s_%s_total_x_grid_points_%d_num_segments_%d.mat',setup,data_quality,covfunc,arg1,arg2,protein_structure,total_grid_points,num_segments);
+    filename = sprintf('../../../Results/inverse_%s/%s/%s_total_x_grid_points_%d_num_segments_%d.mat',setup,data_quality,protein_structure,total_grid_points,num_segments);
 end
 
 save(filename,"Lprev_array","Lstar_array","alpha_array","Y_array","X","Y_true")

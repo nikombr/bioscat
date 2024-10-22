@@ -1,4 +1,4 @@
-function L = nanostructured2Dsetup(X, Y, true_val)
+function L = nanostructures2Dsetup(X, Y, true_val, total_x_grid_points, num_segments, coord_obs, betas, lambdas)
 
 start = tic;
 [RE] = compute_reflectance(protein_structure, total_x_grid_points, num_segments, coord_obs, betas, lambdas, X, Y);
