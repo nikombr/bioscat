@@ -23,14 +23,16 @@ delta = 0.01;
 covfunc = "matern";
 deltas = [0.001 0.01 0.1 0.2 0.3];
 arg1 = {"1","2","4"};
-arg2 = {"0.1","0.2","0.4","0.8","2"};
+arg2 = {"0.1","0.2","0.4","0.8"};
+
+num = 500;
 
 for delta = deltas
     for i = 1:length(arg1)
         for j = 1:length(arg2)
             close all;
             clc;
-            preConditionedCrankNicholsonScheme(setup,protein_structure,total_grid_points,delta,covfunc,arg1{i},arg2{j})
+            preConditionedCrankNicholsonScheme(setup,num,protein_structure,total_grid_points,delta,covfunc,arg1{i},arg2{j})
         end
     end
 end

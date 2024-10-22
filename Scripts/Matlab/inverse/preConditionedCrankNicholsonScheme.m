@@ -1,7 +1,7 @@
-function preConditionedCrankNicholsonScheme(setup,protein_structure,total_grid_points,delta,covfunc,arg1,arg2,num_segments,data_quality)
+function preConditionedCrankNicholsonScheme(setup,num,protein_structure,total_grid_points,delta,covfunc,arg1,arg2,num_segments,data_quality)
 
 % Set values
-num = 10000;
+%num = 7000;
 
 if strcmp(protein_structure,"demoleus2x2")
     shift = 3*10^(-8);
@@ -32,14 +32,14 @@ end
 % Get true values and arguments
 [X, Y_true, true_val, args] = trueValueFunction(protein_structure, total_grid_points, num_segments, data_quality);
 
-figure(1);
+figure('Renderer', 'painters', 'Position', [400 400 1000 300]);
 plot(X,Y_true,'k-','LineWidth',2)
 hold on
 xlim([min(X),max(X)])
 grid on
 destination = 'figure01.png';
 exportgraphics(gcf,destination,'Resolution',300);
-figure(4);
+figure('Renderer', 'painters', 'Position', [400 400 1000 300]);
 plot(X,Y_true,'k-','LineWidth',2)
 hold on
 xlim([min(X),max(X)])
@@ -58,13 +58,18 @@ n = 1;
 % Get log-likelihood of initial curve
 Lprev = setupFunction(X, Y, true_val, args{:});
 
-alpha_array = zeros(2*num,1);
-Lprev_array = zeros(2*num,1);
-Lstar_array = zeros(2*num,1);
-Lmean_array = zeros(2*num,1);
-Y_array     = Y;
-n_used = 0;
-while n_used < num
+maxnum = 20000;
+
+alpha_array = zeros(maxnum,1);
+Lprev_array = zeros(maxnum,1);
+Lstar_array = zeros(maxnum,1);
+Lmean_array = zeros(maxnum,1);
+Y_array     = zeros(num, total_grid_points);
+Y_array(1,:) = Y;
+Y_mean = Y;
+n_used = 1;
+
+while n_used < num && n < maxnum
     
     % Get random curve from file
     phi = data(n,:);
@@ -76,31 +81,22 @@ while n_used < num
     Y = fstar + shift;
 
     % Plot values
-    if n < 3000
-        figure(1);
-        destination = sprintf('%s/figure01.png',protein_structure);
-    else
-        figure(4);
-        destination = sprintf('%s/figure04.png',protein_structure);
-    end
-    %plot(X,Y,'r-','LineWidth',0.3)
-    %plot(X,phi,'y-','LineWidth',0.2)
-
-
-    if mod(n,100) == 0
+    if mod(n,300) == 0
+        if n < 3000
+            figure(1);
+            destination = sprintf('%s/figure01.png',protein_structure);
+        else
+            figure(2);
+            destination = sprintf('%s/figure02.png',protein_structure);
+        end
         plot(X,Y_true,'r-','LineWidth',2)
         plot(X,Y_mean,'m-','LineWidth',2)
         %plot(X,Y,'k-','LineWidth',2)
-        %exportgraphics(gcf,destination,'Resolution',300);
+        exportgraphics(gcf,destination,'Resolution',300);
     end
     
     % Compute log-likelihood
     Lstar = setupFunction(X, Y, true_val, args{:});
-    
-    Y_mean = mean(Y_array);
-
-    % Compute temporary mean log-likelihood
-    Lmean = setupFunction(X, Y_mean, true_val);
     
     % Compute probability of accepting curve
     alpha = min(1,exp(Lstar-Lprev));
@@ -111,7 +107,8 @@ while n_used < num
     % Determing whether or not to accept the curve
     if u < alpha
         f = fstar;
-        Y_array = [Y_array; Y];
+        
+        Y_array(n_used+1,:) = Y;
         
         Lprev = Lstar;
         plot(X,Y,'-','LineWidth',0.5, 'Color',[0.2 0.5 0.9 0.2])
@@ -120,13 +117,20 @@ while n_used < num
         %plot(X,Y,'g-','LineWidth',0.3)
     end
         
-    if mod(n,200) == 0
-        figure(2);
+    if mod(n,300) == 0
+        Y_mean = mean(Y_array(1:n_used,:));
+
+        % Compute temporary mean log-likelihood
+        %Lmean = setupFunction(X, Y_mean, true_val);
+
+        Lmean = 0;
+
+        figure(4);
         plot(alpha_array(1:n),'.-')
         title('$\alpha$')
         grid on
-        destination = sprintf('%s/figure02.png',protein_structure);
-        %exportgraphics(gcf,destination,'Resolution',300);
+        destination = sprintf('%s/figure04.png',protein_structure);
+        exportgraphics(gcf,destination,'Resolution',300);
 
         figure(3);
         hold off
@@ -136,24 +140,23 @@ while n_used < num
         title('$L$')
         grid on
         destination = sprintf('%s/figure03.png',protein_structure);
-        %exportgraphics(gcf,destination,'Resolution',300);
+        exportgraphics(gcf,destination,'Resolution',300);
 
         figure(5);
-        hold off
-        semilogy(Lmean_array(1:n),'m.-')
+        semilogy(n,Lmean,'m.-','markersize',20)
         hold on
         title('$L$')
         grid on
         destination = sprintf('%s/figure05.png',protein_structure);
-        %exportgraphics(gcf,destination,'Resolution',300);
+        exportgraphics(gcf,destination,'Resolution',300);
 
-        fprintf("The log-likelihood of the mean is %.4f\n\n",Lmean)
+        fprintf("The log-likelihood of the mean is %.4f and %d have been used.\n\n",Lmean,n_used)
     end
 
     % Save values
     Lprev_array(n) = Lprev;
     Lstar_array(n) = Lstar;
-    Lmean_array(n) = Lmean;
+    %Lmean_array(n) = Lmean;
     alpha_array(n) = alpha;
 
     
@@ -163,10 +166,20 @@ while n_used < num
 
 end
 
+% Scale so we do not store too much data
+Y_array_new = zeros(num,500);
+X_new = linspace(min(X),max(X),500);
+for i = 1:num
+    Y_array_new(i,:) = interp1(X,Y_array(i,:),X_new);
+end
+Y_true = interp1(X,Y_true,X_new);
+X = X_new;
+Y_array = Y_array_new;
+
 if strcmp(setup,"test")
-    filename = sprintf('../../../Results/inverse_%s/%s_%s_%s_%s_total_x_grid_points_%d.mat',setup,covfunc,arg1,arg2,protein_structure,total_grid_points);
+    filename = sprintf('../../../Results/inverse_%s/%s_%s_%s_%s_total_x_grid_points_%d_delta_%.3f_num_%d.mat',setup,protein_structure,covfunc,arg1,arg2,total_grid_points,delta,num);
 else
-    filename = sprintf('../../../Results/inverse_%s/%s/%s_%s_%s_%s_total_x_grid_points_%d_num_segments_%d.mat',setup,data_quality,covfunc,arg1,arg2,protein_structure,total_grid_points,num_segments);
+    filename = sprintf('../../../Results/inverse_%s/%s/%s_%s_%s_%s_total_x_grid_points_%d_num_segments_%d_delta_%.3f_num_%d.mat',setup,protein_structure,data_quality,covfunc,arg1,arg2,total_grid_points,num_segments,delta,num);
 end
 
-save(filename,"Lprev_array","Lstar_array","alpha_array","Y_array","X","Y_true")
+save(filename,"Lprev_array","Lstar_array","alpha_array","Y_array","X","Y_true","n_used","n")
