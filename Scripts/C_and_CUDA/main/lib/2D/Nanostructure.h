@@ -11,12 +11,12 @@ struct Nanostructure {
     Nanostructure() {
         f = RealMatrix();
         x = RealMatrix();
-        std::cout << "Empty segment constructor." << std::endl;
+        //std::cout << "Empty segment constructor." << std::endl;
     } 
     Nanostructure(int n) {
         f = RealMatrix(n, 1);
         x = RealMatrix(n, 1);
-        std::cout << "Non-empty segment constructor." << std::endl;
+        //std::cout << "Non-empty segment constructor." << std::endl;
     }
 };
 }

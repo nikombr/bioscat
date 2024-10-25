@@ -3,12 +3,12 @@
 extern "C" {
 class RealMatrix {
     // Stores a real matrix rowmajor in a vector both on the host and the device
-    public:
-        // Variables
+    private: // Private to avoid wrong indexing
         double * val_h; // Entries on host
         double * val_d; // Entries on device
-        int    rows; // Number of rows
-        int    cols; // Number of cols
+    public:
+        int rows; // Number of rows
+        int cols; // Number of cols
 
         // Methods
         RealMatrix() {
@@ -17,10 +17,19 @@ class RealMatrix {
             val_h = NULL;
             val_d = NULL;
         };  // Constructer
-        RealMatrix(int rows, int cols);  // Constructer, allocates arrays and initializes to zero
-        void freeRealMatrix();                   // Destructer, frees arrays
-        void toHost();                             // Sends data to host
-        void toDevice();                           // Sends data to device
+        RealMatrix(int rows);                             // Constructer, allocates vectors and initializes to zero
+        RealMatrix(int rows, int cols);                             // Constructer, matrices arrays and initializes to zero
+        void free();                                      // Frees arrays
+        void toHost();                                              // Sends data from device to host
+        void toDevice();                                            // Sends data from host to device
+        void setHostValue(int r, double val);                       // Sets host value for vectors
+        void setHostValue(int r, int c, double val);                // Sets host value for matrices
+        __device__ void setDeviceValue(int r, double val);          // Sets device value for vectors
+        __device__ void setDeviceValue(int r, int c, double val);   // Sets device value for matrices
+        double getHostValue(int r);                                 // Gets host value for vectors
+        double getHostValue(int r, int c);                          // Gets host value for matrices
+        __device__ double getDeviceValue(int r);                    // Gets device value for vectors
+        __device__ double getDeviceValue(int r, int c);             // Gets device value for matrices
 
 };
 }

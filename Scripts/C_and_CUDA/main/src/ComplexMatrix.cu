@@ -22,7 +22,7 @@ ComplexMatrix::ComplexMatrix(int rows, int cols) {
     cudaMalloc((void **) &complex_d, rows*cols*sizeof(double));
 }
 
-ComplexMatrix::~ComplexMatrix() {
+void ComplexMatrix::free() {
     
     // Free on host
     cudaFreeHost(real_h);

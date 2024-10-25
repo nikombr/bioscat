@@ -14,6 +14,7 @@ void BioScat::getNanostructure() {
 
     char filename[256];
     nanostructure = Nanostructure(total_grid_points); 
+    double val;
 
     sprintf(filename, "../../../Data/nanostructures/%s_2D_x_%d.txt", protein_structure, total_grid_points);
     //printf("filename = %s\n",filename);
@@ -25,7 +26,8 @@ void BioScat::getNanostructure() {
         return;
     }
     for (int i = 0; i < total_grid_points; i++) {
-        fscanf(file, "%lf,", &nanostructure.x.val_h[i]);  // Reading each value into the array
+        fscanf(file, "%lf,", &val);  // Reading each value into the array
+        nanostructure.x.setHostValue(i, val);
     }
     fclose(file);
 
@@ -38,7 +40,8 @@ void BioScat::getNanostructure() {
     }
 
     for (int i = 0; i < total_grid_points; i++) {
-        fscanf(file, "%lf,", &nanostructure.f.val_h[i]);  // Reading each value into the array
+        fscanf(file, "%lf,", &val);  // Reading each value into the array
+        nanostructure.f.setHostValue(i, val);
     }
 
     fclose(file);

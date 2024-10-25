@@ -12,6 +12,9 @@ class BioScat {
         int total_grid_points = 1000;       // The number of grid points used along each axis
         Segment * segments;
         int num_segments;
+        int num_test_points;
+        int num_interior_points;
+        int num_exterior_points;
 
     public:
         BioScat(char* protein_structure, int num_segments);
@@ -19,6 +22,8 @@ class BioScat {
         void getNanostructure();                                        // Set up nanostructure from protein_structure
         void getSegments();
         void getSegments(Nanostructure nanostructure);
+        void forwardSolver();
+        void inverseSolver();
 
 
 
