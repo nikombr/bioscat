@@ -6,6 +6,7 @@
 #include <string.h>
 extern "C" {
 #include "../../lib/2D/Segment.h"
+#include "../../lib/RealMatrix.h"
 using namespace std;
 
 
@@ -77,18 +78,80 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
     startstep = startvalue/startnum;
     endstep   = endvalue/endnum;
 
+    startxvalue  = nanostructure.x.getHostValue(start);
+    endxvalue    = nanostructure.x.getHostValue(end - 1);
+
     // Allocate arrays
     n_top      = end - start - 2;
     n_bottom   = end - start - 2;
     n_right    = endnum - 1;
     n_left     = startnum - 1;
     n_int = n_top + n_right + n_bottom + n_left - 16;
-    n_ext = 2*(end - start) + endnum + startnum - 8;
+    n_ext = 2*(end - start - 1) + endnum + startnum;
     allocate(n_top, n_right, n_bottom, n_left, n_int, n_ext);
-   
+    RealMatrix x_temp = RealMatrix(n_ext + 1);
+    RealMatrix y_temp = RealMatrix(n_ext + 1);
 
-    startxvalue  = nanostructure.x.getHostValue(start);
-    endxvalue    = nanostructure.x.getHostValue(end - 1);
+    // Compute test points
+    for (int j = 0; j < endnum; j++) {
+        x_temp.setHostValue(end - start + j, endxvalue);
+        y_temp.setHostValue(end - start + n_right - j - 1, (j+1)*endstep);
+    }
+    
+    for (int j = 0; j < startnum; j++) {
+        x_temp.setHostValue(2*(end - start - 1) + endnum + j, startxvalue);
+        y_temp.setHostValue(2*(end - start - 1) + endnum + j, j*startstep);
+    }
+
+    x_temp.setHostValue(n_ext, startxvalue);
+    y_temp.setHostValue(n_ext, startnum*startstep);
+
+    for (int j = start; j < end - 1; j++) {
+        
+        x_temp.setHostValue(j - start, nanostructure.x.getHostValue(j));
+        y_temp.setHostValue(j - start, nanostructure.f.getHostValue(j));
+        x_temp.setHostValue(end - start - 1 + endnum + end - j, nanostructure.x.getHostValue(j));
+        y_temp.setHostValue(end - start - 1 + endnum + j - start + 1, 0.0);
+    }
+
+    // Compute exterior points
+    for (int j = 0; j < n_ext; j++) {
+        double xdiff, ydiff, norm;
+        int shift;
+        RealMatrix *X, *Y;
+        
+        if (j < n_top - 1) {
+            shift = 0;
+            X = &x_test_top;
+            Y = &y_test_top;
+        }
+        else if (j < n_top + n_right - 2) {
+            shift = n_top - 1;
+            X = &x_test_right;
+            Y = &y_test_right;
+        }
+        else if (j < n_top + n_right + n_bottom - 3) {
+            shift = n_top + n_right - 2;
+            X = &x_test_bottom;
+            Y = &y_test_bottom;
+        }
+        else {
+            shift = n_top + n_right + n_bottom - 3;
+            X = &x_test_left;
+            Y = &y_test_left;
+        }
+        printf("hej %d %f\n",j-shift, (*X).getHostValue(j + 1 - shift));
+
+        xdiff = (*X).getHostValue(j - shift) - (*X).getHostValue(j + 1 - shift);
+        ydiff = (*Y).getHostValue(j - shift) - (*Y).getHostValue(j + 1 - shift);
+
+        norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
+        xdiff *= alpha/norm;
+        ydiff *= alpha/norm;
+
+        x_ext.setHostValue(j, (*X).getHostValue(j - shift) + ydiff);
+        y_ext.setHostValue(j, (*Y).getHostValue(j - shift) - xdiff);
+    }
 
     // Remove end points
     start     += 1;
@@ -114,7 +177,7 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
     }
 
     // Compute interior points
-    for (int j = 0; j < n_top + n_right + n_bottom + n_left - 16 ; j++) {
+    for (int j = 0; j < n_int; j++) {
         double xdiff, ydiff, norm;
         int shift;
         
@@ -221,7 +284,32 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
             fprintf(file, "%.4e %.4e\n", x_int.getHostValue(k), y_int.getHostValue(k));
         }
         fclose(file);
+
+        sprintf(filename,"../../../Data/segments/test_ext_segment_%d.txt", current_segment+1);
+        file = fopen(filename, "w");
+        if (file == NULL) {
+            perror("Error opening file");
+            return;
+        }
+        for (int k = 0; k < n_ext; k++) {
+            fprintf(file, "%.4e %.4e\n", x_ext.getHostValue(k), y_ext.getHostValue(k));
+        }
+        fclose(file);
+
+        sprintf(filename,"../../../Data/segments/test_temp_segment_%d.txt", current_segment+1);
+        file = fopen(filename, "w");
+        if (file == NULL) {
+            perror("Error opening file");
+            return;
+        }
+        for (int k = 0; k < n_ext; k++) {
+            fprintf(file, "%.4e %.4e\n", x_temp.getHostValue(k), y_temp.getHostValue(k));
+        }
+        fclose(file);
     }
+
+    x_temp.free();
+    y_temp.free();
 
 }
 
