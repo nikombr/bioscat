@@ -80,9 +80,9 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
     // Allocate arrays
     n_top      = end - start - 2;
     n_bottom   = end - start - 2;
-    n_right    = endnum - 2;
-    n_left     = startnum - 2;
-    n_int = n_top + n_right + n_bottom + n_left - 8;
+    n_right    = endnum - 1;
+    n_left     = startnum - 1;
+    n_int = n_top + n_right + n_bottom + n_left - 16;
     n_ext = 2*(end - start) + endnum + startnum - 8;
     allocate(n_top, n_right, n_bottom, n_left, n_int, n_ext);
    
@@ -138,7 +138,7 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
             xdiff = x_test_left.getHostValue(j - shift) - x_test_left.getHostValue(j + 1 - shift);
             ydiff = y_test_left.getHostValue(j - shift) - y_test_left.getHostValue(j + 1 - shift);
         }
-        printf("hej %d\n",j-shift);
+        
         norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
         xdiff *= alpha/norm;
         ydiff *= alpha/norm;
