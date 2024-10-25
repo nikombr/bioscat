@@ -101,8 +101,8 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
     }
     
     for (int j = 0; j < n_left; j++) {
-        x_test_left.setHostValue(j, startxvalue);
-        y_test_left.setHostValue(j, (j+1)*startstep);
+        x_test_left.setHostValue(n_left - j - 1, startxvalue);
+        y_test_left.setHostValue(n_left - j - 1, (j+1)*startstep);
     }
 
     for (int j = start; j < end; j++) {
