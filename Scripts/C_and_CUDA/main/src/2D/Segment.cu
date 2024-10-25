@@ -27,6 +27,8 @@ void Segment::free() {
     y_test_bottom.free();
     x_test_left.free();
     y_test_left.free();
+    n_x.free();
+    n_y.free();
 }
 
 void Segment::allocate(int n_top, int n_right, int n_bottom, int n_left, int n_int, int n_ext) {
@@ -37,6 +39,8 @@ void Segment::allocate(int n_top, int n_right, int n_bottom, int n_left, int n_i
     y_ext = RealMatrix(n_ext);
     x_test_top = RealMatrix(n_top);
     y_test_top = RealMatrix(n_top);
+    n_x = RealMatrix(n_top);
+    n_y = RealMatrix(n_top);
     x_test_right = RealMatrix(n_right);
     y_test_right = RealMatrix(n_right);
     x_test_bottom = RealMatrix(n_bottom);
@@ -111,19 +115,24 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
         y_temp.setHostValue(end - start - 1 + endnum + j - start + 1 - 1, 0.0);
     }
 
-    // Compute exterior points
+    // Compute exterior points (eventuel lav bedre senere)
     for (int j = 0; j < n_ext; j++) {
         double xdiff, ydiff, norm;
 
         xdiff = x_temp.getHostValue(j) - x_temp.getHostValue(j + 1);
         ydiff = y_temp.getHostValue(j) - y_temp.getHostValue(j + 1);
-
+        
         norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
-        xdiff *= alpha/norm;
-        ydiff *= alpha/norm;
+        xdiff /= norm;
+        ydiff /= norm;
 
-        x_ext.setHostValue(j, x_temp.getHostValue(j) + ydiff);
-        y_ext.setHostValue(j, y_temp.getHostValue(j) - xdiff);
+        x_ext.setHostValue(j, x_temp.getHostValue(j) + alpha*ydiff);
+        y_ext.setHostValue(j, y_temp.getHostValue(j) - alpha*xdiff);
+
+        if (j > 0 && j < n_top + 1) {
+            n_x.setHostValue(j-1,ydiff);
+            n_y.setHostValue(j-1,-xdiff);
+        }
     }
 
     // Remove end points
@@ -149,6 +158,7 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
         y_test_bottom.setHostValue(j - start, 0.0);
     }
 
+ 
     // Compute interior points
     for (int j = 0; j < n_int; j++) {
         double xdiff, ydiff, norm;
@@ -187,8 +197,8 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
         ydiff = (*Y).getHostValue(j - shift) - (*Y).getHostValue(j + 1 - shift);
         
         norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
-        xdiff *= alpha/norm;
-        ydiff *= alpha/norm;
+        xdiff /= norm;
+        ydiff /= norm;
 
        /* if (j < n_top - 4) {
             shift = -2;
@@ -210,8 +220,9 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
             x_int.setHostValue(j, x_test_left.getHostValue(j - shift) - ydiff);
             y_int.setHostValue(j, y_test_left.getHostValue(j - shift) + xdiff);
         }*/
-        x_int.setHostValue(j, (*X).getHostValue(j - shift) - ydiff);
-        y_int.setHostValue(j, (*Y).getHostValue(j - shift) + xdiff);
+        x_int.setHostValue(j, (*X).getHostValue(j - shift) - alpha*ydiff);
+        y_int.setHostValue(j, (*Y).getHostValue(j - shift) + alpha*xdiff);
+
     }
 
     
@@ -290,6 +301,17 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
         }
         for (int k = 0; k < n_ext; k++) {
             fprintf(file, "%.4e %.4e\n", x_temp.getHostValue(k), y_temp.getHostValue(k));
+        }
+        fclose(file);
+
+        sprintf(filename,"../../../Data/segments/test_n_segment_%d.txt", current_segment+1);
+        file = fopen(filename, "w");
+        if (file == NULL) {
+            perror("Error opening file");
+            return;
+        }
+        for (int k = 0; k < n_top; k++) {
+            fprintf(file, "%.4e %.4e\n", n_x.getHostValue(k), n_y.getHostValue(k));
         }
         fclose(file);
     }

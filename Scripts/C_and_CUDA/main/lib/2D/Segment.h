@@ -18,6 +18,8 @@ class Segment {
         RealMatrix y_test_bottom;
         RealMatrix x_test_left;
         RealMatrix y_test_left;
+        RealMatrix n_x;
+        RealMatrix n_y;
 
         Segment(); // Empty constructor
         void allocate(int n_top, int n_right, int n_bottom, int n_left, int n_int, int n_ext); // Allocation of matrices
