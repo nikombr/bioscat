@@ -95,59 +95,35 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
     // Compute test points
     for (int j = 0; j < endnum; j++) {
         x_temp.setHostValue(end - 1 - start + j, endxvalue);
-        y_temp.setHostValue(end - 1 - start + n_right - j - 1, (j+1)*endstep);
+        y_temp.setHostValue(end - 1 - start + n_right - j, (j+1)*endstep);
     }
     
     for (int j = 0; j < startnum + 1; j++) {
-        //x_temp.setHostValue(2*(end - start - 1) + endnum + j, startxvalue);
-        //y_temp.setHostValue(2*(end - start - 1) + endnum + j, j*startstep);
+        x_temp.setHostValue(2*(end - start - 1) + endnum + j, startxvalue);
+        y_temp.setHostValue(2*(end - start - 1) + endnum + j, (j+1)*startstep);
     }
 
     for (int j = start; j < end - 1; j++) {
         
-        //x_temp.setHostValue(j - start, nanostructure.x.getHostValue(j));
-        //y_temp.setHostValue(j - start, nanostructure.f.getHostValue(j));
-        //x_temp.setHostValue(end - start - 1 + endnum + end - j, nanostructure.x.getHostValue(j));
-        //y_temp.setHostValue(end - start - 1 + endnum + j - start + 1, 0.0);
+        x_temp.setHostValue(j - start, nanostructure.x.getHostValue(j));
+        x_temp.setHostValue(end - start - 1 + endnum + end - j - 2, nanostructure.x.getHostValue(j));
+        y_temp.setHostValue(j - start, nanostructure.f.getHostValue(j));
+        y_temp.setHostValue(end - start - 1 + endnum + j - start + 1 - 1, 0.0);
     }
 
     // Compute exterior points
     for (int j = 0; j < n_ext; j++) {
         double xdiff, ydiff, norm;
-        int shift;
-        RealMatrix *X, *Y;
-        
-        if (j < n_top - 1) {
-            shift = 0;
-            X = &x_test_top;
-            Y = &y_test_top;
-        }
-        else if (j < n_top + n_right - 2) {
-            shift = n_top - 1;
-            X = &x_test_right;
-            Y = &y_test_right;
-        }
-        else if (j < n_top + n_right + n_bottom - 3) {
-            shift = n_top + n_right - 2;
-            X = &x_test_bottom;
-            Y = &y_test_bottom;
-        }
-        else {
-            shift = n_top + n_right + n_bottom - 3;
-            X = &x_test_left;
-            Y = &y_test_left;
-        }
-        printf("hej %d %f\n",j-shift, (*X).getHostValue(j + 1 - shift));
 
-        xdiff = (*X).getHostValue(j - shift) - (*X).getHostValue(j + 1 - shift);
-        ydiff = (*Y).getHostValue(j - shift) - (*Y).getHostValue(j + 1 - shift);
+        xdiff = x_temp.getHostValue(j) - x_temp.getHostValue(j + 1);
+        ydiff = y_temp.getHostValue(j) - y_temp.getHostValue(j + 1);
 
         norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
         xdiff *= alpha/norm;
         ydiff *= alpha/norm;
 
-        x_ext.setHostValue(j, (*X).getHostValue(j - shift) + ydiff);
-        y_ext.setHostValue(j, (*Y).getHostValue(j - shift) - xdiff);
+        x_ext.setHostValue(j, x_temp.getHostValue(j) + ydiff);
+        y_ext.setHostValue(j, y_temp.getHostValue(j) - xdiff);
     }
 
     // Remove end points
@@ -177,33 +153,44 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
     for (int j = 0; j < n_int; j++) {
         double xdiff, ydiff, norm;
         int shift;
+        RealMatrix *X, *Y;
         
         if (j < n_top - 4) {
             shift = -2;
-            xdiff = x_test_top.getHostValue(j - shift) - x_test_top.getHostValue(j + 1 - shift);
-            ydiff = y_test_top.getHostValue(j - shift) - y_test_top.getHostValue(j + 1 - shift);
+            //xdiff = x_test_top.getHostValue(j - shift) - x_test_top.getHostValue(j + 1 - shift);
+            //ydiff = y_test_top.getHostValue(j - shift) - y_test_top.getHostValue(j + 1 - shift);
+            X = &x_test_top;
+            Y = &y_test_top;
         }
         else if (j < n_top + n_right - 8) {
             shift = n_top - 6;
-            xdiff = x_test_right.getHostValue(j - shift) - x_test_right.getHostValue(j + 1 - shift);
-            ydiff = y_test_right.getHostValue(j - shift) - y_test_right.getHostValue(j + 1 - shift);
+            //xdiff = x_test_right.getHostValue(j - shift) - x_test_right.getHostValue(j + 1 - shift);
+            //ydiff = y_test_right.getHostValue(j - shift) - y_test_right.getHostValue(j + 1 - shift);
+            X = &x_test_right;
+            Y = &y_test_right;
         }
         else if (j < n_top + n_right + n_bottom - 12) {
             shift = n_top + n_right - 10;
-            xdiff = x_test_bottom.getHostValue(j - shift) - x_test_bottom.getHostValue(j + 1 - shift);
-            ydiff = y_test_bottom.getHostValue(j - shift) - y_test_bottom.getHostValue(j + 1 - shift);
+            //xdiff = x_test_bottom.getHostValue(j - shift) - x_test_bottom.getHostValue(j + 1 - shift);
+            //ydiff = y_test_bottom.getHostValue(j - shift) - y_test_bottom.getHostValue(j + 1 - shift);
+            X = &x_test_bottom;
+            Y = &y_test_bottom;
         }
         else {
             shift = n_top + n_right + n_bottom - 14;
-            xdiff = x_test_left.getHostValue(j - shift) - x_test_left.getHostValue(j + 1 - shift);
-            ydiff = y_test_left.getHostValue(j - shift) - y_test_left.getHostValue(j + 1 - shift);
+            //xdiff = x_test_left.getHostValue(j - shift) - x_test_left.getHostValue(j + 1 - shift);
+            //ydiff = y_test_left.getHostValue(j - shift) - y_test_left.getHostValue(j + 1 - shift);
+            X = &x_test_left;
+            Y = &y_test_left;
         }
+        xdiff = (*X).getHostValue(j - shift) - (*X).getHostValue(j + 1 - shift);
+        ydiff = (*Y).getHostValue(j - shift) - (*Y).getHostValue(j + 1 - shift);
         
         norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
         xdiff *= alpha/norm;
         ydiff *= alpha/norm;
 
-        if (j < n_top - 4) {
+       /* if (j < n_top - 4) {
             shift = -2;
             x_int.setHostValue(j, x_test_top.getHostValue(j - shift) - ydiff);
             y_int.setHostValue(j, y_test_top.getHostValue(j - shift) + xdiff);
@@ -222,7 +209,9 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
             shift = n_top + n_right + n_bottom - 14;
             x_int.setHostValue(j, x_test_left.getHostValue(j - shift) - ydiff);
             y_int.setHostValue(j, y_test_left.getHostValue(j - shift) + xdiff);
-        }
+        }*/
+        x_int.setHostValue(j, (*X).getHostValue(j - shift) - ydiff);
+        y_int.setHostValue(j, (*Y).getHostValue(j - shift) + xdiff);
     }
 
     
