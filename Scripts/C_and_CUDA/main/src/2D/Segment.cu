@@ -96,7 +96,7 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
 
     // Compute test points
     for (int j = 0; j < n_right; j++) {
-        x_test_right.setHostValue(n_right - j - 1, endxvalue);
+        x_test_right.setHostValue(j, endxvalue);
         y_test_right.setHostValue(n_right - j - 1, (j+1)*endstep);
     }
     
@@ -134,8 +134,8 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
         }
         else {
             shift = n_top + n_right + n_bottom - 3;
-            xdiff = x_test_right.getHostValue(j - shift) - x_test_right.getHostValue(j + 1 - shift);
-            ydiff = y_test_right.getHostValue(j - shift) - y_test_right.getHostValue(j + 1 - shift);
+            xdiff = x_test_left.getHostValue(j - shift) - x_test_left.getHostValue(j + 1 - shift);
+            ydiff = y_test_left.getHostValue(j - shift) - y_test_left.getHostValue(j + 1 - shift);
         }
         norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
         xdiff *= alpha/norm;
