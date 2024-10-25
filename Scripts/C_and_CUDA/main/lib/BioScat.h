@@ -1,6 +1,6 @@
 #ifndef _BIOSCAT_H
 #define _BIOSCAT_H
-
+extern "C" {
 #include "2D/Nanostructure.h"
 #include "2D/Segment.h"
 
@@ -11,16 +11,19 @@ class BioScat {
         Nanostructure nanostructure; // Information stored about the specific nanostructure 
         int total_grid_points = 1000;       // The number of grid points used along each axis
         Segment * segments;
+        int num_segments;
 
     public:
+        BioScat(char* protein_structure, int num_segments);
+        ~BioScat();
         void getNanostructure();                                        // Set up nanostructure from protein_structure
-        void getSegments(int num_segments);
-        void getSegments(int num_segments, Nanostructure nanostructure);
+        void getSegments();
+        void getSegments(Nanostructure nanostructure);
 
 
 
 };
-
+}
 #endif
 
 /*

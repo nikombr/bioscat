@@ -484,7 +484,7 @@ far_field_approximation = false;
 
 lambda0 = 325*10^(-9); % Default value of wavelength in free space
 
-lambdas = linspace(0.9,1.1,50)*lambda0;
+lambdas = linspace(0.5,1.5,50)*lambda0;
 
 betas = linspace(0,pi/2,100);
 

@@ -41,7 +41,7 @@ betas = parallel.pool.Constant(betas);
 coord_obs = parallel.pool.Constant(coord_obs);
 
 % Do forward for all segments needed
-tic;
+%tic;
 %ticBytes(gcp);
 parfor idx = 1:(n1*n2*n3)
 
@@ -63,10 +63,10 @@ parfor idx = 1:(n1*n2*n3)
   
 end
 %tocBytes(gcp)
-stop = toc;
+%stop = toc;
 
-fprintf('It took %.4f seconds to comupute the segments.\n',stop)
-tic;
+%fprintf('It took %.4f seconds to comupute the segments.\n',stop)
+%tic;
 %ticBytes(gcp);
 parfor k = 1:n1
     M = length(coord_obs.Value.x);
@@ -99,6 +99,8 @@ parfor k = 1:n1
         [~, ~,  Einc, ~, Eref, ~, Escat, ~] = compute_fields(coord_obs.Value, local_segments, far_field_approximation, scenario, lambda, show_waitbar);
         E1_local{scenario} = Einc
         E2_local{scenario} = Eref + Escat
+        %E2_local{scenario} = Escat
+        
         
     end
 
@@ -106,9 +108,9 @@ parfor k = 1:n1
         beta = betas.Value(j);
         
     
-        E1 = E1_local{1}*cos(beta) + E1_local{2}*sin(beta)
+        E1 = E1_local{1}*cos(beta) + E1_local{2}*sin(beta);
         E2 = E2_local{1}*cos(beta) + E2_local{2}*sin(beta);
-        
+        %RE_local(j,:) = E2;
         RE_local(j,:) = normfunc(abs(E1)).^2./normfunc(abs(E2));
        
     end
@@ -117,8 +119,8 @@ parfor k = 1:n1
 
 end
 %tocBytes(gcp)
-stop = toc;
-fprintf('It took %.4f seconds to comupute the reflectance from computed segments.\n',stop)
+%stop = toc;
+%fprintf('It took %.4f seconds to comupute the reflectance from computed segments.\n',stop)
 
 
 

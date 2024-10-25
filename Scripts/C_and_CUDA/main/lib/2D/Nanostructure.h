@@ -1,6 +1,6 @@
 #ifndef _NANOSTRUCTURE_H
 #define _NANOSTRUCTURE_H
-
+extern "C" {
 #include "../RealMatrix.h"
 
 struct Nanostructure {
@@ -8,9 +8,17 @@ struct Nanostructure {
     RealMatrix x; // x-values
 
     // Constructor 
-    Nanostructure(int n) : f(n, 1), x(n, 1) {
-        
+    Nanostructure() {
+        f = RealMatrix();
+        x = RealMatrix();
+        std::cout << "Empty segment constructor." << std::endl;
+    } 
+    Nanostructure(int n) {
+        f = RealMatrix(n, 1);
+        x = RealMatrix(n, 1);
+        std::cout << "Non-empty segment constructor." << std::endl;
     }
 };
+}
 
 #endif

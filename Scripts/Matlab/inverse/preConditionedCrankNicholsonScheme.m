@@ -31,7 +31,8 @@ end
 
 % Get true values and arguments
 [X, Y_true, true_val, args] = trueValueFunction(protein_structure, total_grid_points, num_segments, data_quality);
-
+Y_true = 10^(-8)*sin(X*10^7) + shift;
+true_val = compute_reflectance("backward", args{:}, X, Y_true);
 figure('Renderer', 'painters', 'Position', [400 400 1000 300]);
 plot(X,Y_true,'k-','LineWidth',2)
 hold on
@@ -69,6 +70,8 @@ Y_array(1,:) = Y;
 Y_mean = Y;
 n_used = 1;
 
+print_frequency = 10;
+
 while n_used < num && n < maxnum
     
     % Get random curve from file
@@ -81,7 +84,7 @@ while n_used < num && n < maxnum
     Y = fstar + shift;
 
     % Plot values
-    if mod(n,300) == 0
+    if mod(n,print_frequency) == 0
         if n < 3000
             figure(1);
             destination = sprintf('%s/figure01.png',protein_structure);
@@ -90,9 +93,10 @@ while n_used < num && n < maxnum
             destination = sprintf('%s/figure02.png',protein_structure);
         end
         plot(X,Y_true,'r-','LineWidth',2)
-        plot(X,Y_mean,'m-','LineWidth',2)
+        plot(X,Y_mean,'b-','LineWidth',2)
         %plot(X,Y,'k-','LineWidth',2)
         exportgraphics(gcf,destination,'Resolution',300);
+        plot(X,Y_mean,'m-','LineWidth',2)
     end
     
     % Compute log-likelihood
@@ -111,19 +115,24 @@ while n_used < num && n < maxnum
         Y_array(n_used+1,:) = Y;
         
         Lprev = Lstar;
-        plot(X,Y,'-','LineWidth',0.5, 'Color',[0.2 0.5 0.9 0.2])
+        plot(X,Y,'-','LineWidth',1, 'Color',[0.2 0.5 0.9 0.2])
         n_used = n_used + 1;
     else
         %plot(X,Y,'g-','LineWidth',0.3)
     end
         
-    if mod(n,300) == 0
-        Y_mean = mean(Y_array(1:n_used,:));
+    if mod(n,print_frequency) == 0
+        if n_used >2000
+            Y_mean = mean(Y_array(2000:n_used,:));
+        else
+            Y_mean = mean(Y_array(1:n_used,:));
+        end
 
         % Compute temporary mean log-likelihood
-        %Lmean = setupFunction(X, Y_mean, true_val);
+        Lmean = setupFunction(X, Y_mean, true_val, args{:})
+        Lmean = testSetup(X, Y_mean, Y_true);
 
-        Lmean = 0;
+       %Lmean = 0;
 
         figure(4);
         plot(alpha_array(1:n),'.-')
@@ -143,7 +152,7 @@ while n_used < num && n < maxnum
         exportgraphics(gcf,destination,'Resolution',300);
 
         figure(5);
-        semilogy(n,Lmean,'m.-','markersize',20)
+        semilogy(n,abs(Lmean),'m.-','markersize',20)
         hold on
         title('$L$')
         grid on

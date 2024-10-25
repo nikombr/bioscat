@@ -4,8 +4,8 @@
 #include "../lib/forward.h"
 #include <cuda_runtime_api.h>
 
-void executeForward(const char* protein_structure) {
+void executeForward(char* protein_structure, int num_segments) {
 
-    forward(protein_structure);
+    forward(protein_structure, num_segments);
 
 }

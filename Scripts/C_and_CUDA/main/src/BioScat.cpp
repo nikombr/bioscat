@@ -8,17 +8,18 @@ extern "C" {
 #include "../lib/BioScat.h"
 using namespace std;
 
-BioScat::BioScat(string protein_structure) {
+BioScat::BioScat(char* protein_structure, int num_segments) {
 
     this->protein_structure = protein_structure;
+    this->num_segments = num_segments;
+
+    
 
 
 
 
 
-
-
-    if (dim == 1) {
+    /*if (dim == 1) {
         y = NULL;
     }
 
@@ -92,13 +93,13 @@ BioScat::BioScat(string protein_structure) {
         cudaMemcpy(M_log, *M_h, n * n * sizeof(double), cudaMemcpyHostToDevice);
         cudaMemcpy(hyper_d, hyper_h, num * sizeof(double), cudaMemcpyHostToDevice);
         
-    }
+    }*/
 }
 
-GaussianProcess::~GaussianProcess() {
-    
+BioScat::~BioScat() {
+    printf("DESTRUCTED!");
 
-    if (!device) {
+    /*if (!device) {
         host_free_2d(M_h);
     }
     cudaFreeHost(x_h);
@@ -111,7 +112,7 @@ GaussianProcess::~GaussianProcess() {
         if (dim == 2) cudaFree(y_d);
 
         cudaFree(p_d);
-    }
+    }*/
 
 }
 

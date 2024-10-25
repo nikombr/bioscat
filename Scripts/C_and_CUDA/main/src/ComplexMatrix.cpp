@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <cuda_runtime_api.h>
@@ -35,7 +34,7 @@ ComplexMatrix::~ComplexMatrix() {
 
 }
 
-ComplexMatrix::toHost() {
+void ComplexMatrix::toHost() {
 
     // Send from device to host
     cudaMemcpy(real_h,    real_d,    rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
@@ -43,7 +42,7 @@ ComplexMatrix::toHost() {
 
 }
 
-ComplexMatrix::toDevice() {
+void ComplexMatrix::toDevice() {
 
     // Send from host to device
     cudaMemcpy(real_d,    real_h,    rows * cols * sizeof(double), cudaMemcpyHostToDevice);

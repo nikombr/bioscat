@@ -57,7 +57,7 @@ void gaussian_process_inner(double * x, double * y, int n, double * hyper, int n
 
     start = omp_get_wtime();
     FILE *file;
-    file = fopen("../../Data/gaussian_process_realisations/output.txt", "w");
+    file = fopen("../../../../Data/gaussian_process_realisations/output.txt", "w");
     if (file == NULL) {
         perror("Error opening file");
         return;

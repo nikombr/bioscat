@@ -1,6 +1,6 @@
-#ifndef _SEGMENTS_H
-#define _SEGMENTS_H
-
+#ifndef _SEGMENT_H
+#define _SEGMENT_H
+extern "C" {
 #include "../RealMatrix.h"
 
 struct Segment {
@@ -32,6 +32,6 @@ struct Segment {
         std::cout << "Non-empty segment constructor." << std::endl;
     }
 };
-
+}
 
 #endif

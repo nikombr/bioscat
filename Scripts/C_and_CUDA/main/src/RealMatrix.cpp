@@ -19,9 +19,11 @@ RealMatrix::RealMatrix(int rows, int cols) {
 
     // Allocate vectors on device
     cudaMalloc((void **) &val_d,    rows*cols*sizeof(double));
+
+    val_h[0] = 1;
 }
 
-RealMatrix::~RealMatrix() {
+void RealMatrix::freeRealMatrix() {
     
     // Free on host
     cudaFreeHost(val_h);
@@ -29,16 +31,18 @@ RealMatrix::~RealMatrix() {
     // Free on device
     cudaFree(val_d);
 
+    printf("Destructed real matrices!\n");
+
 }
 
-RealMatrix::toHost() {
+void RealMatrix::toHost() {
 
     // Send from device to host
     cudaMemcpy(val_h,    val_d,    rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
 
 }
 
-RealMatrix::toDevice() {
+void RealMatrix::toDevice() {
 
     // Send from host to device
     cudaMemcpy(val_d,    val_h,    rows * cols * sizeof(double), cudaMemcpyHostToDevice);
