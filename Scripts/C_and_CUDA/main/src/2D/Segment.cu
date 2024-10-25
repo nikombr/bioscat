@@ -96,13 +96,13 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
 
     // Compute test points
     for (int j = 0; j < n_right; j++) {
-        x_test_right.setHostValue(j, endxvalue);
-        y_test_right.setHostValue(j, (j+1)*endstep);
+        x_test_right.setHostValue(n_left - j - 1, endxvalue);
+        y_test_right.setHostValue(n_left - j - 1, (j+1)*endstep);
     }
     
     for (int j = 0; j < n_left; j++) {
-        x_test_left.setHostValue(n_left - j - 1, startxvalue);
-        y_test_left.setHostValue(n_left - j - 1, (j+1)*startstep);
+        x_test_left.setHostValue(j, startxvalue);
+        y_test_left.setHostValue(j, (j+1)*startstep);
     }
 
     for (int j = start; j < end; j++) {
