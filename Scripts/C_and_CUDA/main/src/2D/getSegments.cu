@@ -37,8 +37,9 @@ void BioScat::getSegments() {
         startvalue  = nanostructure.f.val_h[start];
         endvalue    = nanostructure.f.val_h[end - 1];
 
-        startnum = max(minNumSteps, (int) ceil(step/startvalue));
-        endnum   = max(minNumSteps, (int) ceil(step/endvalue));
+        startnum = max(minNumSteps, (int) ceil(startvalue/step));
+        endnum   = max(minNumSteps, (int) ceil(endvalue/step));
+        printf("hmm = %f\n",ceil(startvalue/step));
 
         startstep = startvalue/startnum;
         endstep   = endvalue/endnum;
@@ -71,7 +72,6 @@ void BioScat::getSegments() {
             segments[i].x_test_top.val_h[j - start] = nanostructure.x.val_h[j];
             segments[i].y_test_top.val_h[j - start] = nanostructure.f.val_h[j];
             segments[i].x_test_bottom.val_h[end - j - 1] = nanostructure.x.val_h[j];
-            printf("%d %d %d\n",j - start,end - j - 1,j);
             segments[i].y_test_bottom.val_h[j - start] = 0;
         }
         
