@@ -5,8 +5,8 @@ SOURCES_MATRIX 	= src/ComplexMatrix.cu src/RealMatrix.cu
 OBJECTS_MATRIX 	= obj/ComplexMatrix.o  obj/RealMatrix.o
 SOURCES_GP 		= src/GP/cholesky.cu src/GP/cudaMalloc2d.cu src/GP/covariance_matrix.cu  src/GP/realisation.cu src/GP/gaussian_process_inner.cpp src/GP/GaussianProcess.cpp
 OBJECTS_GP 		= obj/GP/cholesky.o  obj/GP/cudaMalloc2d.o  obj/GP/covariance_matrix.o   obj/GP/realisation.o  obj/GP/gaussian_process_inner.o   obj/GP/GaussianProcess.o
-SOURCES_2D 		= src/2D/getNanostructure.cpp src/2D/getSegments.cpp src/2D/Segment.cu
-OBJECTS_2D 		= obj/2D/getNanostructure.o   obj/2D/getSegments.o   obj/2D/Segment.o
+SOURCES_2D 		= src/2D/getNanostructure.cpp src/2D/Segment.cu
+OBJECTS_2D 		= obj/2D/getNanostructure.o   obj/2D/Segment.o
 
 # options and settings for the GCC compilers
 

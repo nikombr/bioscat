@@ -97,6 +97,13 @@ BioScat::BioScat(char* protein_structure, int num_segments) {
 }
 
 BioScat::~BioScat() {
+
+    for (int i = 0; i < num_segments; i++) {
+
+    }
+
+
+
     printf("DESTRUCTED!");
 
     /*if (!device) {
@@ -113,6 +120,26 @@ BioScat::~BioScat() {
 
         cudaFree(p_d);
     }*/
+
+}
+
+void BioScat::getSegments() {
+
+    this->segments = new Segment[num_segments];
+
+    for (int i = 0; i < num_segments; i++) {
+        segments[i].setup(this->nanostructure, i, total_grid_points, num_segments);
+    }
+
+}
+
+void BioScat::getSegments(Nanostructure nanostructure) {
+
+    this->segments = new Segment[num_segments];
+
+    for (int i = 0; i < num_segments; i++) {
+        segments[i].setup(nanostructure, i, total_grid_points, num_segments);
+    }
 
 }
 

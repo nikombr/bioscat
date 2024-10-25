@@ -114,49 +114,52 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
     }
 
     // Compute interior points
-    for (int j = 0; j < n_top + n_right + n_bottom + n_left - 8 ; j++) {
+    for (int j = 0; j < n_top + n_right + n_bottom + n_left - 16 ; j++) {
         double xdiff, ydiff, norm;
         int shift;
         
-        if (j < n_top - 2) {
-            xdiff = x_test_top.getHostValue(j) - x_test_top.getHostValue(j + 1);
-            ydiff = y_test_top.getHostValue(j) - y_test_top.getHostValue(j + 1);
+        if (j < n_top - 4) {
+            shift = -2;
+            xdiff = x_test_top.getHostValue(j - shift) - x_test_top.getHostValue(j + 1 - shift);
+            ydiff = y_test_top.getHostValue(j - shift) - y_test_top.getHostValue(j + 1 - shift);
         }
-        else if (j < n_top + n_right - 4) {
-            shift = n_top - 2;
+        else if (j < n_top + n_right - 8) {
+            shift = n_top - 6;
             xdiff = x_test_right.getHostValue(j - shift) - x_test_right.getHostValue(j + 1 - shift);
             ydiff = y_test_right.getHostValue(j - shift) - y_test_right.getHostValue(j + 1 - shift);
         }
-        else if (j < n_top + n_right + n_bottom - 6) {
-            shift = n_top + n_right - 4;
+        else if (j < n_top + n_right + n_bottom - 12) {
+            shift = n_top + n_right - 10;
             xdiff = x_test_bottom.getHostValue(j - shift) - x_test_bottom.getHostValue(j + 1 - shift);
             ydiff = y_test_bottom.getHostValue(j - shift) - y_test_bottom.getHostValue(j + 1 - shift);
         }
         else {
-            shift = n_top + n_right + n_bottom - 6;
+            shift = n_top + n_right + n_bottom - 14;
             xdiff = x_test_left.getHostValue(j - shift) - x_test_left.getHostValue(j + 1 - shift);
             ydiff = y_test_left.getHostValue(j - shift) - y_test_left.getHostValue(j + 1 - shift);
         }
+        printf("hej %d\n",j-shift);
         norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
         xdiff *= alpha/norm;
         ydiff *= alpha/norm;
 
-        if (j < n_top - 1) {
-            x_int.setHostValue(j, x_test_top.getHostValue(j) - ydiff);
-            y_int.setHostValue(j, y_test_top.getHostValue(j) + xdiff);
+        if (j < n_top - 4) {
+            shift = -2;
+            x_int.setHostValue(j, x_test_top.getHostValue(j - shift) - ydiff);
+            y_int.setHostValue(j, y_test_top.getHostValue(j - shift) + xdiff);
         }
-        else if (j < n_top + n_right - 4) {
-            shift = n_top - 2;
+        else if (j < n_top + n_right - 8) {
+            shift = n_top - 6;
             x_int.setHostValue(j, x_test_right.getHostValue(j - shift) - ydiff);
             y_int.setHostValue(j, y_test_right.getHostValue(j - shift) + xdiff);
         }
-        else if (j < n_top + n_right + n_bottom - 6) {
-            shift = n_top + n_right - 4;
+        else if (j < n_top + n_right + n_bottom - 12) {
+            shift = n_top + n_right - 10;
             x_int.setHostValue(j, x_test_bottom.getHostValue(j - shift) - ydiff);
             y_int.setHostValue(j, y_test_bottom.getHostValue(j - shift) + xdiff);
         }
         else {
-            shift = n_top + n_right + n_bottom - 6;
+            shift = n_top + n_right + n_bottom - 14;
             x_int.setHostValue(j, x_test_left.getHostValue(j - shift) - ydiff);
             y_int.setHostValue(j, y_test_left.getHostValue(j - shift) + xdiff);
         }
