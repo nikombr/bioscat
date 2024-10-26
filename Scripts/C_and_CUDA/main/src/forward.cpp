@@ -11,11 +11,13 @@ using namespace std;
 
 void forward(char * protein_structure, int num_segments) {
 
-    BioScat forward_simulation = BioScat(protein_structure, num_segments);
+    BioScat bioscat = BioScat(protein_structure, num_segments);
 
-    forward_simulation.getNanostructure();
+    bioscat.getNanostructure();
 
-    forward_simulation.getSegments();
+    bioscat.getSegments();
+
+    bioscat.forwardSolver(1);
 
     printf("Hej fra C\n");
 

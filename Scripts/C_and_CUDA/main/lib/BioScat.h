@@ -3,6 +3,7 @@
 extern "C" {
 #include "2D/Nanostructure.h"
 #include "2D/Segment.h"
+#include "Field.h"
 
 class BioScat {
 
@@ -12,9 +13,12 @@ class BioScat {
         int total_grid_points = 1000;       // The number of grid points used along each axis
         Segment * segments;
         int num_segments;
-        int num_test_points;
-        int num_interior_points;
-        int num_exterior_points;
+        Field E_scat;
+        Field H_scat;
+        Field E_inc;
+        Field H_inc;
+        Field E_ref;
+        Field H_ref;
 
     public:
         BioScat(char* protein_structure, int num_segments);
@@ -22,8 +26,9 @@ class BioScat {
         void getNanostructure();                                        // Set up nanostructure from protein_structure
         void getSegments();
         void getSegments(Nanostructure nanostructure);
-        void forwardSolver();
+        void forwardSolver(int scenario);
         void inverseSolver();
+        void reset(); // De-allocates everything that only needs to be used in one inverse iteration
 
 
 

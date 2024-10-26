@@ -30,6 +30,9 @@ class RealMatrix {
         double getHostValue(int r, int c);                          // Gets host value for matrices
         __device__ double getDeviceValue(int r);                    // Gets device value for vectors
         __device__ double getDeviceValue(int r, int c);             // Gets device value for matrices
+        double * getHostPointer() {
+            return val_h;
+        }
 
 };
 }

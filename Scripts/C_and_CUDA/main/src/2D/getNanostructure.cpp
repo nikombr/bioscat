@@ -50,7 +50,6 @@ void BioScat::getNanostructure() {
     nanostructure.x.toDevice();
     nanostructure.f.toDevice();
 
-
 }
 
 

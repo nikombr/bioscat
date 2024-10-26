@@ -1,12 +1,46 @@
 # Makefile 
-SOURCES      	= src/BioScat.cpp src/forward.cpp
-OBJECTS      	= obj/BioScat.o   obj/forward.o   
-SOURCES_MATRIX 	= src/ComplexMatrix.cu src/RealMatrix.cu
-OBJECTS_MATRIX 	= obj/ComplexMatrix.o  obj/RealMatrix.o
-SOURCES_GP 		= src/GP/cholesky.cu src/GP/cudaMalloc2d.cu src/GP/covariance_matrix.cu  src/GP/realisation.cu src/GP/gaussian_process_inner.cpp src/GP/GaussianProcess.cpp
-OBJECTS_GP 		= obj/GP/cholesky.o  obj/GP/cudaMalloc2d.o  obj/GP/covariance_matrix.o   obj/GP/realisation.o  obj/GP/gaussian_process_inner.o   obj/GP/GaussianProcess.o
-SOURCES_2D 		= src/2D/getNanostructure.cpp src/2D/Segment.cu
-OBJECTS_2D 		= obj/2D/getNanostructure.o   obj/2D/Segment.o
+#SOURCES      	= src/BioScat.cpp src/forward.cpp
+#OBJECTS      	= obj/BioScat.o   obj/forward.o
+#SOURCES_SEG     = src/Segment.cu
+#OBJECTS_SEG     = obj/Segment.o
+#SOURCES_MATRIX 	= src/ComplexMatrix.cu src/RealMatrix.cu
+#OBJECTS_MATRIX 	= obj/ComplexMatrix.o  obj/RealMatrix.o
+#SOURCES_GP 		= src/GP/cholesky.cu src/GP/cudaMalloc2d.cu src/GP/covariance_matrix.cu  src/GP/realisation.cu src/GP/gaussian_process_inner.cpp src/GP/GaussianProcess.cpp
+#OBJECTS_GP 		= obj/GP/cholesky.o  obj/GP/cudaMalloc2d.o  obj/GP/covariance_matrix.o   obj/GP/realisation.o  obj/GP/gaussian_process_inner.o   obj/GP/GaussianProcess.o
+#SOURCES_2D 		= src/2D/getNanostructure.cpp src/2D/Segment.cu
+#OBJECTS_2D 		= obj/2D/getNanostructure.o   obj/2D/Segment.o
+
+# Files and dependencies
+
+SOURCE_REALMATRIX = src/RealMatrix.cu
+OBJECT_REALMATRIX = obj/RealMatrix.o
+DEPEND_REALMATRIX = 
+
+SOURCE_COMPLEXMATRIX = src/ComplexMatrix.cu
+OBJECT_COMPLEXMATRIX = obj/ComplexMatrix.o
+DEPEND_COMPLEXMATRIX = 
+
+SOURCE_2D_SEGMENT = src/2D/Segment.cu
+OBJECT_2D_SEGMENT = obj/2D/Segment.o
+DEPEND_2D_SEGMENT = $(OBJECT_REALMATRIX)
+
+SOURCE_SEGMENT = src/Segment.cu
+OBJECT_SEGMENT = obj/Segment.o
+DEPEND_SEGMENT = $(OBJECT_REALMATRIX)
+
+SOURCE_2D_GET_NANOSTRUCTURE = src/2D/getNanostructure.cpp
+OBJECT_2D_GET_NANOSTRUCTURE = obj/2D/getNanostructure.o
+DEPEND_2D_GET_NANOSTRUCTURE = $(OBJECT_REALMATRIX)
+
+SOURCE_BIOSCAT = src/BioScat.cpp
+OBJECT_BIOSCAT = obj/BioScat.o
+DEPEND_BIOSCAT = $(OBJECT_SEGMENT) $(OBJECT_2D_SEGMENT)
+
+SOURCE_FORWARD = src/forward.cpp
+OBJECT_FORWARD = obj/forward.o
+DEPEND_FORWARD = $(OBJECT_COMPLEXMATRIX) $(OBJECT_BIOSCAT)
+
+OBJECTS = $(OBJECT_REALMATRIX) $(OBJECT_COMPLEXMATRIX) $(OBJECT_2D_SEGMENT) $(OBJECT_SEGMENT) $(OBJECT_2D_GET_NANOSTRUCTURE) $(OBJECT_BIOSCAT) $(OBJECT_FORWARD)
 
 # options and settings for the GCC compilers
 
@@ -19,7 +53,7 @@ IPO		=
 ISA		= 
 CHIP	= 
 ARCH	= 
-PARA	= -fopenmp -llapack -lblas -lopenblas -lcusolver -lcublas -lcurand
+PARA	= -fopenmp -llapacke -llapack -lblas -lopenblas -lcusolver -lcublas -lcurand
 XOPTS 	= -Xptxas=-v -arch=sm_90 -lineinfo -diag-suppress 2464 -diag-suppress 68  -diag-suppress 177 # Suppressing error regarding string conversion
 CFLAGS	= $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) -lstdc++
 CXXFLAGS= --compiler-options "$(OPT) $(PARA)" $(XOPTS)
@@ -30,32 +64,53 @@ INCLUDES = -I$(CUDA_PATH)/include -I$(CUDA_PATH)/samples/Common
 SOFLAGS = -L$(CUDA_PATH)/lib64 
 XLIBS =  -lcudart
 
-forward.so: src/executeForward.c $(OBJECTS_MATRIX) $(OBJECTS_2D) $(OBJECTS_GP) $(OBJECTS)
+forward.so: src/executeForward.c $(OBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDES)  -fPIC -shared -o $@ $^ $(SOFLAGS) $(LIBS)  -lcudart
 
-obj/%.o: src/%.cu $(OBJECTS_MATRIX) $(OBJECTS_2D)
+$(OBJECT_REALMATRIX): $(SOURCE_REALMATRIX) $(DEPEND_REALMATRIX) 
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
-obj/%.o: src/%.cpp $(OBJECTS_MATRIX)  $(OBJECTS_2D)
+$(OBJECT_COMPLEXMATRIX): $(SOURCE_COMPLEXMATRIX) $(DEPEND_COMPLEXMATRIX) 
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
-obj/2D/%.o: src/2D/%.cu $(OBJECTS_MATRIX) 
+$(OBJECT_2D_SEGMENT): $(SOURCE_2D_SEGMENT) $(DEPEND_2D_SEGMENT) 
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
-obj/2D/%.o: src/2D/%.cpp $(OBJECTS_MATRIX) 
+$(OBJECT_SEGMENT): $(SOURCE_SEGMENT) $(DEPEND_SEGMENT) 
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
-obj/3D/%.o: src/3D/%.cu
+$(OBJECT_2D_GET_NANOSTRUCTURE): $(SOURCE_2D_GET_NANOSTRUCTURE) $(DEPEND_2D_GET_NANOSTRUCTURE) 
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
-obj/3D/%.o: src/3D/%.cpp
+$(OBJECT_BIOSCAT): $(SOURCE_BIOSCAT) $(DEPEND_BIOSCAT) 
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
-obj/GP/%.o: src/GP/%.cu
+$(OBJECT_FORWARD): $(SOURCE_FORWARD) $(DEPEND_FORWARD) 
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
-obj/GP/%.o: src/GP/%.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+##obj/%.o: src/%.cu $(OBJECTS_MATRIX) $(OBJECTS_2D) $(OBJECTS_SEG)
+##	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+##obj/%.o: src/%.cpp $(OBJECTS_MATRIX)  $(OBJECTS_2D) $(OBJECTS_SEG)
+##	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+##obj/2D/%.o: src/2D/%.cu $(OBJECTS_MATRIX) 
+##	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+##obj/2D/%.o: src/2D/%.cpp $(OBJECTS_MATRIX) 
+##	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+##obj/3D/%.o: src/3D/%.cu
+##	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+##obj/3D/%.o: src/3D/%.cpp
+##	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+##obj/GP/%.o: src/GP/%.cu
+##	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+##obj/GP/%.o: src/GP/%.cpp
+##	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
 ## %.o: %.c
 ## 	$(CC) $(CFLAGS) -o $@ -c $<
