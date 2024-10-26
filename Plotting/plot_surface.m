@@ -18,9 +18,9 @@ for i = 1:2
     y = data(:,2);
     z = data(:,3);
     
-    n = 1000;
+    n = 10;
     X = linspace(min(x),max(x),n);
-    Y = linspace(min(y),max(y),n);
+    Y = linspace(min(y),max(y),1000);
     
     [valX,valY] = meshgrid(X,Y);
     
@@ -42,7 +42,9 @@ for i = 1:2
     axis tight
     clim([0,max(max(val))])
 
-    
+    writematrix(valX, sprintf('../Data/nanostructures/%s_3D_x_%d.txt',filename,n));
+    writematrix(valY, sprintf('../Data/nanostructures/%s_3D_y_%d.txt',filename,n));
+    writematrix(val,  sprintf('../Data/nanostructures/%s_3D_f_%d.txt',filename,n));
 
     Y = val(550,:);
     nexttile;
@@ -53,6 +55,11 @@ for i = 1:2
     ylim([0,max(Y)])
     
     save(sprintf("../Data/%s_2D.mat",filename),"X", "Y")
+
+    writematrix(X, sprintf('../Data/nanostructures/%s_2D_x_%d.txt',filename,n));
+    writematrix(Y, sprintf('../Data/nanostructures/%s_2D_f_%d.txt',filename,n));
+    
+
 
 end
 

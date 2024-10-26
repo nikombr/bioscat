@@ -8,7 +8,7 @@ addpath('../../utils')
 
 protein_structures    = {"Retinin2x2", "demoleus2x2"};  % Retinin2x2 demoleus2x2
 num_segments_choices = [1 5 10 20]; % 1 5 10 20
-total_x_grid_points  = 1000;
+total_x_grid_points  = 10;
 
 for k = 1:2
     protein_structure = protein_structures{k};
@@ -27,8 +27,8 @@ addpath('../fields_2D/')
 addpath('../../utils')
 
 protein_structure    = "demoleus2x2"; % Retinin2x2 demoleus2x2
-num_segments_choices = [1 5 10 20]; % 1 5 10 20
-total_x_grid_points  = 1000;
+num_segments_choices = 1;[1 5 10 20]; % 1 5 10 20
+total_x_grid_points  = 10;
 obs_grid             = 300;
 
 far_field_approximation = false;
@@ -50,6 +50,8 @@ for scenario = 1:2
         tic;
         for k = 1:length(segments)
             segments{k} = forward(segments{k},scenario);
+            segments{k}.C
+            segments{k}.D
         end
         stop = toc;
        
@@ -87,9 +89,11 @@ for scenario = 1:2
             % Save results
             filename = sprintf('../../../../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_%d.mat',protein_structure,scenario,view,num_segments);
             save(filename,'Etot','Htot','Einc','Hinc','Eref','Href','Escat','Hscat','X','Y','segments');
-    
+            break;
         end
+        break;
     end
+    break;
 end
 
 
