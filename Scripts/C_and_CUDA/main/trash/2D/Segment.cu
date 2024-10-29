@@ -10,38 +10,10 @@ extern "C" {
 using namespace std;
 
 
-Segment::Segment() {
-    // Empty constructor
-}
-    
-void Segment::free() {
-
-    x_int.free();           y_int.free();
-    x_ext.free();           y_ext.free();
-    x_test_top.free();      y_test_top.free();
-    x_test_right.free();    y_test_right.free();
-    x_test_bottom.free();   y_test_bottom.free();
-    x_test_left.free();     y_test_left.free();
-    n_x.free();             n_y.free();
-
-}
-
-void Segment::allocate(int n_top, int n_right, int n_bottom, int n_left, int n_int, int n_ext) {
-
-    x_int = RealMatrix(n_int);              y_int = RealMatrix(n_int);
-    x_ext = RealMatrix(n_ext);              y_ext = RealMatrix(n_ext);
-    x_test_top = RealMatrix(n_top);         y_test_top = RealMatrix(n_top);
-    n_x = RealMatrix(n_top);                n_y = RealMatrix(n_top);
-    x_test_right = RealMatrix(n_right);     y_test_right = RealMatrix(n_right);
-    x_test_bottom = RealMatrix(n_bottom);   y_test_bottom = RealMatrix(n_bottom);
-    x_test_left = RealMatrix(n_left);       y_test_left = RealMatrix(n_left);
-
-}
-
 
 void Segment::setup(Nanostructure nanostructure, int current_segment, int total_grid_points, int num_segments) {
 
-    bool save_segment = true;
+    bool save_segment = false;
 
     int segment_length = total_grid_points / num_segments;
     int start, end, startnum, endnum;
@@ -57,7 +29,6 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
     start = current_segment * segment_length;
     end = min(start + segment_length + 1, total_grid_points);
 
-
     startvalue  = nanostructure.f.getHostValue(start);
     endvalue    = nanostructure.f.getHostValue(end - 1);
 
@@ -66,62 +37,70 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
 
     startstep = startvalue/startnum;
     endstep   = endvalue/endnum;
-
+    
     startxvalue  = nanostructure.x.getHostValue(start);
     endxvalue    = nanostructure.x.getHostValue(end - 1);
-
+    printf("HEJ!!\n");
     // Allocate arrays
     n_top      = end - start - 2;
+    printf("ntop = %d",n_top);
     n_bottom   = end - start - 2;
     n_right    = endnum - 1;
     n_left     = startnum - 1;
     n_int = n_top + n_right + n_bottom + n_left - 16;
     n_ext = 2*(end - start - 1) + endnum + startnum;
     allocate(n_top, n_right, n_bottom, n_left, n_int, n_ext);
-    RealMatrix x_temp = RealMatrix(n_ext + 1);
-    RealMatrix y_temp = RealMatrix(n_ext + 1);
+    printf("HEJ!!\n");
+    RealMatrix x_temp = RealMatrix(n_ext + 2);
+    RealMatrix y_temp = RealMatrix(n_ext + 2);
 
     // Save values
     num_test_points = n_top + n_bottom + n_right + n_left;
     num_interior_points = n_int;
     num_exterior_points = n_ext;
 
-    // Compute test points
+    
+
+    // Compute temporary test points
     for (int j = 0; j < endnum; j++) {
-        x_temp.setHostValue(end - 1 - start + j, endxvalue);
-        y_temp.setHostValue(end - 1 - start + n_right - j, (j+1)*endstep);
+        x_temp.setHostValue(end - 1 - start + j + 1, endxvalue);
+        y_temp.setHostValue(end - 1 - start + n_right - j + 1, (j+1)*endstep);
     }
     
     for (int j = 0; j < startnum + 1; j++) {
-        x_temp.setHostValue(2*(end - start - 1) + endnum + j, startxvalue);
-        y_temp.setHostValue(2*(end - start - 1) + endnum + j, (j+1)*startstep);
+        x_temp.setHostValue(2*(end - start - 1) + endnum + j + 1, startxvalue);
+        y_temp.setHostValue(2*(end - start - 1) + endnum + j + 1, j*startstep);
     }
+
+    x_temp.setHostValue(0, startxvalue);
+    y_temp.setHostValue(0, (startnum - 1)*startstep);
 
     for (int j = start; j < end - 1; j++) {
         
-        x_temp.setHostValue(j - start, nanostructure.x.getHostValue(j));
-        x_temp.setHostValue(end - start - 1 + endnum + end - j - 2, nanostructure.x.getHostValue(j));
-        y_temp.setHostValue(j - start, nanostructure.f.getHostValue(j));
-        y_temp.setHostValue(end - start - 1 + endnum + j - start + 1 - 1, 0.0);
+        x_temp.setHostValue(j - start + 1, nanostructure.x.getHostValue(j));
+        x_temp.setHostValue(end - start - 1 + endnum + end - j - 2 + 1, nanostructure.x.getHostValue(j+1));
+        y_temp.setHostValue(j - start + 1, nanostructure.f.getHostValue(j));
+        y_temp.setHostValue(end - start - 1 + endnum + j - start + 1 - 1 + 1, 0.0);
     }
 
     // Compute exterior points (eventuel lav bedre senere)
-    for (int j = 0; j < n_ext; j++) {
+    //alpha = std::min(10e-8,2*std::min(startstep,endstep));
+    for (int j = 1; j < n_ext + 1; j++) {
         double xdiff, ydiff, norm;
 
-        xdiff = x_temp.getHostValue(j) - x_temp.getHostValue(j + 1);
-        ydiff = y_temp.getHostValue(j) - y_temp.getHostValue(j + 1);
+        xdiff = x_temp.getHostValue(j - 1) - x_temp.getHostValue(j + 1); // Central difference
+        ydiff = y_temp.getHostValue(j - 1) - y_temp.getHostValue(j + 1); // Central difference
         
         norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
         xdiff /= norm;
         ydiff /= norm;
 
-        x_ext.setHostValue(j, x_temp.getHostValue(j) + alpha*ydiff);
-        y_ext.setHostValue(j, y_temp.getHostValue(j) - alpha*xdiff);
+        x_ext.setHostValue(j - 1, x_temp.getHostValue(j) + alpha*ydiff);
+        y_ext.setHostValue(j - 1, y_temp.getHostValue(j) - alpha*xdiff);
 
-        if (j > 0 && j < n_top + 1) {
-            n_x.setHostValue(j-1,ydiff);
-            n_y.setHostValue(j-1,-xdiff);
+        if (j >= 2 && j < n_top + 2) {
+            n_x.setHostValue(j - 2,   ydiff);
+            n_y.setHostValue(j - 2, - xdiff);
         }
     }
 
@@ -175,8 +154,8 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
             X = &x_test_left;
             Y = &y_test_left;
         }
-        xdiff = (*X).getHostValue(j - shift) - (*X).getHostValue(j + 1 - shift);
-        ydiff = (*Y).getHostValue(j - shift) - (*Y).getHostValue(j + 1 - shift);
+        xdiff = (*X).getHostValue(j - 1 - shift) - (*X).getHostValue(j + 1 - shift); // Central difference
+        ydiff = (*Y).getHostValue(j - 1 - shift) - (*Y).getHostValue(j + 1 - shift); // Central difference
         
         norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
         xdiff /= norm;
@@ -261,7 +240,7 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
             perror("Error opening file");
             return;
         }
-        for (int k = 0; k < n_ext; k++) {
+        for (int k = 0; k < n_ext + 2; k++) {
             fprintf(file, "%.4e %.4e\n", x_temp.getHostValue(k), y_temp.getHostValue(k));
         }
         fclose(file);
@@ -273,7 +252,7 @@ void Segment::setup(Nanostructure nanostructure, int current_segment, int total_
             return;
         }
         for (int k = 0; k < n_top; k++) {
-            fprintf(file, "%.4e %.4e\n", n_x.getHostValue(k), n_y.getHostValue(k));
+            fprintf(file, "%.6f %.6f\n", n_x.getHostValue(k), n_y.getHostValue(k));
         }
         fclose(file);
     }
@@ -291,12 +270,12 @@ double H02_real(double x) {
     return Jn;          // Real part of H_n^(2)(x)
 }
 
-double H02_imaginary(double x) {
+double H02_imag(double x) {
     int n = 0;
     // Compute Bessel functions of the first (Jn) and second (Yn) kinds
     double Yn = yn(n, x);
     // Hankel functions
-    return -Yn;         // Imaginary part of H_n^(2)(x)
+    return -Yn;         // Imag part of H_n^(2)(x)
 }
 
 double H12_real(double x) {
@@ -307,19 +286,19 @@ double H12_real(double x) {
     return Jn;          // Real part of H_n^(2)(x)
 }
 
-double H12_imaginary(double x) {
+double H12_imag(double x) {
     int n = 1;
     // Compute Bessel functions of the first (Jn) and second (Yn) kinds
     double Yn = yn(n, x);
     // Hankel functions
-    return -Yn;         // Imaginary part of H_n^(2)(x)
+    return -Yn;         // Imag part of H_n^(2)(x)
 }
 
 void Segment::computeScatteredFieldMatrices(RealMatrix x, RealMatrix y, bool far_field_approximation) {
     
     int rows = y.rows;
     int cols = y_int.rows;
-    double abs_int, abs_int_ref, xdiff, ydiff, ydiff_ref, H_real, H_imaginary, H_real_ref, H_imaginary_ref, val;
+    double abs_int, abs_int_ref, xdiff, ydiff, ydiff_ref, H_real, H_imag, H_real_ref, H_imag_ref, val;
 
     // Determine which matrices to be allocated
     bool Ex_bool = scenario == 1 ? false : true;
@@ -328,6 +307,11 @@ void Segment::computeScatteredFieldMatrices(RealMatrix x, RealMatrix y, bool far
     bool Hx_bool = scenario == 1 ? true  : false;
     bool Hy_bool = scenario == 1 ? true  : false;
     bool Hz_bool = scenario == 1 ? false : true;
+
+    /*printf("hankel test:\n");
+    double htest = 10e-8;
+    printf("%e + i(%e)\n",H02_real(htest),H02_imag(htest));
+    printf("%e + i(%e)\n",H12_real(htest),H12_imag(htest));*/
 
     E_scat_matrix = Field(rows, cols, Ex_bool, Ey_bool, Ez_bool);
     H_scat_matrix = Field(rows, cols, Hx_bool, Hy_bool, Hz_bool);
@@ -344,37 +328,52 @@ void Segment::computeScatteredFieldMatrices(RealMatrix x, RealMatrix y, bool far
                 abs_int_ref = std::sqrt(xdiff*xdiff + ydiff_ref*ydiff_ref);
 
                 // Compute first Hankel functions
-                H_real          = H02_real(constants.k0*abs_int);
-                H_real_ref      = H02_real(constants.k0*abs_int_ref);
-                H_imaginary     = H02_imaginary(constants.k0*abs_int);
-                H_imaginary_ref = H02_imaginary(constants.k0*abs_int_ref);
+                H_real     = H02_real(constants.k0*abs_int);
+                H_real_ref = H02_real(constants.k0*abs_int_ref);
+                H_imag     = H02_imag(constants.k0*abs_int);
+                H_imag_ref = H02_imag(constants.k0*abs_int_ref);
                 
                 val = H_real + constants.Gamma_ref * H_real_ref;
                 E_scat_matrix.z.setHostRealValue(r, c, val);
-                val = H_imaginary + constants.Gamma_ref * H_imaginary_ref;
-                E_scat_matrix.z.setHostImaginaryValue(r, c, val);
+                val = H_imag + constants.Gamma_ref * H_imag_ref;
+                E_scat_matrix.z.setHostImagValue(r, c, val);
 
                 // Compute second Hankel functions
-                H_real          = H12_real(constants.k0*abs_int);
-                H_real_ref      = H12_real(constants.k0*abs_int_ref);
-                H_imaginary     = H12_imaginary(constants.k0*abs_int);
-                H_imaginary_ref = H12_imaginary(constants.k0*abs_int_ref);
+                H_real     = H12_real(constants.k0*abs_int);
+                H_real_ref = H12_real(constants.k0*abs_int_ref);
+                H_imag     = H12_imag(constants.k0*abs_int);
+                H_imag_ref = H12_imag(constants.k0*abs_int_ref);
 
-                val = 1/constants.eta0 * (1/abs_int      * H_imaginary     * ydiff + \
-                     constants.Gamma_ref * 1/abs_int_ref * H_imaginary_ref * ydiff_ref);
+                val = 1/constants.eta0 * (1/abs_int      * H_imag     * ydiff + \
+                     constants.Gamma_ref * 1/abs_int_ref * H_imag_ref * ydiff_ref);
                 H_scat_matrix.x.setHostRealValue(r, c, val);
                 val = -1/constants.eta0 * (1/abs_int     * H_real     * ydiff + \
                      constants.Gamma_ref * 1/abs_int_ref * H_real_ref * ydiff_ref);
-                H_scat_matrix.x.setHostImaginaryValue(r, c, val);
+                H_scat_matrix.x.setHostImagValue(r, c, val);
 
-                val = -1/constants.eta0 * xdiff * (1/abs_int      * H_imaginary      + \
-                             constants.Gamma_ref * 1/abs_int_ref  * H_imaginary_ref);
-                H_scat_matrix.x.setHostRealValue(r, c, val);
+                val = -1/constants.eta0 * xdiff * (1/abs_int      * H_imag      + \
+                             constants.Gamma_ref * 1/abs_int_ref  * H_imag_ref);
+                H_scat_matrix.y.setHostRealValue(r, c, val);
                 val = 1/constants.eta0 * xdiff * (1/abs_int     * H_real      + \
                             constants.Gamma_ref * 1/abs_int_ref * H_real_ref);
-                H_scat_matrix.x.setHostImaginaryValue(r, c, val);
+                H_scat_matrix.y.setHostImagValue(r, c, val);
             }
         }
+        /*printf("\nEz:\n");
+        for (int r = 0; r < rows; r++) {
+            printf("%e + i(%e)\n",E_scat_matrix.z.getHostRealValue(r,0),E_scat_matrix.z.getHostImagValue(r,0));
+
+        }
+        printf("\nHx:\n");
+        for (int r = 0; r < rows; r++) {
+            printf("%e + i(%e)\n",H_scat_matrix.x.getHostRealValue(r,0),H_scat_matrix.x.getHostImagValue(r,0));
+
+        }
+        printf("\nHy:\n");
+        for (int r = 0; r < rows; r++) {
+            printf("%e + i(%e)\n",H_scat_matrix.y.getHostRealValue(r,0),H_scat_matrix.y.getHostImagValue(r,0));
+
+        }*/
 
     }
     else if (scenario == 2) {
@@ -390,7 +389,7 @@ void Segment::computeInteriorFieldMatrices(RealMatrix x, RealMatrix y) {
     
     int rows = y.rows;
     int cols = y_ext.rows;
-    double abs_ext, xdiff, ydiff, H_real, H_imaginary, val;
+    double abs_ext, xdiff, ydiff, H_real, H_imag, val;
 
     // Determine which matrices to be allocated
     bool Ex_bool = scenario == 1 ? false : true;
@@ -408,34 +407,49 @@ void Segment::computeInteriorFieldMatrices(RealMatrix x, RealMatrix y) {
             for (int c = 0; c < cols; c++) {
 
                 // Get data
-                xdiff       = x.getHostValue(r) - x_ext.getHostValue(c);
-                ydiff       = y.getHostValue(r) - y_ext.getHostValue(c);
-                abs_ext     = std::sqrt(xdiff*xdiff + ydiff*ydiff);
+                xdiff   = x.getHostValue(r) - x_ext.getHostValue(c);
+                ydiff   = y.getHostValue(r) - y_ext.getHostValue(c);
+                abs_ext = std::sqrt(xdiff*xdiff + ydiff*ydiff);
 
                 // Compute first Hankel functions
-                H_real      = H02_real(constants.k1*abs_ext);
-                H_imaginary = H02_imaginary(constants.k1*abs_ext);
+                H_real = H02_real(constants.k1*abs_ext);
+                H_imag = H02_imag(constants.k1*abs_ext);
                 
                 val = H_real;
-                E_scat_matrix.z.setHostRealValue(r, c, val);
-                val = H_imaginary;
-                E_scat_matrix.z.setHostImaginaryValue(r, c, val);
+                E_int_matrix.z.setHostRealValue(r, c, val);
+                val = H_imag;
+                E_int_matrix.z.setHostImagValue(r, c, val);
 
                 // Compute second Hankel functions
-                H_real          = H12_real(constants.k0*abs_ext);
-                H_imaginary     = H12_imaginary(constants.k0*abs_ext);
+                H_real = H12_real(constants.k1*abs_ext);
+                H_imag = H12_imag(constants.k1*abs_ext);
 
-                val = constants.n1/constants.eta0*1/abs_ext*ydiff*H_imaginary;
-                H_scat_matrix.x.setHostRealValue(r, c, val);
-                val = -constants.n1/constants.eta0*1/abs_ext*ydiff*H_real;
-                H_scat_matrix.x.setHostImaginaryValue(r, c, val);
+                val =   constants.n1/constants.eta0 * 1/abs_ext * ydiff * H_imag;
+                H_int_matrix.x.setHostRealValue(r, c, val);
+                val = - constants.n1/constants.eta0 * 1/abs_ext * ydiff * H_real;
+                H_int_matrix.x.setHostImagValue(r, c, val);
 
-                val = -constants.n1/constants.eta0*1/abs_ext*xdiff*H_imaginary;
-                H_scat_matrix.x.setHostRealValue(r, c, val);
-                val = constants.n1/constants.eta0*1/abs_ext*xdiff*H_imaginary;
-                H_scat_matrix.x.setHostImaginaryValue(r, c, val);
+                val = -constants.n1/constants.eta0 * 1/abs_ext * xdiff * H_imag;
+                H_int_matrix.y.setHostRealValue(r, c, val);
+                val =  constants.n1/constants.eta0 * 1/abs_ext * xdiff * H_real;
+                H_int_matrix.y.setHostImagValue(r, c, val);
             }
         }
+        /*printf("\nEz:\n");
+        for (int r = 0; r < rows; r++) {
+            printf("%e + i(%e)\n",E_int_matrix.z.getHostRealValue(r,0),E_int_matrix.z.getHostImagValue(r,0));
+
+        }
+        printf("\nHx:\n");
+        for (int r = 0; r < rows; r++) {
+            printf("%e + i(%e)\n",H_int_matrix.x.getHostRealValue(r,0),H_int_matrix.x.getHostImagValue(r,0));
+
+        }
+        printf("\nHy:\n");
+        for (int r = 0; r < rows; r++) {
+            printf("%e + i(%e)\n",H_int_matrix.y.getHostRealValue(r,0),H_int_matrix.y.getHostImagValue(r,0));
+
+        }*/
 
     }
     else if (scenario == 2) {
@@ -457,18 +471,18 @@ void Segment::computeFieldsForLinearSystem() {
     }
     shift += y_test_top.rows;
     for (int j = 0; j < y_test_right.rows;  j++) {
-        x.setHostValue(j + shift,x_test_top.getHostValue(j));
-        y.setHostValue(j + shift,y_test_top.getHostValue(j));
+        x.setHostValue(j + shift,x_test_right.getHostValue(j));
+        y.setHostValue(j + shift,y_test_right.getHostValue(j));
     }
     shift += y_test_right.rows;
     for (int j = 0; j < y_test_bottom.rows; j++) {
-        x.setHostValue(j + shift,x_test_top.getHostValue(j));
-        y.setHostValue(j + shift,y_test_top.getHostValue(j));
+        x.setHostValue(j + shift,x_test_bottom.getHostValue(j));
+        y.setHostValue(j + shift,y_test_bottom.getHostValue(j));
     }
     shift += y_test_bottom.rows;
     for (int j = 0; j < y_test_left.rows;   j++) {
-        x.setHostValue(j + shift,x_test_top.getHostValue(j));
-        y.setHostValue(j + shift,y_test_top.getHostValue(j));
+        x.setHostValue(j + shift,x_test_left.getHostValue(j));
+        y.setHostValue(j + shift,y_test_left.getHostValue(j));
     }
 
     computeIncidentFieldVectors(y);
@@ -483,9 +497,6 @@ void Segment::computeFieldsForLinearSystem() {
 
 void Segment::setupSystemSubMatrices() {
 
-    A_real = RealMatrix(2 * num_test_points, n_int + n_ext);
-    A_imaginary = RealMatrix(2 * num_test_points, n_int + n_ext);
-
     double val, rshift;
     ComplexMatrix * firstField_scat,  * firstField_int,  \
                   * secondField_scat, * secondField_int, \
@@ -493,37 +504,42 @@ void Segment::setupSystemSubMatrices() {
 
     if (scenario == 1) {
         firstField_scat  = &E_scat_matrix.z;
-        firstField_int   = &E_scat_matrix.z;
+        firstField_int   = &E_int_matrix.z;
         secondField_scat = &H_scat_matrix.x;
-        secondField_int  = &H_scat_matrix.x;
+        secondField_int  = &H_int_matrix.x;
         thirdField_scat  = &H_scat_matrix.y;
-        thirdField_int   = &H_scat_matrix.y;
+        thirdField_int   = &H_int_matrix.y;
     }
     else if (scenario == 2) {
         firstField_scat  = &H_scat_matrix.z;
-        firstField_int   = &H_scat_matrix.z;
+        firstField_int   = &H_int_matrix.z;
         secondField_scat = &E_scat_matrix.x;
-        secondField_int  = &E_scat_matrix.x;
+        secondField_int  = &E_int_matrix.x;
         thirdField_scat  = &E_scat_matrix.y;
-        thirdField_int   = &E_scat_matrix.y;
+        thirdField_int   = &E_int_matrix.y;
     }
     else {
         printf("You have to choose either 1 or 2 as the scenario!\n");
         return;
     }
 
+    int num = firstField_scat->rows; // Number of test or observation points
+
+    A_real = RealMatrix(2 * num_test_points, n_int + n_ext);
+    A_imag = RealMatrix(2 * num_test_points, n_int + n_ext);
+
     for (int r = 0; r < num_test_points; r++) {
         for (int c = 0; c < n_int; c++) {
             val =  firstField_scat->getHostRealValue(r, c);
             A_real.setHostValue(r, c, val);
-            val =  firstField_scat->getHostImaginaryValue(r, c);
-            A_imaginary.setHostValue(r, c, val);
+            val =  firstField_scat->getHostImagValue(r, c);
+            A_imag.setHostValue(r, c, val);
         }
         for (int c = 0; c < n_ext; c++) {
             val =  -firstField_int->getHostRealValue(r, c);
             A_real.setHostValue(r, c + n_int, val);
-            val =  -firstField_int->getHostImaginaryValue(r, c);
-            A_imaginary.setHostValue(r, c + n_int, val);
+            val =  -firstField_int->getHostImagValue(r, c);
+            A_imag.setHostValue(r, c + n_int, val);
         }
        
     }
@@ -536,9 +552,9 @@ void Segment::setupSystemSubMatrices() {
             val +=   n_x.getHostValue(r) * thirdField_scat->getHostRealValue(r, c);
             A_real.setHostValue(r + rshift, c, val);
             val  = 0;
-            val += - n_y.getHostValue(r) * secondField_scat->getHostImaginaryValue(r, c);
-            val +=   n_x.getHostValue(r) * thirdField_scat->getHostImaginaryValue(r, c);
-            A_imaginary.setHostValue(r + rshift, c, val);
+            val += - n_y.getHostValue(r) * secondField_scat->getHostImagValue(r, c);
+            val +=   n_x.getHostValue(r) * thirdField_scat->getHostImagValue(r, c);
+            A_imag.setHostValue(r + rshift, c, val);
         }
         for (int c = 0; c < n_ext; c++) {
             val  = 0;
@@ -546,59 +562,111 @@ void Segment::setupSystemSubMatrices() {
             val += - n_x.getHostValue(r) * thirdField_int->getHostRealValue(r, c);
             A_real.setHostValue(r + rshift, c + n_int, val);
             val  = 0;
-            val +=   n_y.getHostValue(r) * secondField_int->getHostImaginaryValue(r, c);
-            val += - n_x.getHostValue(r) * thirdField_int->getHostImaginaryValue(r, c);
-            A_imaginary.setHostValue(r + rshift, c + n_int, val);
+            val +=   n_y.getHostValue(r) * secondField_int->getHostImagValue(r, c);
+            val += - n_x.getHostValue(r) * thirdField_int->getHostImagValue(r, c);
+            A_imag.setHostValue(r + rshift, c + n_int, val);
         }
     }
 
     rshift += n_top;
     for(int r = 0; r < n_right; r++) {
         for (int c = 0; c < n_int; c++) {
-            val =  thirdField_scat->getHostRealValue(r, c);
+            
+            val =  thirdField_scat->getHostRealValue(r + n_top, c);
+            //val = 33.3;
             A_real.setHostValue(r + rshift, c, val);
-            val =  thirdField_scat->getHostImaginaryValue(r, c);
-            A_imaginary.setHostValue(r + rshift, c, val);
+            val =  thirdField_scat->getHostImagValue(r + n_top, c);
+            A_imag.setHostValue(r + rshift, c, val);
         }
         for (int c = 0; c < n_ext; c++) {
-            val =  -thirdField_int->getHostRealValue(r, c);
+            val =  -thirdField_int->getHostRealValue(r + n_top, c);
             A_real.setHostValue(r + rshift, c + n_int, val);
-            val =  -thirdField_int->getHostImaginaryValue(r, c);
-            A_imaginary.setHostValue(r + rshift, c + n_int, val);
+            val =  -thirdField_int->getHostImagValue(r + n_top, c);
+            A_imag.setHostValue(r + rshift, c + n_int, val);
         }
     }
 
     rshift += n_right;
     for(int r = 0; r < n_bottom; r++) {
         for (int c = 0; c < n_int; c++) {
-            val =  secondField_scat->getHostRealValue(r, c);
+            val =  secondField_scat->getHostRealValue(r + n_top + n_right, c);
             A_real.setHostValue(r + rshift, c, val);
-            val =  secondField_scat->getHostImaginaryValue(r, c);
-            A_imaginary.setHostValue(r + rshift, c, val);
+            val =  secondField_scat->getHostImagValue(r + n_top + n_right, c);
+            A_imag.setHostValue(r + rshift, c, val);
         }
         for (int c = 0; c < n_ext; c++) {
-            val =  -secondField_int->getHostRealValue(r, c);
+            val =  -secondField_int->getHostRealValue(r + n_top + n_right, c);
             A_real.setHostValue(r + rshift, c + n_int, val);
-            val =  -secondField_int->getHostImaginaryValue(r, c);
-            A_imaginary.setHostValue(r + rshift, c + n_int, val);
+            val =  -secondField_int->getHostImagValue(r + n_top + n_right, c);
+            A_imag.setHostValue(r + rshift, c + n_int, val);
         }
     }
 
     rshift += n_bottom;
     for(int r = 0; r < n_left; r++) {
         for (int c = 0; c < n_int; c++) {
-            val =  thirdField_scat->getHostRealValue(r, c);
+            val =  thirdField_scat->getHostRealValue(r + n_top + n_right + n_bottom, c);
             A_real.setHostValue(r + rshift, c, val);
-            val =  thirdField_scat->getHostImaginaryValue(r, c);
-            A_imaginary.setHostValue(r + rshift, c, val);
+            val =  thirdField_scat->getHostImagValue(r + n_top + n_right + n_bottom, c);
+            A_imag.setHostValue(r + rshift, c, val);
         }
         for (int c = 0; c < n_ext; c++) {
-            val =  -thirdField_int->getHostRealValue(r, c);
+            val =  -thirdField_int->getHostRealValue(r + n_top + n_right + n_bottom, c);
             A_real.setHostValue(r + rshift, c + n_int, val);
-            val =  -thirdField_int->getHostImaginaryValue(r, c);
-            A_imaginary.setHostValue(r + rshift, c + n_int, val);
+            val =  -thirdField_int->getHostImagValue(r + n_top + n_right + n_bottom, c);
+            A_imag.setHostValue(r + rshift, c + n_int, val);
         }
     }
+
+    /*FILE *file;
+    char * filename = "A_real_C.txt";
+    file = fopen(filename, "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+    for (int r = 0; r < 2*num_test_points; r++) {
+        for (int c = 0; c < n_int + n_ext; c++) {
+            fprintf(file, "%e ", A_real.getHostValue(r,c));
+        }
+        fprintf(file, "\n");
+    }
+    fclose(file);
+    filename = "A_imag_C.txt";
+    file = fopen(filename, "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+    for (int r = 0; r < 2*num_test_points; r++) {
+        for (int c = 0; c < n_int + n_ext; c++) {
+            fprintf(file, "%e ", A_imag.getHostValue(r,c));
+        }
+        fprintf(file, "\n");
+    }
+    fclose(file);
+
+
+    filename = "b_real_C.txt";
+    file = fopen(filename, "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+    for (int r = 0; r < 2*num_test_points; r++) {
+        fprintf(file, "%e\n", b_real.getHostValue(r));
+    }
+    fclose(file);
+    filename = "b_imag_C.txt";
+    file = fopen(filename, "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+    for (int r = 0; r < 2*num_test_points; r++) {
+        fprintf(file, "%e\n", b_imag.getHostValue(r));
+    }
+    fclose(file);*/
     
     return;
  

@@ -9,7 +9,7 @@ extern "C" {
 using namespace std;
 
 
-void forward(char * protein_structure, int num_segments) {
+void forward(double *x, double*y, int n ,char * protein_structure, int num_segments) {
 
     BioScat bioscat = BioScat(protein_structure, num_segments);
 
@@ -17,7 +17,15 @@ void forward(char * protein_structure, int num_segments) {
 
     bioscat.getSegments();
 
+    bioscat.setupObservationPoints(x, y, n);
+
     bioscat.forwardSolver(1);
+
+    bioscat.computeScatteredFields();
+
+    bioscat.computeReflectedFields();
+
+    bioscat.computeIncidentFields();
 
     printf("Hej fra C\n");
 

@@ -1,11 +1,11 @@
 #ifndef _SEGMENT_H
 #define _SEGMENT_H
 extern "C" {
-#include "../RealMatrix.h"
-#include "../ComplexMatrix.h"
+#include "RealMatrix.h"
+#include "ComplexMatrix.h"
 #include "Nanostructure.h"
-#include "../Field.h"
-#include "../Constants.h"
+#include "Field.h"
+#include "Constants.h"
 
 class Segment {
     public:
@@ -28,14 +28,12 @@ class Segment {
         int num_exterior_points = 0;
         ComplexMatrix C;
         ComplexMatrix D;
-        RealMatrix A_imaginary; // imaginary part of A
-        RealMatrix A_real; // real part of A
         RealMatrix A; // Linear system matrix in Ax=b
         RealMatrix b; // Linear system vector in Ax=b
         Field E_scat_matrix;
         Field H_scat_matrix;
-        Field E_int_matrix;
-        Field H_int_matrix;
+        Field E_int_matrix; 
+        Field H_int_matrix; 
         Field E_inc_vector;
         Field H_inc_vector;
         Field E_ref_vector;
@@ -43,6 +41,7 @@ class Segment {
         int scenario = 1; // Either 1 or 2
         Constants constants;
         int n_top, n_right, n_bottom, n_left, n_ext, n_int;
+
 
 
         Segment(); // Empty constructor
@@ -53,14 +52,15 @@ class Segment {
         void computeReflectedFieldVectors(RealMatrix y); // Computes vectors in observation points
         void computeScatteredFieldMatrices(RealMatrix x, RealMatrix y, bool far_field_approximation);
         void computeInteriorFieldMatrices(RealMatrix x, RealMatrix y);
-        void computeScatteredFields(RealMatrix x, RealMatrix y, bool far_field_approximation);
-        void computeIncidentFields(RealMatrix x, RealMatrix y);
-        void computeReflectedFields(RealMatrix x, RealMatrix y);
+        //void computeScatteredFields(RealMatrix x, RealMatrix y, bool far_field_approximation);
+        //void computeIncidentFields(RealMatrix x, RealMatrix y);
+        //void computeReflectedFields(RealMatrix x, RealMatrix y);
         void computeTotalFields();
         void setupRightHandSide();
         void computeFieldsForLinearSystem(); // Computes vectors and matrices in test points
         void setupSystemSubMatrices();
         void solveLinearSystem();
+        void setupSystemMatrix();
 };
 }
 

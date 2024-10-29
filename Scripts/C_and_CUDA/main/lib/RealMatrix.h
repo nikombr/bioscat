@@ -33,6 +33,9 @@ class RealMatrix {
         double * getHostPointer() {
             return val_h;
         }
+        void setHostPointer(double * val) {
+            val_h = val;
+        }
 
 };
 }

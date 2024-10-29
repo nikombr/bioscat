@@ -1,7 +1,9 @@
 #ifndef _NANOSTRUCTURE_H
 #define _NANOSTRUCTURE_H
 extern "C" {
-#include "../RealMatrix.h"
+#include "RealMatrix.h"
+
+#ifdef _MAKE_2D
 
 struct Nanostructure {
     RealMatrix f; // Function value in x
@@ -19,6 +21,22 @@ struct Nanostructure {
         //std::cout << "Non-empty segment constructor." << std::endl;
     }
 };
+
+#endif
+
+#ifdef _MAKE_3D
+
+struct Nanostructure {
+    RealMatrix f; // Function value in (x,y)
+    RealMatrix x; // x-values
+    RealMatrix y; // y-values
+};
+
+#endif
+
+
+
+
 }
 
 #endif

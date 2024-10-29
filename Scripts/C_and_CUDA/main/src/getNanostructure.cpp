@@ -5,8 +5,8 @@
 #include <string.h>
 #include <fstream>
 extern "C" {
-#include "../../lib/BioScat.h"
-#include "../../lib/RealMatrix.h"
+#include "../lib/BioScat.h"
+#include "../lib/RealMatrix.h"
 using namespace std;
 
 
@@ -45,6 +45,8 @@ void BioScat::getNanostructure() {
     }
 
     fclose(file);
+
+    //total_grid_points = 10;
 
     // Move data to the device
     nanostructure.x.toDevice();

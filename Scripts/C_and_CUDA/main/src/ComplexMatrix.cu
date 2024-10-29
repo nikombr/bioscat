@@ -15,11 +15,11 @@ ComplexMatrix::ComplexMatrix(int rows, int cols) {
 
     // Allocate vectors on host
     cudaMallocHost((void **) &real_h,    rows*cols*sizeof(double));
-    cudaMallocHost((void **) &imaginary_h, rows*cols*sizeof(double));
+    cudaMallocHost((void **) &imag_h, rows*cols*sizeof(double));
 
     // Allocate vectors on device
     cudaMalloc((void **) &real_d,    rows*cols*sizeof(double));
-    cudaMalloc((void **) &imaginary_d, rows*cols*sizeof(double));
+    cudaMalloc((void **) &imag_d, rows*cols*sizeof(double));
 }
 
 ComplexMatrix::ComplexMatrix(int rows) {
@@ -30,22 +30,22 @@ ComplexMatrix::ComplexMatrix(int rows) {
 
     // Allocate vectors on host
     cudaMallocHost((void **) &real_h,    rows*cols*sizeof(double));
-    cudaMallocHost((void **) &imaginary_h, rows*cols*sizeof(double));
+    cudaMallocHost((void **) &imag_h, rows*cols*sizeof(double));
 
     // Allocate vectors on device
     cudaMalloc((void **) &real_d,    rows*cols*sizeof(double));
-    cudaMalloc((void **) &imaginary_d, rows*cols*sizeof(double));
+    cudaMalloc((void **) &imag_d, rows*cols*sizeof(double));
 }
 
 void ComplexMatrix::free() {
     
     // Free on host
     cudaFreeHost(real_h);
-    cudaFreeHost(imaginary_h);
+    cudaFreeHost(imag_h);
 
     // Free on device
     cudaFree(real_d);
-    cudaFree(imaginary_d);
+    cudaFree(imag_d);
 
 }
 
@@ -53,7 +53,7 @@ void ComplexMatrix::toHost() {
 
     // Send from device to host
     cudaMemcpy(real_h,    real_d,    rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
-    cudaMemcpy(imaginary_h, imaginary_d, rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(imag_h, imag_d, rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
 
 }
 
@@ -61,7 +61,7 @@ void ComplexMatrix::toDevice() {
 
     // Send from host to device
     cudaMemcpy(real_d,    real_h,    rows * cols * sizeof(double), cudaMemcpyHostToDevice);
-    cudaMemcpy(imaginary_d, imaginary_h, rows * cols * sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(imag_d, imag_h, rows * cols * sizeof(double), cudaMemcpyHostToDevice);
     
 }
 
@@ -97,36 +97,36 @@ __device__ double ComplexMatrix::getDeviceRealValue(int r, int c) {
     return real_d[r*cols + c];
 }
 
-void ComplexMatrix::setHostImaginaryValue(int r, double val) {
-    imaginary_h[r] = val;
+void ComplexMatrix::setHostImagValue(int r, double val) {
+    imag_h[r] = val;
 }
 
-void ComplexMatrix::setHostImaginaryValue(int r, int c, double val) {
-    imaginary_h[r*cols + c] = val;
+void ComplexMatrix::setHostImagValue(int r, int c, double val) {
+    imag_h[r*cols + c] = val;
 }
 
-__device__ void ComplexMatrix::setDeviceImaginaryValue(int r, double val) {
-    imaginary_d[r] = val;
+__device__ void ComplexMatrix::setDeviceImagValue(int r, double val) {
+    imag_d[r] = val;
 }
 
-__device__ void ComplexMatrix::setDeviceImaginaryValue(int r, int c, double val) {
-    imaginary_d[r*cols + c] = val;
+__device__ void ComplexMatrix::setDeviceImagValue(int r, int c, double val) {
+    imag_d[r*cols + c] = val;
 }
 
-double ComplexMatrix::getHostImaginaryValue(int r) {
-    return imaginary_h[r];
+double ComplexMatrix::getHostImagValue(int r) {
+    return imag_h[r];
 }
 
-double ComplexMatrix::getHostImaginaryValue(int r, int c) {
-    return imaginary_h[r*cols + c];
+double ComplexMatrix::getHostImagValue(int r, int c) {
+    return imag_h[r*cols + c];
 }
 
-__device__ double ComplexMatrix::getDeviceImaginaryValue(int r) {
-    return imaginary_d[r];
+__device__ double ComplexMatrix::getDeviceImagValue(int r) {
+    return imag_d[r];
 }
 
-__device__ double ComplexMatrix::getDeviceImaginaryValue(int r, int c) {
-    return imaginary_d[r*cols + c];
+__device__ double ComplexMatrix::getDeviceImagValue(int r, int c) {
+    return imag_d[r*cols + c];
 }
 
 }

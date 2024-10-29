@@ -1,9 +1,10 @@
 #ifndef _BIOSCAT_H
 #define _BIOSCAT_H
 extern "C" {
-#include "2D/Nanostructure.h"
-#include "2D/Segment.h"
+#include "Nanostructure.h"
+#include "Segment.h"
 #include "Field.h"
+#include "RealMatrix.h"
 
 class BioScat {
 
@@ -19,6 +20,9 @@ class BioScat {
         Field H_inc;
         Field E_ref;
         Field H_ref;
+        RealMatrix x_obs;
+        RealMatrix y_obs;
+        
 
     public:
         BioScat(char* protein_structure, int num_segments);
@@ -29,6 +33,10 @@ class BioScat {
         void forwardSolver(int scenario);
         void inverseSolver();
         void reset(); // De-allocates everything that only needs to be used in one inverse iteration
+        void setupObservationPoints(double *x, double*y, int n);
+        void computeScatteredFields();
+        void computeReflectedFields();
+        void computeIncidentFields();
 
 
 
