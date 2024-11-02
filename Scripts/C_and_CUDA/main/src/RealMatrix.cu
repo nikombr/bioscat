@@ -71,13 +71,6 @@ void RealMatrix::setHostValue(int r, int c, double val) {
     val_h[r*cols + c] = val;
 }
 
-__device__ void RealMatrix::setDeviceValue(int r, double val) {
-    val_d[r] = val;
-}
-
-__device__ void RealMatrix::setDeviceValue(int r, int c, double val) {
-    val_d[r*cols + c] = val;
-}
 
 double RealMatrix::getHostValue(int r) {
     return val_h[r];
@@ -87,13 +80,6 @@ double RealMatrix::getHostValue(int r, int c) {
     return val_h[r*cols + c];
 }
 
-__device__ double RealMatrix::getDeviceValue(int r) {
-    return val_d[r];
-}
-
-__device__ double RealMatrix::getDeviceValue(int r, int c) {
-    return val_d[r*cols + c];
-}
 
 
 }

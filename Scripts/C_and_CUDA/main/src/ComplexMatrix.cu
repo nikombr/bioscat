@@ -40,8 +40,15 @@ ComplexMatrix::ComplexMatrix(int rows) {
 void ComplexMatrix::free() {
     
     // Free on host
-    cudaFreeHost(real_h);
-    cudaFreeHost(imag_h);
+    cudaError_t err = cudaFreeHost(real_h);
+    if (err != cudaSuccess) {
+    std::cerr << "Failed to free memory: " << cudaGetErrorString(err) << std::endl;
+}
+     err = cudaFreeHost(imag_h);
+
+    if (err != cudaSuccess) {
+    std::cerr << "Failed to free memory: " << cudaGetErrorString(err) << std::endl;
+}
 
     // Free on device
     cudaFree(real_d);
@@ -73,14 +80,6 @@ void ComplexMatrix::setHostRealValue(int r, int c, double val) {
     real_h[r*cols + c] = val;
 }
 
-__device__ void ComplexMatrix::setDeviceRealValue(int r, double val) {
-    real_d[r] = val;
-}
-
-__device__ void ComplexMatrix::setDeviceRealValue(int r, int c, double val) {
-    real_d[r*cols + c] = val;
-}
-
 double ComplexMatrix::getHostRealValue(int r) {
     return real_h[r];
 }
@@ -89,13 +88,6 @@ double ComplexMatrix::getHostRealValue(int r, int c) {
     return real_h[r*cols + c];
 }
 
-__device__ double ComplexMatrix::getDeviceRealValue(int r) {
-    return real_d[r];
-}
-
-__device__ double ComplexMatrix::getDeviceRealValue(int r, int c) {
-    return real_d[r*cols + c];
-}
 
 void ComplexMatrix::setHostImagValue(int r, double val) {
     imag_h[r] = val;
@@ -105,13 +97,6 @@ void ComplexMatrix::setHostImagValue(int r, int c, double val) {
     imag_h[r*cols + c] = val;
 }
 
-__device__ void ComplexMatrix::setDeviceImagValue(int r, double val) {
-    imag_d[r] = val;
-}
-
-__device__ void ComplexMatrix::setDeviceImagValue(int r, int c, double val) {
-    imag_d[r*cols + c] = val;
-}
 
 double ComplexMatrix::getHostImagValue(int r) {
     return imag_h[r];
@@ -121,12 +106,22 @@ double ComplexMatrix::getHostImagValue(int r, int c) {
     return imag_h[r*cols + c];
 }
 
-__device__ double ComplexMatrix::getDeviceImagValue(int r) {
-    return imag_d[r];
+
+void ComplexMatrix::dumpResult(const char * filename) {
+    if (cols == 1) {
+        FILE *file;
+        file = fopen(filename, "w");
+        if (file == NULL) {
+            perror("Error opening file");
+            return;
+        }
+        for (int r = 0; r < rows; r++) {
+            fprintf(file, "%e\t%e\n", getHostRealValue(r), getHostImagValue(r));
+        }
+        fclose(file);
+    }
+    else printf("We do not support saving complex matrices with several columns.\n");
 }
 
-__device__ double ComplexMatrix::getDeviceImagValue(int r, int c) {
-    return imag_d[r*cols + c];
-}
 
 }

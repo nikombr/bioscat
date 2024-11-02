@@ -25,7 +25,9 @@ def executeForward(x, y, num_segments = 1, tau = 1, ell = 1, p=1, covfunc = "mat
 
     Xmesh, Ymesh = np.meshgrid(x,y)
     nx, ny = Xmesh.shape
-    print(nx,ny)
+    #print(nx,ny)
+    #print(Xmesh)
+    #print(Ymesh)
     Xmesh = Xmesh.flatten()
     Ymesh = Ymesh.flatten()
 
@@ -53,7 +55,7 @@ def executeForward(x, y, num_segments = 1, tau = 1, ell = 1, p=1, covfunc = "mat
     Ez_scat_imag = np.reshape(Ez_scat_imag,[nx,ny])
     #print(data)
 
-    print(Ez_scat_real)
+    #print(Ez_scat_real)
     plt.figure()
     plt.imshow(np.sqrt(Ez_scat_real**2 + Ez_scat_imag**2))
     plt.colorbar()
@@ -68,7 +70,7 @@ def executeForward(x, y, num_segments = 1, tau = 1, ell = 1, p=1, covfunc = "mat
     imag = np.reshape(imag,[nx,ny])
     #print(data)
 
-    print(real)
+    #print(real)
     plt.figure()
     plt.imshow(np.sqrt(real**2 + imag**2))
     plt.colorbar()
@@ -83,7 +85,7 @@ def executeForward(x, y, num_segments = 1, tau = 1, ell = 1, p=1, covfunc = "mat
     imag = np.reshape(imag,[nx,ny])
     #print(data)
 
-    print(real)
+    #print(real)
     plt.figure()
     plt.imshow(np.sqrt(real**2 + imag**2))
     plt.colorbar()
@@ -98,11 +100,33 @@ def executeForward(x, y, num_segments = 1, tau = 1, ell = 1, p=1, covfunc = "mat
     imag = np.reshape(imag,[nx,ny])
     #print(data)
 
-    print(real)
+    #print(real)
     plt.figure()
     plt.imshow(np.sqrt((Ez_scat_real + real)**2 + (Ez_scat_imag+imag)**2))
     plt.colorbar()
     plt.savefig('Ez_inc.png')
+
+
+    plt.figure()
+    for i in range(num_segments):
+        filename = f'../../../Data/segments/test_segment_{i+1}.txt'
+        data = np.loadtxt(filename)
+        plt.plot(data[:,0],data[:,1])
+    plt.savefig('test_points.png')
+
+    plt.figure()
+    for i in range(num_segments):
+        filename = f'../../../Data/segments/ext_segment_{i+1}.txt'
+        data = np.loadtxt(filename)
+        plt.plot(data[:,0],data[:,1])
+    plt.savefig('ext_points.png')
+
+    plt.figure()
+    for i in range(num_segments):
+        filename = f'../../../Data/segments/int_segment_{i+1}.txt'
+        data = np.loadtxt(filename)
+        plt.plot(data[:,0],data[:,1])
+    plt.savefig('int_points.png')
 
     # Remove txt output
     """os.remove("../../Data/gaussian_process_realisations/output.txt")
@@ -121,12 +145,14 @@ def executeForward(x, y, num_segments = 1, tau = 1, ell = 1, p=1, covfunc = "mat
 if __name__ == "__main__":
     obs_grid = 300;
     Y = np.linspace(0,21*10**(-7),obs_grid);
+    Y = Y + 4.38059442329516e-08;
+    #Y = Y + 10**(-2);
     #Y = np.linspace(0,10**(-7),obs_grid);
     X = np.linspace(-0.5*10**(-7),20.5*10**(-7),obs_grid);
     
     
 
-    Z = executeForward(x = X, y = Y, num_segments = 1)
+    Z = executeForward(x = X, y = Y, num_segments = 10)
     """
     A_real = np.loadtxt("A_real.txt")
     A_real_C = np.loadtxt("A_real_C.txt")
@@ -135,10 +161,7 @@ if __name__ == "__main__":
     plt.imshow(np.log(np.abs(diff)/np.abs(A_real)))
     plt.colorbar()
     plt.savefig('real.png')
-    print(diff.shape)
-    diff = diff[:,1]
-    print(diff)
-    print(f"error real = {np.max(diff)}")
+    print(f"error real A = {np.max(diff)}")
 
     A_imag = np.loadtxt("A_imag.txt")
     A_imag_C = np.loadtxt("A_imag_C.txt")
@@ -147,10 +170,7 @@ if __name__ == "__main__":
     plt.imshow(np.abs(diff)/np.abs(A_imag))
     plt.colorbar()
     plt.savefig('imag.png')
-    print(diff.shape)
-    diff = diff[67,:]
-    print(diff)
-    print(f"error real = {np.max(diff)}")
+    print(f"error imag A = {np.max(diff)}")
 
 
     b_real = np.loadtxt("b_real.txt")
@@ -162,7 +182,19 @@ if __name__ == "__main__":
     b_imag_C = np.loadtxt("b_imag_C.txt")
     diff = b_imag-b_imag_C
     print(f"error imag b = {np.max(diff)}")
+    
+
+    bbig = np.loadtxt("bbig.txt")
+    bbig_C = np.loadtxt("bbig_C.txt")
+    Abig = np.loadtxt("Abig.txt")
+    Abig_C = np.loadtxt("Abig_C.txt")
+    diff = np.abs(bbig-bbig_C)
+    print(f"error bbig = {np.max(diff)}")
+    diff = np.abs(Abig-Abig_C)
+    print(f"error Abig = {np.max(diff)}")
     """
+    
+    
 
     
     

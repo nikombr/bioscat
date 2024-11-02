@@ -13,21 +13,23 @@ class Segment {
         RealMatrix y_int;
         RealMatrix x_ext;
         RealMatrix y_ext;
-        RealMatrix x_test_top;
-        RealMatrix y_test_top;
-        RealMatrix x_test_right;
-        RealMatrix y_test_right;
-        RealMatrix x_test_bottom;
-        RealMatrix y_test_bottom;
-        RealMatrix x_test_left;
-        RealMatrix y_test_left;
+        //RealMatrix x_test_top;
+        //RealMatrix y_test_top;
+        //RealMatrix x_test_right;
+        //RealMatrix y_test_right;
+        //RealMatrix x_test_bottom;
+        //RealMatrix y_test_bottom;
+        //RealMatrix x_test_left;
+        //RealMatrix y_test_left;
+        RealMatrix x_test;
+        RealMatrix y_test;
         RealMatrix n_x;
         RealMatrix n_y;
         int num_test_points = 0;
-        int num_interior_points = 0;
-        int num_exterior_points = 0;
-        ComplexMatrix C;
-        ComplexMatrix D;
+        //int num_interior_points = 0;
+        //int num_exterior_points = 0;
+        ComplexMatrix C; // Partial solution of the linear system
+        ComplexMatrix D; // Partial solution of the linear system
         RealMatrix A; // Linear system matrix in Ax=b
         RealMatrix b; // Linear system vector in Ax=b
         Field E_scat_matrix;
@@ -38,23 +40,24 @@ class Segment {
         Field H_inc_vector;
         Field E_ref_vector;
         Field H_ref_vector;
-        int scenario = 1; // Either 1 or 2
+        int polarisation = 1; // Either 1 or 2
         Constants constants;
-        int n_top, n_right, n_bottom, n_left, n_ext, n_int;
+        //int n_top, n_right, n_bottom, n_left, n_ext, n_int, n_test;
+        int n_ext, n_int, n_test;
+        int minNumSteps = 10; // Minimum number of steps for sides of segment
+        bool deviceComputation;
+        int current_segment;
 
 
 
         Segment(); // Empty constructor
-        void allocate(int n_top, int n_right, int n_bottom, int n_left, int n_int, int n_ext); // Allocation of matrices
+        void allocate(); // Allocation of matrices
         void free(); // Free matrices
-        void setup(Nanostructure nanostructure, int current_segment, int total_grid_points, int num_segments); // Setup segment
+        void setup(Nanostructure nanostructure, int total_grid_points, int num_segments); // Setup segment
         void computeIncidentFieldVectors(RealMatrix y); // Computes vectors in observation points
         void computeReflectedFieldVectors(RealMatrix y); // Computes vectors in observation points
         void computeScatteredFieldMatrices(RealMatrix x, RealMatrix y, bool far_field_approximation);
         void computeInteriorFieldMatrices(RealMatrix x, RealMatrix y);
-        //void computeScatteredFields(RealMatrix x, RealMatrix y, bool far_field_approximation);
-        //void computeIncidentFields(RealMatrix x, RealMatrix y);
-        //void computeReflectedFields(RealMatrix x, RealMatrix y);
         void computeTotalFields();
         void setupRightHandSide();
         void computeFieldsForLinearSystem(); // Computes vectors and matrices in test points

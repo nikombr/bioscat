@@ -35,6 +35,12 @@ struct Field {
             if (y_bool) y = ComplexMatrix(rows, cols);
             if (z_bool) z = ComplexMatrix(rows, cols);
         }; // Constructer
+
+        void free() {
+            x.free();
+            y.free();
+            z.free();
+        }
     
 
 };

@@ -11,10 +11,14 @@ using namespace std;
 
 
 void BioScat::getNanostructure() {
+    // Loads information about nanostructure and transfers to device
 
+    // Initialize variables
     char filename[256];
-    nanostructure = Nanostructure(total_grid_points); 
     double val;
+
+    // Initialize size of matrices to store informatino about nanostructure
+    nanostructure = Nanostructure(total_grid_points); 
 
     sprintf(filename, "../../../Data/nanostructures/%s_2D_x_%d.txt", protein_structure, total_grid_points);
     //printf("filename = %s\n",filename);
@@ -45,8 +49,6 @@ void BioScat::getNanostructure() {
     }
 
     fclose(file);
-
-    //total_grid_points = 10;
 
     // Move data to the device
     nanostructure.x.toDevice();

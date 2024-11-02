@@ -27,7 +27,7 @@ void forward(double *x, double*y, int n ,char * protein_structure, int num_segme
 
     bioscat.computeIncidentFields();
 
-    printf("Hej fra C\n");
+    bioscat.dumpFields();
 
 }
 

@@ -40,13 +40,25 @@ SOURCE_SEGMENT_SEGMENT = src/segment/Segment.cpp
 OBJECT_SEGMENT_SEGMENT = obj/segment/Segment.o
 DEPEND_SEGMENT_SEGMENT = $(OBJECT_REALMATRIX)
 
-SOURCE_SEGMENT_SETUP = src/segment/setup.cu
+SOURCE_SEGMENT_SETUP_1 = src/segment/setup/computeExteriorPointsAndNormalVectors.cu
+OBJECT_SEGMENT_SETUP_1 = obj/segment/setup/computeExteriorPointsAndNormalVectors.o
+DEPEND_SEGMENT_SETUP_1 = $(OBJECT_REALMATRIX) 
+
+SOURCE_SEGMENT_SETUP_2 = src/segment/setup/computeTestPoints.cu
+OBJECT_SEGMENT_SETUP_2 = obj/segment/setup/computeTestPoints.o
+DEPEND_SEGMENT_SETUP_2 = $(OBJECT_REALMATRIX) 
+
+SOURCE_SEGMENT_SETUP_3 = src/segment/setup/computeInteriorPoints.cu
+OBJECT_SEGMENT_SETUP_3 = obj/segment/setup/computeInteriorPoints.o
+DEPEND_SEGMENT_SETUP_3 = $(OBJECT_REALMATRIX) 
+
+SOURCE_SEGMENT_SETUP = src/segment/setup.cpp
 OBJECT_SEGMENT_SETUP = obj/segment/setup.o
-DEPEND_SEGMENT_SETUP = $(OBJECT_REALMATRIX)
+DEPEND_SEGMENT_SETUP = $(OBJECT_REALMATRIX) $(OBJECT_SEGMENT_SETUP_1) $(OBJECT_SEGMENT_SETUP_2) $(OBJECT_SEGMENT_SETUP_3)
 
 SOURCE_SEGMENT_SETUP_RIGHT_HAND_SIDE = src/segment/setupRightHandSide.cu
 OBJECT_SEGMENT_SETUP_RIGHT_HAND_SIDE = obj/segment/setupRightHandSide.o
-DEPEND_SEGMENT_SETUP_RIGHT_HAND_SIDE = $(OBJECT_REALMATRIX)
+DEPEND_SEGMENT_SETUP_RIGHT_HAND_SIDE = $(OBJECT_REALMATRIX) $(OBJECT_COMPLEXMATRIX)
 
 SOURCE_SEGMENT_SETUP_SYSTEM_MATRIX = src/segment/setupSystemMatrix.cu
 OBJECT_SEGMENT_SETUP_SYSTEM_MATRIX = obj/segment/setupSystemMatrix.o
@@ -114,6 +126,15 @@ $(OBJECT_SEGMENT_COMPUTE_FIELDS_FOR_LINEAR_SYSTEM): $(SOURCE_SEGMENT_COMPUTE_FIE
 $(OBJECT_SEGMENT_SEGMENT): $(SOURCE_SEGMENT_SEGMENT) $(DEPEND_SEGMENT_SEGMENT) 
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
+$(OBJECT_SEGMENT_SETUP_1): $(SOURCE_SEGMENT_SETUP_1) $(DEPEND_SEGMENT_SETUP_1) 
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+$(OBJECT_SEGMENT_SETUP_2): $(SOURCE_SEGMENT_SETUP_2) $(DEPEND_SEGMENT_SETUP_2) 
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+$(OBJECT_SEGMENT_SETUP_3): $(SOURCE_SEGMENT_SETUP_3) $(DEPEND_SEGMENT_SETUP_3) 
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
 $(OBJECT_SEGMENT_SETUP): $(SOURCE_SEGMENT_SETUP) $(DEPEND_SEGMENT_SETUP) 
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
@@ -167,6 +188,7 @@ clean:
 	@/bin/rm -f core obj/2D/*.o
 	@/bin/rm -f core obj/3D/*.o
 	@/bin/rm -f core obj/segment/*.o
+	@/bin/rm -f core obj/segment/setup/*.o
 	
 
 realclean: clean
