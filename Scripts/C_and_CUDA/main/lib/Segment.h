@@ -52,7 +52,11 @@ class Segment {
 
         Segment(); // Empty constructor
         void allocate(); // Allocation of matrices
-        void free(); // Free matrices
+        void free(); // Free points
+        void freeScatteredFields(); // Free fields
+        void freeInteriorFields(); // Free fields
+        void freeIncidentFields(); // Free fields
+        void freeReflectedFields(); // Free fields
         void setup(Nanostructure nanostructure, int total_grid_points, int num_segments); // Setup segment
         void computeIncidentFieldVectors(RealMatrix y); // Computes vectors in observation points
         void computeReflectedFieldVectors(RealMatrix y); // Computes vectors in observation points
@@ -64,6 +68,7 @@ class Segment {
         void setupSystemSubMatrices();
         void solveLinearSystem();
         void setupSystemMatrix();
+        void newWavelength(double lambda);
 };
 }
 

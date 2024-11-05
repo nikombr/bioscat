@@ -20,6 +20,7 @@ void setupRightHandSide_CPU(RealMatrix b, int n_test, RealMatrix n_y, ComplexMat
         val =  - firstField_inc->getHostImagValue(j) - firstField_ref->getHostImagValue(j);
         b_imag.setHostValue(j, val);
     }
+    printf("NEH\n");
     
     for (int j = 0; j < n_test; j++) {
         val  = secondField_inc->getHostRealValue(j) + secondField_ref->getHostRealValue(j);
@@ -122,19 +123,19 @@ void setupRightHandSide_GPU(RealMatrix b, int n_test, RealMatrix n_y, ComplexMat
 
 void Segment::setupRightHandSide() {
     
-    
-    
     // Placeholder for fields
     ComplexMatrix *firstField_inc, * firstField_ref, *secondField_inc,*secondField_ref;
 
     // Choose non-zero fields
     if (polarisation == 1) {
+        printf("pol1\n");
         firstField_inc = &E_inc_vector.z;
         firstField_ref = &E_ref_vector.z;
         secondField_inc = &H_inc_vector.x;
         secondField_ref = &H_ref_vector.x;
     }
     else if (polarisation == 2) {
+        if (b.getHostPointer() != NULL) printf("pol2\n");
         firstField_inc = &H_inc_vector.x;
         firstField_ref = &H_ref_vector.x;
         secondField_inc = &E_inc_vector.z;
@@ -151,11 +152,11 @@ void Segment::setupRightHandSide() {
     else {
         setupRightHandSide_CPU(b, n_test, n_y, firstField_inc, firstField_ref, secondField_inc, secondField_ref);
     }
-
-    (*firstField_inc).free();
+    printf("HENNNNN\n");
+    /*(*firstField_inc).free();
     (*firstField_ref).free();
     (*secondField_inc).free();
-    (*secondField_ref).free();
+    (*secondField_ref).free();*/
     
     
     /*shift = n_test;

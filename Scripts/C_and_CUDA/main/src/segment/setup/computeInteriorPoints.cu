@@ -36,7 +36,7 @@ void computeInteriorPoints(RealMatrix x_int, RealMatrix y_int, RealMatrix x_test
             norm = std::sqrt(xdiff*xdiff + ydiff*ydiff);
             xdiff /= norm;
             ydiff /= norm;
-            printf("alpha=%e\n",alpha);
+            //printf("alpha=%e\n",alpha);
             x_int.setHostValue(j, x_test.getHostValue(j - shift) - alpha*ydiff);
             y_int.setHostValue(j, y_test.getHostValue(j - shift) + alpha*xdiff);
 

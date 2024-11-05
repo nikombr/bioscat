@@ -9,6 +9,7 @@ class RealMatrix {
     public:
         int rows; // Number of rows
         int cols; // Number of cols
+        int depth = 1;
 
         // Methods
         RealMatrix() {
@@ -19,11 +20,13 @@ class RealMatrix {
         };  // Constructer
         RealMatrix(int rows);                                       // Constructer, allocates vectors and initializes to zero
         RealMatrix(int rows, int cols);                             // Constructer, matrices arrays and initializes to zero
+        RealMatrix(int rows, int cols, int depth);
         void free();                                                // Frees arrays
         void toHost();                                              // Sends data from device to host
         void toDevice();                                            // Sends data from host to device
         void setHostValue(int r, double val);                       // Sets host value for vectors
         void setHostValue(int r, int c, double val);                // Sets host value for matrices
+        void setHostValue(int r, int c, int d, double val);
         __device__ void setDeviceValue(int r, double val) {         // Sets device value for vectors
             val_d[r] = val;
         }          
@@ -32,6 +35,7 @@ class RealMatrix {
         }   
         double getHostValue(int r);                                 // Gets host value for vectors
         double getHostValue(int r, int c);                          // Gets host value for matrices
+        double getHostValue(int r, int c, int d);
         __device__ double getDeviceValue(int r) {                   // Gets device value for vectors
             return val_d[r];
         }                    
@@ -46,6 +50,18 @@ class RealMatrix {
         }
         void setHostPointer(double * val) {
             val_h = val;
+        }
+        void dumpVector(char * filename) {
+            FILE *file;
+            file = fopen(filename, "w");
+            if (file == NULL) {
+                perror("Error opening file");
+                return;
+            }
+            for (int i = 0; i < rows*cols*depth; i++) {
+                fprintf(file, "%e\n", val_h[i]);
+            }
+            fclose(file);
         }
    
 

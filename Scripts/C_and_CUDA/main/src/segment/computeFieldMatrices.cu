@@ -52,8 +52,8 @@ void Segment::computeScatteredFieldMatrices(RealMatrix x, RealMatrix y, bool far
     bool Hy_bool = polarisation == 1 ? true  : false;
     bool Hz_bool = polarisation == 1 ? false : true;
 
-    E_scat_matrix = Field(rows, cols, Ex_bool, Ey_bool, Ez_bool);
-    H_scat_matrix = Field(rows, cols, Hx_bool, Hy_bool, Hz_bool);
+    E_scat_matrix = Field(rows, cols);
+    H_scat_matrix = Field(rows, cols);
 
     if (polarisation == 1) {
         #pragma omp parallel for collapse(2) 
@@ -103,7 +103,7 @@ void Segment::computeScatteredFieldMatrices(RealMatrix x, RealMatrix y, bool far
 
     }
     else if (polarisation == 2) {
-
+        #pragma omp parallel for collapse(2) 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 double abs_int, abs_int_ref, xdiff, ydiff, ydiff_ref, H_real, H_imag, H_real_ref, H_imag_ref, val;

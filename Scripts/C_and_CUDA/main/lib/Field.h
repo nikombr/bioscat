@@ -8,6 +8,9 @@ struct Field {
         ComplexMatrix x;
         ComplexMatrix y;
         ComplexMatrix z;
+        bool x_bool = false;
+        bool y_bool = false;
+        bool z_bool = false;
 
         // Methods
         Field() {
@@ -16,30 +19,54 @@ struct Field {
             z = ComplexMatrix();
         };  // Constructer
         Field(int rows) {
+            x_bool = true;
+            y_bool = true;
+            z_bool = true;
             x = ComplexMatrix(rows);
             y = ComplexMatrix(rows);
             z = ComplexMatrix(rows);
         };  // Constructer
-        Field(int rows, bool x_bool, bool y_bool, bool z_bool) {
+        Field(int rows, bool x_bool_new, bool y_bool_new, bool z_bool_new) {
+            x_bool = x_bool_new;
+            y_bool = y_bool_new;
+            z_bool = z_bool_new;
             if (x_bool) x = ComplexMatrix(rows);
             if (y_bool) y = ComplexMatrix(rows);
             if (z_bool) z = ComplexMatrix(rows);
         };  // Constructer
         Field(int rows, int cols) {
+            x_bool = true;
+            y_bool = true;
+            z_bool = true;
             x = ComplexMatrix(rows, cols);
             y = ComplexMatrix(rows, cols);
             z = ComplexMatrix(rows, cols);
         };  // Constructer
-        Field(int rows, int cols, bool x_bool, bool y_bool, bool z_bool) {
+        Field(int rows, int cols, bool x_bool_new, bool y_bool_new, bool z_bool_new) {
+            x_bool = x_bool_new;
+            y_bool = y_bool_new;
+            z_bool = z_bool_new;
             if (x_bool) x = ComplexMatrix(rows, cols);
             if (y_bool) y = ComplexMatrix(rows, cols);
             if (z_bool) z = ComplexMatrix(rows, cols);
         }; // Constructer
 
         void free() {
-            x.free();
-            y.free();
-            z.free();
+            if (x_bool) x.free();
+            if (y_bool) y.free();
+            if (z_bool) z.free();
+        }
+
+        void setHostZero() {
+            if (x_bool) x.setHostZero();
+            if (y_bool) y.setHostZero();
+            if (z_bool) z.setHostZero();
+        }
+
+        void setDeviceZero() {
+            if (x_bool) x.setDeviceZero();
+            if (y_bool) y.setDeviceZero();
+            if (z_bool) z.setDeviceZero();
         }
     
 

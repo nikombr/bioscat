@@ -72,13 +72,43 @@ OBJECT_SEGMENT = $(OBJECT_SEGMENT_COMPUTE_FIELD_MATRICES) $(OBJECT_SEGMENT_COMPU
 
 SOURCE_BIOSCAT = src/BioScat.cpp
 OBJECT_BIOSCAT = obj/BioScat.o
-DEPEND_BIOSCAT = $(OBJECT_SEGMENT)
+DEPEND_BIOSCAT = $(OBJECT_SEGMENT) $(OBJECT_GAUSSIAN_PROCESS)
 
 SOURCE_FORWARD = src/forward.cpp
 OBJECT_FORWARD = obj/forward.o
 DEPEND_FORWARD = $(OBJECT_COMPLEXMATRIX) $(OBJECT_BIOSCAT)
 
-OBJECTS = $(OBJECT_REALMATRIX) $(OBJECT_COMPLEXMATRIX) $(OBJECT_SEGMENT) $(OBJECT_GET_NANOSTRUCTURE) $(OBJECT_BIOSCAT) $(OBJECT_FORWARD)
+SOURCE_GENERATE_ARTIFICIAL_DATA = src/generateArtificialData.cpp
+OBJECT_GENERATE_ARTIFICIAL_DATA = obj/generateArtificialData.o
+DEPEND_GENERATE_ARTIFICIAL_DATA = $(OBJECT_COMPLEXMATRIX) $(OBJECT_BIOSCAT)
+
+OBJECTS_FORWARD = $(OBJECT_REALMATRIX) $(OBJECT_COMPLEXMATRIX) $(OBJECT_SEGMENT) $(OBJECT_GET_NANOSTRUCTURE) $(OBJECT_BIOSCAT) $(OBJECT_FORWARD)
+
+SOURCE_CHOLESKY = src/GP/cholesky.cu
+OBJECT_CHOLESKY = obj/GP/cholesky.o
+DEPEND_CHOLESKY = 
+
+SOURCE_COVARIANCE_MATRIX = src/GP/covariance_matrix.cu
+OBJECT_COVARIANCE_MATRIX = obj/GP/covariance_matrix.o
+DEPEND_COVARIANCE_MATRIX = 
+
+SOURCE_CUDA_MALLOC_2D = src/GP/cudaMalloc2d.cu
+OBJECT_CUDA_MALLOC_2D = obj/GP/cudaMalloc2d.o
+DEPEND_CUDA_MALLOC_2D = 
+
+SOURCE_REALISATION = src/GP/realisation.cu
+OBJECT_REALISATION = obj/GP/realisation.o
+DEPEND_REALISATION = 
+
+SOURCE_GAUSSIAN_PROCESS_INNER = src/GP/gaussian_process_inner.cpp
+OBJECT_GAUSSIAN_PROCESS_INNER = obj/GP/gaussian_process_inner.o
+DEPEND_GAUSSIAN_PROCESS_INNER = 
+
+SOURCE_GAUSSIAN_PROCESS = src/GP/GaussianProcess.cpp
+OBJECT_GAUSSIAN_PROCESS = obj/GP/GaussianProcess.o
+DEPEND_GAUSSIAN_PROCESS = $(OBJECT_CUDA_MALLOC_2D)
+
+OBJECTS_GAUSSIAN_PROCESS = $(OBJECT_CHOLESKY) $(OBJECT_COVARIANCE_MATRIX) $(OBJECT_CUDA_MALLOC_2D) $(OBJECT_REALISATION) $(OBJECT_GAUSSIAN_PROCESS_INNER) $(OBJECT_GAUSSIAN_PROCESS)
 
 # options and settings for the GCC compilers
 
@@ -102,7 +132,15 @@ INCLUDES = -I$(CUDA_PATH)/include -I$(CUDA_PATH)/samples/Common  -D_MAKE_2D
 SOFLAGS = -L$(CUDA_PATH)/lib64 
 XLIBS =  -lcudart
 
-forward.so: src/executeForward.c $(OBJECTS)
+all: so/forward.so so/gaussian_process.so so/generateArtificialData.so
+
+so/forward.so: src/executeForward.c $(OBJECTS_FORWARD)
+	$(CC) $(CFLAGS) $(INCLUDES)  -fPIC -shared -o $@ $^ $(SOFLAGS) $(LIBS)  -lcudart
+
+so/gaussian_process.so: src/GP/gaussian_process.c $(OBJECTS_GAUSSIAN_PROCESS)
+	$(CC) $(CFLAGS) $(INCLUDES)  -fPIC -shared -o $@ $^ $(SOFLAGS) $(LIBS)  -lcudart
+
+so/generateArtificialData.so: src/executeGenerateArtificialData.c $(OBJECTS_FORWARD) $(OBJECT_GENERATE_ARTIFICIAL_DATA)
 	$(CC) $(CFLAGS) $(INCLUDES)  -fPIC -shared -o $@ $^ $(SOFLAGS) $(LIBS)  -lcudart
 
 $(OBJECT_REALMATRIX): $(SOURCE_REALMATRIX) $(DEPEND_REALMATRIX) 
@@ -153,6 +191,32 @@ $(OBJECT_BIOSCAT): $(SOURCE_BIOSCAT) $(DEPEND_BIOSCAT)
 $(OBJECT_FORWARD): $(SOURCE_FORWARD) $(DEPEND_FORWARD) 
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
+$(OBJECT_GENERATE_ARTIFICIAL_DATA): $(SOURCE_GENERATE_ARTIFICIAL_DATA) $(DEPEND_GENERATE_ARTIFICIAL_DATA) 
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+$(OBJECT_CHOLESKY): $(SOURCE_CHOLESKY) $(DEPEND_CHOLESKY) 
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+$(OBJECT_COVARIANCE_MATRIX): $(SOURCE_COVARIANCE_MATRIX) $(DEPEND_COVARIANCE_MATRIX) 
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+$(OBJECT_CUDA_MALLOC_2D): $(SOURCE_CUDA_MALLOC_2D) $(DEPEND_CUDA_MALLOC_2D) 
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+$(OBJECT_REALISATION): $(SOURCE_REALISATION) $(DEPEND_REALISATION) 
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+$(OBJECT_GAUSSIAN_PROCESS_INNER): $(SOURCE_GAUSSIAN_PROCESS_INNER) $(DEPEND_GAUSSIAN_PROCESS_INNER) 
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+$(OBJECT_GAUSSIAN_PROCESS): $(SOURCE_GAUSSIAN_PROCESS) $(DEPEND_GAUSSIAN_PROCESS) 
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
+
+
+
+
+
+
 #obj/segment/%.o: src/segment/%.cu $(DEPEND_SEGMENT)
 #	$(CXX) $(CXXFLAGS) $(INCLUDES) -Xcompiler -fPIC -shared -o $@  $^ -lcudart
 
@@ -193,5 +257,4 @@ clean:
 
 realclean: clean
 	@/bin/rm -f 
-	@/bin/rm -f core forward.so
-	@/bin/rm -f core backward.so
+	@/bin/rm -f core so/*.o

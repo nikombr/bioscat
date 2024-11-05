@@ -12,6 +12,7 @@ RealMatrix::RealMatrix(int rows) {
      // Save input parameters
     this->rows       = rows;
     this->cols       = 1;
+    this->depth      = 1;
 
     // Allocate vectors on host
     cudaMallocHost((void **) &val_h,    rows*cols*sizeof(double));
@@ -33,8 +34,20 @@ RealMatrix::RealMatrix(int rows, int cols) {
 
     // Allocate vectors on device
     cudaMalloc((void **) &val_d,    rows*cols*sizeof(double));
+}
 
-    val_h[0] = 1;
+RealMatrix::RealMatrix(int rows, int cols, int depth) {
+
+    // Save input parameters
+    this->rows       = rows;
+    this->cols       = cols;
+    this->depth      = depth;
+
+    // Allocate vectors on host
+    cudaMallocHost((void **) &val_h,    rows*cols*depth*sizeof(double));
+
+    // Allocate vectors on device
+    cudaMalloc((void **) &val_d,    rows*cols*depth*sizeof(double));
 }
 
 void RealMatrix::free() {
@@ -71,6 +84,9 @@ void RealMatrix::setHostValue(int r, int c, double val) {
     val_h[r*cols + c] = val;
 }
 
+void RealMatrix::setHostValue(int r, int c, int d, double val) {
+    val_h[r * (cols * depth) + c * depth + d] = val;
+}
 
 double RealMatrix::getHostValue(int r) {
     return val_h[r];
@@ -78,6 +94,10 @@ double RealMatrix::getHostValue(int r) {
 
 double RealMatrix::getHostValue(int r, int c) {
     return val_h[r*cols + c];
+}
+
+double RealMatrix::getHostValue(int r, int c, int d) {
+    return val_h[r * (cols * depth) + c * depth + d];
 }
 
 

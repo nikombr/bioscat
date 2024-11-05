@@ -9,6 +9,10 @@ extern "C" {
 #include "../../lib/GP/cudaMalloc2d.h"
 using namespace std;
 
+GaussianProcess::GaussianProcess() {
+
+}
+
 GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int num, int dim, int dev, int type_covfunc) {
 
     if (dim == 1) {
@@ -105,6 +109,8 @@ GaussianProcess::~GaussianProcess() {
 
         cudaFree(p_d);
     }
+
+    printf("Gaussian Process freed!\n");
 
 }
 

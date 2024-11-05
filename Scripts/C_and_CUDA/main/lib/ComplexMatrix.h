@@ -56,7 +56,16 @@ class ComplexMatrix {
         __device__ double getDeviceImagValue(int r, int c) {            // Gets device imag value for matrices
             return imag_d[r*cols + c];
         } 
-        void dumpResult(const char * filename);        
+        void dumpResult(const char * filename);    
+
+        void setHostZero() {
+            memset(real_h, 0, rows*cols*sizeof(double));
+            memset(imag_h, 0, rows*cols*sizeof(double));
+        }   
+        void setDeviceZero() {
+            cudaMemset(real_d, 0, rows*cols*sizeof(double));
+            cudaMemset(imag_d, 0, rows*cols*sizeof(double));
+        }    
 
 
 

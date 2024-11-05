@@ -9,9 +9,9 @@ extern "C" {
 using namespace std;
 
 
-void forward(double *x, double*y, int n ,char * protein_structure, int num_segments) {
+void forward(double *x, double*y, int n ,char * protein_structure, int num_segments, int total_grid_points, double beta, double lambda) {
 
-    BioScat bioscat = BioScat(protein_structure, num_segments);
+    BioScat bioscat = BioScat(protein_structure, num_segments, total_grid_points);
 
     bioscat.getNanostructure();
 
@@ -19,7 +19,17 @@ void forward(double *x, double*y, int n ,char * protein_structure, int num_segme
 
     bioscat.setupObservationPoints(x, y, n);
 
-    bioscat.forwardSolver(1);
+    bioscat.prepareForward(beta, lambda);
+
+    for (int polarisation = 1; polarisation <= 2; polarisation++) {
+       
+        bioscat.forwardSolver(polarisation);
+        
+        bioscat.computeScatteredSubFields();
+        bioscat.computeReflectedSubFields();
+        bioscat.computeIncidentSubFields();
+
+    }
 
     bioscat.computeScatteredFields();
 

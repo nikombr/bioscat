@@ -161,10 +161,6 @@ void setupSystemMatrix_GPU(RealMatrix A, int n_test, int n_int, int n_ext, RealM
 
 void Segment::setupSystemMatrix() {
 
-    
-
-    
-
 
     ComplexMatrix * firstField_scat,  * firstField_int,  \
                   * secondField_scat, * secondField_int, \
@@ -197,10 +193,10 @@ void Segment::setupSystemMatrix() {
     else {
         setupSystemMatrix_CPU(A, n_test, n_int, n_ext, n_x, n_y, firstField_scat, firstField_int, secondField_scat, secondField_int, thirdField_scat, thirdField_int);
     }
-    H_scat_matrix.free();
+    /*H_scat_matrix.free();
     H_int_matrix.free();
     E_scat_matrix.free();
-    E_int_matrix.free();
+    E_int_matrix.free();*/
 
     
     /*rshift = n_test;

@@ -10,16 +10,45 @@ extern "C" {
 using namespace std;
 
 Segment::Segment() {
-    // Empty constructor
+    constants = Constants();
+}
+
+void Segment::newWavelength(double lambda) {
+    constants.newWavelength(lambda);
+}
+
+void Segment::freeScatteredFields() {
+    E_scat_matrix.free();
+    H_scat_matrix.free();
+}
+
+void Segment::freeIncidentFields() {
+    E_inc_vector.free();
+    H_inc_vector.free();
+}
+
+void Segment::freeReflectedFields() {
+    E_ref_vector.free();
+    H_ref_vector.free();
+}
+
+void Segment::freeInteriorFields() {
+    E_int_matrix.free(); 
+    H_int_matrix.free(); 
+    
 }
     
 void Segment::free() {
     // Frees all allocated arrays
 
-    x_int.free();           y_int.free();
-    x_ext.free();           y_ext.free();
-    x_test.free();          y_test.free();
-    n_x.free();             n_y.free();
+    x_int.free();
+    y_int.free();
+    x_ext.free();
+    y_ext.free();
+    x_test.free();
+    y_test.free();
+    n_x.free();
+    n_y.free();
     C.free();
     D.free();
     A.free();

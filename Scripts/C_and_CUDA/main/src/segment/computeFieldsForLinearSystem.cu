@@ -12,12 +12,13 @@ void Segment::computeFieldsForLinearSystem() {
 
     
     computeIncidentFieldVectors(y_test);
+    printf("hej\n");
     computeReflectedFieldVectors(y_test);
     computeScatteredFieldMatrices(x_test, y_test, false);
     computeInteriorFieldMatrices(x_test, y_test);
 
-    x_test.free();
-    y_test.free();
+    //x_test.free();
+    //y_test.free();
 
 }
 

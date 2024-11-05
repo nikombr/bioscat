@@ -42,14 +42,14 @@ void ComplexMatrix::free() {
     // Free on host
     cudaError_t err = cudaFreeHost(real_h);
     if (err != cudaSuccess) {
-    std::cerr << "Failed to free memory: " << cudaGetErrorString(err) << std::endl;
-}
-     err = cudaFreeHost(imag_h);
+        std::cerr << "Failed to free memory: " << cudaGetErrorString(err) << std::endl;
+    }
+    err = cudaFreeHost(imag_h);
 
     if (err != cudaSuccess) {
-    std::cerr << "Failed to free memory: " << cudaGetErrorString(err) << std::endl;
-}
-
+        std::cerr << "Failed to free memory: " << cudaGetErrorString(err) << std::endl;
+    }
+    
     // Free on device
     cudaFree(real_d);
     cudaFree(imag_d);

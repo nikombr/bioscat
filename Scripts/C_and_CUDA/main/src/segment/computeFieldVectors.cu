@@ -19,8 +19,8 @@ void Segment::computeIncidentFieldVectors(RealMatrix y) {
     bool Ey_bool = false;
     bool Hy_bool = false;
 
-    E_inc_vector = Field(rows, Ex_bool, Ey_bool, Ez_bool);
-    H_inc_vector = Field(rows, Hx_bool, Hy_bool, Hz_bool);
+    E_inc_vector = Field(rows);
+    H_inc_vector = Field(rows);
 
     if (polarisation == 1) {
         for (int j = 0; j < rows; j++) E_inc_vector.z.setHostRealValue(j,                     cos(constants.k0 * y.getHostValue(j)));
@@ -49,8 +49,8 @@ void Segment::computeReflectedFieldVectors(RealMatrix y) {
     bool Ey_bool = false;
     bool Hy_bool = false;
 
-    E_ref_vector = Field(rows, Ex_bool, Ey_bool, Ez_bool);
-    H_ref_vector = Field(rows, Hx_bool, Hy_bool, Hz_bool);
+    E_ref_vector = Field(rows);
+    H_ref_vector = Field(rows);
 
     if (polarisation == 1) {
         for (int j = 0; j < rows; j++) {
