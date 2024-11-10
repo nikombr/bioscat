@@ -24,12 +24,11 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
 
     // Determine distance of auxilliary points from nearest test point
     step = nanostructure.x.getHostValue(1) - nanostructure.x.getHostValue(0);
-    alpha = std::min((double)2*step,(double)1.0e-8);
     //alpha = std::min(10e-8,2*std::min(startstep,endstep));
 
     // Determine wheree the segment starts and ends
     start = current_segment * segment_length;
-    end = min(start + segment_length + 1, total_grid_points);
+    end = min(start + segment_length, total_grid_points);
     //printf("(start, end) = (%d, %d)",start,end);
 
     // Get values at end points
@@ -41,8 +40,11 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
     // Determine steps for sides of segment
     startnum = max(minNumSteps, (int) ceil(startvalue/step));
     endnum   = max(minNumSteps, (int) ceil(endvalue/step));
+    startnum = minNumSteps;
+    endnum = minNumSteps;
     startstep = startvalue/startnum;
     endstep   = endvalue/endnum;
+    alpha = std::min((double)2*step,(double)1.0e-9),2*std::min(startstep,endstep);
     
     // Allocate arrays
     int n_top       = end - start - 2;
@@ -63,6 +65,14 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
     // Compute interior points
     computeInteriorPoints(x_int, y_int, x_test, y_test, alpha, deviceComputation, n_top, n_right,  n_bottom,  n_left);
 
+    x_ext.toDevice();
+    y_ext.toDevice();
+    x_int.toDevice();
+    y_int.toDevice();
+    x_test.toDevice();
+    y_test.toDevice();
+    n_x.toDevice();
+    n_y.toDevice();
     /*
     for (int j = 0; j < n_int; j++) {
         double xdiff, ydiff, norm;
@@ -101,7 +111,7 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
 
     }
     */
-
+    
     bool save_segment = true;
     if (save_segment) {
         FILE *file;

@@ -13,27 +13,19 @@ class Segment {
         RealMatrix y_int;
         RealMatrix x_ext;
         RealMatrix y_ext;
-        //RealMatrix x_test_top;
-        //RealMatrix y_test_top;
-        //RealMatrix x_test_right;
-        //RealMatrix y_test_right;
-        //RealMatrix x_test_bottom;
-        //RealMatrix y_test_bottom;
-        //RealMatrix x_test_left;
-        //RealMatrix y_test_left;
         RealMatrix x_test;
         RealMatrix y_test;
         RealMatrix n_x;
         RealMatrix n_y;
         int num_test_points = 0;
-        //int num_interior_points = 0;
-        //int num_exterior_points = 0;
         ComplexMatrix C; // Partial solution of the linear system
         ComplexMatrix D; // Partial solution of the linear system
         RealMatrix A; // Linear system matrix in Ax=b
         RealMatrix b; // Linear system vector in Ax=b
         Field E_scat_matrix;
         Field H_scat_matrix;
+        Field E_scat;
+        Field H_scat;
         Field E_int_matrix; 
         Field H_int_matrix; 
         Field E_inc_vector;
@@ -42,11 +34,11 @@ class Segment {
         Field H_ref_vector;
         int polarisation = 1; // Either 1 or 2
         Constants constants;
-        //int n_top, n_right, n_bottom, n_left, n_ext, n_int, n_test;
-        int n_ext, n_int, n_test;
-        int minNumSteps = 10; // Minimum number of steps for sides of segment
+        int n_ext, n_int, n_test, n_obs;
+        int minNumSteps = 15; // Minimum number of steps for sides of segment
         bool deviceComputation;
         int current_segment;
+        bool printOutput = false;
 
 
 
@@ -54,6 +46,7 @@ class Segment {
         void allocate(); // Allocation of matrices
         void free(); // Free points
         void freeScatteredFields(); // Free fields
+        void freeScatteredSubFields(); // Free fields
         void freeInteriorFields(); // Free fields
         void freeIncidentFields(); // Free fields
         void freeReflectedFields(); // Free fields
@@ -69,6 +62,7 @@ class Segment {
         void solveLinearSystem();
         void setupSystemMatrix();
         void newWavelength(double lambda);
+        void computeScatteredSubFields();
 };
 }
 

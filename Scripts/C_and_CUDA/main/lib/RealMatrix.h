@@ -9,18 +9,24 @@ class RealMatrix {
     public:
         int rows; // Number of rows
         int cols; // Number of cols
-        int depth = 1;
+        int depth;
+        bool host;
+        bool device;
 
         // Methods
         RealMatrix() {
             rows = 0;
             cols = 0;
+            depth = 0;
             val_h = NULL;
             val_d = NULL;
         };  // Constructer
         RealMatrix(int rows);                                       // Constructer, allocates vectors and initializes to zero
         RealMatrix(int rows, int cols);                             // Constructer, matrices arrays and initializes to zero
         RealMatrix(int rows, int cols, int depth);
+        RealMatrix(int rows, bool host, bool device);                                       // Constructer, allocates vectors and initializes to zero
+        RealMatrix(int rows, int cols, bool host, bool device);                             // Constructer, matrices arrays and initializes to zero
+        RealMatrix(int rows, int cols, int depth, bool host, bool device);
         void free();                                                // Frees arrays
         void toHost();                                              // Sends data from device to host
         void toDevice();                                            // Sends data from host to device
@@ -56,12 +62,38 @@ class RealMatrix {
             file = fopen(filename, "w");
             if (file == NULL) {
                 perror("Error opening file");
+                printf("File: %s\n",filename);
                 return;
             }
             for (int i = 0; i < rows*cols*depth; i++) {
                 fprintf(file, "%e\n", val_h[i]);
             }
             fclose(file);
+        }
+
+        void loadVector(char * filename) {
+            FILE *file;
+            file = fopen(filename, "r");
+            if (file == NULL) {
+                perror("Error opening file");
+                printf("File: %s\n",filename);
+                return;
+            }
+            for (int i = 0; i < rows*cols*depth; i++) {
+                fscanf(file, "%lf\n", &val_h[i]);  // Reading each value into the array
+            }
+            fclose(file);
+        }
+
+        void print() {
+            if (depth == 1) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        printf("%e ",getHostValue(i, j));
+                    }
+                    printf("\n");
+                }
+            }
         }
    
 

@@ -5,12 +5,14 @@ class ComplexMatrix {
     // Stores a imagMatrix rowmajor in a vector both on the host and the device
     private: // Private to avoid wrong indexing
         double * real_h;    // Real entries on host
-        double * imag_h; // Imag entries on host
+        double * imag_h;    // Imag entries on host
         double * real_d;    // Real entries on device
-        double * imag_d; // Imag entries on device
+        double * imag_d;    // Imag entries on device
     public:
         int    rows; // Number of rows
         int    cols; // Number of cols
+        bool host;
+        bool device;
 
         // Methods
         ComplexMatrix() {
@@ -21,6 +23,8 @@ class ComplexMatrix {
         } 
         ComplexMatrix(int rows, int cols);                               // Constructer, allocates arrays and initializes to zero
         ComplexMatrix(int rows);
+        ComplexMatrix(int rows, int cols, bool host, bool device);                               // Constructer, allocates arrays and initializes to zero
+        ComplexMatrix(int rows, bool host, bool device);
         void free();                                                    // Frees arrays
         void toHost();                                                  // Sends data to host
         void toDevice();                                                // Sends data to device
@@ -66,6 +70,12 @@ class ComplexMatrix {
             cudaMemset(real_d, 0, rows*cols*sizeof(double));
             cudaMemset(imag_d, 0, rows*cols*sizeof(double));
         }    
+        double * getDeviceRealPointer() {
+            return real_d;
+        }
+        double * getDeviceImagPointer() {
+            return imag_d;
+        }
 
 
 

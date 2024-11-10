@@ -6,14 +6,15 @@ import time
 import matplotlib.pyplot as plt
 import math
 import shutil
+import time
 
-def executeGenerateArtificialData(num_obs_points=30, num_segments = 1, total_grid_points=10,protein_structure = "demoleus2x2"): # "Retinin2x2" or "demoleus2x2"
+def executeGenerateArtificialData(num_obs_points=30, num_segments = 1, total_grid_points=100,protein_structure = "demoleus2x2"): # "Retinin2x2" or "demoleus2x2"
 
     phi = np.linspace(0,math.pi,num_obs_points);
     x = 10**(-2)*np.cos(phi)
     y = 10**(-2)*np.sin(phi)
 
-    directory_name = f'../../../Data/artificial_data/{protein_structure}/run_num_obs_points_{num_obs_points}_num_segments_{num_segments}_total_grid_points_{total_grid_points}/'
+    directory_name = f'../../../Data/artificial_data/{protein_structure}/num_segments_{num_segments}_total_grid_points_{total_grid_points}/'
     if os.path.exists(directory_name):
         shutil.rmtree(directory_name)
         os.makedirs(directory_name)  # Recreate the directory if you want to keep it
@@ -33,15 +34,15 @@ def executeGenerateArtificialData(num_obs_points=30, num_segments = 1, total_gri
     protein_structure_encoded = protein_structure.encode('utf-8')
 
     lambda0 = 325e-9;
-    lambdas = np.linspace(0.5*lambda0,1.5*lambda0,3);
-    betas = np.linspace(0,math.pi,3);
+    lambdas = np.linspace(0.5*lambda0,1.5*lambda0,20);
+    betas = np.linspace(math.pi/4,3*math.pi/2,20);
 
     lambdas_arr = (ctypes.c_double * len(lambdas))(*lambdas)
     betas_arr = (ctypes.c_double * len(betas))(*betas)
 
     # Execute C implementation
     c_func.executeGenerateArtificialData(x_arr, y_arr, n, protein_structure_encoded, num_segments, total_grid_points,betas_arr, lambdas_arr,len(betas),len(lambdas))
-
+    
     # Find files and move them to the correct directory
     source = '../../../Data/artificial_data/temp/reflectance.txt'
     shutil.move(source, directory_name)
@@ -51,7 +52,29 @@ def executeGenerateArtificialData(num_obs_points=30, num_segments = 1, total_gri
     np.savetxt(f'{directory_name}lambdas.txt', lambdas, fmt='%e', delimiter='\n')
     np.savetxt(f'{directory_name}betas.txt', betas, fmt='%e', delimiter='\n')
 
+    plt.figure()
+    for i in range(num_segments):
+        filename = f'../../../Data/segments/test_segment_{i+1}.txt'
+        data = np.loadtxt(filename)
+        plt.plot(data[:,0],data[:,1])
+    plt.savefig('plots/test_points.png')
+    plt.close()
 
+    plt.figure()
+    for i in range(num_segments):
+        filename = f'../../../Data/segments/ext_segment_{i+1}.txt'
+        data = np.loadtxt(filename)
+        plt.plot(data[:,0],data[:,1])
+    plt.savefig('plots/ext_points.png')
+    plt.close()
+
+    plt.figure()
+    for i in range(num_segments):
+        filename = f'../../../Data/segments/int_segment_{i+1}.txt'
+        data = np.loadtxt(filename)
+        plt.plot(data[:,0],data[:,1])
+    plt.savefig('plots/int_points.png')
+    plt.close()
 
     data = 0;
     return data
@@ -59,48 +82,10 @@ def executeGenerateArtificialData(num_obs_points=30, num_segments = 1, total_gri
 if __name__ == "__main__":
     
     
-
-    Z = executeGenerateArtificialData()
-    """
-    A_real = np.loadtxt("A_real.txt")
-    A_real_C = np.loadtxt("A_real_C.txt")
-    diff = A_real-A_real_C
-    plt.figure()
-    plt.imshow(np.log(np.abs(diff)/np.abs(A_real)))
-    plt.colorbar()
-    plt.savefig('real.png')
-    print(f"error real A = {np.max(diff)}")
-
-    A_imag = np.loadtxt("A_imag.txt")
-    A_imag_C = np.loadtxt("A_imag_C.txt")
-    diff = A_imag-A_imag_C
-    plt.figure()
-    plt.imshow(np.abs(diff)/np.abs(A_imag))
-    plt.colorbar()
-    plt.savefig('imag.png')
-    print(f"error imag A = {np.max(diff)}")
-
-
-    b_real = np.loadtxt("b_real.txt")
-    b_real_C = np.loadtxt("b_real_C.txt")
-    diff = b_real-b_real_C
-    print(f"error real b = {np.max(diff)}")
-
-    b_imag = np.loadtxt("b_imag.txt")
-    b_imag_C = np.loadtxt("b_imag_C.txt")
-    diff = b_imag-b_imag_C
-    print(f"error imag b = {np.max(diff)}")
+    for num_segments in [1, 2, 4, 5, 8, 10, 12, 16, 20]:
+        Z = executeGenerateArtificialData(total_grid_points=500,num_segments=num_segments)
+        time.sleep(2)
     
-
-    bbig = np.loadtxt("bbig.txt")
-    bbig_C = np.loadtxt("bbig_C.txt")
-    Abig = np.loadtxt("Abig.txt")
-    Abig_C = np.loadtxt("Abig_C.txt")
-    diff = np.abs(bbig-bbig_C)
-    print(f"error bbig = {np.max(diff)}")
-    diff = np.abs(Abig-Abig_C)
-    print(f"error Abig = {np.max(diff)}")
-    """
     
     
 

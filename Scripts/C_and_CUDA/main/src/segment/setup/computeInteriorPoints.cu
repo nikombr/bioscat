@@ -8,12 +8,13 @@ using namespace std;
 
 
 void computeInteriorPoints(RealMatrix x_int, RealMatrix y_int, RealMatrix x_test, RealMatrix y_test, double alpha, bool deviceComputation, int n_top, int n_right, int n_bottom, int n_left) {
+    bool printOutput = false;
     if (deviceComputation) { // GPU
-        printf("Computing interior points on the GPU.\n");
+        if (printOutput) printf("Computing interior points on the GPU.\n");
 
     }
     else { // CPU
-        printf("Computing interior points on the CPU.\n");
+        if (printOutput) printf("Computing interior points on the CPU.\n");
         for (int j = 0; j < x_int.rows; j++) {
             double xdiff, ydiff, norm;
             int shift;

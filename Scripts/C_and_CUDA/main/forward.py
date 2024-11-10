@@ -59,8 +59,8 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
                 plt.colorbar()
                 plt.savefig(f'plots/{field_typ}{var}_{typ}.png')
                 plt.close()
-
-                os.remove(filename)
+                #time.sleep(30);
+                #os.remove(filename)
 
             mdic[f'{field_typ}_{typ}'] = fields
 
@@ -115,7 +115,7 @@ if __name__ == "__main__":
     
     
 
-    Z = executeForward(x = X, y = Y, num_segments = 4,beta = 0,total_grid_points=1000)
+    Z = executeForward(x = X, y = Y, num_segments = 4,beta = 30,total_grid_points=1000)
     """
     A_real = np.loadtxt("A_real.txt")
     A_real_C = np.loadtxt("A_real_C.txt")

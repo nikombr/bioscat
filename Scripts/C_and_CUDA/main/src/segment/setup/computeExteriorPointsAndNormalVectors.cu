@@ -8,13 +8,13 @@ using namespace std;
 
 
 void computeExteriorPointsAndNormalVectors(RealMatrix x_ext, RealMatrix y_ext, RealMatrix n_x, RealMatrix n_y, Nanostructure nanostructure, int start, int end, double alpha, bool deviceComputation) {
-
+    bool printOutput = false;
     // Allocate array for temporary points to compute exterior auxiliary points
     RealMatrix x_temp = RealMatrix(x_ext.rows + 2);
     RealMatrix y_temp = RealMatrix(y_ext.rows + 2);
 
     // Set minimum number of steps on the sides of the segment
-    int minNumSteps = 10;
+    int minNumSteps = 15;
 
     // Determine distance between test points
     double step = nanostructure.x.getHostValue(1) - nanostructure.x.getHostValue(0);
@@ -27,7 +27,9 @@ void computeExteriorPointsAndNormalVectors(RealMatrix x_ext, RealMatrix y_ext, R
 
     // Determine steps for sides of segment
     int startnum = max(minNumSteps, (int) ceil(startvalue/step));
+    startnum = minNumSteps;
     int endnum   = max(minNumSteps, (int) ceil(endvalue/step));
+    endnum = minNumSteps;
     double startstep = startvalue/startnum;
     double endstep   = endvalue/endnum;
 
@@ -38,11 +40,11 @@ void computeExteriorPointsAndNormalVectors(RealMatrix x_ext, RealMatrix y_ext, R
     int n_left      = startnum - 1;
 
     if (deviceComputation) { // GPU
-        printf("Computing exterior test points on the GPU.\n");
+        if (printOutput) printf("Computing exterior test points on the GPU.\n");
 
     }
     else { // CPU
-        printf("Computing exterior test points on the CPU.\n");
+        if (printOutput) printf("Computing exterior test points on the CPU.\n");
 
         for (int j = 0; j < endnum; j++) {
             x_temp.setHostValue(end - 1 - start + j + 1, endxvalue);

@@ -11,6 +11,7 @@ extern "C" {
 #include "../lib/BioScat.h"
 #include "../lib/Segment.h"
 #include "../lib/RealMatrix.h"
+#include "../lib/combinePolarisation.h"
 using namespace std;
 
 BioScat::BioScat(char* protein_structure, int num_segments, int total_grid_points) {
@@ -21,7 +22,7 @@ BioScat::BioScat(char* protein_structure, int num_segments, int total_grid_point
 
 }
 
-BioScat::~BioScat() {
+void BioScat::free() {
 
     for (int i = 0; i < num_segments; i++) {
         segments[i].free();
@@ -29,7 +30,24 @@ BioScat::~BioScat() {
 
     delete[] segments;
     reflectance.free();
+    x_obs.free();
+    y_obs.free();
 
+    E_scat.free();
+    H_scat.free();
+    E_inc.free();
+    H_inc.free();
+    E_ref.free();
+    H_ref.free();
+    for (int i = 0; i < 2; i++) {
+        E_scat_pol[i].free();
+        H_scat_pol[i].free();
+        E_inc_pol[i].free();
+        H_inc_pol[i].free();
+        E_ref_pol[i].free();
+        H_ref_pol[i].free();
+    }
+    //cudaDeviceReset();
     printf("DESTRUCTED!\n");
 
 }
@@ -37,35 +55,45 @@ BioScat::~BioScat() {
 void BioScat::getSegments() {
 
     if (deviceComputation) {
-        printf("We are computing on the device!\n");
+        if (printOutput) printf("We are computing on the device!\n");
     }
     else {
-        printf("We are computing on the host!\n");
+        if (printOutput) printf("We are computing on the host!\n");
     }
+
+    double start = omp_get_wtime();
 
     this->segments = new Segment[num_segments];
 
     for (int i = 0; i < num_segments; i++) {
         segments[i].deviceComputation = deviceComputation;
         segments[i].current_segment = i;
+        segments[i].n_obs = n_obs;
         segments[i].setup(this->nanostructure, total_grid_points, num_segments);
     }
 
-    printf("Segments are ready!\n");
+
+    double end = omp_get_wtime();
+    if (printOutput) printf("\nIt took %e seconds to setup the segments!\n\n",end-start);
 
 }
 
 void BioScat::getSegments(Nanostructure nanostructure) {
 
+    double start = omp_get_wtime();
+
     this->segments = new Segment[num_segments];
 
     for (int i = 0; i < num_segments; i++) {
-        segments[i] = Segment();
+        //segments[i] = Segment();
         segments[i].deviceComputation = deviceComputation;
         segments[i].current_segment = i;
+        segments[i].n_obs = n_obs;
         segments[i].setup(nanostructure, total_grid_points, num_segments);
     }
 
+    double end = omp_get_wtime();
+    if (printOutput) printf("\nIt took %e seconds to setup the segments!\n\n",end-start);
 }
 
 void BioScat::prepareForward(double lambda) {
@@ -87,37 +115,42 @@ void BioScat::forwardSolver(int polarisation) {
 
     double start, end, start_inner, end_inner;
     start = omp_get_wtime();
+    //#pragma omp parallel for num_threads(num_segments)
     for (int i = 0; i < num_segments; i++) {
         segments[i].polarisation = polarisation;
 
         start_inner = omp_get_wtime();
         segments[i].computeFieldsForLinearSystem();
         segments[i].setupRightHandSide();
-        printf("HEJ2\n");
         segments[i].setupSystemMatrix();
-        segments[i].freeScatteredFields();
-        segments[i].freeInteriorFields();
-        segments[i].freeIncidentFields();
-        segments[i].freeReflectedFields();
+        //segments[i].freeScatteredFields();
+        //segments[i].freeInteriorFields();
+        //segments[i].freeIncidentFields();
+        //segments[i].freeReflectedFields();
         segments[i].solveLinearSystem();
         end_inner = omp_get_wtime();
-        printf("\nIt took %.4e seconds to solve the linear system for segment %d.\n\n",end_inner - start_inner, i + 1);
+        if (printOutput) printf("\nIt took %.4e seconds to solve the linear system for segment %d.\n\n",end_inner - start_inner, i + 1);
         
     }
     end = omp_get_wtime();
-    printf("\nIt took %.4e seconds to solve all the linear systems.\n\n",end - start);
+    if (printOutput) printf("\nIt took %.4e seconds to solve all the linear systems.\n\n",end - start);
 
 }
 
 void BioScat::setupObservationPoints(double *x, double*y, int n) {
-    x_obs = RealMatrix();
-    y_obs = RealMatrix();
-    x_obs.rows = n;
+    n_obs = n;
+    x_obs = RealMatrix(n);
+    y_obs = RealMatrix(n);
+    for (int i = 0; i < n; i++) x_obs.setHostValue(i, x[i]);
+    for (int i = 0; i < n; i++) y_obs.setHostValue(i, y[i]);
+    x_obs.toDevice();
+    y_obs.toDevice();
+    /*x_obs.rows = n;
     y_obs.rows = n;
     x_obs.cols = 1;
     y_obs.cols = 1;
     x_obs.setHostPointer(x);
-    y_obs.setHostPointer(y);
+    y_obs.setHostPointer(y);*/
 
     // Allocate fields
     E_scat = Field(n);
@@ -133,13 +166,6 @@ void BioScat::setupObservationPoints(double *x, double*y, int n) {
         H_inc_pol[i]  = Field(n);
         E_ref_pol[i]  = Field(n);
         H_ref_pol[i]  = Field(n);
-        // Initialize all arrays to zero on the host
-        E_scat_pol[i].setHostZero();
-        H_scat_pol[i].setHostZero();
-        E_inc_pol[i].setHostZero();
-        H_inc_pol[i].setHostZero();
-        E_ref_pol[i].setHostZero();
-        H_ref_pol[i].setHostZero();
     }
 
     // Allocate reflectance array
@@ -151,155 +177,6 @@ void BioScat::computeScatteredFields() {
     computeScatteredFields(beta);
 }
 
-void BioScat::computeScatteredSubFields() {
-
-    int n = x_obs.rows;
-
-    double start = omp_get_wtime();
-
-    for (int i = 0; i < num_segments; i++) {
-        
-        double start_inner = omp_get_wtime();
-        
-        segments[i].computeScatteredFieldMatrices(x_obs, y_obs, false);
-
-        double end_inner = omp_get_wtime();
-        printf("\nIt took %.4e seconds to compute the scattered field matrices for segment %d.\n\n",end_inner - start_inner, i + 1);
-        
-    }
-    
-    if (polarisation == 1) {
-        //#pragma omp parallel for
-        for (int k = 0; k < n; k++) {
-            double val1, val2, val3, C_real, C_imag;
-            val1 = 0.0;
-            val2 = 0.0;
-            val3 = 0.0;
-            for (int i = 0; i < num_segments; i++) {
-                
-                for (int j = 0; j < segments[i].n_int; j++) {
-                    C_real = segments[i].C.getHostRealValue(j);
-                    C_imag = segments[i].C.getHostImagValue(j);
-                    val1 += segments[i].E_scat_matrix.z.getHostRealValue(k,j) * C_real;
-                    val1 -= segments[i].E_scat_matrix.z.getHostImagValue(k,j) * C_imag;
-                    val2 += segments[i].H_scat_matrix.x.getHostRealValue(k,j) * C_real;
-                    val2 -= segments[i].H_scat_matrix.x.getHostImagValue(k,j) * C_imag;
-                    val3 += segments[i].H_scat_matrix.y.getHostRealValue(k,j) * C_real;
-                    val3 -= segments[i].H_scat_matrix.y.getHostImagValue(k,j) * C_imag;
-            
-                }
-                
-            }
-
-            E_scat_pol[0].z.setHostRealValue(k, val1);
-            H_scat_pol[0].x.setHostRealValue(k, val2);
-            H_scat_pol[0].y.setHostRealValue(k, val3);
-        }
-    
-        //#pragma omp parallel for
-        for (int k = 0; k < n; k++) {
-            double val1, val2, val3, C_real, C_imag;
-            val1 = 0.0;
-            val2 = 0.0;
-            val3 = 0.0;
-            for (int i = 0; i < num_segments; i++) {
-                //if (i == 1) {
-                for (int j = 0; j < segments[i].n_int; j++) {
-                    C_real = segments[i].C.getHostRealValue(j);
-                    C_imag = segments[i].C.getHostImagValue(j);
-                    val1 += segments[i].E_scat_matrix.z.getHostRealValue(k,j) * C_imag;
-                    val1 += segments[i].E_scat_matrix.z.getHostImagValue(k,j) * C_real;
-                    val2 += segments[i].H_scat_matrix.x.getHostRealValue(k,j) * C_imag;
-                    val2 += segments[i].H_scat_matrix.x.getHostImagValue(k,j) * C_real;
-                    val3 += segments[i].H_scat_matrix.y.getHostRealValue(k,j) * C_imag;
-                    val3 += segments[i].H_scat_matrix.y.getHostImagValue(k,j) * C_real;
-                }
-                //}
-            }
-            E_scat_pol[0].z.setHostImagValue(k, val1);
-            H_scat_pol[0].x.setHostImagValue(k, val2);
-            H_scat_pol[0].y.setHostImagValue(k, val3);
-            
-        }
-           
-    }
-    else if (polarisation == 2) {
-        //#pragma omp parallel for
-        for (int k = 0; k < n; k++) {
-            double val1, val2, val3, C_real, C_imag;
-            val1 = 0.0;
-            val2 = 0.0;
-            val3 = 0.0;
-            for (int i = 0; i < num_segments; i++) {
-                
-                for (int j = 0; j < segments[i].n_int; j++) {
-                    C_real = segments[i].C.getHostRealValue(j);
-                    C_imag = segments[i].C.getHostImagValue(j);
-                    val1 += segments[i].H_scat_matrix.z.getHostRealValue(k,j) * C_real;
-                    val1 -= segments[i].H_scat_matrix.z.getHostImagValue(k,j) * C_imag;
-                    val2 += segments[i].E_scat_matrix.x.getHostRealValue(k,j) * C_real;
-                    val2 -= segments[i].E_scat_matrix.x.getHostImagValue(k,j) * C_imag;
-                    val3 += segments[i].E_scat_matrix.y.getHostRealValue(k,j) * C_real;
-                    val3 -= segments[i].E_scat_matrix.y.getHostImagValue(k,j) * C_imag;
-            
-                }
-                
-            }
-
-            H_scat_pol[1].z.setHostRealValue(k, val1);
-            E_scat_pol[1].x.setHostRealValue(k, val2);
-            E_scat_pol[1].y.setHostRealValue(k, val3);
-        }
-    
-        //#pragma omp parallel for
-        for (int k = 0; k < n; k++) {
-            double val1, val2, val3, C_real, C_imag;
-            val1 = 0.0;
-            val2 = 0.0;
-            val3 = 0.0;
-            for (int i = 0; i < num_segments; i++) {
-                //if (i == 1) {
-                for (int j = 0; j < segments[i].n_int; j++) {
-                    C_real = segments[i].C.getHostRealValue(j);
-                    C_imag = segments[i].C.getHostImagValue(j);
-                    val1 += segments[i].H_scat_matrix.z.getHostRealValue(k,j) * C_imag;
-                    val1 += segments[i].H_scat_matrix.z.getHostImagValue(k,j) * C_real;
-                    val2 += segments[i].E_scat_matrix.x.getHostRealValue(k,j) * C_imag;
-                    val2 += segments[i].E_scat_matrix.x.getHostImagValue(k,j) * C_real;
-                    val3 += segments[i].E_scat_matrix.y.getHostRealValue(k,j) * C_imag;
-                    val3 += segments[i].E_scat_matrix.y.getHostImagValue(k,j) * C_real;
-                }
-                //}
-            }
-            H_scat_pol[1].z.setHostImagValue(k, val1);
-            E_scat_pol[1].x.setHostImagValue(k, val2);
-            E_scat_pol[1].y.setHostImagValue(k, val3);
-            
-        }
-           
-    }
-
-    double end = omp_get_wtime();
-    printf("\nIt took %.4e seconds to compute the combined scattered fields in the observation points.\n\n",end-start);
-    for (int i = 0; i < num_segments; i++) {
-        segments[i].freeScatteredFields();
-    }
-
-}
-
-void combinePolarisation(Field * pol, Field combined, double beta) {
-    double cosBeta = cos(beta);
-    double sinBeta = sin(beta);
-    for (int i = 0; i < combined.x.rows; i++) {
-        combined.x.setHostRealValue(i, pol[0].x.getHostRealValue(i)*cosBeta + pol[1].x.getHostRealValue(i)*sinBeta);
-        combined.y.setHostRealValue(i, pol[0].y.getHostRealValue(i)*cosBeta + pol[1].y.getHostRealValue(i)*sinBeta);
-        combined.z.setHostRealValue(i, pol[0].z.getHostRealValue(i)*cosBeta + pol[1].z.getHostRealValue(i)*sinBeta);
-        combined.x.setHostImagValue(i, pol[0].x.getHostImagValue(i)*cosBeta + pol[1].x.getHostImagValue(i)*sinBeta);
-        combined.y.setHostImagValue(i, pol[0].y.getHostImagValue(i)*cosBeta + pol[1].y.getHostImagValue(i)*sinBeta);
-        combined.z.setHostImagValue(i, pol[0].z.getHostImagValue(i)*cosBeta + pol[1].z.getHostImagValue(i)*sinBeta);
-    }
-
-}
 
 void BioScat::computeScatteredFields(double beta) {
     combinePolarisation(E_scat_pol, E_scat, beta);
@@ -312,125 +189,26 @@ void BioScat::computeIncidentFields() {
     computeIncidentFields(beta);
 }
 
-void BioScat::computeIncidentSubFields() {
-    int n = x_obs.rows;
-    double val;
-    double start = omp_get_wtime();
-    segments[0].computeIncidentFieldVectors(y_obs);
-    
-    if (polarisation == 1) {
-        for (int k = 0; k < n; k++) {
-            val = segments[0].E_inc_vector.z.getHostRealValue(k);
-            E_inc_pol[0].z.setHostRealValue(k, val);
-        }
-        for (int k = 0; k < n; k++) {
-            val = segments[0].E_inc_vector.z.getHostImagValue(k);
-            E_inc_pol[0].z.setHostImagValue(k, val);
-        }
-
-        for (int k = 0; k < n; k++) {
-            val = segments[0].H_inc_vector.x.getHostRealValue(k);
-            H_inc_pol[0].x.setHostRealValue(k, val);
-        }
-        for (int k = 0; k < n; k++) {
-            val = segments[0].H_inc_vector.x.getHostImagValue(k);
-            H_inc_pol[0].x.setHostImagValue(k, val);
-        }
-    }
-    else if (polarisation == 2) {
-        for (int k = 0; k < n; k++) {
-            val = segments[0].H_inc_vector.z.getHostRealValue(k);
-            H_inc_pol[1].z.setHostRealValue(k, val);
-        }
-        for (int k = 0; k < n; k++) {
-            val = segments[0].H_inc_vector.z.getHostImagValue(k);
-            H_inc_pol[1].z.setHostImagValue(k, val);
-        }
-
-        for (int k = 0; k < n; k++) {
-            val = segments[0].E_inc_vector.x.getHostRealValue(k);
-            E_inc_pol[1].x.setHostRealValue(k, val);
-        }
-        for (int k = 0; k < n; k++) {
-            val = segments[0].E_inc_vector.x.getHostImagValue(k);
-            E_inc_pol[1].x.setHostImagValue(k, val);
-        }
-    }
-    double end = omp_get_wtime();
-    printf("\nIt took %.4e seconds to compute the combined incident fields in the observation points.\n\n",end-start);
-    
-    segments[0].freeIncidentFields();
-    
-}
 
 void BioScat::computeIncidentFields(double beta) {
 
     combinePolarisation(E_inc_pol, E_inc, beta);
     combinePolarisation(H_inc_pol, H_inc, beta);
 
-    
+    E_inc.toHost();
 }
 
 void BioScat::computeReflectedFields() {
     computeReflectedFields(beta);
 }
 
-void BioScat::computeReflectedSubFields() {
-
-    int n = x_obs.rows;
-    double val;
-    double start = omp_get_wtime();
-    segments[0].computeReflectedFieldVectors(y_obs);
-
-    if (polarisation == 1) {
-        for (int k = 0; k < n; k++) {
-            val = segments[0].E_ref_vector.z.getHostRealValue(k);
-            E_ref_pol[0].z.setHostRealValue(k, val);
-        }
-        for (int k = 0; k < n; k++) {
-            val = segments[0].E_ref_vector.z.getHostImagValue(k);
-            E_ref_pol[0].z.setHostImagValue(k, val);
-        }
-
-        for (int k = 0; k < n; k++) {
-            val = segments[0].H_ref_vector.x.getHostRealValue(k);
-            H_ref_pol[0].x.setHostRealValue(k, val);
-        }
-        for (int k = 0; k < n; k++) {
-            val = segments[0].H_ref_vector.x.getHostImagValue(k);
-            H_ref_pol[0].x.setHostImagValue(k, val);
-        }
-    }
-    else if (polarisation == 2) {
-        for (int k = 0; k < n; k++) {
-            val = segments[0].H_ref_vector.z.getHostRealValue(k);
-            H_ref_pol[1].z.setHostRealValue(k, val);
-        }
-        for (int k = 0; k < n; k++) {
-            val = segments[0].H_ref_vector.z.getHostImagValue(k);
-            H_ref_pol[1].z.setHostImagValue(k, val);
-        }
-
-        for (int k = 0; k < n; k++) {
-            val = segments[0].E_ref_vector.x.getHostRealValue(k);
-            E_ref_pol[1].x.setHostRealValue(k, val);
-        }
-        for (int k = 0; k < n; k++) {
-            val = segments[0].E_ref_vector.x.getHostImagValue(k);
-            E_ref_pol[1].x.setHostImagValue(k, val);
-        }
-    }
-    double end = omp_get_wtime();
-    printf("\nIt took %.4e seconds to compute the combined reflected fields in the observation points.\n\n",end-start);
-    
-    segments[0].freeReflectedFields();
-    
-}
 
 void BioScat::computeReflectedFields(double beta) {
 
     combinePolarisation(E_ref_pol, E_ref, beta);
     combinePolarisation(H_ref_pol, H_ref, beta);
+
+    E_ref.toHost();
 
     
 }
@@ -496,6 +274,7 @@ double getSquaredNorm(double x_real, double x_imag, double y_real, double y_imag
 }
 
 void BioScat::computeReflectance() {
+    //#pragma omp parallel for num_threads(x_obs.rows)
     for (int i = 0; i < x_obs.rows; i++) {
         double numerator = getSquaredNorm(E_inc.x.getHostRealValue(i), E_inc.x.getHostImagValue(i),
                                           E_inc.y.getHostRealValue(i), E_inc.y.getHostImagValue(i),
@@ -504,6 +283,31 @@ void BioScat::computeReflectance() {
                                             E_ref.y.getHostRealValue(i) + E_scat.y.getHostRealValue(i), E_ref.y.getHostImagValue(i) + E_scat.y.getHostImagValue(i),
                                             E_ref.z.getHostRealValue(i) + E_scat.z.getHostRealValue(i), E_ref.z.getHostImagValue(i) + E_scat.z.getHostImagValue(i));
         reflectance.setHostValue(i, numerator/denominator);
+    }
+}
+
+void BioScat::reset() {
+    if (true) {
+        // Initialize all arrays to zero on the host
+        for (int i = 0; i < 2; i++) {
+            E_scat_pol[i].setDeviceZero();
+            H_scat_pol[i].setDeviceZero();
+            E_inc_pol[i].setDeviceZero();
+            H_inc_pol[i].setDeviceZero();
+            E_ref_pol[i].setDeviceZero();
+            H_ref_pol[i].setDeviceZero();
+        }
+    }
+    else {
+        // Initialize all arrays to zero on the host
+        for (int i = 0; i < 2; i++) {
+            E_scat_pol[i].setHostZero();
+            H_scat_pol[i].setHostZero();
+            E_inc_pol[i].setHostZero();
+            H_inc_pol[i].setHostZero();
+            E_ref_pol[i].setHostZero();
+            H_ref_pol[i].setHostZero();
+        }
     }
 }
 

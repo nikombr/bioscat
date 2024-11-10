@@ -33,7 +33,7 @@ struct Constants {
         k0          = 2*pi/lambda0;         // Wave number in free space
         ks          = k0*ns/n0;             // Wave number in substrate
         k1          = k0*n1/n0;             // Wave number in nanowire/nanostructure
-        printf("Constants initialized!\n");
+        //printf("Constants initialized!\n");
     }
 
     void newWavelength(double lambda) {
@@ -44,7 +44,7 @@ struct Constants {
         k0          = 2*pi/lambda0;         // Wave number in free space
         ks          = k0*ns/n0;             // Wave number in substrate
         k1          = k0*n1/n0;             // Wave number in nanowire/nanostructure
-        printf("Constants initialized with new wavelength!\n");
+        //printf("Constants initialized with new wavelength!\n");
     }
 
 

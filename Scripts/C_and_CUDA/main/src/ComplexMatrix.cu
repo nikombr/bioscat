@@ -12,14 +12,37 @@ ComplexMatrix::ComplexMatrix(int rows, int cols) {
     // Save input parameters
     this->rows       = rows;
     this->cols       = cols;
+    this->host       = true;
+    this->device     = true;
 
     // Allocate vectors on host
-    cudaMallocHost((void **) &real_h,    rows*cols*sizeof(double));
+    cudaMallocHost((void **) &real_h, rows*cols*sizeof(double));
     cudaMallocHost((void **) &imag_h, rows*cols*sizeof(double));
 
     // Allocate vectors on device
-    cudaMalloc((void **) &real_d,    rows*cols*sizeof(double));
+    cudaMalloc((void **) &real_d, rows*cols*sizeof(double));
     cudaMalloc((void **) &imag_d, rows*cols*sizeof(double));
+}
+
+ComplexMatrix::ComplexMatrix(int rows, int cols, bool host, bool device) {
+
+    // Save input parameters
+    this->rows       = rows;
+    this->cols       = cols;
+    this->host       = host;
+    this->device     = device;
+
+    if (host) {
+        // Allocate vectors on host
+        cudaMallocHost((void **) &real_h, rows*cols*sizeof(double));
+        cudaMallocHost((void **) &imag_h, rows*cols*sizeof(double));
+    }
+
+    if (device) {
+        // Allocate vectors on device
+        cudaMalloc((void **) &real_d, rows*cols*sizeof(double));
+        cudaMalloc((void **) &imag_d, rows*cols*sizeof(double));
+    }
 }
 
 ComplexMatrix::ComplexMatrix(int rows) {
@@ -27,48 +50,84 @@ ComplexMatrix::ComplexMatrix(int rows) {
     // Save input parameters
     this->rows       = rows;
     this->cols       = 1;
+    this->host       = true;
+    this->device     = true;
 
     // Allocate vectors on host
-    cudaMallocHost((void **) &real_h,    rows*cols*sizeof(double));
+    cudaMallocHost((void **) &real_h, rows*cols*sizeof(double));
     cudaMallocHost((void **) &imag_h, rows*cols*sizeof(double));
 
     // Allocate vectors on device
-    cudaMalloc((void **) &real_d,    rows*cols*sizeof(double));
+    cudaMalloc((void **) &real_d, rows*cols*sizeof(double));
     cudaMalloc((void **) &imag_d, rows*cols*sizeof(double));
 }
 
-void ComplexMatrix::free() {
-    
-    // Free on host
-    cudaError_t err = cudaFreeHost(real_h);
-    if (err != cudaSuccess) {
-        std::cerr << "Failed to free memory: " << cudaGetErrorString(err) << std::endl;
-    }
-    err = cudaFreeHost(imag_h);
+ComplexMatrix::ComplexMatrix(int rows, bool host, bool device) {
 
-    if (err != cudaSuccess) {
-        std::cerr << "Failed to free memory: " << cudaGetErrorString(err) << std::endl;
+    // Save input parameters
+    this->rows       = rows;
+    this->cols       = 1;
+    this->host       = host;
+    this->device     = device;
+
+    if (host) {
+        // Allocate vectors on host
+        cudaMallocHost((void **) &real_h, rows*cols*sizeof(double));
+        cudaMallocHost((void **) &imag_h, rows*cols*sizeof(double));
     }
-    
-    // Free on device
-    cudaFree(real_d);
-    cudaFree(imag_d);
+
+    if (device) {
+        // Allocate vectors on device
+        cudaMalloc((void **) &real_d, rows*cols*sizeof(double));
+        cudaMalloc((void **) &imag_d, rows*cols*sizeof(double));
+    }
+}
+
+void ComplexMatrix::free() {
+    cudaError_t err;
+    if (host) {
+        // Free on host
+        err = cudaFreeHost(real_h);
+
+        if (err != cudaSuccess) {
+            std::cerr << "Failed to free memory on host: " << cudaGetErrorString(err) << std::endl;
+        }
+        err = cudaFreeHost(imag_h);
+
+        if (err != cudaSuccess) {
+            std::cerr << "Failed to free memory on host: " << cudaGetErrorString(err) << std::endl;
+        }
+    }
+    if (device) {
+        // Free on device
+        err = cudaFree(real_d);
+        if (err != cudaSuccess) {
+            std::cerr << "Failed to free memory on device: " << cudaGetErrorString(err) << std::endl;
+        }
+        err = cudaFree(imag_d);
+        if (err != cudaSuccess) {
+            std::cerr << "Failed to free memory on device: " << cudaGetErrorString(err) << std::endl;
+        }
+    }
 
 }
 
 void ComplexMatrix::toHost() {
-
-    // Send from device to host
-    cudaMemcpy(real_h,    real_d,    rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
-    cudaMemcpy(imag_h, imag_d, rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
+    if (host && device) {
+        // Send from device to host
+        cudaMemcpy(real_h, real_d, rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
+        cudaMemcpy(imag_h, imag_d, rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
+    }
 
 }
 
 void ComplexMatrix::toDevice() {
 
-    // Send from host to device
-    cudaMemcpy(real_d,    real_h,    rows * cols * sizeof(double), cudaMemcpyHostToDevice);
-    cudaMemcpy(imag_d, imag_h, rows * cols * sizeof(double), cudaMemcpyHostToDevice);
+    if (host && device) {
+        // Send from host to device
+        cudaMemcpy(real_d, real_h, rows * cols * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(imag_d, imag_h, rows * cols * sizeof(double), cudaMemcpyHostToDevice);
+    }
     
 }
 

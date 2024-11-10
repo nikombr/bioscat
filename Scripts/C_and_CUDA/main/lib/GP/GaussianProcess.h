@@ -25,11 +25,12 @@ class GaussianProcess {
         double *p_d;        // random vector and later height of plane in location (x,y) on device
         GaussianProcess();
         GaussianProcess(double* x_h, double* y_h, int n, double* hyper, int num, int dim, int dev, int type_covfunc);  // Constructer, sets default values and allocates
-        ~GaussianProcess();                                                                 // Destructer
+        void free();                                                                // Destructer
         void covariance_matrix();                                                           // Computes covariance matrix K
         void cholesky();                                                                    // Does cholesky factorization of K to compute L
         void generate_random_vector();                                                      // Generates random vector p
         void realisation();                                                                 // Computes realisation of the Gaussian process from L
+        GaussianProcess(int n, double* hyper, int num, int type_covfunc);
 };
 
 #endif

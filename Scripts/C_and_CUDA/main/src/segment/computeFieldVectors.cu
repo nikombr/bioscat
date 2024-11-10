@@ -8,66 +8,105 @@ extern "C" {
 #include "../../lib/RealMatrix.h"
 using namespace std;
 
+__global__ void computeFieldKernelReal(ComplexMatrix field, RealMatrix y, int n, double interior_constant, double exterior_constant) {
+    int j = threadIdx.x + blockIdx.x * blockDim.x;
+    if (j < n) {
+        field.setDeviceRealValue(j, exterior_constant * cos(interior_constant * y.getDeviceValue(j)));
+    }
+}
+
+__global__ void computeFieldKernelImag(ComplexMatrix field, RealMatrix y, int n, double interior_constant, double exterior_constant) {
+    int j = threadIdx.x + blockIdx.x * blockDim.x;
+    if (j < n) {
+        field.setDeviceImagValue(j, exterior_constant * sin(interior_constant * y.getDeviceValue(j)));
+    }
+}
+
+
 void Segment::computeIncidentFieldVectors(RealMatrix y) {
     
     int rows = y.rows;
 
-    bool Ex_bool = polarisation == 1 ? false : true;
-    bool Ez_bool = polarisation == 1 ? true  : false;
-    bool Hx_bool = polarisation == 1 ? true  : false;
-    bool Hz_bool = polarisation == 1 ? false : true;
-    bool Ey_bool = false;
-    bool Hy_bool = false;
+    if (true) {
+        // Blocks and threads
+        dim3 dimBlock(256);
+        dim3 dimGrid((rows + dimBlock.x - 1)/dimBlock.x);
+        if (polarisation == 1) {
+            computeFieldKernelReal<<<dimGrid, dimBlock>>>(E_inc_vector.z, y, rows, constants.k0, 1.0);
+            computeFieldKernelImag<<<dimGrid, dimBlock>>>(E_inc_vector.z, y, rows, constants.k0, 1.0);
+            computeFieldKernelReal<<<dimGrid, dimBlock>>>(H_inc_vector.x, y, rows, constants.k0, -1/constants.eta0);
+            computeFieldKernelImag<<<dimGrid, dimBlock>>>(H_inc_vector.x, y, rows, constants.k0, -1/constants.eta0);
+        }
+        else if (polarisation == 2) {
+            computeFieldKernelReal<<<dimGrid, dimBlock>>>(E_inc_vector.x, y, rows, constants.k0, 1.0);
+            computeFieldKernelImag<<<dimGrid, dimBlock>>>(E_inc_vector.x, y, rows, constants.k0, 1.0);
+            computeFieldKernelReal<<<dimGrid, dimBlock>>>(H_inc_vector.z, y, rows, constants.k0, 1/constants.eta0);
+            computeFieldKernelImag<<<dimGrid, dimBlock>>>(H_inc_vector.z, y, rows, constants.k0, 1/constants.eta0);
+        }
 
-    E_inc_vector = Field(rows);
-    H_inc_vector = Field(rows);
+        cudaDeviceSynchronize();
 
-    if (polarisation == 1) {
-        for (int j = 0; j < rows; j++) E_inc_vector.z.setHostRealValue(j,                     cos(constants.k0 * y.getHostValue(j)));
-        for (int j = 0; j < rows; j++) E_inc_vector.z.setHostImagValue(j,                     sin(constants.k0 * y.getHostValue(j)));
-        for (int j = 0; j < rows; j++) H_inc_vector.x.setHostRealValue(j, -1/constants.eta0 * cos(constants.k0 * y.getHostValue(j)));
-        for (int j = 0; j < rows; j++) H_inc_vector.x.setHostImagValue(j, -1/constants.eta0 * sin(constants.k0 * y.getHostValue(j)));
+        //E_inc_vector.toHost();
+        //H_inc_vector.toHost();
+
     }
     else {
-        for (int j = 0; j < rows; j++) E_inc_vector.x.setHostRealValue(j,                    cos(constants.k0 * y.getHostValue(j)));
-        for (int j = 0; j < rows; j++) E_inc_vector.x.setHostImagValue(j,                    sin(constants.k0 * y.getHostValue(j)));
-        for (int j = 0; j < rows; j++) H_inc_vector.z.setHostRealValue(j, 1/constants.eta0 * cos(constants.k0 * y.getHostValue(j)));
-        for (int j = 0; j < rows; j++) H_inc_vector.z.setHostImagValue(j, 1/constants.eta0 * sin(constants.k0 * y.getHostValue(j)));
+        if (polarisation == 1) {
+            for (int j = 0; j < rows; j++) E_inc_vector.z.setHostRealValue(j,                     cos(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) E_inc_vector.z.setHostImagValue(j,                     sin(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) H_inc_vector.x.setHostRealValue(j, -1/constants.eta0 * cos(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) H_inc_vector.x.setHostImagValue(j, -1/constants.eta0 * sin(constants.k0 * y.getHostValue(j)));
+        }
+        else {
+            for (int j = 0; j < rows; j++) E_inc_vector.x.setHostRealValue(j,                    cos(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) E_inc_vector.x.setHostImagValue(j,                    sin(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) H_inc_vector.z.setHostRealValue(j, 1/constants.eta0 * cos(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) H_inc_vector.z.setHostImagValue(j, 1/constants.eta0 * sin(constants.k0 * y.getHostValue(j)));
+        }
     }
-
-
 }
 
 void Segment::computeReflectedFieldVectors(RealMatrix y) {
     
     int rows = y.rows;
 
-    bool Ex_bool = polarisation == 1 ? false : true;
-    bool Ez_bool = polarisation == 1 ? true  : false;
-    bool Hx_bool = polarisation == 1 ? true  : false;
-    bool Hz_bool = polarisation == 1 ? false : true;
-    bool Ey_bool = false;
-    bool Hy_bool = false;
-
-    E_ref_vector = Field(rows);
-    H_ref_vector = Field(rows);
-
-    if (polarisation == 1) {
-        for (int j = 0; j < rows; j++) {
-            E_ref_vector.z.setHostRealValue(j,                     constants.Gamma_ref * cos(constants.k0 * y.getHostValue(j)));
-            E_ref_vector.z.setHostImagValue(j,                    -constants.Gamma_ref * sin(constants.k0 * y.getHostValue(j)));
-            H_ref_vector.x.setHostRealValue(j,  1/constants.eta0 * constants.Gamma_ref * cos(constants.k0 * y.getHostValue(j)));
-            H_ref_vector.x.setHostImagValue(j, -1/constants.eta0 * constants.Gamma_ref * sin(constants.k0 * y.getHostValue(j)));
+    if (true) {
+        // Blocks and threads
+        dim3 dimBlock(256);
+        dim3 dimGrid((rows + dimBlock.x - 1)/dimBlock.x);
+        if (polarisation == 1) {
+            computeFieldKernelReal<<<dimGrid, dimBlock>>>(E_ref_vector.z, y, rows, constants.k0, constants.Gamma_ref);
+            computeFieldKernelImag<<<dimGrid, dimBlock>>>(E_ref_vector.z, y, rows, constants.k0, -constants.Gamma_ref);
+            computeFieldKernelReal<<<dimGrid, dimBlock>>>(H_ref_vector.x, y, rows, constants.k0, 1/constants.eta0*constants.Gamma_ref);
+            computeFieldKernelImag<<<dimGrid, dimBlock>>>(H_ref_vector.x, y, rows, constants.k0, -1/constants.eta0*constants.Gamma_ref);
         }
+        else if (polarisation == 2) {
+            computeFieldKernelReal<<<dimGrid, dimBlock>>>(E_ref_vector.x, y, rows, constants.k0, constants.Gamma_ref);
+            computeFieldKernelImag<<<dimGrid, dimBlock>>>(E_ref_vector.x, y, rows, constants.k0, -constants.Gamma_ref);
+            computeFieldKernelReal<<<dimGrid, dimBlock>>>(H_ref_vector.z, y, rows, constants.k0, -1/constants.eta0*constants.Gamma_ref);
+            computeFieldKernelImag<<<dimGrid, dimBlock>>>(H_ref_vector.z, y, rows, constants.k0, 1/constants.eta0*constants.Gamma_ref);
+        }
+
+        cudaDeviceSynchronize();
+
+        //E_ref_vector.toHost();
+        //H_ref_vector.toHost();
+
     }
     else {
-        for (int j = 0; j < rows; j++) E_ref_vector.x.setHostRealValue(j,                     constants.Gamma_ref * cos(constants.k0 * y.getHostValue(j)));
-        for (int j = 0; j < rows; j++) E_ref_vector.x.setHostImagValue(j,                    -constants.Gamma_ref * sin(constants.k0 * y.getHostValue(j)));
-        for (int j = 0; j < rows; j++) H_ref_vector.z.setHostRealValue(j, -1/constants.eta0 * constants.Gamma_ref * cos(constants.k0 * y.getHostValue(j)));
-        for (int j = 0; j < rows; j++) H_ref_vector.z.setHostImagValue(j,  1/constants.eta0 * constants.Gamma_ref * sin(constants.k0 * y.getHostValue(j)));
+        if (polarisation == 1) {
+            for (int j = 0; j < rows; j++) E_ref_vector.z.setHostRealValue(j,                     constants.Gamma_ref * cos(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) E_ref_vector.z.setHostImagValue(j,                    -constants.Gamma_ref * sin(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) H_ref_vector.x.setHostRealValue(j,  1/constants.eta0 * constants.Gamma_ref * cos(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) H_ref_vector.x.setHostImagValue(j, -1/constants.eta0 * constants.Gamma_ref * sin(constants.k0 * y.getHostValue(j)));
+        }
+        else {
+            for (int j = 0; j < rows; j++) E_ref_vector.x.setHostRealValue(j,                     constants.Gamma_ref * cos(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) E_ref_vector.x.setHostImagValue(j,                    -constants.Gamma_ref * sin(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) H_ref_vector.z.setHostRealValue(j, -1/constants.eta0 * constants.Gamma_ref * cos(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) H_ref_vector.z.setHostImagValue(j,  1/constants.eta0 * constants.Gamma_ref * sin(constants.k0 * y.getHostValue(j)));
+        }
     }
-
-
 }
   
 

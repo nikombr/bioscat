@@ -39,9 +39,11 @@ class BioScat {
         GaussianProcess GP;
         RealMatrix x_obs;
         RealMatrix y_obs;
+        int n_obs;
+        bool printOutput = false;
 
         BioScat(char* protein_structure, int num_segments, int total_grid_points);
-        ~BioScat();
+        void free();
         void getNanostructure();                                        // Set up nanostructure from protein_structure
         void getSegments();
         void getSegments(Nanostructure nanostructure);

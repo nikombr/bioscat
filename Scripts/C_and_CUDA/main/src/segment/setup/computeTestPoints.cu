@@ -8,9 +8,9 @@ using namespace std;
 
 
 void computeTestPoints(RealMatrix x_test, RealMatrix y_test, Nanostructure nanostructure, int start, int end, bool deviceComputation) {
-
+    bool printOutput = false;
     // Set minimum number of steps on the sides of the segment
-    int minNumSteps = 10;
+    int minNumSteps = 15;
 
     // Determine distance between test points
     double step = nanostructure.x.getHostValue(1) - nanostructure.x.getHostValue(0);
@@ -23,7 +23,9 @@ void computeTestPoints(RealMatrix x_test, RealMatrix y_test, Nanostructure nanos
 
     // Determine steps for sides of segment
     int startnum = max(minNumSteps, (int) ceil(startvalue/step));
+    startnum = minNumSteps;
     int endnum   = max(minNumSteps, (int) ceil(endvalue/step));
+    endnum = minNumSteps;
     double startstep = startvalue/startnum;
     double endstep   = endvalue/endnum;
 
@@ -46,11 +48,11 @@ void computeTestPoints(RealMatrix x_test, RealMatrix y_test, Nanostructure nanos
     end       -= 1;
 
     if (deviceComputation) { // GPU
-        printf("Computing test points on the GPU.\n");
+        if (printOutput) printf("Computing test points on the GPU.\n");
 
     }
     else { // CPU
-        printf("Computing test points on the CPU.\n");
+        if (printOutput) printf("Computing test points on the CPU.\n");
 
         // Compute points along each side
         for (int j = 0; j < n_right; j++) {

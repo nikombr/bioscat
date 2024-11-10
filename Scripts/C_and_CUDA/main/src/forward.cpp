@@ -12,12 +12,15 @@ using namespace std;
 void forward(double *x, double*y, int n ,char * protein_structure, int num_segments, int total_grid_points, double beta, double lambda) {
 
     BioScat bioscat = BioScat(protein_structure, num_segments, total_grid_points);
+    bioscat.printOutput = true;
+
+    bioscat.setupObservationPoints(x, y, n);
 
     bioscat.getNanostructure();
 
     bioscat.getSegments();
 
-    bioscat.setupObservationPoints(x, y, n);
+    bioscat.reset();
 
     bioscat.prepareForward(beta, lambda);
 
@@ -38,6 +41,8 @@ void forward(double *x, double*y, int n ,char * protein_structure, int num_segme
     bioscat.computeIncidentFields();
 
     bioscat.dumpFields();
+
+    bioscat.free();
 
 }
 

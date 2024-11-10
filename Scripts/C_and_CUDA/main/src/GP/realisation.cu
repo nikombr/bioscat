@@ -72,6 +72,8 @@ void GaussianProcess::realisation() {
             printf("CUBLAS destruction failed\n");
             return;
         }
+
+        cudaDeviceSynchronize();
     }
     else {
         cblas_dtrmv(CblasRowMajor, CblasLower, CblasNoTrans, CblasNonUnit, n, *M_h, n, p_h, 1);
