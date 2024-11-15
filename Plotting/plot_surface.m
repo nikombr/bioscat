@@ -18,7 +18,7 @@ for i = 1:2
     y = data(:,2);
     z = data(:,3);
     
-    n = 10;
+    n = 300;
     X = linspace(min(x),max(x),n);
     Y = linspace(min(y),max(y),1000);
     

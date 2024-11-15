@@ -7,8 +7,8 @@ addpath('../fields_2D/')
 addpath('../../utils')
 
 protein_structures    = {"Retinin2x2", "demoleus2x2"};  % Retinin2x2 demoleus2x2
-num_segments_choices = [1 5 10 20]; % 1 5 10 20
-total_x_grid_points  = 10;
+num_segments_choices = 2;%[1 5 10 20]; % 1 5 10 20
+total_x_grid_points  = 100;
 
 for k = 1:2
     protein_structure = protein_structures{k};
@@ -23,13 +23,13 @@ end
 %% Compute solution in window
 clear; close all; clc;
 
-addpath('../fields_2D/')
+addpath('../filds_2D/')
 addpath('../../utils')
 
 protein_structure    = "demoleus2x2"; % Retinin2x2 demoleus2x2
-num_segments_choices = 1;[1 5 10 20]; % 1 5 10 20
-total_x_grid_points  = 10;
-obs_grid             = 300;
+num_segments_choices = 2;[1 5 10 20]; % 1 5 10 20
+total_x_grid_points  = 100;
+obs_grid             = 10;
 
 far_field_approximation = false;
 views = {"close","far","far_approximation"};
@@ -45,13 +45,18 @@ for scenario = 1:2
     for num_segments = num_segments_choices
 
         load(sprintf('../../../../Data/segments_2D/%s_total_x_grid_points_%d_num_segments_%d.mat',protein_structure,total_x_grid_points,num_segments))
-
+        segments = {segments{1}};
         % Solve linear system for each segment
         tic;
         for k = 1:length(segments)
             segments{k} = forward(segments{k},scenario);
-            segments{k}.C
-            segments{k}.D
+            C = segments{k}.C;
+            D = segments{k}.D;
+            test = [segments{k}.x_top segments{k}.y_top; segments{k}.x_right segments{k}.y_right; segments{k}.x_bottom segments{k}.y_bottom; segments{k}.x_left segments{k}.y_left]
+            ext = [segments{k}.x_ext' segments{k}.y_ext']
+            int = [segments{k}.x_int' segments{k}.y_int']
+            
+            
         end
         stop = toc;
        

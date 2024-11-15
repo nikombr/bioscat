@@ -20,6 +20,9 @@ if scenario == 1
     Eref(:,3) =          Gamma_r * exp(-1i*k0*y);
     Href(:,1) = 1/eta0 * Gamma_r * exp(-1i*k0*y);
 
+    1/eta0*Gamma_r * exp(0)
+    1/eta0*Gamma_r * cos(0)
+
 elseif scenario == 2
 
     Eref(:,1) =            Gamma_r * exp(-1i*k0*y);

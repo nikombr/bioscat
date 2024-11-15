@@ -8,6 +8,9 @@ far_field_approximation = false;
 [Eref,        Href]        = reflected_fields(coord,            scenario, lambda0);
 [Escat,       Hscat]       = scattered_fields(coord, coord_int, scenario, lambda0, far_field_approximation);
 [Etot_inside, Htot_inside] =  interior_fields(coord, coord_ext, scenario, lambda0);
+Ez = Etot_inside(:,1,3)
+Hx = Htot_inside(:,1,1)
+Hy = Htot_inside(:,1,2)
 
 if scenario == 2
     % Swap fields in scenario 2 as the linear system can be set up in the
@@ -55,9 +58,9 @@ elseif strcmp(section, "right") || strcmp(section, "left")
 
 elseif strcmp(section, "bottom")
 
-    b2 = Hinc(:,1) + Hinc(:,1);
-    a3 = Hscat(:,:,1);
-    a4 = -Htot_inside(:,:,1);
+    b2 = Hinc(:,1) + Href(:,1);
+    a3 = -Hscat(:,:,1);
+    a4 = Htot_inside(:,:,1);
 
 else
     fprintf("Please inpute 'top', 'right', 'bottom' or 'left'. You wrote '%s'.\n",section);

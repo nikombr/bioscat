@@ -2,41 +2,27 @@ function segment = setup_nanostructures(segx,segy,alpha)
 
 d = segx(2)-segx(1);
 r = min((max(segx) - min(segx)),(max(segy) - min(segy)))/2;
-
-
-%segy = ones(size(segy))*max(segy);
+minNumSteps = 10;
+numstepstart = max(minNumSteps,ceil(segy(1)/d));
+numstepend = max(minNumSteps,ceil(segy(end)/d));
 
 x_top    = segx;
 y_top    = segy;
-ys = 0:d:segy(end);
-ys = linspace(0,segy(end),length(ys));
+ys = linspace(0, segy(end), numstepend+1);
 x_right  = 0*ys+max(segx);
 y_right  = flip(ys);
 x_bottom = flip(segx);
 y_bottom = 0*segy;
-ys = 0:d:segy(1);
-ys = linspace(0,segy(1),length(ys));
+ys = linspace(0, segy(1), numstepstart+1);
 x_left = 0*ys+min(segx);
 y_left = ys;
-
-x = {x_top, x_right, x_bottom, x_left};
-y = {y_top, y_right, y_bottom, y_left};
-
-%ys = 0:d:segy(end);
-%x = [segx 0*ys+max(segx)];
-%y = [segy flip(ys)];
-%x = [x flip(segx)];
-%y = [y 0*segy];
-%ys = 0:d:segy(1);
-%x = [x 0*ys+min(segx)];
-%y = [y ys];
 
 X = {x_top, x_right, x_bottom, x_left};
 Y = {y_top, y_right, y_bottom, y_left};
 
 % Compute exterior points
-x = [x_top x_right x_bottom x_left];
-y = [y_top y_right y_bottom y_left];
+x = [x_top(1:end-1) x_right(1:end-1) x_bottom(1:end-1) x_left(1:end-1)];
+y = [y_top(1:end-1) y_right(1:end-1) y_bottom(1:end-1) y_left(1:end-1)];
 
 x1  = [x(end) x(1:end-1)];
 y1  = [y(end) y(1:end-1)];
@@ -45,13 +31,13 @@ y2 = [y(2:end) y(1)];
 x_diff = x1 - x2;
 y_diff = y1 - y2;
 diff = [x_diff; y_diff];
-diff = diff./vecnorm(diff)*alpha;
+diff = diff./vecnorm(diff);
 
-x_ext = x + diff(2,:);
-y_ext = y - diff(1,:);
+x_ext = x + diff(2,:)*alpha;
+y_ext = y - diff(1,:)*alpha;
 
-n_x = x_ext(1:length(x_top));
-n_y = y_ext(1:length(y_top));
+n_x = diff(2,1:length(x_top));
+n_y = -diff(1,1:length(y_top));
 n_x = n_x(2:end-1);
 n_y = n_y(2:end-1);
 
@@ -61,13 +47,18 @@ y_int = [];
 for k = 1:4
     xseg = X{k};
     yseg = Y{k};
-    x = xseg(3:end-2);
-    y = yseg(3:end-2);
-    
-    x1  = xseg(2:end-3);
-    y1  = yseg(2:end-3);
-    x2  = xseg(4:end-1);
-    y2  = yseg(4:end-1);
+    %x = xseg(3:end-2);
+    %y = yseg(3:end-2);
+    %x1  = xseg(2:end-3);
+    %y1  = yseg(2:end-3);
+    %x2  = xseg(4:end-1);
+    %y2  = yseg(4:end-1);
+    x = xseg(4:end-3);
+    y = yseg(4:end-3);
+    x1  = xseg(3:end-4);
+    y1  = yseg(3:end-4);
+    x2  = xseg(5:end-2);
+    y2  = yseg(5:end-2);
     x_diff = x1 - x2;
     y_diff = y1 - y2;
     diff = [x_diff; y_diff];

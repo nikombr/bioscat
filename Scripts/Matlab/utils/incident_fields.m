@@ -19,6 +19,10 @@ if scenario == 1
     Einc(:,3) =            exp(1i*k0*y);
     Hinc(:,1) = - 1/eta0 * exp(1i*k0*y);
 
+    - 1/eta0 * exp(0)
+    - 1/eta0 * cos(0)
+
+
 elseif scenario == 2
 
     Einc(:,1) =          exp(1i*k0*y);

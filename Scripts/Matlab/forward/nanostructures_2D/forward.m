@@ -48,7 +48,11 @@ section = 'top';
 [b1, b2, a1, a2, a3, a4] = forward_section(coord, coord_int, coord_ext, scenario, lambda0, section, n_x, n_y);
 
 b = [b1; b2];
+btop = b1;
+bbottom = b2;
 A = [a1 a2; a3 a4];
+Atop = [a1 a2];
+Abotttom = [a3 a4];
 
 % Right side of nanostructure
 
@@ -60,7 +64,12 @@ section = 'right';
 [b1, b2, a1, a2, a3, a4] = forward_section(coord, coord_int, coord_ext, scenario, lambda0, section);
 
 b = [b; b1; b2];
+btop = [btop; b1];
+bbottom = [bbottom; b2];
 A = [A; a1 a2; a3 a4];
+Atop = [Atop; a1 a2];
+Abotttom = [Abotttom; a3 a4];
+
 
 
 % Bottom of nanostructure
@@ -73,7 +82,11 @@ section = 'bottom';
 [b1, b2, a1, a2, a3, a4] = forward_section(coord, coord_int, coord_ext, scenario, lambda0, section);
 
 b = [b; b1; b2];
+btop = [btop; b1];
+bbottom = [bbottom; b2];
 A = [A; a1 a2; a3 a4];
+Atop = [Atop; a1 a2];
+Abotttom = [Abotttom; a3 a4];
 
 % Left side of nanostructure
 
@@ -85,10 +98,25 @@ section = 'left';
 [b1, b2, a1, a2, a3, a4] = forward_section(coord, coord_int, coord_ext, scenario, lambda0, section);
 
 b = [b; b1; b2];
+btop = [btop; b1];
+bbottom = [bbottom; b2];
 A = [A; a1 a2; a3 a4];
-
+Atop = [Atop; a1 a2];
+Abotttom = [Abotttom; a3 a4];
+bC = [btop; bbottom]
+AC = [Atop; Abotttom];
+writematrix(real(AC),'A_real.txt','Delimiter','tab')
+writematrix(imag(AC),'A_imag.txt','Delimiter','tab')
+writematrix(real(bC),'b_real.txt','Delimiter','tab')
+writematrix(imag(bC),'b_imag.txt','Delimiter','tab')
+Abig = [real(AC) -imag(AC); imag(AC) real(AC)];
+bbig = [real(bC); imag(bC)];
+writematrix(Abig,'Abig.txt','Delimiter','tab')
+writematrix(bbig,'bbig.txt','Delimiter','tab')
+ACsnit = AC(:,1)
 % Solve linear system
 c = A\b;
+cbig = Abig\bbig
 
 % Save result
 segment.C = c(1:length(x_int));
