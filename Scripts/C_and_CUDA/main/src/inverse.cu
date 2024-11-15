@@ -132,6 +132,7 @@ void inverse(char * protein_structure, int num_segments, int total_grid_points, 
     double start, stop; // Time measurement
     double Lprev, Lstar, alpha, u, logPrior;
     double shift = 3e-8;
+    double scale = 0.75*1e-8;
     double * temp_h, * temp_d;
     bool deviceComputation = true;
     
@@ -206,18 +207,18 @@ void inverse(char * protein_structure, int num_segments, int total_grid_points, 
     srand(time(NULL));
     double minimum = 0;
     while (minimum < 1e-8) {
-        GP.realisation();
+        /*GP.realisation();
 
         for (int i = 0; i < total_grid_points; i++) {
             f.setHostValue(i,GP.p_h[i]);
-        }
-
-        /*for (int i = 0; i < total_grid_points; i++) {
-            f.setHostValue(i,0.0);
         }*/
 
         for (int i = 0; i < total_grid_points; i++) {
-            proposedNanostructure.f.setHostValue(i,f.getHostValue(i)*1e-8 + shift);
+            f.setHostValue(i,0.0);
+        }
+
+        for (int i = 0; i < total_grid_points; i++) {
+            proposedNanostructure.f.setHostValue(i,f.getHostValue(i)*scale + shift);
         }
 
         minimum = proposedNanostructure.f.findMin();
@@ -251,8 +252,8 @@ void inverse(char * protein_structure, int num_segments, int total_grid_points, 
     fprintf(logfile_accepted, "%e %e %e %e %e %e\n",Lprev, exp(Lprev),logPrior, exp(logPrior), Lprev + logPrior, exp(Lprev + logPrior));
 
     int status;
-    double delta = 0.001;
-    for (int n = 0; n < 1000; n++) {
+    double delta = 0.0005;
+    for (int n = 0; n < 10000; n++) {
         
         
         GP.realisation();
@@ -266,7 +267,7 @@ void inverse(char * protein_structure, int num_segments, int total_grid_points, 
             fstar.setHostValue(i,sqrt(1 - 2*delta)*f.getHostValue(i) + sqrt(2*delta)*phi.getHostValue(i));
         }
         for (int i = 0; i < total_grid_points; i++) {
-            proposedNanostructure.f.setHostValue(i,fstar.getHostValue(i)*1e-8 + shift);
+            proposedNanostructure.f.setHostValue(i,fstar.getHostValue(i)*scale + shift);
         }
         minimum = proposedNanostructure.f.findMin();
         //printf("minimum = %e\n",minimum);

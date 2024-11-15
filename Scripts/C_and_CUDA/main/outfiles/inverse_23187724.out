@@ -4,15 +4,15 @@ Terminated
 
 ------------------------------------------------------------
 Sender: LSF System <lsfadmin@hpc.dtu.dk>
-Subject: Job 23187436: <inverse> in cluster <dcc> Exited
+Subject: Job 23187724: <inverse> in cluster <dcc> Exited
 
-Job <inverse> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Fri Nov 15 17:15:59 2024
-Job was executed on host(s) <64*n-62-12-81>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Fri Nov 15 17:16:00 2024
+Job <inverse> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Fri Nov 15 19:09:37 2024
+Job was executed on host(s) <64*n-62-12-81>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Fri Nov 15 19:09:38 2024
 </zhome/00/b/147112> was used as the home directory.
 </zhome/00/b/147112/bioscat/Scripts/C_and_CUDA/main> was used as the working directory.
-Started at Fri Nov 15 17:16:00 2024
-Terminated at Fri Nov 15 17:35:57 2024
-Results reported at Fri Nov 15 17:35:57 2024
+Started at Fri Nov 15 19:09:38 2024
+Terminated at Fri Nov 15 19:32:39 2024
+Results reported at Fri Nov 15 19:32:39 2024
 
 Your job looked like:
 
@@ -40,16 +40,16 @@ Exited with exit code 143.
 
 Resource usage summary:
 
-    CPU time :                                   996.00 sec.
-    Max Memory :                                 225 MB
-    Average Memory :                             171.27 MB
+    CPU time :                                   1194.00 sec.
+    Max Memory :                                 227 MB
+    Average Memory :                             173.58 MB
     Total Requested Memory :                     65536.00 MB
-    Delta Memory :                               65311.00 MB
+    Delta Memory :                               65309.00 MB
     Max Swap :                                   -
     Max Processes :                              4
     Max Threads :                                9
-    Run time :                                   1208 sec.
-    Turnaround time :                            1198 sec.
+    Run time :                                   1381 sec.
+    Turnaround time :                            1382 sec.
 
 The output (if any) is above this job summary.
 

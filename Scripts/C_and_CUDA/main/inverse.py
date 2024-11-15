@@ -73,7 +73,7 @@ def executeInverse(num_segments = 1, total_grid_points=100,protein_structure = "
 
 if __name__ == "__main__":
 
-    executeInverse(p=2,ell=0.2,total_grid_points=300,num_segments=1)
+    executeInverse(p=4,ell=0.5,total_grid_points=300,num_segments=1)
     
     
     

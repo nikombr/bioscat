@@ -24,7 +24,13 @@ for i in range(m):
 half = int(m/2)
 plt.plot(data1[:,0],data1[:,1],'k-')
 y = np.mean(data[half:,:],axis=0)
+print("mu = ",np.mean(y))
+print("std = ",np.std(y))
 plt.plot(x,y,'r-')
+
+plt.plot(x,y*0+np.mean(y),'g--')
+plt.plot(x,y*0+np.mean(y)+np.std(y),'g--')
+plt.plot(x,y*0+np.mean(y)-np.std(y),'g--')
 
 
 plt.savefig("plots/inverse_last_temp.png")
