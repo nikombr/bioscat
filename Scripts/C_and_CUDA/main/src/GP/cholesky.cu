@@ -45,6 +45,11 @@ void GaussianProcess::cholesky() {
             printf("Error with argument %d.\n\n", -*info_h);
         }
 
+        cusolverDnDestroy(cusolverH);
+        cudaFree(info_d);
+        cudaFreeHost(info_h);
+        cudaFree(workspace);
+
     }
     else {
         char uplo = 'U';

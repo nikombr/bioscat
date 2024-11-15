@@ -1,3 +1,5 @@
+// This file is reused from the HPC course and the advanced special course in HPC
+
 #include <stdlib.h>
 extern "C" {
 void

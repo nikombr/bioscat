@@ -4,22 +4,60 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
-extern "C" {
 #include "../lib/RealMatrix.h"
+extern "C" {
 using namespace std;
 
 RealMatrix::RealMatrix(int rows) {
      // Save input parameters
     this->rows       = rows;
     this->cols       = 1;
+    this->depth      = 1;
+    this->host       = true;
+    this->device     = true;
 
     // Allocate vectors on host
-    cudaMallocHost((void **) &val_h,    rows*cols*sizeof(double));
+    cudaMallocHost((void **) &val_h,    rows*cols*depth*sizeof(double));
+    if (val_h == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return;
+    }
 
     // Allocate vectors on device
-    cudaMalloc((void **) &val_d,    rows*cols*sizeof(double));
+    cudaMalloc((void **) &val_d,    rows*cols*depth*sizeof(double));
 
-    val_h[0] = 1;
+    if (val_d == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return;
+    }
+}
+
+RealMatrix::RealMatrix(int rows, bool host, bool device) {
+     // Save input parameters
+    this->rows       = rows;
+    this->cols       = 1;
+    this->depth      = 1;
+    this->host       = host;
+    this->device     = device;
+
+    // Allocate vectors on host
+    if (host) {
+        cudaMallocHost((void **) &val_h,    rows*cols*depth*sizeof(double));
+        if (val_h == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            return;
+        }
+    }
+
+    // Allocate vectors on device
+    if (device) {
+        cudaMalloc((void **) &val_d,    rows*cols*depth*sizeof(double));
+
+        if (val_d == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            return;
+        }
+    }
 }
 
 RealMatrix::RealMatrix(int rows, int cols) {
@@ -27,23 +65,127 @@ RealMatrix::RealMatrix(int rows, int cols) {
     // Save input parameters
     this->rows       = rows;
     this->cols       = cols;
+    this->depth      = 1;
+    this->host       = true;
+    this->device     = true;
 
     // Allocate vectors on host
-    cudaMallocHost((void **) &val_h,    rows*cols*sizeof(double));
+    cudaMallocHost((void **) &val_h,    rows*cols*depth*sizeof(double));
+    if (val_h == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return;
+    }
 
     // Allocate vectors on device
-    cudaMalloc((void **) &val_d,    rows*cols*sizeof(double));
+    cudaMalloc((void **) &val_d,    rows*cols*depth*sizeof(double));
 
-    val_h[0] = 1;
+    if (val_d == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return;
+    }
+}
+
+RealMatrix::RealMatrix(int rows, int cols, bool host, bool device) {
+
+    // Save input parameters
+    this->rows       = rows;
+    this->cols       = cols;
+    this->depth      = 1;
+    this->host       = host;
+    this->device     = device;
+
+    if (host) {
+        // Allocate vectors on host
+        cudaMallocHost((void **) &val_h,    rows*cols*depth*sizeof(double));
+        if (val_h == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            return;
+        }
+    }
+
+    if (device) {
+        // Allocate vectors on device
+        cudaMalloc((void **) &val_d,    rows*cols*depth*sizeof(double));
+
+        if (val_d == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            return;
+        }
+    }
+}
+
+RealMatrix::RealMatrix(int rows, int cols, int depth) {
+
+    // Save input parameters
+    this->rows       = rows;
+    this->cols       = cols;
+    this->depth      = depth;
+    this->host       = true;
+    this->device     = true;
+
+    // Allocate vectors on host
+    cudaMallocHost((void **) &val_h,    rows*cols*depth*sizeof(double));
+    if (val_h == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return;
+    }
+
+    // Allocate vectors on device
+    cudaMalloc((void **) &val_d,    rows*cols*depth*sizeof(double));
+
+    if (val_d == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return;
+    }
+}
+
+RealMatrix::RealMatrix(int rows, int cols, int depth, bool host, bool device) {
+
+    // Save input parameters
+    this->rows       = rows;
+    this->cols       = cols;
+    this->depth      = depth;
+    this->host       = host;
+    this->device     = device;
+
+    if (host) {
+        // Allocate vectors on host
+        cudaMallocHost((void **) &val_h,    rows*cols*depth*sizeof(double));
+        if (val_h == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            return;
+        }
+    }
+
+    if (device) {
+        // Allocate vectors on device
+        cudaMalloc((void **) &val_d,    rows*cols*depth*sizeof(double));
+
+        if (val_d == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            return;
+        }
+    }
 }
 
 void RealMatrix::free() {
     
+    cudaError_t err;
     // Free on host
-    cudaFreeHost(val_h);
+    if (host) {
+        err = cudaFreeHost(val_h);
+        if (err != cudaSuccess) {
+            std::cerr << "Failed to free memory on host: " << cudaGetErrorString(err) << std::endl;
+        }
+    }
 
     // Free on device
-    cudaFree(val_d);
+    if (device) {
+        err = cudaFree(val_d);
+        if (err != cudaSuccess) {
+            std::cerr << "Failed to free memory on device: " << cudaGetErrorString(err) << std::endl;
+        }
+    }
 
     //printf("Destructed real matrices!\n");
 
@@ -51,15 +193,25 @@ void RealMatrix::free() {
 
 void RealMatrix::toHost() {
 
-    // Send from device to host
-    cudaMemcpy(val_h,    val_d,    rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
+    if (host && device) {
+        // Send from device to host
+        cudaMemcpy(val_h,    val_d,    depth * rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
+    }
+    else {
+        printf("You cannot send between the host and device when both are not allocated.\n");
+    }
 
 }
 
 void RealMatrix::toDevice() {
 
-    // Send from host to device
-    cudaMemcpy(val_d,    val_h,    rows * cols * sizeof(double), cudaMemcpyHostToDevice);
+    if (host && device) {
+        // Send from host to device
+        cudaMemcpy(val_d,    val_h,    depth * rows * cols * sizeof(double), cudaMemcpyHostToDevice);
+    }
+    else {
+        printf("You cannot send between the host and device when both are not allocated.\n");
+    }
     
 }
 
@@ -71,12 +223,8 @@ void RealMatrix::setHostValue(int r, int c, double val) {
     val_h[r*cols + c] = val;
 }
 
-__device__ void RealMatrix::setDeviceValue(int r, double val) {
-    val_d[r] = val;
-}
-
-__device__ void RealMatrix::setDeviceValue(int r, int c, double val) {
-    val_d[r*cols + c] = val;
+void RealMatrix::setHostValue(int r, int c, int d, double val) {
+    val_h[r * (cols * depth) + c * depth + d] = val;
 }
 
 double RealMatrix::getHostValue(int r) {
@@ -87,13 +235,10 @@ double RealMatrix::getHostValue(int r, int c) {
     return val_h[r*cols + c];
 }
 
-__device__ double RealMatrix::getDeviceValue(int r) {
-    return val_d[r];
+double RealMatrix::getHostValue(int r, int c, int d) {
+    return val_h[r * (cols * depth) + c * depth + d];
 }
 
-__device__ double RealMatrix::getDeviceValue(int r, int c) {
-    return val_d[r*cols + c];
-}
 
 
 }

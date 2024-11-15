@@ -40,6 +40,13 @@ void GaussianProcess::generate_random_vector() {
 
 }
 
+__global__ void scaleDown(double * p_d, int n) {
+    int i = threadIdx.x + blockIdx.x * blockDim.x;
+    if (i < n) {
+        p_d[i] = p_d[i]*1e-8;
+    }
+}
+
 void GaussianProcess::realisation() {
 
     generate_random_vector();
@@ -63,6 +70,10 @@ void GaussianProcess::realisation() {
             printf("cublasDtrmv failed with error code: %d\n", status);
         }
 
+        dim3 dimBlock(32);
+        dim3 dimGrid((n + dimBlock.x - 1)/dimBlock.x);
+        //scaleDown<<<dimGrid, dimBlock>>>(p_d, n);
+
         // Send to host
         cudaMemcpy(p_h, p_d, n * sizeof(double), cudaMemcpyDeviceToHost);
 
@@ -72,6 +83,8 @@ void GaussianProcess::realisation() {
             printf("CUBLAS destruction failed\n");
             return;
         }
+
+        cudaDeviceSynchronize();
     }
     else {
         cblas_dtrmv(CblasRowMajor, CblasLower, CblasNoTrans, CblasNonUnit, n, *M_h, n, p_h, 1);

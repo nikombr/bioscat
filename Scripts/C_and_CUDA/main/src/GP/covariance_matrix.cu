@@ -108,6 +108,14 @@ void GaussianProcess::covariance_matrix() {
             cudaDeviceSynchronize();
 
         }
+        cudaMemcpy(*M_h, M_log, n*n * sizeof(double), cudaMemcpyDeviceToHost);
+        logDeterminant = 0.0;
+        for (int i = 0; i < n; ++i) {
+            double val;
+            val = log(M_h[i][i]);
+            logDeterminant += 2*val;
+        }
+        printf("log(det) =%e \n",logDeterminant);
 
 
     }

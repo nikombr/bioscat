@@ -1,9 +1,11 @@
 #ifndef _BIOSCAT_H
 #define _BIOSCAT_H
+#include "Segment.h"
 extern "C" {
-#include "2D/Nanostructure.h"
-#include "2D/Segment.h"
+#include "Nanostructure.h"
 #include "Field.h"
+#include "RealMatrix.h"
+#include "GP/GaussianProcess.h"
 
 class BioScat {
 
@@ -19,16 +21,58 @@ class BioScat {
         Field H_inc;
         Field E_ref;
         Field H_ref;
+        Field E_scat_pol[2];
+        Field H_scat_pol[2];
+        Field E_inc_pol[2];
+        Field H_inc_pol[2];
+        Field E_ref_pol[2];
+        Field H_ref_pol[2];
+        bool deviceComputation = false; // True if we should compute on the device
+        int polarisation; // Polarisation polarisation, 1 or 2
+        double beta;
+        
+
+        
 
     public:
-        BioScat(char* protein_structure, int num_segments);
-        ~BioScat();
+        RealMatrix reflectance;
+        GaussianProcess GP;
+        RealMatrix x_obs;
+        RealMatrix y_obs;
+        int n_obs;
+        bool printOutput = false;
+        int status;
+        BioScat() {
+
+        }
+        BioScat(char* protein_structure, int num_segments, int total_grid_points);
+        BioScat(char* protein_structure, int num_segments, int total_grid_points, bool deviceComputation);
+        void free();
         void getNanostructure();                                        // Set up nanostructure from protein_structure
         void getSegments();
         void getSegments(Nanostructure nanostructure);
-        void forwardSolver(int scenario);
+        void forwardSolver(int polarisation);
+        void setupObservationPoints(double *x, double*y, int n);
+        void computeScatteredFields();
+        void computeScatteredFields(double lambda);
+        void computeScatteredSubFields();
+        void computeReflectedFields();
+        void computeReflectedSubFields();
+        void computeReflectedFields(double lambda);
+        void computeIncidentFields();
+        void computeIncidentSubFields();
+        void computeIncidentFields(double lambda);
+        void dumpFields();
+        void computeReflectance();
+        void prepareForward(double beta, double lambda);
+        void prepareForward(double lambda);
         void inverseSolver();
-        void reset(); // De-allocates everything that only needs to be used in one inverse iteration
+        void setupGaussianProcess();
+        void preConditionedCrankNicholson();
+        void reset(); // Sets pols to zero
+        void allocateSegments();
+
+        
 
 
 
