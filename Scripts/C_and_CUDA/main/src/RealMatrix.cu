@@ -4,8 +4,8 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
-extern "C" {
 #include "../lib/RealMatrix.h"
+extern "C" {
 using namespace std;
 
 RealMatrix::RealMatrix(int rows) {
@@ -195,7 +195,7 @@ void RealMatrix::toHost() {
 
     if (host && device) {
         // Send from device to host
-        cudaMemcpy(val_h,    val_d,    rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
+        cudaMemcpy(val_h,    val_d,    depth * rows * cols * sizeof(double), cudaMemcpyDeviceToHost);
     }
     else {
         printf("You cannot send between the host and device when both are not allocated.\n");
@@ -207,7 +207,7 @@ void RealMatrix::toDevice() {
 
     if (host && device) {
         // Send from host to device
-        cudaMemcpy(val_d,    val_h,    rows * cols * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(val_d,    val_h,    depth * rows * cols * sizeof(double), cudaMemcpyHostToDevice);
     }
     else {
         printf("You cannot send between the host and device when both are not allocated.\n");

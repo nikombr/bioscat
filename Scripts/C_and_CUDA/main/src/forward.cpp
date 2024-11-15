@@ -3,18 +3,23 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
-extern "C" {
 #include "../lib/ComplexMatrix.h"
 #include "../lib/BioScat.h"
+extern "C" {
 using namespace std;
 
 
-void forward(double *x, double*y, int n ,char * protein_structure, int num_segments, int total_grid_points, double beta, double lambda) {
+void forward(double *x, double*y, int n ,char * protein_structure, int num_segments, int total_grid_points, double beta, double lambda, int deviceComputation_int) {
 
-    BioScat bioscat = BioScat(protein_structure, num_segments, total_grid_points);
+    bool deviceComputation = deviceComputation_int == 1 ? true : false;
+
+    BioScat bioscat = BioScat(protein_structure, num_segments, total_grid_points, deviceComputation);
+
     bioscat.printOutput = true;
 
     bioscat.setupObservationPoints(x, y, n);
+
+    bioscat.allocateSegments();
 
     bioscat.getNanostructure();
 

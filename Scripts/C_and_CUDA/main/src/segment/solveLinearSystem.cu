@@ -2,20 +2,25 @@
 #include <stdio.h>
 #include <cuda_runtime_api.h>
 #include <iostream>
+#include <stdexcept>
 #include <string.h>
 #include <cublas_v2.h>
 #include <omp.h>
-#include <cusolverDn.h>
-extern "C" {
+#include "../../lib/cuSolver.h"
 #include "../../lib/Segment.h"
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
+extern "C" {
 #include "../../lib/RealMatrix.h"
 using namespace std;
+
+
 
 // LAPACK routine for solving linear system
 void dgels_(const char * trans, const int * m, const int * n, const int * nrhs, double * A, const int * lda, double * B,  const int * ldb, double * work, int * lwork,int * info);
 
 
-// Need to transpose manually as cublas dgels does not seem to have implemented this yet
+// Need to transpose manually as cusolver dgels does not seem to have implemented this yet
 __global__ void transpose(double * input, double * output, int rows, int cols) {
     int r = threadIdx.x + blockIdx.x * blockDim.x;
     int c = threadIdx.y + blockIdx.y * blockDim.y;
@@ -70,7 +75,9 @@ __global__ void moveSolution(double * x, double * sol, int shift, int n) {
 
 }
 
-void solveLinearSystem_GPU(RealMatrix A, RealMatrix b, ComplexMatrix C, ComplexMatrix D) {
+void solveLinearSystem_GPU(RealMatrix A, RealMatrix b, ComplexMatrix C, ComplexMatrix D, double * A_T_d, double * x_d, cusolverDnHandle_t handle) {
+    double start = omp_get_wtime();
+  
     // Define variables for solving linear system
     int m = A.rows;
     int n = A.cols;
@@ -80,19 +87,13 @@ void solveLinearSystem_GPU(RealMatrix A, RealMatrix b, ComplexMatrix C, ComplexM
     int ldx = n;
 
     // Move to device and transpose
-    double * A_d, *A_T_d, *b_d, *x_h, *x_d;
     void * work_d = NULL;
-
-    cudaMalloc((void **) &A_T_d,    A.rows * A.cols * sizeof(double));
-    cudaMalloc((void **) &x_d,      A.cols * sizeof(double));
     
     // Blocks and threads
     dim3 dimBlock(32,32);
     dim3 dimGrid((A.rows + dimBlock.x - 1)/dimBlock.x, (A.cols + dimBlock.y - 1)/dimBlock.y);
     transpose<<< dimGrid, dimBlock>>>(A.getDevicePointer(), A_T_d, A.rows, A.cols);
     cudaDeviceSynchronize();
-    cusolverDnHandle_t handle;
-    cusolverDnCreate(&handle);
 
     size_t lwork_bytes = 0;
 
@@ -102,17 +103,18 @@ void solveLinearSystem_GPU(RealMatrix A, RealMatrix b, ComplexMatrix C, ComplexM
     int niters;
     int *info_d;
     cudaMalloc((void**)&info_d, sizeof(int));
-    double start = omp_get_wtime();
+    double start_inner = omp_get_wtime();
     status = cusolverDnDDgels(handle, m, n, nrhs, A_T_d, lda, b.getDevicePointer(), ldb, x_d, ldx, work_d, lwork_bytes, &niters, info_d);
     cudaDeviceSynchronize();
-    double end = omp_get_wtime();
+    double end_inner = omp_get_wtime();
     //printf("time = %f\n",end-start);
     int info_h = 0;
     cudaMemcpy(&info_h, info_d, sizeof(int), cudaMemcpyDeviceToHost);
-
+    //throw std::runtime_error("There was a problem with solving the system!");
     if (status != CUSOLVER_STATUS_SUCCESS) {
         printf("There was a problem with solving the system!\n");
     }
+   
 
     if (info_h == 0) {
         //std::cout << "Solution was successful.\n";
@@ -138,11 +140,13 @@ void solveLinearSystem_GPU(RealMatrix A, RealMatrix b, ComplexMatrix C, ComplexM
     cudaDeviceSynchronize();
 
     // Cleanup
-    cudaFree(A_T_d);
-    cudaFree(x_d);
     cudaFree(work_d);
     cudaFree(info_d);
-    cusolverDnDestroy(handle);
+
+    double end = omp_get_wtime();
+    //printf("Linear solve part: %f\n",(end_inner-start_inner)/(end-start));
+
+
 }
 
 void Segment::solveLinearSystem() {
@@ -152,25 +156,12 @@ void Segment::solveLinearSystem() {
     double work_query;
     double *work;
 
-    if (true) {
-
-        //A.toDevice();
-        //b.toDevice();
-
-        solveLinearSystem_GPU(A, b, C, D);
-
-        //C.toHost();
-        //D.toHost();
-
+    if (deviceComputation) {
+        solveLinearSystem_GPU(A, b, C, D, A_T_d, x_d, handle);
     }
     else {
-        
         solveLinearSystem_CPU(A, b, C, D);
-
     }
-
-    //A.free();
-    //b.free();
      
 }
 

@@ -3,8 +3,8 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
-extern "C" {
 #include "../../lib/Segment.h"
+extern "C" {
 #include "../../lib/RealMatrix.h"
 using namespace std;
 
@@ -70,7 +70,7 @@ void Segment::computeReflectedFieldVectors(RealMatrix y) {
     
     int rows = y.rows;
 
-    if (true) {
+    if (deviceComputation) {
         // Blocks and threads
         dim3 dimBlock(256);
         dim3 dimGrid((rows + dimBlock.x - 1)/dimBlock.x);
@@ -88,9 +88,6 @@ void Segment::computeReflectedFieldVectors(RealMatrix y) {
         }
 
         cudaDeviceSynchronize();
-
-        //E_ref_vector.toHost();
-        //H_ref_vector.toHost();
 
     }
     else {

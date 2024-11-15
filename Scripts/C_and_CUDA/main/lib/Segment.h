@@ -1,11 +1,13 @@
 #ifndef _SEGMENT_H
 #define _SEGMENT_H
+#include "cuSolver.h"
 extern "C" {
 #include "RealMatrix.h"
 #include "ComplexMatrix.h"
 #include "Nanostructure.h"
 #include "Field.h"
 #include "Constants.h"
+
 
 class Segment {
     public:
@@ -17,7 +19,6 @@ class Segment {
         RealMatrix y_test;
         RealMatrix n_x;
         RealMatrix n_y;
-        int num_test_points = 0;
         ComplexMatrix C; // Partial solution of the linear system
         ComplexMatrix D; // Partial solution of the linear system
         RealMatrix A; // Linear system matrix in Ax=b
@@ -34,11 +35,14 @@ class Segment {
         Field H_ref_vector;
         int polarisation = 1; // Either 1 or 2
         Constants constants;
-        int n_ext, n_int, n_test, n_obs;
-        int minNumSteps = 15; // Minimum number of steps for sides of segment
-        bool deviceComputation;
+        int n_ext, n_int, n_test, n_obs, n_top, n_right, n_bottom, n_left; // Number of points
+        int segment_length;
+        int minNumSteps; // Minimum number of steps for sides of segment
+        bool deviceComputation = false;
         int current_segment;
         bool printOutput = false;
+        cusolverDnHandle_t handle;
+        double *A_T_d, *x_d;
 
 
 

@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <cuda_runtime_api.h>
+//#include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
 #include <fstream>
-extern "C" {
 #include "../lib/BioScat.h"
-#include "../lib/RealMatrix.h"
+//#include "../lib/RealMatrix.h"
+extern "C" {
 using namespace std;
 
 

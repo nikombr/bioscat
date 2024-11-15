@@ -1,15 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <cuda_runtime_api.h>
+//#include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
 #include <omp.h>
-#include <cblas.h>
+//#include <cblas.h>
 #include <math.h>
-extern "C" {
-#include "../lib/BioScat.h"
 #include "../lib/Segment.h"
+#include "../lib/BioScat.h"
 #include "../lib/RealMatrix.h"
+extern "C" {
 using namespace std;
 
 __global__ void combinePolarisationKernel(ComplexMatrix combined, ComplexMatrix P1, ComplexMatrix P2, int rows, double cosBeta, double sinBeta) {
@@ -20,13 +20,13 @@ __global__ void combinePolarisationKernel(ComplexMatrix combined, ComplexMatrix 
     }
 }
 
-void combinePolarisation(Field * pol, Field combined, double beta) {
+void combinePolarisation(Field * pol, Field combined, double beta, bool deviceComputation) {
 
     int rows = combined.x.rows;
     double cosBeta = cos(beta);
     double sinBeta = sin(beta);
     
-    if (true) {
+    if (deviceComputation) {
 
         // Blocks and threads
         dim3 dimBlock(256);
@@ -37,7 +37,7 @@ void combinePolarisation(Field * pol, Field combined, double beta) {
         combinePolarisationKernel<<<dimGrid, dimBlock>>>(combined.z, pol[0].z, pol[1].z, rows, cosBeta, sinBeta);
         
         cudaDeviceSynchronize();
-        combined.toHost();
+        //combined.toHost();
 
     }
     else {

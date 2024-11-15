@@ -16,13 +16,17 @@ class GaussianProcess {
         double *y_h;        // y coordinates for estimating plane on host
         double *y_d;        // y coordinates for estimating plane on device
         double **M_d;       // covariance matrix and later lower triangular matrix from Cholesky factorization on device
+        double **M_inv_d;   // covariance matrix and later inverse of covariance matrix on the device
         int type_covfunc;
     public:
         double **M_h;       // covariance matrix and later lower triangular matrix from Cholesky factorization on host
+        double **M_inv_h;   // covariance matrix and later inverse of covariance matrix on the host
         double *M_log;      // M_d[0] on device
+        double *M_inv_log;  // M_inv_d[0] on device
         bool device;
         double *p_h;        // random vector and later height of plane in location (x,y) on host
         double *p_d;        // random vector and later height of plane in location (x,y) on device
+        double logDeterminant;
         GaussianProcess();
         GaussianProcess(double* x_h, double* y_h, int n, double* hyper, int num, int dim, int dev, int type_covfunc);  // Constructer, sets default values and allocates
         void free();                                                                // Destructer
@@ -31,6 +35,8 @@ class GaussianProcess {
         void generate_random_vector();                                                      // Generates random vector p
         void realisation();                                                                 // Computes realisation of the Gaussian process from L
         GaussianProcess(int n, double* hyper, int num, int type_covfunc);
+        void compute_inverse();
+        double compute_prior(double * f_d);
 };
 
 #endif

@@ -4,8 +4,8 @@
 #include <iostream>
 #include <string.h>
 #include <omp.h>
-extern "C" {
 #include "../../lib/Segment.h"
+extern "C" {
 #include "../../lib/RealMatrix.h"
 using namespace std;
 
@@ -136,8 +136,9 @@ void Segment::computeScatteredFieldMatrices(RealMatrix x, RealMatrix y, bool far
     } 
     else {
         printf("Please input 1 or 2 for the polarisation!\n");
+        return;
     }
-    if (true) {
+    if (deviceComputation) {
 
         // Blocks and threads
         dim3 dimBlock(32,16);

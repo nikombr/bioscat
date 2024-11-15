@@ -3,16 +3,17 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
-extern "C" {
 #include "../../lib/Segment.h"
+extern "C" {
 #include "../../lib/RealMatrix.h"
 #include "../../lib/ComplexMatrix.h"
 using namespace std;
 
 void setupRightHandSide_CPU(RealMatrix b, int n_test, RealMatrix n_y, ComplexMatrix firstField_inc, ComplexMatrix firstField_ref, ComplexMatrix secondField_inc, ComplexMatrix secondField_ref) {
-
-    RealMatrix b_imag = RealMatrix(2 * n_test);
-    RealMatrix b_real = RealMatrix(2 * n_test);
+    bool host = true;
+    bool device = false;
+    RealMatrix b_imag = RealMatrix(2 * n_test, host, device);
+    RealMatrix b_real = RealMatrix(2 * n_test, host, device);
     double val;
     for (int j = 0; j < n_test; j++) {
         val =  - firstField_inc.getHostRealValue(j) - firstField_ref.getHostRealValue(j);
@@ -89,14 +90,16 @@ __global__ void combineImag(RealMatrix b, RealMatrix b_imag, int n_test) {
 }
 
 void setupRightHandSide_GPU(RealMatrix b, int n_test, RealMatrix n_y, ComplexMatrix firstField_inc, ComplexMatrix firstField_ref, ComplexMatrix secondField_inc, ComplexMatrix secondField_ref) {
-    RealMatrix b_imag = RealMatrix(2 * n_test);
-    RealMatrix b_real = RealMatrix(2 * n_test);
+    bool host = false;
+    bool device = true;
+    RealMatrix b_imag = RealMatrix(2 * n_test, host, device);
+    RealMatrix b_real = RealMatrix(2 * n_test, host, device);
     double val;
 
     // Blocks and threads
     dim3 dimBlock(256);
     dim3 dimGrid((n_test + dimBlock.x - 1)/dimBlock.x);
-
+    
     // Run loops
     firstLoop<<< dimGrid, dimBlock>>>(b_real, n_test,      firstField_inc,  firstField_ref);
     secondLoop<<<dimGrid, dimBlock>>>(b_imag, n_test,      firstField_inc,  firstField_ref);
@@ -112,7 +115,6 @@ void setupRightHandSide_GPU(RealMatrix b, int n_test, RealMatrix n_y, ComplexMat
     // Combine results
     combineReal<<<dimGrid, dimBlock>>>(b, b_real, n_test);
     combineImag<<<dimGrid, dimBlock>>>(b, b_imag, n_test);
-
     // Synchronize threads
     cudaDeviceSynchronize();
 
@@ -131,7 +133,7 @@ void Segment::setupRightHandSide() {
     //n_x.toDevice();
     
 
-    if (true) {
+    if (deviceComputation) {
         if (polarisation == 1) {
             setupRightHandSide_GPU(b, n_test, n_y, E_inc_vector.z, E_ref_vector.z, H_inc_vector.x, H_ref_vector.x);
         }
@@ -159,7 +161,7 @@ void Segment::setupRightHandSide() {
     }
 
     
-    if (n_test < 200) {
+    if (n_test < 200 && !deviceComputation) {
         char * filename;
         FILE *file;
     /*filename = "b_real_C.txt";

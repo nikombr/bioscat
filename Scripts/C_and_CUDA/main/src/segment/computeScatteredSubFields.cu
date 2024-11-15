@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <cuda_runtime_api.h>
+//#include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
 #include <omp.h>
-extern "C" {
 #include "../../lib/Segment.h"
 #include "../../lib/RealMatrix.h"
+extern "C" {
 using namespace std;
 
 #define cudaCheckError() {                                          \
@@ -65,7 +65,7 @@ void Segment::computeScatteredSubFields() {
     int rows = n_obs;
     int cols = E_scat_matrix.cols;
 
-    if (true) {
+    if (deviceComputation) {
         //E_scat_matrix.toDevice();
         //H_scat_matrix.toDevice();
         double start = omp_get_wtime();

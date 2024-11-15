@@ -52,7 +52,7 @@ def executeInverse(num_segments = 1, total_grid_points=100,protein_structure = "
         filename = f'../../../Data/segments/int_segment_{i+1}.txt'
         data = np.loadtxt(filename)
         plt.plot(data[:,0],data[:,1],'m.-')
-    plt.savefig('plots/points.png')
+    plt.savefig('plots/points_inverse.png')
     plt.close()
     filename = "../../../Results/inverse/output.txt"
     data = np.loadtxt(filename);
@@ -64,9 +64,16 @@ def executeInverse(num_segments = 1, total_grid_points=100,protein_structure = "
     plt.savefig("plots/inverse.png")
     plt.close()
 
+    plt.figure()
+    [m, n] = data.shape
+    for i in range(m):
+        plt.plot(data[-1,:]+3e-8)
+    plt.savefig("plots/inverse_last.png")
+    plt.close()
+
 if __name__ == "__main__":
 
-    executeInverse(p=2,ell=0.2,total_grid_points=500,num_segments=1)
+    executeInverse(p=2,ell=0.2,total_grid_points=300,num_segments=1)
     
     
     

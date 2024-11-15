@@ -1,8 +1,8 @@
 #ifndef _BIOSCAT_H
 #define _BIOSCAT_H
+#include "Segment.h"
 extern "C" {
 #include "Nanostructure.h"
-#include "Segment.h"
 #include "Field.h"
 #include "RealMatrix.h"
 #include "GP/GaussianProcess.h"
@@ -41,8 +41,12 @@ class BioScat {
         RealMatrix y_obs;
         int n_obs;
         bool printOutput = false;
+        int status;
+        BioScat() {
 
+        }
         BioScat(char* protein_structure, int num_segments, int total_grid_points);
+        BioScat(char* protein_structure, int num_segments, int total_grid_points, bool deviceComputation);
         void free();
         void getNanostructure();                                        // Set up nanostructure from protein_structure
         void getSegments();
@@ -65,7 +69,9 @@ class BioScat {
         void inverseSolver();
         void setupGaussianProcess();
         void preConditionedCrankNicholson();
-        void reset(); // De-allocates everything that only needs to be used in one inverse iteration
+        void reset(); // Sets pols to zero
+        void allocateSegments();
+
         
 
 

@@ -5,13 +5,15 @@
 #include <iostream>
 #include <string.h>
 #include <omp.h>
-#include <cblas.h>
+//#include <cblas.h>
 #include <math.h>
-extern "C" {
 #include "../lib/BioScat.h"
 #include "../lib/Segment.h"
 #include "../lib/RealMatrix.h"
 #include "../lib/combinePolarisation.h"
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
+extern "C" {
 using namespace std;
 
 BioScat::BioScat(char* protein_structure, int num_segments, int total_grid_points) {
@@ -19,6 +21,15 @@ BioScat::BioScat(char* protein_structure, int num_segments, int total_grid_point
     this->protein_structure = protein_structure;
     this->num_segments = num_segments;
     this->total_grid_points = total_grid_points;
+
+}
+
+BioScat::BioScat(char* protein_structure, int num_segments, int total_grid_points, bool deviceComputation) {
+
+    this->protein_structure = protein_structure;
+    this->num_segments = num_segments;
+    this->total_grid_points = total_grid_points;
+    this->deviceComputation = deviceComputation;
 
 }
 
@@ -48,7 +59,7 @@ void BioScat::free() {
         H_ref_pol[i].free();
     }
     //cudaDeviceReset();
-    printf("DESTRUCTED!\n");
+    if (printOutput) printf("DESTRUCTED!\n");
 
 }
 
@@ -63,10 +74,7 @@ void BioScat::getSegments() {
 
     double start = omp_get_wtime();
 
-    this->segments = new Segment[num_segments];
-
     for (int i = 0; i < num_segments; i++) {
-        segments[i].deviceComputation = deviceComputation;
         segments[i].current_segment = i;
         segments[i].n_obs = n_obs;
         segments[i].setup(this->nanostructure, total_grid_points, num_segments);
@@ -78,17 +86,42 @@ void BioScat::getSegments() {
 
 }
 
+void BioScat::allocateSegments() {
+    int sideSteps      = 15;
+    int segment_length = total_grid_points / num_segments;
+    int n_top          = segment_length - 2;
+    int n_bottom       = segment_length - 2;
+    int n_right        = sideSteps - 1;
+    int n_left         = sideSteps - 1;
+    int n_int          = n_top + n_right + n_bottom + n_left - 16;
+    int n_ext          = 2*(segment_length - 1) + sideSteps + sideSteps;
+    int n_test         = n_top + n_bottom + n_right + n_left;
+    int n = std::max(n_obs, n_test);
+    if (printOutput) printf("n_test:  \t%d\nn_top:  \t%d\nn_right:  \t%d\nn_bottom:\t%d\nn_left:  \t%d\nn_int:  \t%d\nn_ext:  \t%d\nn_obs:  \t%d\nn:      \t%d\n", n_test, n_top, n_right, n_bottom, n_left, n_int, n_ext, n_obs, n);
+    this->segments = new Segment[num_segments];
+    for (int i = 0; i < num_segments; i++) {
+        segments[i].n_obs    = n_obs;
+        segments[i].n_int    = n_int;
+        segments[i].n_ext    = n_ext;
+        segments[i].n_test   = n_test;
+        segments[i].n_top    = n_top;
+        segments[i].n_right  = n_right;
+        segments[i].n_bottom = n_bottom;
+        segments[i].n_left   = n_left;
+        segments[i].segment_length = segment_length;
+        segments[i].deviceComputation = deviceComputation;
+        segments[i].allocate();
+        
+    }
+}
+
 void BioScat::getSegments(Nanostructure nanostructure) {
 
     double start = omp_get_wtime();
 
-    this->segments = new Segment[num_segments];
-
     for (int i = 0; i < num_segments; i++) {
         //segments[i] = Segment();
-        segments[i].deviceComputation = deviceComputation;
         segments[i].current_segment = i;
-        segments[i].n_obs = n_obs;
         segments[i].setup(nanostructure, total_grid_points, num_segments);
     }
 
@@ -115,11 +148,12 @@ void BioScat::forwardSolver(int polarisation) {
 
     double start, end, start_inner, end_inner;
     start = omp_get_wtime();
-    //#pragma omp parallel for num_threads(num_segments)
+    #pragma omp parallel for num_threads(num_segments)
     for (int i = 0; i < num_segments; i++) {
         segments[i].polarisation = polarisation;
 
         start_inner = omp_get_wtime();
+        
         segments[i].computeFieldsForLinearSystem();
         segments[i].setupRightHandSide();
         segments[i].setupSystemMatrix();
@@ -127,14 +161,15 @@ void BioScat::forwardSolver(int polarisation) {
         //segments[i].freeInteriorFields();
         //segments[i].freeIncidentFields();
         //segments[i].freeReflectedFields();
+        
         segments[i].solveLinearSystem();
+      
         end_inner = omp_get_wtime();
         if (printOutput) printf("\nIt took %.4e seconds to solve the linear system for segment %d.\n\n",end_inner - start_inner, i + 1);
         
     }
     end = omp_get_wtime();
     if (printOutput) printf("\nIt took %.4e seconds to solve all the linear systems.\n\n",end - start);
-
 }
 
 void BioScat::setupObservationPoints(double *x, double*y, int n) {
@@ -179,8 +214,8 @@ void BioScat::computeScatteredFields() {
 
 
 void BioScat::computeScatteredFields(double beta) {
-    combinePolarisation(E_scat_pol, E_scat, beta);
-    combinePolarisation(H_scat_pol, H_scat, beta);
+    combinePolarisation(E_scat_pol, E_scat, beta, deviceComputation);
+    combinePolarisation(H_scat_pol, H_scat, beta, deviceComputation);
     
 }
 
@@ -192,10 +227,8 @@ void BioScat::computeIncidentFields() {
 
 void BioScat::computeIncidentFields(double beta) {
 
-    combinePolarisation(E_inc_pol, E_inc, beta);
-    combinePolarisation(H_inc_pol, H_inc, beta);
-
-    E_inc.toHost();
+    combinePolarisation(E_inc_pol, E_inc, beta, deviceComputation);
+    combinePolarisation(H_inc_pol, H_inc, beta, deviceComputation);
 }
 
 void BioScat::computeReflectedFields() {
@@ -205,15 +238,23 @@ void BioScat::computeReflectedFields() {
 
 void BioScat::computeReflectedFields(double beta) {
 
-    combinePolarisation(E_ref_pol, E_ref, beta);
-    combinePolarisation(H_ref_pol, H_ref, beta);
-
-    E_ref.toHost();
+    combinePolarisation(E_ref_pol, E_ref, beta, deviceComputation);
+    combinePolarisation(H_ref_pol, H_ref, beta, deviceComputation);
 
     
 }
 
 void BioScat::dumpFields() {
+
+    if (deviceComputation) {
+        E_scat.toHost();
+        E_ref.toHost();
+        E_inc.toHost();
+        H_scat.toHost();
+        H_ref.toHost();
+        H_inc.toHost();
+    }
+    
 
     char filename[256];
 
@@ -266,28 +307,9 @@ void BioScat::dumpFields() {
     H_ref.z.dumpResult(filename);
 }
 
-double getSquaredNorm(double x_real, double x_imag, double y_real, double y_imag, double z_real, double z_imag) {
-    double x2 = x_real*x_real + x_imag*x_imag;
-    double y2 = y_real*y_real + y_imag*y_imag;
-    double z2 = z_real*z_real + z_imag*z_imag;
-    return x2 + y2 + z2;
-}
-
-void BioScat::computeReflectance() {
-    //#pragma omp parallel for num_threads(x_obs.rows)
-    for (int i = 0; i < x_obs.rows; i++) {
-        double numerator = getSquaredNorm(E_inc.x.getHostRealValue(i), E_inc.x.getHostImagValue(i),
-                                          E_inc.y.getHostRealValue(i), E_inc.y.getHostImagValue(i),
-                                          E_inc.z.getHostRealValue(i), E_inc.z.getHostImagValue(i));
-        double denominator = getSquaredNorm(E_ref.x.getHostRealValue(i) + E_scat.x.getHostRealValue(i), E_ref.x.getHostImagValue(i) + E_scat.x.getHostImagValue(i),
-                                            E_ref.y.getHostRealValue(i) + E_scat.y.getHostRealValue(i), E_ref.y.getHostImagValue(i) + E_scat.y.getHostImagValue(i),
-                                            E_ref.z.getHostRealValue(i) + E_scat.z.getHostRealValue(i), E_ref.z.getHostImagValue(i) + E_scat.z.getHostImagValue(i));
-        reflectance.setHostValue(i, numerator/denominator);
-    }
-}
 
 void BioScat::reset() {
-    if (true) {
+    if (deviceComputation) {
         // Initialize all arrays to zero on the host
         for (int i = 0; i < 2; i++) {
             E_scat_pol[i].setDeviceZero();

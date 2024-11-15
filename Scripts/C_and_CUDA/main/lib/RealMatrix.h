@@ -27,6 +27,15 @@ class RealMatrix {
         RealMatrix(int rows, bool host, bool device);                                       // Constructer, allocates vectors and initializes to zero
         RealMatrix(int rows, int cols, bool host, bool device);                             // Constructer, matrices arrays and initializes to zero
         RealMatrix(int rows, int cols, int depth, bool host, bool device);
+        void allocateHost() {
+            this->host = true;
+            // Allocate vectors on host
+            cudaMallocHost((void **) &val_h,    rows*cols*depth*sizeof(double));
+            if (val_h == NULL) {
+                fprintf(stderr, "Memory allocation failed.\n");
+                return;
+            }
+        }
         void free();                                                // Frees arrays
         void toHost();                                              // Sends data from device to host
         void toDevice();                                            // Sends data from host to device
@@ -39,6 +48,10 @@ class RealMatrix {
         __device__ void setDeviceValue(int r, int c, double val) {  // Sets device value for matrices
             val_d[r*cols + c] = val;
         }   
+        __device__ void setDeviceValue(int r, int c, int d, double val) {
+            val_d[r * (cols * depth) + c * depth + d] = val;
+        }
+
         double getHostValue(int r);                                 // Gets host value for vectors
         double getHostValue(int r, int c);                          // Gets host value for matrices
         double getHostValue(int r, int c, int d);
@@ -48,6 +61,9 @@ class RealMatrix {
         __device__ double getDeviceValue(int r, int c) {            // Gets device value for matrices
             return val_d[r*cols + c];
         }            
+        __device__ double getDeviceValue(int r, int c, int d) {
+            return val_d[r * (cols * depth) + c * depth + d];
+        }
         double * getHostPointer() {
             return val_h;
         }
@@ -56,6 +72,9 @@ class RealMatrix {
         }
         void setHostPointer(double * val) {
             val_h = val;
+        }
+        void setDevicePointer(double * val) {
+            val_d = val;
         }
         void dumpVector(char * filename) {
             FILE *file;
@@ -95,8 +114,18 @@ class RealMatrix {
                 }
             }
         }
-   
 
+        double findMin() {
+            double minimum = 10;
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    minimum = std::min(getHostValue(i, j), minimum);
+                }        
+            }
+            return minimum;
+        }
+
+  
 };
 }
 

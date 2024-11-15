@@ -8,7 +8,11 @@ import math
 import shutil
 import time
 
-def executeGenerateArtificialData(num_obs_points=30, num_segments = 1, total_grid_points=100,protein_structure = "demoleus2x2"): # "Retinin2x2" or "demoleus2x2"
+def executeGenerateArtificialData(num_obs_points=100, num_segments = 1, total_grid_points=100,protein_structure = "demoleus2x2"): # "Retinin2x2" or "demoleus2x2"
+
+    if not (total_grid_points % num_segments == 0):
+        print(f"Total number of grid points was changed from {total_grid_points} to {int(np.ceil(total_grid_points/num_segments)*num_segments)} to make sure that each segment has the same amount of points.")
+        total_grid_points = int(np.ceil(total_grid_points/num_segments)*num_segments)
 
     phi = np.linspace(0,math.pi,num_obs_points);
     x = 10**(-2)*np.cos(phi)
@@ -34,8 +38,8 @@ def executeGenerateArtificialData(num_obs_points=30, num_segments = 1, total_gri
     protein_structure_encoded = protein_structure.encode('utf-8')
 
     lambda0 = 325e-9;
-    lambdas = np.linspace(0.5*lambda0,1.5*lambda0,20);
-    betas = np.linspace(math.pi/4,3*math.pi/2,20);
+    lambdas = np.linspace(0.5*lambda0,1.5*lambda0,10);
+    betas = np.linspace(math.pi/4,3*math.pi/2,10); # der er noget galt med 3D matrix index
 
     lambdas_arr = (ctypes.c_double * len(lambdas))(*lambdas)
     betas_arr = (ctypes.c_double * len(betas))(*betas)
@@ -51,7 +55,7 @@ def executeGenerateArtificialData(num_obs_points=30, num_segments = 1, total_gri
     np.savetxt(f'{directory_name}y_obs.txt', y, fmt='%e', delimiter='\n')
     np.savetxt(f'{directory_name}lambdas.txt', lambdas, fmt='%e', delimiter='\n')
     np.savetxt(f'{directory_name}betas.txt', betas, fmt='%e', delimiter='\n')
-
+    """
     plt.figure()
     for i in range(num_segments):
         filename = f'../../../Data/segments/test_segment_{i+1}.txt'
@@ -78,13 +82,14 @@ def executeGenerateArtificialData(num_obs_points=30, num_segments = 1, total_gri
 
     data = 0;
     return data
+    """
 
 if __name__ == "__main__":
     
     
-    for num_segments in [1, 2, 4, 5, 8, 10, 12, 16, 20]:
-        Z = executeGenerateArtificialData(total_grid_points=500,num_segments=num_segments)
-        time.sleep(2)
+    for num_segments in [1, 2, 4, 5]:
+        executeGenerateArtificialData(total_grid_points=300,num_segments=num_segments)
+        time.sleep(1)
     
     
     

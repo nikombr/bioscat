@@ -6,7 +6,7 @@ import time
 import matplotlib.pyplot as plt
 import math
 
-def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structure = "demoleus2x2", beta = 0, lambd = 325e-9): # "Retinin2x2" or "demoleus2x2"
+def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structure = "demoleus2x2", beta = 0, lambd = 325e-9, deviceComputation = False): # "Retinin2x2" or "demoleus2x2"
 
 
     nx = len(x);
@@ -33,7 +33,7 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
     protein_structure_encoded = protein_structure.encode('utf-8')
 
     # Execute C implementation
-    c_func.executeForward(x_arr, y_arr, n, protein_structure_encoded, num_segments,total_grid_points, ctypes.c_double(beta*math.pi/180), ctypes.c_double(lambd))
+    c_func.executeForward(x_arr, y_arr, n, protein_structure_encoded, num_segments,total_grid_points, ctypes.c_double(beta*math.pi/180), ctypes.c_double(lambd), int(deviceComputation))
 
     variables = ['x', 'y', 'z'];
     types = ['scat', 'inc', 'ref']
@@ -59,8 +59,7 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
                 plt.colorbar()
                 plt.savefig(f'plots/{field_typ}{var}_{typ}.png')
                 plt.close()
-                #time.sleep(30);
-                #os.remove(filename)
+                os.remove(filename)
 
             mdic[f'{field_typ}_{typ}'] = fields
 
@@ -68,42 +67,27 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
     savemat(savename, mdic)
 
 
-  
-
     plt.figure()
     for i in range(num_segments):
         filename = f'../../../Data/segments/test_segment_{i+1}.txt'
         data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1])
-    plt.savefig('plots/test_points.png')
+        plt.plot(data[:,0],data[:,1],'k.')
+    #plt.savefig('plots/test_points.png')
 
-    plt.figure()
+    #plt.figure()
     for i in range(num_segments):
         filename = f'../../../Data/segments/ext_segment_{i+1}.txt'
         data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1])
-    plt.savefig('plots/ext_points.png')
+        plt.plot(data[:,0],data[:,1],'.')
+    #plt.savefig('plots/ext_points.png')
 
-    plt.figure()
+    #plt.figure()
     for i in range(num_segments):
         filename = f'../../../Data/segments/int_segment_{i+1}.txt'
         data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1])
-    plt.savefig('plots/int_points.png')
+        plt.plot(data[:,0],data[:,1],'.')
+    plt.savefig('plots/all_points.png')
 
-    # Remove txt output
-    """os.remove("../../Data/gaussian_process_realisations/output.txt")
-
-    # Save in mat file
-    if len(y) == 0:
-        mdic = {"data": data, "x": x}
-        savemat(f"../../Data/gaussian_process_realisations/curve_{covfunc}_{var}_{tau}_ell_{ell}.mat", mdic)
-    else:
-        mdic = {"data": data, "x": x, "y": y}
-        savemat(f"../../Data/gaussian_process_realisations/plane_{covfunc}_{var}_{tau}_ell_{ell}.mat", mdic)
-"""
-    data = 0;
-    return data
 
 if __name__ == "__main__":
     obs_grid = 200;
@@ -115,48 +99,8 @@ if __name__ == "__main__":
     
     
 
-    Z = executeForward(x = X, y = Y, num_segments = 4,beta = 30,total_grid_points=1000)
-    """
-    A_real = np.loadtxt("A_real.txt")
-    A_real_C = np.loadtxt("A_real_C.txt")
-    diff = A_real-A_real_C
-    plt.figure()
-    plt.imshow(np.log(np.abs(diff)/np.abs(A_real)))
-    plt.colorbar()
-    plt.savefig('real.png')
-    print(f"error real A = {np.max(diff)}")
+    executeForward(x = X, y = Y, num_segments = 1, beta = 0, total_grid_points=500, protein_structure = "demoleus2x2", deviceComputation = True) # "Retinin2x2" or "demoleus2x2"
 
-    A_imag = np.loadtxt("A_imag.txt")
-    A_imag_C = np.loadtxt("A_imag_C.txt")
-    diff = A_imag-A_imag_C
-    plt.figure()
-    plt.imshow(np.abs(diff)/np.abs(A_imag))
-    plt.colorbar()
-    plt.savefig('imag.png')
-    print(f"error imag A = {np.max(diff)}")
-
-
-    b_real = np.loadtxt("b_real.txt")
-    b_real_C = np.loadtxt("b_real_C.txt")
-    diff = b_real-b_real_C
-    print(f"error real b = {np.max(diff)}")
-
-    b_imag = np.loadtxt("b_imag.txt")
-    b_imag_C = np.loadtxt("b_imag_C.txt")
-    diff = b_imag-b_imag_C
-    print(f"error imag b = {np.max(diff)}")
-    
-
-    bbig = np.loadtxt("bbig.txt")
-    bbig_C = np.loadtxt("bbig_C.txt")
-    Abig = np.loadtxt("Abig.txt")
-    Abig_C = np.loadtxt("Abig_C.txt")
-    diff = np.abs(bbig-bbig_C)
-    print(f"error bbig = {np.max(diff)}")
-    diff = np.abs(Abig-Abig_C)
-    print(f"error Abig = {np.max(diff)}")
-    """
-    
     
 
     

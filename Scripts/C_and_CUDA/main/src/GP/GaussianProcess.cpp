@@ -60,6 +60,14 @@ GaussianProcess::GaussianProcess(int n, double* hyper, int num, int type_covfunc
     }
     memset(*M_h,0,n*n*sizeof(double));
 
+    host_malloc_2d(&M_inv_h, n);
+    // Check allocation
+    if (M_inv_h == NULL) {
+        printf("Allocation of matrix failed on host!\n");
+        return;
+    }
+    memset(*M_inv_h,0,n*n*sizeof(double));
+
     // Allocate vectors on host
     cudaMallocHost((void **) &p_h, n*sizeof(double));
 
@@ -73,9 +81,10 @@ GaussianProcess::GaussianProcess(int n, double* hyper, int num, int type_covfunc
 
         // Allocate matrices on device
         device_malloc_2d(&M_d, &M_log, n);
+        device_malloc_2d(&M_inv_d, &M_inv_log, n);
 
         // Check allocation
-        if (M_d == NULL || M_log == NULL) {
+        if (M_d == NULL || M_log == NULL || M_inv_d == NULL || M_inv_log == NULL) {
             printf("Allocation of matrices failed on device! %d\n",n);
             return;
         }
@@ -188,6 +197,7 @@ void GaussianProcess::free() {
 
     if (!device) {
         host_free_2d(M_h);
+        host_free_2d(M_inv_h);
     }
     err = cudaFreeHost(x_h);
     if (err != cudaSuccess) {
@@ -206,6 +216,7 @@ void GaussianProcess::free() {
 
     if (device) {
         device_free_2d(M_d,M_log);
+        device_free_2d(M_inv_d,M_inv_log);
         err = cudaFree(x_d);
         if (err != cudaSuccess) {
             std::cerr << "Failed to free memory on device: " << cudaGetErrorString(err) << std::endl;
