@@ -40,6 +40,8 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
     field_types = ['E','H']
 
     mdic = dict();
+    mdic['x'] = x
+    mdic['y'] = y
 
     for j in range(3):
         typ = types[j]
@@ -99,7 +101,7 @@ if __name__ == "__main__":
     
     
 
-    executeForward(x = X, y = Y, num_segments = 1, beta = 0, total_grid_points=500, protein_structure = "demoleus2x2", deviceComputation = True) # "Retinin2x2" or "demoleus2x2"
+    executeForward(x = X, y = Y, num_segments = 1, beta = 0, total_grid_points=100, protein_structure = "demoleus2x2", deviceComputation = True) # "Retinin2x2" or "demoleus2x2"
 
     
 
