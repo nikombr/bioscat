@@ -20,7 +20,7 @@ void BioScat::getNanostructure() {
     // Initialize size of matrices to store informatino about nanostructure
     nanostructure = Nanostructure(total_grid_points); 
 
-    sprintf(filename, "../../../Data/nanostructures/%s_2D_x_%d.txt", protein_structure, total_grid_points);
+    sprintf(filename, "../../../Data/nanostructures/2D/%s_x_%d.txt", protein_structure, total_grid_points);
     //printf("filename = %s\n",filename);
 
     FILE *file;
@@ -35,7 +35,7 @@ void BioScat::getNanostructure() {
     }
     fclose(file);
 
-    sprintf(filename, "../../../Data/nanostructures/%s_2D_f_%d.txt", protein_structure, total_grid_points);
+    sprintf(filename, "../../../Data/nanostructures/2D/%s_f_%d.txt", protein_structure, total_grid_points);
 
     file = fopen(filename, "r");
     if (file == NULL) {

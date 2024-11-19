@@ -6,7 +6,7 @@ import time
 import matplotlib.pyplot as plt
 import math
 
-def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structure = "demoleus2x2", beta = 0, lambd = 325e-9, deviceComputation = False): # "Retinin2x2" or "demoleus2x2"
+def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structure = "demoleus2x2", beta = 0, lambd = 325e-9, deviceComputation = False, location = "near"): # "Retinin2x2" or "demoleus2x2"
 
 
     nx = len(x);
@@ -65,7 +65,7 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
 
             mdic[f'{field_typ}_{typ}'] = fields
 
-    savename = f'../../../Results/forward/2D/{protein_structure}/fields_{int(beta)}_lambda_{int(lambd*10**9)}_num_segments_{int(num_segments)}_total_grid_points_{int(total_grid_points)}.mat'
+    savename = f'../../../Results/forward/{protein_structure}/{location}/fields_beta_{int(beta)}_lambda_{int(lambd*10**9)}_num_segments_{int(num_segments)}_total_grid_points_{int(total_grid_points)}.mat'
     savemat(savename, mdic)
 
 
@@ -94,16 +94,17 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
 if __name__ == "__main__":
     obs_grid = 200;
     Y = np.linspace(0,21*10**(-7),obs_grid);
-    Y = Y + 4.38059442329516e-08;
-    #Y = Y + 10**(-2);
-    #Y = np.linspace(0,10**(-7),obs_grid);
-    X = np.linspace(-0.5*10**(-7),20.5*10**(-7),obs_grid);
-    
-    
+    location = "far"; # near, far, (far_field_pattern)
+    #Y = Y + 4.38059442329516e-08;
+    Y = Y + 3e-2;
+    X = np.linspace(-10.5*10**(-7),10.5*10**(-7),obs_grid);
 
-    executeForward(x = X, y = Y, num_segments = 1, beta = 0, total_grid_points=100, protein_structure = "demoleus2x2", deviceComputation = True) # "Retinin2x2" or "demoleus2x2"
-
+    grid_sizes = [100, 300, 500, 1000];
     
+    for protein_structure in ["demoleus2x2", "Retinin2x2"]: # "Retinin2x2" or "demoleus2x2"
+        for beta in [0, 90]:
+            for n in grid_sizes:
+                executeForward(x = X, y = Y, num_segments = 1, beta = beta, total_grid_points=n, protein_structure = protein_structure, deviceComputation = True, location = location)
 
     
     
