@@ -3,21 +3,31 @@
 
 clear; close all; clc; 
 
-filename = 'demoleus2x2'; % Retinin2x2 demoleus2x2
+protein_structure = 'demoleus2x2'; % Retinin2x2 demoleus2x2
 views = {'far', 'close'};
-scenario = 2;
+scenario = 1;
 
-
+if scenario == 1
+    beta = 0;
+elseif scenario == 2
+    beta = 90;
+end
+lambda=325; % nm
+total_grid_points = 1000
 climmaxE = -1;
 climmaxH = -1;
 
 for j = 1:2
     
     view = views{j};
-    load(sprintf("../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_1.mat",filename,scenario,view))
+    %%load(sprintf("../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_1.mat",filename,scenario,view))
+    filename = sprintf("../Results/forward/2D/%s/fields_%d_lambda_%d_num_segments_1_total_grid_points_%d.mat",protein_structure,beta,lambda,total_grid_points);
+    load(filename)
+    E_tot = E_inc + E_ref + E_scat;
+    H_tot = H_inc + H_ref + H_scat;
     for k = 1:3
-        climmaxE = max(climmaxE,max(max(abs(Etot(:,:,k)).^2)));
-        climmaxH = max(climmaxH,max(max(abs(Htot(:,:,k)).^2)));
+        climmaxE = max(climmaxE,max(max(abs(E_tot(:,:,k)).^2)));
+        climmaxH = max(climmaxH,max(max(abs(H_tot(:,:,k)).^2)));
     end
     
 end
@@ -29,14 +39,17 @@ elseif scenario == 2
     fieldtype = {"E","E","H"};
     varnums = [1 2 3];
 end
-    
+
 figure('Renderer', 'painters', 'Position', [400 400 1000 550]);
 tiledlayout(2,3,'TileSpacing','compact');
 
 for k = 1:2
     view = views{k};
-    load(sprintf("../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_1.mat",filename,scenario,view))
-
+    %load(sprintf("../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_1.mat",filename,scenario,view))
+    filename = sprintf("../Results/forward/2D/%s/fields_%d_lambda_%d_num_segments_1_total_grid_points_%d.mat",protein_structure,beta,lambda,total_grid_points);
+    load(filename)
+    E_tot = E_inc + E_ref + E_scat;
+    H_tot = H_inc + H_ref + H_scat;
     if k == 1
         yshift = 3*10^(-2); % 3 cm
         ylabel = '$y-3\textrm{ cm}$ [$\mu$m]';
@@ -46,21 +59,21 @@ for k = 1:2
     end
     for j = 1:3
         if strcmp(fieldtype{j}, "E")
-            field = Etot;
+            field = E_tot;
             climmax = climmaxE;
         elseif strcmp(fieldtype{j}, "H")
-            field = Htot;
+            field = H_tot;
             climmax = climmaxH;
         end
         varnum = varnums(j);
         nexttile;
-        plot_2D_field(X,Y,field,fieldtype{j},climmax,varnum,yshift,ylabel)
+        plot_2D_field(x,y,field,fieldtype{j},climmax,varnum,yshift,ylabel)
     end
 
 end
-annotation_of_type(scenario,filename)
+annotation_of_type(scenario,protein_structure)
 
-destination = sprintf('../Illustrations/nanostructures_2D/%s_scenario_%d_1_segment.png',filename,scenario);
+destination = sprintf('../Illustrations/nanostructures_2D/%s_scenario_%d_1_segment.png',protein_structure,scenario);
 exportgraphics(gcf,destination,'Resolution',300);
 
 %% Plot error 
