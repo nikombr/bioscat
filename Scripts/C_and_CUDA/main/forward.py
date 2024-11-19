@@ -11,14 +11,17 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
 
     nx = len(x);
     ny = len(y);
-
-    Xmesh, Ymesh = np.meshgrid(x,y)
-    nx, ny = Xmesh.shape
-    #print(nx,ny)
-    #print(Xmesh)
-    #print(Ymesh)
-    Xmesh = Xmesh.flatten()
-    Ymesh = Ymesh.flatten()
+    if location == "far_field_pattern":
+        Xmesh = x;
+        Ymesh = y;
+    else:
+        Xmesh, Ymesh = np.meshgrid(x,y)
+        nx, ny = Xmesh.shape
+        #print(nx,ny)
+        #print(Xmesh)
+        #print(Ymesh)
+        Xmesh = Xmesh.flatten()
+        Ymesh = Ymesh.flatten()
 
     # Prepare observation points
     n = len(Xmesh)
@@ -54,7 +57,8 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
                 filename = f'../../../Results/forward/{field_typ}{var}_{typ}.txt'
                 data = np.loadtxt(filename)
                 field = data[:,0] + 1j*data[:,1]
-                fields[:,:,i] = np.reshape(field,[nx,ny])
+                if not location == "far_field_pattern":
+                    fields[:,:,i] = np.reshape(field,[nx,ny])
 
                 plt.figure()
                 plt.imshow(np.abs(fields[:,:,i]))
@@ -63,11 +67,7 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
                 plt.close()
                 os.remove(filename)
 
-            if location == "far_field_pattern":
-                if typ == "scat":
-                    mdic[f'{field_typ}_{typ}'] = fields
-            else:
-                mdic[f'{field_typ}_{typ}'] = fields
+            mdic[f'{field_typ}_{typ}'] = fields
 
     savename = f'../../../Results/forward/{protein_structure}/{location}/fields_beta_{int(beta)}_lambda_{int(lambd*10**9)}_num_segments_{int(num_segments)}_total_grid_points_{int(total_grid_points)}.mat'
     savemat(savename, mdic)
@@ -112,7 +112,7 @@ def getData():
 
 def getFarFieldPattern():
     obs_grid = 200;
-    phi = np.linspace(0,2*np.pi,obs_grid);
+    phi = np.linspace(0,np.pi,obs_grid);
     r = 3e-2; # 3 cm
     X = np.cos(phi)*r
     Y = np.sin(phi)*r
