@@ -1,0 +1,69 @@
+COMSOL Multiphysics server 6.1 (Build: 346) started listening on port 2036
+Use the console command 'close' to exit the program
+2024-11-18 20:14:54 A LiveLink™ for MATLAB® client with username 'css194146' has logged in from 'n-62-11-47'
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+Loading model: /zhome/00/b/147112/bioscat/Scripts/Comsol/forward61.mph
+Tag: Model
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f5aadea03b0, pid=2083505, tid=2083505
+#
+# JRE version: OpenJDK Runtime Environment Temurin-11.0.13+8 (11.0.13+8) (build 11.0.13+8)
+# Java VM: OpenJDK 64-Bit Server VM Temurin-11.0.13+8 (11.0.13+8, mixed mode, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# V  [libjvm.so+0xc653b0]  SR_handler(int, siginfo*, ucontext*)+0x30
+#
+# No core dump will be written. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# An error report file with more information is saved as:
+# /zhome/00/b/147112/bioscat/Scripts/Comsol/hs_err_pid2083505.log
+#
+# If you would like to submit a bug report, please visit:
+#   https://github.com/adoptium/adoptium-support/issues
+#
