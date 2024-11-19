@@ -42,9 +42,9 @@ for i = 1:2
     axis tight
     clim([0,max(max(val))])
 
-    writematrix(valX, sprintf('../Data/nanostructures/%s_3D_x_%d.txt',filename,n));
-    writematrix(valY, sprintf('../Data/nanostructures/%s_3D_y_%d.txt',filename,n));
-    writematrix(val,  sprintf('../Data/nanostructures/%s_3D_f_%d.txt',filename,n));
+    writematrix(valX, sprintf('../Data/nanostructures/3D/%s_x_%d.txt',filename,n));
+    writematrix(valY, sprintf('../Data/nanostructures/3D/%s_y_%d.txt',filename,n));
+    writematrix(val,  sprintf('../Data/nanostructures/3D/%s_f_%d.txt',filename,n));
 
     Y = val(550,:);
     X = X - mean(X);
@@ -58,8 +58,8 @@ for i = 1:2
     
     save(sprintf("../Data/%s_2D.mat",filename),"X", "Y")
 
-    writematrix(X, sprintf('../Data/nanostructures/%s_2D_x_%d.txt',filename,n));
-    writematrix(Y, sprintf('../Data/nanostructures/%s_2D_f_%d.txt',filename,n));
+    writematrix(X, sprintf('../Data/nanostructures/2D/%s_x_%d.txt',filename,n));
+    writematrix(Y, sprintf('../Data/nanostructures/2D/%s_f_%d.txt',filename,n));
     
 
 
