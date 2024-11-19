@@ -50,23 +50,30 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
         typ = types[j]
         for k in range(2):
             field_typ = field_types[k]
-            fields = np.zeros((nx,ny,3),dtype=complex)
+            if location == "far_field_pattern":
+                fields = np.zeros((nx,3),dtype=complex)
+            else:
+                fields = np.zeros((nx,ny,3),dtype=complex)
 
             for i in range(3):
                 var = variables[i]
                 filename = f'../../../Results/forward/{field_typ}{var}_{typ}.txt'
                 data = np.loadtxt(filename)
                 field = data[:,0] + 1j*data[:,1]
-                if not location == "far_field_pattern":
+                print(field.shape)
+                if location == "far_field_pattern":
+                    fields[:,i] = field
+                else:
                     fields[:,:,i] = np.reshape(field,[nx,ny])
 
-                plt.figure()
-                plt.imshow(np.abs(fields[:,:,i]))
-                plt.colorbar()
-                plt.savefig(f'plots/{field_typ}{var}_{typ}.png')
-                plt.close()
-                os.remove(filename)
-
+                    plt.figure()
+                    plt.imshow(np.abs(fields[:,:,i]))
+                    plt.colorbar()
+                    plt.savefig(f'plots/{field_typ}{var}_{typ}.png')
+                    plt.close()
+                    os.remove(filename)
+                    
+            print(fields.shape)
             mdic[f'{field_typ}_{typ}'] = fields
 
     savename = f'../../../Results/forward/{protein_structure}/{location}/fields_beta_{int(beta)}_lambda_{int(lambd*10**9)}_num_segments_{int(num_segments)}_total_grid_points_{int(total_grid_points)}.mat'
