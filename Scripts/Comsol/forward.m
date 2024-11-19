@@ -10,7 +10,7 @@ lambda=325; % nm
 total_grid_points = 300;
 beta = 0;
 protein_structure = 'demoleus2x2'; % Retinin2x2 demoleus2x2
-filename = sprintf("../../Results/forward/2D/%s/fields_%d_lambda_%d_num_segments_1_total_grid_points_%d.mat",protein_structure,beta,lambda,total_grid_points);
+filename = sprintf("../../Results/forward/%s/near/fields_beta_%d_lambda_%d_num_segments_1_total_grid_points_%d.mat",protein_structure,beta,lambda,total_grid_points);
 load(filename)
 
 % Get mesh for points
@@ -18,8 +18,8 @@ load(filename)
 coords = [Xmesh(:), Ymesh(:)]';     % Convert to a list of points
 
 % Load nanostructure
-xs = load("../../Data/nanostructures/demoleus2x2_2D_x_300.txt");
-fs = load("../../Data/nanostructures/demoleus2x2_2D_f_300.txt");
+xs = load("../../Data/nanostructures/2D/demoleus2x2_x_300.txt");
+fs = load("../../Data/nanostructures/2D/demoleus2x2_f_300.txt");
 
 % Load modules
 import com.comsol.model.*
@@ -56,7 +56,8 @@ E_background = exp(1j * k0 * Ymesh);  % Background field
 figure('Renderer', 'painters', 'Position', [400 400 1500 550]);
 tiledlayout(1,3,'TileSpacing','compact');
 nexttile;
-imagesc(x, y, abs(Ez_interp-E_background));  % Absolute value of Ez for visualization
+Ez_comsol = Ez_interp-E_background;
+imagesc(x, y, abs(Ez_comsol).^2);  % Absolute value of Ez for visualization
 title('Interpolated emw.Ez');
 xlabel('X-axis');
 ylabel('Y-axis');
@@ -66,20 +67,20 @@ axis square
 colorbar
 %clim([0,2])
 ax = gca;              % Get the current axes
-ax.CLim = [0 1.8]; % Set the color limits
+ax.CLim = [0 0.4]; % Set the color limits
 
 nexttile;
-Ez_tot = E_scat(:,:,3)+E_inc(:,:,3)+E_ref(:,:,3);
+Ez_me = E_scat(:,:,3)+E_ref(:,:,3);
 %Ez_tot = E_scat(:,:,3)+E_inc(:,:,3);
-imagesc(x, y, abs(Ez_tot-E_inc(:,:,3)));  % Absolute value of Ez for visualization
+imagesc(x, y, abs(Ez_me).^2);  % Absolute value of Ez for visualization
 axis square
 colorbar
 %clim([0,2])
 ax = gca;              % Get the current axes
-ax.CLim = [0 1.8]; % Set the color limits
+ax.CLim = [0 0.4]; % Set the color limits
 
 nexttile;
-imagesc(x, y, abs(Ez_tot-Ez_interp)); 
+imagesc(x, y, abs(Ez_comsol-Ez_me).^2); 
 axis square
 colorbar
 

@@ -63,7 +63,11 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
                 plt.close()
                 os.remove(filename)
 
-            mdic[f'{field_typ}_{typ}'] = fields
+            if location == "far_field_pattern":
+                if typ == "scat":
+                    mdic[f'{field_typ}_{typ}'] = fields
+            else:
+                mdic[f'{field_typ}_{typ}'] = fields
 
     savename = f'../../../Results/forward/{protein_structure}/{location}/fields_beta_{int(beta)}_lambda_{int(lambd*10**9)}_num_segments_{int(num_segments)}_total_grid_points_{int(total_grid_points)}.mat'
     savemat(savename, mdic)
@@ -90,8 +94,7 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
         plt.plot(data[:,0],data[:,1],'.')
     plt.savefig('plots/all_points.png')
 
-
-if __name__ == "__main__":
+def getData():
     obs_grid = 200;
     Y = np.linspace(0,21*10**(-7),obs_grid);
     location = "far"; # near, far, (far_field_pattern)
@@ -106,7 +109,24 @@ if __name__ == "__main__":
             for n in grid_sizes:
                 executeForward(x = X, y = Y, num_segments = 1, beta = beta, total_grid_points=n, protein_structure = protein_structure, deviceComputation = True, location = location)
 
+
+def getFarFieldPattern():
+    obs_grid = 200;
+    phi = np.linspace(0,2*np.pi,obs_grid);
+    r = 3e-2; # 3 cm
+    X = np.cos(phi)*r
+    Y = np.sin(phi)*r
+    location = "far_field_pattern"
+    grid_sizes = [100, 300, 500, 1000];
     
+    for protein_structure in ["demoleus2x2", "Retinin2x2"]: # "Retinin2x2" or "demoleus2x2"
+        for beta in [0, 90]:
+            for n in grid_sizes:
+                executeForward(x = X, y = Y, num_segments = 1, beta = beta, total_grid_points=n, protein_structure = protein_structure, deviceComputation = True, location = location)
+
+if __name__ == "__main__":
+    
+    getFarFieldPattern();
     
 
 
