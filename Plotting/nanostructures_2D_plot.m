@@ -4,7 +4,7 @@
 clear; close all; clc; 
 
 protein_structure = 'demoleus2x2'; % Retinin2x2 demoleus2x2
-views = {'far', 'close'};
+views = {'far', 'near'};
 scenario = 1;
 
 if scenario == 1
@@ -13,18 +13,19 @@ elseif scenario == 2
     beta = 90;
 end
 lambda=325; % nm
-total_grid_points = 1000
+total_grid_points = 300;
 climmaxE = -1;
 climmaxH = -1;
+
 
 for j = 1:2
     
     view = views{j};
     %%load(sprintf("../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_1.mat",filename,scenario,view))
-    filename = sprintf("../Results/forward/2D/%s/fields_%d_lambda_%d_num_segments_1_total_grid_points_%d.mat",protein_structure,beta,lambda,total_grid_points);
+    filename = sprintf("../Results/forward/%s/%s/fields_beta_%d_lambda_%d_num_segments_1_total_grid_points_%d.mat",protein_structure,view,beta,lambda,total_grid_points);
     load(filename)
-    E_tot = E_inc + E_ref + E_scat;
-    H_tot = H_inc + H_ref + H_scat;
+    E_tot = E_ref + E_scat;
+    H_tot = H_ref + H_scat;
     for k = 1:3
         climmaxE = max(climmaxE,max(max(abs(E_tot(:,:,k)).^2)));
         climmaxH = max(climmaxH,max(max(abs(H_tot(:,:,k)).^2)));
@@ -46,10 +47,10 @@ tiledlayout(2,3,'TileSpacing','compact');
 for k = 1:2
     view = views{k};
     %load(sprintf("../Results/nanostructures_2D/%s_scenario_%d_%s_num_segments_1.mat",filename,scenario,view))
-    filename = sprintf("../Results/forward/2D/%s/fields_%d_lambda_%d_num_segments_1_total_grid_points_%d.mat",protein_structure,beta,lambda,total_grid_points);
+    filename = sprintf("../Results/forward/%s/%s/fields_beta_%d_lambda_%d_num_segments_1_total_grid_points_%d.mat",protein_structure,view,beta,lambda,total_grid_points);
     load(filename)
-    E_tot = E_inc + E_ref + E_scat;
-    H_tot = H_inc + H_ref + H_scat;
+    E_tot = E_ref + E_scat;
+    H_tot = H_ref + H_scat;
     if k == 1
         yshift = 3*10^(-2); % 3 cm
         ylabel = '$y-3\textrm{ cm}$ [$\mu$m]';

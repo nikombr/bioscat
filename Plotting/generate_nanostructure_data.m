@@ -32,7 +32,8 @@ for i = 1:2
         val = val - min(min(val)) + minimum_value;
     end
 
-    val = val + 10^(-8);
+    %val = val + 10^(-8);
+    val = val + 1.5e-6;
     
     nexttile
     imagesc(X,Y,val)
