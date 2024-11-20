@@ -70,7 +70,7 @@ void loadData(RealMatrix trueReflectance, RealMatrix lambdas, RealMatrix betas, 
 void initCoordInNanostructure(Nanostructure nanostructure, char * protein_structure, int total_grid_points) {
     double val;
     char filename[256];
-    sprintf(filename, "../../../Data/nanostructures/%s_2D_x_%d.txt", protein_structure, total_grid_points);
+    sprintf(filename, "../../../Data/nanostructures/2D/%s_x_%d.txt", protein_structure, total_grid_points);
     //printf("filename = %s\n",filename);
 
     FILE *file;
@@ -127,7 +127,7 @@ double computeInverseStep(Nanostructure proposedNanostructure, BioScat bioscat, 
     return computeLogLikelihood(trueReflectance, reflectance,deviceComputation);
 }
 
-void inverse(char * protein_structure, int num_segments, int total_grid_points, double * hyper, int num, int type_covfunc) {
+void inverse(char * protein_structure, int num_segments, int total_grid_points, double * hyper, int num, int type_covfunc, double delta, int maxiter, char * filename) {
 
     double start, stop; // Time measurement
     double Lprev, Lstar, alpha, u, logPrior;
@@ -138,17 +138,21 @@ void inverse(char * protein_structure, int num_segments, int total_grid_points, 
     
     // Files for output
     FILE *file, *logfile, *logfile_accepted;
-    file = fopen("../../../Results/inverse/output.txt", "w");
+    char current_file_name[256];
+    sprintf(current_file_name,"../../../Results/inverse/%s_output.txt",filename);
+    file = fopen(current_file_name, "w");
     if (file == NULL) {
         perror("Error opening output file");
         return;
     }
-    logfile = fopen("../../../Results/inverse/log.txt", "w");
+    sprintf(current_file_name,"../../../Results/inverse/%s_log.txt",filename);
+    logfile = fopen(current_file_name, "w");
     if (file == NULL) {
         perror("Error opening output file");
         return;
     }
-    logfile_accepted = fopen("../../../Results/inverse/log_accepted.txt", "w");
+    sprintf(current_file_name,"../../../Results/inverse/%s_log_accepted.txt",filename);
+    logfile_accepted = fopen(current_file_name, "w");
     if (file == NULL) {
         perror("Error opening output file");
         return;
@@ -252,8 +256,7 @@ void inverse(char * protein_structure, int num_segments, int total_grid_points, 
     fprintf(logfile_accepted, "%e %e %e %e %e %e\n",Lprev, exp(Lprev),logPrior, exp(logPrior), Lprev + logPrior, exp(Lprev + logPrior));
 
     int status;
-    double delta = 0.0005;
-    for (int n = 0; n < 10000; n++) {
+    for (int n = 0; n < maxiter; n++) {
         
         
         GP.realisation();
