@@ -39,8 +39,8 @@ void Segment::computeScatteredFieldMatrices(RealMatrix x, RealMatrix y) {
         F1 = H_scat_matrix.z;
         F2 = E_scat_matrix.x;
         F3 = E_scat_matrix.y;
-        const1 = - 1.0;
-        const2 = 1/constants.eta0;
+        const1 = 1/constants.eta0;
+        const2 = - 1.0;
     } 
     else {
         printf("Please input 1 or 2 for the polarisation in \"computeScatteredFieldMatrices\"!\n");

@@ -124,6 +124,7 @@ class RealMatrix {
             }
             return minimum;
         }
+        void dumpResult(const char * filename);
 
   
 };

@@ -240,5 +240,22 @@ double RealMatrix::getHostValue(int r, int c, int d) {
 }
 
 
+void RealMatrix::dumpResult(const char * filename) {
+    if (cols == 1) {
+        FILE *file;
+        file = fopen(filename, "w");
+        if (file == NULL) {
+            perror("Error opening file");
+            return;
+        }
+        for (int r = 0; r < rows; r++) {
+            fprintf(file, "%e\n", getHostValue(r));
+        }
+        fclose(file);
+    }
+    else printf("We do not support saving real matrices with several columns.\n");
+}
+
+
 
 }

@@ -1,17 +1,17 @@
 #ifndef _BIOSCAT_H
 #define _BIOSCAT_H
 #include "Segment.h"
-extern "C" {
 #include "Nanostructure.h"
 #include "Field.h"
-#include "RealMatrix.h"
-#include "GP/GaussianProcess.h"
+#include "utils/RealMatrix.h"
+#include "GaussianProcess.h"
+extern "C" {
 
 class BioScat {
 
     private:
         char * protein_structure;    // Type of protein structure. Either "Retinin2x2" or "demoleus2x2"
-        Nanostructure nanostructure; // Information stored about the specific nanostructure 
+        
         int total_grid_points = 1000;       // The number of grid points used along each axis
         Segment * segments;
         int num_segments;
@@ -19,21 +19,22 @@ class BioScat {
         Field H_scat;
         Field E_inc;
         Field H_inc;
-        Field E_ref;
-        Field H_ref;
+        Field E_int;
+        Field H_int;
         RealMatrix F;
         Field E_scat_pol[2];
         Field H_scat_pol[2];
         Field E_inc_pol[2];
         Field H_inc_pol[2];
-        Field E_ref_pol[2];
-        Field H_ref_pol[2];
+        Field E_int_pol[2];
+        Field H_int_pol[2];
         ComplexMatrix F_pol[2];
         bool deviceComputation = false; // True if we should compute on the device
         int polarisation; // Polarisation polarisation, 1 or 2
         double beta;
 
     public:
+        Nanostructure nanostructure; // Information stored about the specific nanostructure 
         RealMatrix reflectance;
         GaussianProcess GP;
         RealMatrix x_obs;
@@ -42,6 +43,7 @@ class BioScat {
         int n_obs;
         bool printOutput = false;
         int status;
+        bool computeInterior = false;
         BioScat() {
 
         }
@@ -58,9 +60,14 @@ class BioScat {
         void setupObservationPoints(double * x, double * y, int n);
         void setupObservationPoints(double * phi,           int n);
         void computeScatteredSubFields();
+        void computeInteriorSubFields();
         void computeIncidentSubFields();
         void computeScatteredFields();
+        void computeInteriorFields();
         void computeIncidentFields();
+        void computeScatteredFields(double beta);
+        void computeInteriorFields(double beta);
+        void computeIncidentFields(double beta);
         void dumpFields();
         void dumpFarFields();
         void computeReflectance();
@@ -68,8 +75,9 @@ class BioScat {
         void preConditionedCrankNicholson();
         void reset(); // Sets pols to zero
         void allocateSegments();
-        void computeSubFarFieldPattern();
+        //void computeSubFarFieldPattern();
         void computeFarFieldPattern();
+        void combineFarFieldPattern();
 
         
 

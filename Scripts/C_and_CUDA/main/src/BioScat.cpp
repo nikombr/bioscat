@@ -87,7 +87,7 @@ void BioScat::getSegments() {
 }
 
 void BioScat::allocateSegments() {
-    int sideSteps      = 15;
+    int sideSteps      = 0.75*total_grid_points;
     int segment_length = total_grid_points / num_segments;
     int n_top          = segment_length - 2;
     int n_bottom       = segment_length - 2;
@@ -180,27 +180,33 @@ void BioScat::setupObservationPoints(double *x, double*y, int n) {
     for (int i = 0; i < n; i++) y_obs.setHostValue(i, y[i]);
     x_obs.toDevice();
     y_obs.toDevice();
-    /*x_obs.rows = n;
-    y_obs.rows = n;
-    x_obs.cols = 1;
-    y_obs.cols = 1;
-    x_obs.setHostPointer(x);
-    y_obs.setHostPointer(y);*/
 
     // Allocate fields
     E_scat = Field(n);
     H_scat = Field(n);
     E_inc  = Field(n);
     H_inc  = Field(n);
-    E_ref  = Field(n);
-    H_ref  = Field(n);
     for (int i = 0; i < 2; i++) {
         E_scat_pol[i] = Field(n);
         H_scat_pol[i] = Field(n);
         E_inc_pol[i]  = Field(n);
         H_inc_pol[i]  = Field(n);
-        E_ref_pol[i]  = Field(n);
-        H_ref_pol[i]  = Field(n);
+    }
+
+    // Allocate reflectance array
+    reflectance = RealMatrix(n);
+}
+
+void BioScat::setupObservationPoints(double *phi, int n) {
+    n_obs = n;
+    phi_obs = RealMatrix(n);
+    for (int i = 0; i < n; i++) phi_obs.setHostValue(i, phi[i]);
+    phi_obs.toDevice();
+
+    // Allocate fields
+    F = RealMatrix(n);
+    for (int i = 0; i < 2; i++) {
+        F_pol[i] = ComplexMatrix(n);
     }
 
     // Allocate reflectance array
@@ -291,7 +297,7 @@ void BioScat::dumpFields() {
     H_inc.z.dumpResult(filename);
 
      // Save reflected electric fields
-    sprintf(filename,"../../../Results/forward/Ex_ref.txt");
+    /*sprintf(filename,"../../../Results/forward/Ex_ref.txt");
     E_ref.x.dumpResult(filename);
     sprintf(filename,"../../../Results/forward/Ey_ref.txt");
     E_ref.y.dumpResult(filename);
@@ -304,9 +310,21 @@ void BioScat::dumpFields() {
     sprintf(filename,"../../../Results/forward/Hy_ref.txt");
     H_ref.y.dumpResult(filename);
     sprintf(filename,"../../../Results/forward/Hz_ref.txt");
-    H_ref.z.dumpResult(filename);
+    H_ref.z.dumpResult(filename);*/
 }
 
+void BioScat::dumpFarFields() {
+
+    if (deviceComputation) {
+        F.toHost();
+    }
+
+    char filename[256];
+
+    // Save scattered electric fields
+    sprintf(filename, "../../../Results/forward/farFieldPattern.txt");
+    F.dumpResult(filename);
+}
 
 void BioScat::reset() {
     if (deviceComputation) {

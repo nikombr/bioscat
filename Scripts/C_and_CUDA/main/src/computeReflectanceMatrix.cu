@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include "../lib/ComplexMatrix.h"
 #include "../lib/BioScat.h"
+#include "../lib/Segment.h"
 extern "C" {
 
 
@@ -45,7 +46,7 @@ void computeReflectanceMatrixGetData(BioScat bioscat, RealMatrix reflectance, do
         for (int polarisation = 1; polarisation <= 2; polarisation++) {
             bioscat.forwardSolver(polarisation);
             bioscat.computeScatteredSubFields();
-            bioscat.computeReflectedSubFields();
+            //bioscat.computeReflectedSubFields();
             bioscat.computeIncidentSubFields();
         }
 
@@ -55,7 +56,7 @@ void computeReflectanceMatrixGetData(BioScat bioscat, RealMatrix reflectance, do
             double beta = betas[j];
             
             bioscat.computeScatteredFields(beta);
-            bioscat.computeReflectedFields(beta);
+            //bioscat.computeReflectedFields(beta);
             bioscat.computeIncidentFields(beta);
             bioscat.computeReflectance();
             
@@ -91,7 +92,7 @@ void computeReflectanceMatrix(Nanostructure proposedNanostructure, BioScat biosc
         for (int polarisation = 1; polarisation <= 2; polarisation++) {
             bioscat.forwardSolver(polarisation);
             bioscat.computeScatteredSubFields();
-            bioscat.computeReflectedSubFields();
+            //bioscat.computeReflectedSubFields();
             bioscat.computeIncidentSubFields();
         }
 
@@ -100,7 +101,7 @@ void computeReflectanceMatrix(Nanostructure proposedNanostructure, BioScat biosc
             double beta = betas.getHostValue(j);
             
             bioscat.computeScatteredFields(beta);
-            bioscat.computeReflectedFields(beta);
+            //bioscat.computeReflectedFields(beta);
             bioscat.computeIncidentFields(beta);
             bioscat.computeReflectance();
             

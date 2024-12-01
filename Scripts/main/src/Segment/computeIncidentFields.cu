@@ -45,10 +45,6 @@ void Segment::computeIncidentFields(RealMatrix y) {
         }
 
         cudaDeviceSynchronize();
-
-        //E_inc_vector.toHost();
-        //H_inc_vector.toHost();
-
     }
     else {
         if (polarisation == 1) {

@@ -124,6 +124,16 @@ class RealMatrix {
             }
             return minimum;
         }
+
+        double findMax() {
+            double maximum = 0;
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    maximum = std::max(getHostValue(i, j), maximum);
+                }        
+            }
+            return maximum;
+        }
         void dumpResult(const char * filename);
 
   

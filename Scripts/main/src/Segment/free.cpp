@@ -20,6 +20,7 @@ void Segment::free() {
     D.free();
     A.free();
     b.free();
+    F.free();
     E_scat_matrix.free();
     H_scat_matrix.free();
     E_int_matrix.free(); 

@@ -26,6 +26,7 @@ class Segment {
         Field E_scat_matrix;
         Field H_scat_matrix;
         Field E_scat;
+        ComplexMatrix F; // Far field pattern
         Field H_scat;
         Field E_int_matrix; 
         Field H_int_matrix; 
@@ -67,7 +68,9 @@ class Segment {
         void setupSystemMatrix();
         void newWavelength(double lambda);
         void computeScatteredSubFields();
+        void computeFarFieldPattern(RealMatrix phi);
 };
+
 }
 
 #endif

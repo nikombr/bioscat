@@ -39,14 +39,14 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
     c_func.executeForward(x_arr, y_arr, n, protein_structure_encoded, num_segments,total_grid_points, ctypes.c_double(beta*math.pi/180), ctypes.c_double(lambd), int(deviceComputation))
 
     variables = ['x', 'y', 'z'];
-    types = ['scat', 'inc', 'ref']
+    types = ['scat', 'inc']
     field_types = ['E','H']
 
     mdic = dict();
     mdic['x'] = x
     mdic['y'] = y
 
-    for j in range(3):
+    for j in range(2):
         typ = types[j]
         for k in range(2):
             field_typ = field_types[k]
@@ -79,27 +79,36 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
     savename = f'../../../Results/forward/{protein_structure}/{location}/fields_beta_{int(beta)}_lambda_{int(lambd*10**9)}_num_segments_{int(num_segments)}_total_grid_points_{int(total_grid_points)}.mat'
     savemat(savename, mdic)
 
-
+    n = 50;
     plt.figure()
     for i in range(num_segments):
         filename = f'../../../Data/segments/test_segment_{i+1}.txt'
         data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1],'k.')
+        plt.plot(data[:(n-2),0],data[:(n-2),1],'k.')
+    for i in range(num_segments):
+        filename = f'../../../Data/segments/n_segment_{i+1}.txt'
+        data = np.loadtxt(filename)
+        #plt.plot(data[:10,0],data[:10,1],'k.')
     #plt.savefig('plots/test_points.png')
 
     #plt.figure()
     for i in range(num_segments):
         filename = f'../../../Data/segments/ext_segment_{i+1}.txt'
         data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1],'.')
+        plt.plot(data[:(n),0],data[:(n),1],'.')
     #plt.savefig('plots/ext_points.png')
 
     #plt.figure()
     for i in range(num_segments):
         filename = f'../../../Data/segments/int_segment_{i+1}.txt'
         data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1],'.')
+        plt.plot(data[:(n-6),0],data[:(n-6),1],'.')
+    ax = plt.gca()
+    ax.set_aspect('equal', adjustable='box')
     plt.savefig('plots/all_points.png')
+
+    filename = f'../../../Data/segments/test_segment_1.txt'
+    data = np.loadtxt(filename)
 
 def getData():
     obs_grid = 200;
@@ -133,7 +142,15 @@ def getFarFieldPattern():
 
 if __name__ == "__main__":
     
-    getFarFieldPattern();
+    obs_grid = 200;
+    Y = np.linspace(-10*10**(-7),31*10**(-7),obs_grid);
+    location = "near"; # near, far, (far_field_pattern)
+    #Y = Y + 1.6e-6;
+    #Y = Y + 3e-2;
+    X = np.linspace(-20.5*10**(-7),20.5*10**(-7),obs_grid);
+    protein_structure = "demoleus2x2"  # "Retinin2x2" or "demoleus2x2"
+    
+    executeForward(x = X, y = Y, num_segments = 1, beta = 0, total_grid_points=300, protein_structure = protein_structure, deviceComputation = True, location = location)
     
 
 

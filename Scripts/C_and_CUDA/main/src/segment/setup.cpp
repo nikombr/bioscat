@@ -5,8 +5,8 @@
 #include <string.h>
 #include <math.h>
 #include "../../lib/Segment.h"
-extern "C" {
 #include "../../lib/RealMatrix.h"
+extern "C" {
 using namespace std;
 
 void computeExteriorPointsAndNormalVectors(RealMatrix x_ext, RealMatrix y_ext, RealMatrix n_x, RealMatrix n_y, Nanostructure nanostructure, int start, int end, double alpha, double leftStep, double rightStep, int leftNum, int rightNum, int n_top, int n_right, int n_bottom, int n_left, double left_x_value, double right_x_value, bool deviceComputation, bool printOutput);
@@ -47,6 +47,7 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
     leftStep  = left_f_value/leftNum;
     rightStep = right_f_value/rightNum;
     alpha     = std::min((double)2*step,(double)1.0e-9),2*std::min(leftStep,rightStep);
+    alpha *=10;
     
     // Allocate arrays
     /*int n_top       = end - start - 2;
@@ -66,7 +67,7 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
     computeInteriorPoints(x_int, y_int, x_test, y_test, alpha, n_top, n_right,  n_bottom,  n_left, deviceComputation, printOutput); 
     
     
-    bool save_segment = false;
+    bool save_segment = true;
     if (save_segment) {
         x_test.allocateHost();
         y_test.allocateHost();

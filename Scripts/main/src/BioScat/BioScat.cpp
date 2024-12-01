@@ -6,10 +6,10 @@
 #include <omp.h>
 //#include <cblas.h>
 #include <math.h>
-#include "../lib/BioScat.h"
-#include "../lib/Segment.h"
-#include "../lib/RealMatrix.h"
-#include "../lib/combinePolarisation.h"
+#include "../../lib/BioScat.h"
+#include "../../lib/Segment.h"
+#include "../../lib/utils/RealMatrix.h"
+#include "../../lib/combinePolarisation.h"
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 extern "C" {

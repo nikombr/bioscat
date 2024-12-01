@@ -1,0 +1,514 @@
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23278131: <forward> in cluster <dcc> Exited
+
+Job <forward> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Wed Nov 27 17:32:53 2024
+Job was executed on host(s) <64*n-62-12-81>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Wed Nov 27 17:32:54 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Wed Nov 27 17:32:54 2024
+Terminated at Wed Nov 27 17:34:58 2024
+Results reported at Wed Nov 27 17:34:58 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J forward # name
+#BSUB -o outfiles/forward_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 64 ## cores
+#BSUB -R "rusage[mem=1GB]" 
+#BSUB -W 24:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+
+OMP_NUM_THREADS=64 python forward.py 1 1
+
+OMP_NUM_THREADS=64 python forward.py 1 2
+
+OMP_NUM_THREADS=64 python forward.py 1 4
+
+OMP_NUM_THREADS=64 python forward.py 1 8
+------------------------------------------------------------
+
+Exited with exit code 139.
+
+Resource usage summary:
+
+    CPU time :                                   374.00 sec.
+    Max Memory :                                 259 MB
+    Average Memory :                             247.33 MB
+    Total Requested Memory :                     65536.00 MB
+    Delta Memory :                               65277.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                71
+    Run time :                                   124 sec.
+    Turnaround time :                            125 sec.
+
+The output (if any) follows:
+
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+n_test:  	3494
+n_top:  	998
+n_right:  	749
+n_bottom:	998
+n_left:  	749
+n_int:  	3478
+n_ext:  	3498
+n_obs:  	90000
+n:      	90000
+We are computing on the device!
+
+It took 7.235880e-04 seconds to setup the segments!
+
+
+It took 9.8076e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.8081e-01 seconds to solve all the linear systems.
+
+
+It took 1.1945e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 2.6114e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.2014e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.2644e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.1933e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 8.9941e-01 seconds to solve the linear system for segment 1.
+
+
+It took 8.9945e-01 seconds to solve all the linear systems.
+
+
+It took 1.1898e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 1.0196e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1977e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.3474e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 6.3335e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	3494
+n_top:  	998
+n_right:  	749
+n_bottom:	998
+n_left:  	749
+n_int:  	3478
+n_ext:  	3498
+n_obs:  	90000
+n:      	90000
+We are computing on the device!
+
+It took 4.651030e-04 seconds to setup the segments!
+
+
+It took 9.1609e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.1612e-01 seconds to solve all the linear systems.
+
+
+It took 1.1940e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 1.5518e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1990e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.5788e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.1358e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 9.0227e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.0230e-01 seconds to solve all the linear systems.
+
+
+It took 1.1899e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 4.5668e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.2001e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.1162e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 4.2273e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	3494
+n_top:  	998
+n_right:  	749
+n_bottom:	998
+n_left:  	749
+n_int:  	3478
+n_ext:  	3498
+n_obs:  	90000
+n:      	90000
+We are computing on the device!
+
+It took 5.011060e-04 seconds to setup the segments!
+
+
+It took 9.0436e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.0439e-01 seconds to solve all the linear systems.
+
+
+It took 1.1924e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 1.6823e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1991e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.4557e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.2120e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 8.8870e-01 seconds to solve the linear system for segment 1.
+
+
+It took 8.8873e-01 seconds to solve all the linear systems.
+
+
+It took 1.1906e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 4.6189e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1982e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.3254e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 3.9979e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	3494
+n_top:  	998
+n_right:  	749
+n_bottom:	998
+n_left:  	749
+n_int:  	3478
+n_ext:  	3498
+n_obs:  	90000
+n:      	90000
+We are computing on the device!
+
+It took 5.242510e-04 seconds to setup the segments!
+
+
+It took 9.1744e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.1747e-01 seconds to solve all the linear systems.
+
+
+It took 1.1936e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 1.5175e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1985e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.3585e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.0882e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 8.9016e-01 seconds to solve the linear system for segment 1.
+
+
+It took 8.9019e-01 seconds to solve all the linear systems.
+
+
+It took 1.1898e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 4.5668e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1985e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.7080e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 4.3225e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	3494
+n_top:  	998
+n_right:  	749
+n_bottom:	998
+n_left:  	749
+n_int:  	3478
+n_ext:  	3498
+n_obs:  	90000
+n:      	90000
+We are computing on the device!
+
+It took 3.956892e-04 seconds to setup the segments!
+
+
+It took 9.1391e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.1394e-01 seconds to solve all the linear systems.
+
+
+It took 1.1933e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 1.3203e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1991e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.6008e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 9.9378e-05 seconds to compute the combined incident fields in the observation points.
+
+
+It took 8.8920e-01 seconds to solve the linear system for segment 1.
+
+
+It took 8.8923e-01 seconds to solve all the linear systems.
+
+
+It took 1.1913e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 4.8162e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1975e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.7210e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 4.3194e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	3494
+n_top:  	998
+n_right:  	749
+n_bottom:	998
+n_left:  	749
+n_int:  	3478
+n_ext:  	3498
+n_obs:  	90000
+n:      	90000
+We are computing on the device!
+
+It took 5.152279e-04 seconds to setup the segments!
+
+
+It took 9.1342e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.1344e-01 seconds to solve all the linear systems.
+
+
+It took 1.1925e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 1.5642e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1995e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.6028e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.1062e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 8.8960e-01 seconds to solve the linear system for segment 1.
+
+
+It took 8.8963e-01 seconds to solve all the linear systems.
+
+
+It took 1.1914e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 4.5949e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1977e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.8562e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 4.0461e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	3494
+n_top:  	998
+n_right:  	749
+n_bottom:	998
+n_left:  	749
+n_int:  	3478
+n_ext:  	3498
+n_obs:  	90000
+n:      	90000
+We are computing on the device!
+
+It took 4.884880e-04 seconds to setup the segments!
+
+
+It took 9.1457e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.1460e-01 seconds to solve all the linear systems.
+
+
+It took 1.1946e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 1.4415e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1991e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.8061e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.0699e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 8.9181e-01 seconds to solve the linear system for segment 1.
+
+
+It took 8.9184e-01 seconds to solve all the linear systems.
+
+
+It took 1.1916e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 4.6989e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1983e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.3404e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 4.0851e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	3494
+n_top:  	998
+n_right:  	749
+n_bottom:	998
+n_left:  	749
+n_int:  	3478
+n_ext:  	3498
+n_obs:  	90000
+n:      	90000
+We are computing on the device!
+
+It took 4.672559e-04 seconds to setup the segments!
+
+
+It took 9.0567e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.0570e-01 seconds to solve all the linear systems.
+
+
+It took 1.1927e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 1.5391e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1988e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.4426e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.1295e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 8.9422e-01 seconds to solve the linear system for segment 1.
+
+
+It took 8.9425e-01 seconds to solve all the linear systems.
+
+
+It took 1.1892e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 4.3775e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1973e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 4.7742e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 4.1271e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+/zhome/00/b/147112/.lsbatch/1732725173.23278131.shell: line 17: 2134988 Segmentation fault      OMP_NUM_THREADS=64 python forward.py 1 2
+Memory allocation failed.
+/zhome/00/b/147112/.lsbatch/1732725173.23278131.shell: line 19: 2134995 Segmentation fault      OMP_NUM_THREADS=64 python forward.py 1 4
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+/zhome/00/b/147112/.lsbatch/1732725173.23278131.shell: line 21: 2135004 Segmentation fault      OMP_NUM_THREADS=64 python forward.py 1 8

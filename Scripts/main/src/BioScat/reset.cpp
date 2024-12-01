@@ -6,10 +6,9 @@
 #include <omp.h>
 //#include <cblas.h>
 #include <math.h>
-#include "../lib/BioScat.h"
-#include "../lib/Segment.h"
-#include "../lib/RealMatrix.h"
-#include "../lib/combinePolarisation.h"
+#include "../../lib/BioScat.h"
+#include "../../lib/Segment.h"
+#include "../../lib/utils/RealMatrix.h"
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 extern "C" {
@@ -23,8 +22,8 @@ void BioScat::reset() {
             H_scat_pol[i].setDeviceZero();
             E_inc_pol[i].setDeviceZero();
             H_inc_pol[i].setDeviceZero();
-            E_ref_pol[i].setDeviceZero();
-            H_ref_pol[i].setDeviceZero();
+            E_int_pol[i].setDeviceZero();
+            H_int_pol[i].setDeviceZero();
         }
     }
     else {
@@ -34,8 +33,8 @@ void BioScat::reset() {
             H_scat_pol[i].setHostZero();
             E_inc_pol[i].setHostZero();
             H_inc_pol[i].setHostZero();
-            E_ref_pol[i].setHostZero();
-            H_ref_pol[i].setHostZero();
+            E_int_pol[i].setHostZero();
+            H_int_pol[i].setHostZero();
         }
     }
 }

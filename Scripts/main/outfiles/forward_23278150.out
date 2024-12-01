@@ -1,0 +1,183 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+n_test:  	3494
+n_top:  	998
+n_right:  	749
+n_bottom:	998
+n_left:  	749
+n_int:  	3478
+n_ext:  	3498
+n_obs:  	90000
+n:      	90000
+We are computing on the device!
+
+It took 6.570281e-04 seconds to setup the segments!
+
+
+It took 9.2579e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.2583e-01 seconds to solve all the linear systems.
+
+
+It took 1.1947e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 2.3815e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1991e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 3.3770e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.2338e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 8.9802e-01 seconds to solve the linear system for segment 1.
+
+
+It took 8.9804e-01 seconds to solve all the linear systems.
+
+
+It took 1.1914e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 3.7305e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1980e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 9.2217e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 6.2964e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	3494
+n_top:  	998
+n_right:  	749
+n_bottom:	998
+n_left:  	749
+n_int:  	3478
+n_ext:  	3498
+n_obs:  	90000
+n:      	90000
+We are computing on the device!
+
+It took 4.597849e-04 seconds to setup the segments!
+
+
+It took 9.2477e-01 seconds to solve the linear system for segment 1.
+
+
+It took 9.2479e-01 seconds to solve all the linear systems.
+
+
+It took 1.1926e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 1.0968e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1998e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 3.3229e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.0950e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 8.9197e-01 seconds to solve the linear system for segment 1.
+
+
+It took 8.9200e-01 seconds to solve all the linear systems.
+
+
+It took 1.1910e-01 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 3.6795e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 1.1980e-01 seconds to compute the interior field matrices for segment 1.
+
+
+It took 3.5653e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 4.8292e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+/zhome/00/b/147112/.lsbatch/1732725689.23278150.shell: line 18: 2136993 Segmentation fault      OMP_NUM_THREADS=64 python forward.py 1 2 0 demoleus2x2
+Memory allocation failed.
+malloc(): unsorted double linked list corrupted
+/zhome/00/b/147112/.lsbatch/1732725689.23278150.shell: line 20: 2137008 Aborted                 OMP_NUM_THREADS=64 python forward.py 1 4 0 demoleus2x2
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+double free or corruption (fasttop)
+/zhome/00/b/147112/.lsbatch/1732725689.23278150.shell: line 22: 2137022 Aborted                 OMP_NUM_THREADS=64 python forward.py 1 8 0 demoleus2x2
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23278150: <forward> in cluster <dcc> Exited
+
+Job <forward> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Wed Nov 27 17:41:29 2024
+Job was executed on host(s) <64*n-62-12-81>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Wed Nov 27 17:41:30 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Wed Nov 27 17:41:30 2024
+Terminated at Wed Nov 27 17:42:07 2024
+Results reported at Wed Nov 27 17:42:07 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J forward # name
+#BSUB -o outfiles/forward_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 64 ## cores
+#BSUB -R "rusage[mem=1GB]" 
+#BSUB -W 24:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+# "Retinin2x2" or "demoleus2x2"
+
+OMP_NUM_THREADS=64 python forward.py 1 1 0 demoleus2x2
+
+OMP_NUM_THREADS=64 python forward.py 1 2 0 demoleus2x2
+
+OMP_NUM_THREADS=64 python forward.py 1 4 0 demoleus2x2
+
+OMP_NUM_THREADS=64 python forward.py 1 8 0 demoleus2x2
+------------------------------------------------------------
+
+Exited with exit code 134.
+
+Resource usage summary:
+
+    CPU time :                                   95.00 sec.
+    Max Memory :                                 231 MB
+    Average Memory :                             231.00 MB
+    Total Requested Memory :                     65536.00 MB
+    Delta Memory :                               65305.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                71
+    Run time :                                   37 sec.
+    Turnaround time :                            38 sec.
+
+The output (if any) is above this job summary.
+

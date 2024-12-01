@@ -40,8 +40,8 @@ void Segment::computeInteriorFieldMatrices(RealMatrix x, RealMatrix y) {
         F1 = H_int_matrix.z;
         F2 = E_int_matrix.x;
         F3 = E_int_matrix.y;
-        const1 = - 1.0;
-        const2 = 1.0/(constants.eta0*constants.n1);
+        const1 = constants.n1/constants.eta0;
+        const2 = - 1.0;
     } 
     else {
         printf("Please input 1 or 2 for the polarisation!\n");

@@ -6,9 +6,9 @@
 #include <omp.h>
 //#include <cblas.h>
 #include <math.h>
-#include "../lib/Segment.h"
-#include "../lib/BioScat.h"
-#include "../lib/RealMatrix.h"
+#include "../../../lib/Segment.h"
+#include "../../../lib/BioScat.h"
+#include "../../../lib/utils/RealMatrix.h"
 extern "C" {
 using namespace std;
 

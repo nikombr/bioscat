@@ -21,12 +21,14 @@ class BioScat {
         Field H_inc;
         Field E_ref;
         Field H_ref;
+        RealMatrix F;
         Field E_scat_pol[2];
         Field H_scat_pol[2];
         Field E_inc_pol[2];
         Field H_inc_pol[2];
         Field E_ref_pol[2];
         Field H_ref_pol[2];
+        ComplexMatrix F_pol[2];
         bool deviceComputation = false; // True if we should compute on the device
         int polarisation; // Polarisation polarisation, 1 or 2
         double beta;
@@ -39,6 +41,7 @@ class BioScat {
         GaussianProcess GP;
         RealMatrix x_obs;
         RealMatrix y_obs;
+        RealMatrix phi_obs;
         int n_obs;
         bool printOutput = false;
         int status;
@@ -63,6 +66,7 @@ class BioScat {
         void computeIncidentSubFields();
         void computeIncidentFields(double lambda);
         void dumpFields();
+        void dumpFarFields();
         void computeReflectance();
         void prepareForward(double beta, double lambda);
         void prepareForward(double lambda);
@@ -71,6 +75,9 @@ class BioScat {
         void preConditionedCrankNicholson();
         void reset(); // Sets pols to zero
         void allocateSegments();
+        void setupObservationPoints(double *phi, int n);
+        void computeFarFieldPattern();
+        void combineFarFieldPattern();
 
         
 

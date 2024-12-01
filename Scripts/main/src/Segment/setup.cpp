@@ -39,8 +39,10 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
     rightNum  = n_right + 1;
     leftStep  = left_f_value/leftNum;
     rightStep = right_f_value/rightNum;
-    alpha     = std::min((double)2*step,(double)1.0e-9),2*std::min(leftStep,rightStep);
-    alpha *=10;
+    //alpha     = std::min((double)2*step,(double)1.0e-9),2*std::min(leftStep,rightStep);
+    //alpha *=10;
+    alpha = 1e-8;
+    //printf("alpha = %e",alpha);
     
     // Compute exterior points
     computeExteriorPointsAndNormalVectors(aux_ext.x, aux_ext.y, normal_vectors.x, normal_vectors.y, nanostructure, start, end, alpha, leftStep, rightStep, leftNum, rightNum, n_top, n_right, n_bottom, n_left, left_x_value, right_x_value, deviceComputation, printOutput);
@@ -49,7 +51,7 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
     computeTestPoints(test_points.x, test_points.y, nanostructure, start,  end,  leftStep,  rightStep, n_top, n_right, n_bottom, n_left, left_x_value, right_x_value, deviceComputation, printOutput);
 
     // Compute interior points
-    computeInteriorPoints(aux_int.x, aux_int.x, test_points.x, test_points.y, alpha, n_top, n_right,  n_bottom,  n_left, deviceComputation, printOutput); 
+    computeInteriorPoints(aux_int.x, aux_int.y, test_points.x, test_points.y, alpha, n_top, n_right,  n_bottom,  n_left, deviceComputation, printOutput); 
     
     
     bool save_segment = true;
@@ -64,7 +66,9 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
         normal_vectors.toHost();
         FILE *file;
         char filename[256];
-        sprintf(filename,"../../../Data/segments/test_segment_%d.txt", current_segment+1);
+        char dir[256];
+        sprintf(dir,"../../../../../../../work3/s194146/bioscatdata");
+        sprintf(filename,"%s/Data/segments/test_segment_%d.txt", dir, current_segment+1);
         file = fopen(filename, "w");
         if (file == NULL) {
             perror("Error opening file");
@@ -74,8 +78,8 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
             fprintf(file, "%.4e %.4e\n", test_points.x.getHostValue(k), test_points.y.getHostValue(k));
         }
         fclose(file);
-
-        sprintf(filename,"../../../Data/segments/ext_segment_%d.txt", current_segment+1);
+        
+        sprintf(filename,"%s/Data/segments/ext_segment_%d.txt", dir, current_segment+1);
         file = fopen(filename, "w");
         if (file == NULL) {
             perror("Error opening file");
@@ -86,7 +90,7 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
         }
         fclose(file);
 
-        sprintf(filename,"../../../Data/segments/int_segment_%d.txt", current_segment+1);
+        sprintf(filename,"%s/Data/segments/int_segment_%d.txt", dir, current_segment+1);
         file = fopen(filename, "w");
         if (file == NULL) {
             perror("Error opening file");
@@ -97,7 +101,7 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
         }
         fclose(file);
 
-        sprintf(filename,"../../../Data/segments/n_segment_%d.txt", current_segment+1);
+        sprintf(filename,"%s/Data/segments/n_segment_%d.txt", dir, current_segment+1);
         file = fopen(filename, "w");
         if (file == NULL) {
             perror("Error opening file");

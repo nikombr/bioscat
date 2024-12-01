@@ -34,14 +34,14 @@ void forward(double *x, double*y, int n ,char * protein_structure, int num_segme
         bioscat.forwardSolver(polarisation);
         
         bioscat.computeScatteredSubFields();
-        bioscat.computeReflectedSubFields();
+        //bioscat.computeReflectedSubFields();
         bioscat.computeIncidentSubFields();
 
     }
 
     bioscat.computeScatteredFields();
 
-    bioscat.computeReflectedFields();
+    //bioscat.computeReflectedFields();
 
     bioscat.computeIncidentFields();
 

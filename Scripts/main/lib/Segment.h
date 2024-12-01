@@ -52,11 +52,13 @@ class Segment {
         void computeFarFieldPattern(RealMatrix phi);                                      // Computes far field pattern for given angles
         void computeScatteredFieldMatrices(RealMatrix x, RealMatrix y);                   // Computes matrices in given and auxilliary points
         void computeInteriorFieldMatrices(RealMatrix x, RealMatrix y);                    // Computes matrices in given and auxilliary points
-        //void computeFieldsForLinearSystem();                                            // Computes vectors and matrices in test points
+        void computeFieldsForLinearSystem();                                            // Computes vectors and matrices in test points
         void setupRightHandSide();                                                        // Sets up right-hand side b of linear system Ax = b
         void setupSystemMatrix();                                                         // Sets up system matrixs A of linear system Ax = b
         void solveLinearSystem();                                                         // Solves linear system
-        //void newWavelength(double lambda);
+        void newWavelength(double lambda) {
+            constants.newWavelength(lambda);
+        }
         //void computeScatteredSubFields();
 };
 

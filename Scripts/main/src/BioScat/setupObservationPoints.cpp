@@ -6,10 +6,9 @@
 #include <omp.h>
 //#include <cblas.h>
 #include <math.h>
-#include "../lib/BioScat.h"
-#include "../lib/Segment.h"
-#include "../lib/RealMatrix.h"
-#include "../lib/combinePolarisation.h"
+#include "../../lib/BioScat.h"
+#include "../../lib/Segment.h"
+#include "../../lib/utils/RealMatrix.h"
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 extern "C" {
@@ -27,11 +26,15 @@ void BioScat::setupObservationPoints(double *x, double*y, int n) {
     // Allocate fields
     E_scat = Field(n);
     H_scat = Field(n);
+    E_int = Field(n);
+    H_int = Field(n);
     E_inc  = Field(n);
     H_inc  = Field(n);
     for (int i = 0; i < 2; i++) {
         E_scat_pol[i] = Field(n);
         H_scat_pol[i] = Field(n);
+        E_int_pol[i]  = Field(n);
+        H_int_pol[i]  = Field(n);
         E_inc_pol[i]  = Field(n);
         H_inc_pol[i]  = Field(n);
     }

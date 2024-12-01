@@ -92,6 +92,7 @@ void Segment::allocate() {
     H_scat_matrix = Field(n, n_int,                           host, device);
     E_scat        = Field(n,                                  host, device);
     H_scat        = Field(n,                                  host, device);
+    F             = ComplexMatrix(n,                             host, device);
     E_int_matrix  = Field(n, n_ext,                           host, device);
     H_int_matrix  = Field(n, n_ext,                           host, device);
     E_inc_vector  = Field(n,                                  host, device);

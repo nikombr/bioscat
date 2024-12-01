@@ -12,7 +12,7 @@ void Segment::computeFieldsForLinearSystem() {
 
     
     computeIncidentFieldVectors(y_test);
-    computeReflectedFieldVectors(y_test);
+    //computeReflectedFieldVectors(y_test);
     computeScatteredFieldMatrices(x_test, y_test, false);
     computeInteriorFieldMatrices(x_test, y_test);
 
