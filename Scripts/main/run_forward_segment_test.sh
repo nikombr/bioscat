@@ -1,6 +1,6 @@
 #!/bin/bash
-#BSUB -J forward # name
-#BSUB -o outfiles/forward_%J.out # output file
+#BSUB -J segment_test # name
+#BSUB -o outfiles/segment_test_%J.out # output file
 #BSUB -q gpuh100
 #BSUB -n 64 ## cores
 #BSUB -R "rusage[mem=1GB]" 

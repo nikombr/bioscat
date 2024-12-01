@@ -11,9 +11,10 @@ dir = "../../../../../../../work3/s194146/bioscatdata";
 % Load my solution
 lambda=325; % nm
 total_grid_points = 300;
-beta = 0;
-protein_structure = 'Retinin2x2'; % Retinin2x2 demoleus2x2
-filename = sprintf("%s/Results/forward/%s/near/fields_beta_%d_lambda_%d_num_segments_1_total_grid_points_%d.mat",dir,protein_structure,beta,lambda,total_grid_points);
+obs_grid = 500;
+beta = 90;
+protein_structure = 'demoleus2x2'; % Retinin2x2 demoleus2x2
+filename = sprintf("%s/Results/forward/%s/near/fields_beta_%d_lambda_%d_num_segments_1_total_grid_points_%d_obs_grid_%d.mat",dir,protein_structure,beta,lambda,total_grid_points,obs_grid);
 load(filename)
 E_tot = E_scat + E_inc + E_int;
 H_tot = H_scat + H_inc + H_int;
@@ -57,7 +58,7 @@ model.param.set(param_name, param_value);
 % Solve
 model.sol('sol1').runAll;
 
-vars = {'x', 'y', 'z'}
+vars = {'x', 'y', 'z'};
 
 E_comsol = E_tot*0;
 H_comsol = E_tot*0;
@@ -116,12 +117,13 @@ for i = 1:3
     set(gca,'YDir','normal')
 
     nexttile;
-    imagesc(x, y, abs(E_diff(:,:,i))); 
+    imagesc(x, y, abs(E_diff(:,:,i))./abs(E_comsol(:,:,i)+1e-20)); 
     axis square
     colorbar
     ax = gca;              % Get the current axes
     %ax.CLim = [0 0.5]; % Set the color limits
     set(gca,'YDir','normal')
+    set(gca,'colorscale','log')
 end
 
 exportgraphics(gcf,sprintf('plot_%s_E_beta_%d.png',protein_structure,beta),'Resolution',300);
@@ -154,13 +156,17 @@ for i = 1:3
     set(gca,'YDir','normal')
 
     nexttile;
-    imagesc(x, y, abs(H_diff(:,:,i))); 
+    imagesc(x, y, abs(H_diff(:,:,i))./abs(H_comsol(:,:,i)+1e-20)); 
     axis square
     colorbar
     ax = gca;              % Get the current axes
     %ax.CLim = [0 0.5]; % Set the color limits
     set(gca,'YDir','normal')
+    set(gca,'colorscale','log')
 end
 
 exportgraphics(gcf,sprintf('plot_%s_H_beta_%d.png',protein_structure,beta),'Resolution',300);
+
+filename = sprintf("%s/Data/comsol/%s/near/fields_beta_%d_lambda_%d_total_grid_points_%d_obs_grid_%d.mat",dir,protein_structure,beta,lambda,total_grid_points,obs_grid);
+save(filename, 'E_comsol', 'H_comsol', 'x', 'y')
 

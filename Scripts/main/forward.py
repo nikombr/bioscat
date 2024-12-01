@@ -7,7 +7,15 @@ import matplotlib.pyplot as plt
 import math
 import sys
 
-def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structure = "demoleus2x2", beta = 0, lambd = 325e-9, deviceComputation = False, location = "near"): # "Retinin2x2" or "demoleus2x2"
+def executeForward(total_grid_points=100,num_segments = 1, protein_structure = "demoleus2x2", beta = 0, lambd = 325e-9, deviceComputation = False, location = "near",obs_grid=300): # "Retinin2x2" or "demoleus2x2"
+
+    x = np.linspace(-25,25,obs_grid)*10**(-7);
+    if location == "near":
+        y = np.linspace(-10,40,obs_grid)*10**(-7);
+    elif location == "far":
+        y = np.linspace(0,50,obs_grid)*10**(-7);
+        y += 3e-2;
+
 
     if total_grid_points % num_segments != 0:
         print("Please check grid and number of segments so number of grid points is the same in every segment!")
@@ -65,7 +73,7 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
     interior = np.zeros((nx,ny))
     for j in range(nx):
         for i in range(ny):
-            if Ymeshsq[j,i] < f[i] and Ymeshsq[j,i] > 0:
+            if Ymeshsq[j,i] <= f[i] and Ymeshsq[j,i] >= 0:
                 interior[j,i] = 1
 
     plt.figure()
@@ -112,7 +120,7 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
     if location == 'far':
         mdic[f'E_int'] = fields*0
         mdic[f'H_int'] = fields*0
-    savename = f'{dir}/Results/forward/{protein_structure}/{location}/fields_beta_{int(beta)}_lambda_{int(lambd*10**9)}_num_segments_{int(num_segments)}_total_grid_points_{int(total_grid_points)}.mat'
+    savename = f'{dir}/Results/forward/{protein_structure}/{location}/fields_beta_{int(beta)}_lambda_{int(lambd*10**9)}_num_segments_{int(num_segments)}_total_grid_points_{int(total_grid_points)}_obs_grid_{int(obs_grid)}.mat'
     savemat(savename, mdic)
 
     n = 50;
@@ -145,48 +153,18 @@ def executeForward(x, y, total_grid_points=100,num_segments = 1, protein_structu
     plt.close()
 
 def segmentTest(num_segments = 1,beta=0,protein_structure='demoleus2x2'):
-    obs_grid = 300;
-    X = np.linspace(-25,25,obs_grid)*10**(-7);
-    
+    obs_grid = 300
     grid_size = 300
-    
-    Y = np.linspace(-10,40,obs_grid)*10**(-7);
     location = "near"; # near, far
-    executeForward(x = X, y = Y, num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location)
-
-    Y = np.linspace(0,50,obs_grid)*10**(-7);
-    Y += 3e-2;
+    executeForward(num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid)
     location = "far"; # near, far
-    #executeForward(x = X, y = Y, num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location)
+    executeForward(num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid)
 
-def getDataFar(num_segments=1):
-    obs_grid = 300;
-    Y = np.linspace(0,50,obs_grid)*10**(-7);
-    Y += 3e-2;
-    X = np.linspace(-25,25,obs_grid)*10**(-7);
-    location = "far"; # near, far
+def comsolTest(beta=0,protein_structure='demoleus2x2',obs_grid=500,grid_size=300):
+    num_segments = 1
+    location = "near"; # near, far
+    executeForward(num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location, obs_grid=obs_grid)
 
-    grid_sizes = [100, 300, 500, 1000];
-    
-    for protein_structure in ["demoleus2x2", "Retinin2x2"]: # "Retinin2x2" or "demoleus2x2"
-        for beta in [0, 30, 60, 90]:
-            for n in grid_sizes:
-                executeForward(x = X, y = Y, num_segments = num_segments, beta = beta, total_grid_points=n, protein_structure = protein_structure, deviceComputation = True, location = location)
-
-
-def getFarFieldPattern():
-    obs_grid = 400;
-    phi = np.linspace(0,np.pi,obs_grid);
-    r = 3e-2; # 3 cm
-    X = np.cos(phi)*r
-    Y = np.sin(phi)*r
-    location = "far_field_pattern"
-    grid_sizes = [100, 300, 500, 1000];
-    
-    for protein_structure in ["demoleus2x2", "Retinin2x2"]: # "Retinin2x2" or "demoleus2x2"
-        for beta in [0, 90]:
-            for n in grid_sizes:
-                executeForward(x = X, y = Y, num_segments = 1, beta = beta, total_grid_points=n, protein_structure = protein_structure, deviceComputation = True, location = location)
 
 if __name__ == "__main__":
     
@@ -209,6 +187,11 @@ if __name__ == "__main__":
         beta = int(sys.argv[3])
         protein_structure = sys.argv[4] # "Retinin2x2" or "demoleus2x2"
         segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+    elif typeTest == 2:
+        beta = int(sys.argv[2])
+        protein_structure = sys.argv[3] # "Retinin2x2" or "demoleus2x2"
+        obs_grid = int(sys.argv[4])
+        comsolTest(beta=beta,protein_structure=protein_structure,obs_grid=obs_grid)
 
 
 

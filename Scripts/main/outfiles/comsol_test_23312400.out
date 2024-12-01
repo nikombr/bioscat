@@ -1,0 +1,525 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+n_test:  	1044
+n_top:  	298
+n_right:  	224
+n_bottom:	298
+n_left:  	224
+n_int:  	1028
+n_ext:  	1048
+n_obs:  	250000
+n:      	250000
+filename = ../../../../../../../work3/s194146/bioscatdata/Data/nanostructures/2D/demoleus2x2_x_300.txt
+We are computing on the device!
+
+It took 6.901793e-03 seconds to setup the segments!
+
+
+It took 1.7431e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.7435e-01 seconds to solve all the linear systems.
+
+
+It took 8.7749e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 2.5498e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7250e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.2839e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.2177e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 1.3435e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.3438e-01 seconds to solve all the linear systems.
+
+
+It took 8.7127e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 5.0125e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7902e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.0184e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 5.0626e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	1044
+n_top:  	298
+n_right:  	224
+n_bottom:	298
+n_left:  	224
+n_int:  	1028
+n_ext:  	1048
+n_obs:  	250000
+n:      	250000
+filename = ../../../../../../../work3/s194146/bioscatdata/Data/nanostructures/2D/demoleus2x2_x_300.txt
+We are computing on the device!
+
+It took 6.863857e-03 seconds to setup the segments!
+
+
+It took 1.7466e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.7471e-01 seconds to solve all the linear systems.
+
+
+It took 8.6840e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 2.6354e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7158e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.0735e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.2860e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 1.2782e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.2785e-01 seconds to solve all the linear systems.
+
+
+It took 8.6962e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 5.3259e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.8087e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.2348e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 5.0035e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	1044
+n_top:  	298
+n_right:  	224
+n_bottom:	298
+n_left:  	224
+n_int:  	1028
+n_ext:  	1048
+n_obs:  	250000
+n:      	250000
+filename = ../../../../../../../work3/s194146/bioscatdata/Data/nanostructures/2D/demoleus2x2_x_300.txt
+We are computing on the device!
+
+It took 6.596058e-03 seconds to setup the segments!
+
+
+It took 1.7355e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.7359e-01 seconds to solve all the linear systems.
+
+
+It took 8.7086e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 2.7112e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.6051e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.4040e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.1995e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 1.2855e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.2859e-01 seconds to solve all the linear systems.
+
+
+It took 8.7078e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 5.2448e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7635e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.2598e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 5.0094e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	1044
+n_top:  	298
+n_right:  	224
+n_bottom:	298
+n_left:  	224
+n_int:  	1028
+n_ext:  	1048
+n_obs:  	250000
+n:      	250000
+filename = ../../../../../../../work3/s194146/bioscatdata/Data/nanostructures/2D/demoleus2x2_x_300.txt
+We are computing on the device!
+
+It took 6.522768e-03 seconds to setup the segments!
+
+
+It took 1.6614e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.6618e-01 seconds to solve all the linear systems.
+
+
+It took 8.6905e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 2.4950e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7047e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.2518e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.2118e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 1.4045e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.4048e-01 seconds to solve all the linear systems.
+
+
+It took 8.7500e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 5.1426e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7695e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.1427e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 4.8983e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	1044
+n_top:  	298
+n_right:  	224
+n_bottom:	298
+n_left:  	224
+n_int:  	1028
+n_ext:  	1048
+n_obs:  	250000
+n:      	250000
+filename = ../../../../../../../work3/s194146/bioscatdata/Data/nanostructures/2D/Retinin2x2_x_300.txt
+We are computing on the device!
+
+It took 7.034270e-03 seconds to setup the segments!
+
+
+It took 1.7582e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.7585e-01 seconds to solve all the linear systems.
+
+
+It took 8.6816e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 2.2767e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7258e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 3.8477e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.2675e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 1.4320e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.4323e-01 seconds to solve all the linear systems.
+
+
+It took 8.7140e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 3.9118e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7775e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 3.7706e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 5.0044e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	1044
+n_top:  	298
+n_right:  	224
+n_bottom:	298
+n_left:  	224
+n_int:  	1028
+n_ext:  	1048
+n_obs:  	250000
+n:      	250000
+filename = ../../../../../../../work3/s194146/bioscatdata/Data/nanostructures/2D/Retinin2x2_x_300.txt
+We are computing on the device!
+
+It took 6.903141e-03 seconds to setup the segments!
+
+
+It took 1.7022e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.7027e-01 seconds to solve all the linear systems.
+
+
+It took 8.6953e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 2.6135e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7243e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.4291e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.2527e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 1.3680e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.3683e-01 seconds to solve all the linear systems.
+
+
+It took 8.7147e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 5.3880e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7182e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.2999e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 5.0555e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	1044
+n_top:  	298
+n_right:  	224
+n_bottom:	298
+n_left:  	224
+n_int:  	1028
+n_ext:  	1048
+n_obs:  	250000
+n:      	250000
+filename = ../../../../../../../work3/s194146/bioscatdata/Data/nanostructures/2D/Retinin2x2_x_300.txt
+We are computing on the device!
+
+It took 6.502604e-03 seconds to setup the segments!
+
+
+It took 1.6673e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.6677e-01 seconds to solve all the linear systems.
+
+
+It took 8.7101e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 2.7350e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7116e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.3640e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.2197e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 1.5017e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.5020e-01 seconds to solve all the linear systems.
+
+
+It took 8.7158e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 5.6033e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7329e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.3269e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 4.9804e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+n_test:  	1044
+n_top:  	298
+n_right:  	224
+n_bottom:	298
+n_left:  	224
+n_int:  	1028
+n_ext:  	1048
+n_obs:  	250000
+n:      	250000
+filename = ../../../../../../../work3/s194146/bioscatdata/Data/nanostructures/2D/Retinin2x2_x_300.txt
+We are computing on the device!
+
+It took 6.586719e-03 seconds to setup the segments!
+
+
+It took 1.6799e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.6804e-01 seconds to solve all the linear systems.
+
+
+It took 8.6898e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 2.7516e-04 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7371e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.1787e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 1.2081e-04 seconds to compute the combined incident fields in the observation points.
+
+
+It took 1.4375e-01 seconds to solve the linear system for segment 1.
+
+
+It took 1.4378e-01 seconds to solve all the linear systems.
+
+
+It took 8.7240e-02 seconds to compute the scattered field matrices for segment 1.
+
+
+It took 5.3009e-05 seconds to compute the combined scattered fields in the observation points.
+
+
+It took 8.7763e-02 seconds to compute the interior field matrices for segment 1.
+
+
+It took 5.2938e-05 seconds to compute the combined interior fields in the observation points.
+
+
+It took 4.9624e-05 seconds to compute the combined incident fields in the observation points.
+
+DESTRUCTED!
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23312400: <comsol_test> in cluster <dcc> Done
+
+Job <comsol_test> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Sun Dec  1 13:34:56 2024
+Job was executed on host(s) <64*n-62-12-81>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Sun Dec  1 13:34:56 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Sun Dec  1 13:34:56 2024
+Terminated at Sun Dec  1 13:39:04 2024
+Results reported at Sun Dec  1 13:39:04 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J comsol_test # name
+#BSUB -o outfiles/comsol_test_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 64 ## cores
+#BSUB -R "rusage[mem=1GB]" 
+#BSUB -W 24:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+# "Retinin2x2" or "demoleus2x2"
+
+OMP_NUM_THREADS=64 python forward.py 2 0 demoleus2x2 500
+
+OMP_NUM_THREADS=64 python forward.py 2 30 demoleus2x2 500
+
+OMP_NUM_THREADS=64 python forward.py 2 60 demoleus2x2 500
+
+OMP_NUM_THREADS=64 python forward.py 2 90 demoleus2x2 500
+
+OMP_NUM_THREADS=64 python forward.py 2 0 Retinin2x2 500
+
+OMP_NUM_THREADS=64 python forward.py 2 30 Retinin2x2 500
+
+OMP_NUM_THREADS=64 python forward.py 2 60 Retinin2x2 500
+
+OMP_NUM_THREADS=64 python forward.py 2 90 Retinin2x2 500
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   522.00 sec.
+    Max Memory :                                 259 MB
+    Average Memory :                             253.75 MB
+    Total Requested Memory :                     65536.00 MB
+    Delta Memory :                               65277.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                71
+    Run time :                                   248 sec.
+    Turnaround time :                            248 sec.
+
+The output (if any) is above this job summary.
+
