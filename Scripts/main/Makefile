@@ -46,8 +46,8 @@ SOURCES_REFLECTANCE = src/reflectance/computeReflectanceMatrix.cu
 OBJECTS_REFLECTANCE = obj/reflectance/computeReflectanceMatrix.o
 DEPENDS_REFLECTANCE = $(OBJECTS_GAUSSIAN_PROCESS) $(OBJECTS_UTILS) $(OBJECTS_SEGMENT_DEPEND) $(OBJECTS_SEGMENT_SETUP) $(OBJECTS_SEGMENT) $(OBJECTS_SEGMENT_ALL_DEPEND) $(OBJECTS_BIOSCAT) $(OBJECTS_BIOSCAT_DEPEND)
 
-SOURCES_EXECPPCU = src/execppcu/computeFarFieldPattern.cpp src/execppcu/computeGaussianProcess.cpp src/execppcu/forward.cpp src/execppcu/generateArtificialData.cpp src/execppcu/inverse.cpp
-OBJECTS_EXECPPCU = obj/execppcu/computeFarFieldPattern.o   obj/execppcu/computeGaussianProcess.o   obj/execppcu/forward.o   obj/execppcu/generateArtificialData.o   obj/execppcu/inverse.o 
+SOURCES_EXECPPCU = src/execppcu/computeFarFieldPattern.cpp src/execppcu/computeGaussianProcess.cpp src/execppcu/forward.cpp src/execppcu/generateArtificialData.cpp src/execppcu/inverse.cpp src/execppcu/profileGaussianProcess.cpp src/execppcu/profileForward.cpp
+OBJECTS_EXECPPCU = obj/execppcu/computeFarFieldPattern.o   obj/execppcu/computeGaussianProcess.o   obj/execppcu/forward.o   obj/execppcu/generateArtificialData.o   obj/execppcu/inverse.o   obj/execppcu/profileGaussianProcess.o   obj/execppcu/profileForward.o
 DEPENDS_EXECPPCU = $(OBJECTS_GAUSSIAN_PROCESS) $(OBJECTS_UTILS) $(OBJECTS_SEGMENT_DEPEND) $(OBJECTS_SEGMENT_SETUP) $(OBJECTS_SEGMENT) $(OBJECTS_SEGMENT_ALL_DEPEND) $(OBJECTS_REFLECTANCE) $(OBJECTS_BIOSCAT_DEPEND)
 
 OBJECTS = $(OBJECTS_GAUSSIAN_PROCESS) $(OBJECTS_UTILS) $(OBJECTS_SEGMENT_DEPEND) $(OBJECTS_SEGMENT_SETUP) $(OBJECTS_SEGMENT) $(OBJECTS_SEGMENT_ALL_DEPEND) $(OBJECTS_EXECPPCU) $(OBJECTS_REFLECTANCE) $(OBJECTS_BIOSCAT) $(OBJECTS_BIOSCAT_DEPEND)
@@ -75,9 +75,12 @@ SOFLAGS = -L$(CUDA_PATH)/lib64
 XLIBS =  -lcudart
 
 #all: $(OBJECTS_GAUSSIAN_PROCESS) $(OBJECTS_UTILS) $(OBJECTS_SEGMENT)
-all: so/forward.so so/computeGaussianProcess.so so/generateArtificialData.so so/inverse.so so/computeFarFieldPattern.so
+all: so/forward.so so/computeGaussianProcess.so so/generateArtificialData.so so/inverse.so so/computeFarFieldPattern.so so/profileGaussianProcess.so so/profileForward.so
 
 so/forward.so: src/exec/executeForward.c $(OBJECTS)
+	$(CC) $(CFLAGS) $(INCLUDES)  -fPIC -shared -o $@ $^ $(SOFLAGS) $(LIBS)  -lcudart
+
+so/profileForward.so: src/exec/executeProfileForward.c $(OBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDES)  -fPIC -shared -o $@ $^ $(SOFLAGS) $(LIBS)  -lcudart
 
 so/computeFarFieldPattern.so: src/exec/executeComputeFarFieldPattern.c $(OBJECTS)
@@ -87,6 +90,9 @@ so/inverse.so: src/exec/executeInverse.c $(OBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDES)  -fPIC -shared -o $@ $^ $(SOFLAGS) $(LIBS)  -lcudart
 
 so/computeGaussianProcess.so: src/exec/executeComputeGaussianProcess.c $(OBJECTS)
+	$(CC) $(CFLAGS) $(INCLUDES)  -fPIC -shared -o $@ $^ $(SOFLAGS) $(LIBS)  -lcudart
+
+so/profileGaussianProcess.so: src/exec/executeProfileGaussianProcess.c $(OBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDES)  -fPIC -shared -o $@ $^ $(SOFLAGS) $(LIBS)  -lcudart
 
 so/generateArtificialData.so: src/exec/executeGenerateArtificialData.c $(OBJECTS)

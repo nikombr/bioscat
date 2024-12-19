@@ -9,17 +9,13 @@ extern "C" {
 using namespace std;
 
 
-void forward(double *x, double*y, int n ,char * protein_structure, int num_segments, int total_grid_points, double beta, double lambda, int deviceComputation_int) {
+void forward(double *x, double*y, int n ,char * protein_structure, int num_segments, int total_grid_points, double beta, double lambda, int deviceComputation_int, int printOutput_int) {
 
     bool deviceComputation = deviceComputation_int == 1 ? true : false;
 
-    BioScat bioscat = BioScat(protein_structure, num_segments, total_grid_points, deviceComputation);
+    bool printOutput = printOutput_int == 1 ? true : false;
 
-    bioscat.printOutput = true;
-
-    bioscat.setupObservationPoints(x, y, n);
-
-    bioscat.allocateSegments();
+    BioScat bioscat = BioScat(protein_structure, num_segments, total_grid_points, deviceComputation, x, y, n, printOutput);
 
     bioscat.getNanostructure();
 

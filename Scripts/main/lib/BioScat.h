@@ -5,7 +5,9 @@
 #include "Field.h"
 #include "utils/RealMatrix.h"
 #include "GaussianProcess.h"
+#include <vector>
 extern "C" {
+using namespace std;
 
 class BioScat {
 
@@ -13,7 +15,7 @@ class BioScat {
         char * protein_structure;    // Type of protein structure. Either "Retinin2x2" or "demoleus2x2"
         
         int total_grid_points = 1000;       // The number of grid points used along each axis
-        Segment * segments;
+        vector<Segment> segments;
         int num_segments;
         Field E_scat;
         Field H_scat;
@@ -21,7 +23,6 @@ class BioScat {
         Field H_inc;
         Field E_int;
         Field H_int;
-        RealMatrix F;
         Field E_scat_pol[2];
         Field H_scat_pol[2];
         Field E_inc_pol[2];
@@ -35,7 +36,7 @@ class BioScat {
 
     public:
         Nanostructure nanostructure; // Information stored about the specific nanostructure 
-        RealMatrix reflectance;
+        //RealMatrix reflectance;
         GaussianProcess GP;
         RealMatrix x_obs;
         RealMatrix y_obs;
@@ -44,11 +45,13 @@ class BioScat {
         bool printOutput = false;
         int status;
         bool computeInterior = false;
+        RealMatrix F;
         BioScat() {
 
         }
         BioScat(char* protein_structure, int num_segments, int total_grid_points);
-        BioScat(char* protein_structure, int num_segments, int total_grid_points, bool deviceComputation);
+        BioScat(char* protein_structure, int num_segments, int total_grid_points, bool deviceComputation,double *phi_obs, int n_obs, bool printOutput);
+        BioScat(char* protein_structure, int num_segments, int total_grid_points, bool deviceComputation, double *x_obs, double*y_obs, int n_obs, bool printOutput);
         void free();
         void getNanostructure();                                        // Set up nanostructure from protein_structure
         void setupSegments();
@@ -74,10 +77,12 @@ class BioScat {
         void setupGaussianProcess();
         void preConditionedCrankNicholson();
         void reset(); // Sets pols to zero
+        void resetFarField();
         void allocateSegments();
         //void computeSubFarFieldPattern();
         void computeFarFieldPattern();
         void combineFarFieldPattern();
+        void combineFarFieldPattern(double beta);
 
         
 

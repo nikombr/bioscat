@@ -1,0 +1,1104 @@
+Loaded module: comsol/6.1
+
+MATLAB is now connected to a COMSOL Multiphysics Server at localhost:2036
+
+Run the commands below to access the COMSOL ModelUtil commands:
+import com.comsol.model.util.*
+
+fine_part =
+
+     4
+
+
+protein_structure =
+
+    'demoleus2x2'
+
+	0/1000Elapsed time is 62.905794 seconds.
+	1/1000Elapsed time is 36.623897 seconds.
+	2/1000Elapsed time is 36.909883 seconds.
+	3/1000Elapsed time is 36.341118 seconds.
+	4/1000Elapsed time is 36.641936 seconds.
+	5/1000Elapsed time is 36.416943 seconds.
+	6/1000Elapsed time is 36.158109 seconds.
+	7/1000Elapsed time is 36.089052 seconds.
+	8/1000Elapsed time is 36.356297 seconds.
+	9/1000Elapsed time is 36.455656 seconds.
+	10/1000Elapsed time is 56.643070 seconds.
+	11/1000Elapsed time is 33.607457 seconds.
+	12/1000Elapsed time is 33.716196 seconds.
+	13/1000Elapsed time is 33.491303 seconds.
+	14/1000Elapsed time is 33.798955 seconds.
+	15/1000Elapsed time is 33.582049 seconds.
+	16/1000Elapsed time is 33.794710 seconds.
+	17/1000Elapsed time is 34.197599 seconds.
+	18/1000Elapsed time is 33.671642 seconds.
+	19/1000Elapsed time is 33.804578 seconds.
+	20/1000Elapsed time is 54.051352 seconds.
+	21/1000Elapsed time is 33.082649 seconds.
+	22/1000Elapsed time is 32.657521 seconds.
+	23/1000Elapsed time is 32.481459 seconds.
+	24/1000Elapsed time is 32.706891 seconds.
+	25/1000Elapsed time is 32.389527 seconds.
+	26/1000Elapsed time is 32.611221 seconds.
+	27/1000Elapsed time is 39.813064 seconds.
+	28/1000Elapsed time is 44.225070 seconds.
+	29/1000Elapsed time is 43.825506 seconds.
+	30/1000Elapsed time is 64.117289 seconds.
+	31/1000Elapsed time is 42.984367 seconds.
+	32/1000Elapsed time is 43.074517 seconds.
+	33/1000Elapsed time is 43.263935 seconds.
+	34/1000Elapsed time is 42.712887 seconds.
+	35/1000Elapsed time is 42.433089 seconds.
+	36/1000Elapsed time is 42.391866 seconds.
+	37/1000Elapsed time is 42.835074 seconds.
+	38/1000Elapsed time is 42.221159 seconds.
+	39/1000Elapsed time is 42.396650 seconds.
+	40/1000Elapsed time is 60.942744 seconds.
+	41/1000Elapsed time is 40.746589 seconds.
+	42/1000Elapsed time is 40.222975 seconds.
+	43/1000Elapsed time is 40.694788 seconds.
+	44/1000Elapsed time is 40.392883 seconds.
+	45/1000Elapsed time is 40.877303 seconds.
+	46/1000Elapsed time is 40.979984 seconds.
+	47/1000Elapsed time is 39.635825 seconds.
+	48/1000Elapsed time is 40.171039 seconds.
+	49/1000Elapsed time is 41.292574 seconds.
+	50/1000Elapsed time is 56.859527 seconds.
+	51/1000Elapsed time is 35.836612 seconds.
+	52/1000Elapsed time is 35.976319 seconds.
+	53/1000Elapsed time is 36.087834 seconds.
+	54/1000Elapsed time is 32.612996 seconds.
+	55/1000Elapsed time is 29.355286 seconds.
+	56/1000Elapsed time is 28.904966 seconds.
+	57/1000Elapsed time is 29.309284 seconds.
+	58/1000Elapsed time is 28.995330 seconds.
+	59/1000Elapsed time is 29.022232 seconds.
+	60/1000Elapsed time is 45.626402 seconds.
+	61/1000Elapsed time is 28.110602 seconds.
+	62/1000Elapsed time is 28.424904 seconds.
+	63/1000Elapsed time is 34.842791 seconds.
+	64/1000Elapsed time is 36.091352 seconds.
+	65/1000Elapsed time is 34.364099 seconds.
+	66/1000Elapsed time is 34.947836 seconds.
+	67/1000Elapsed time is 31.425706 seconds.
+	68/1000Elapsed time is 28.297578 seconds.
+	69/1000Elapsed time is 28.446793 seconds.
+	70/1000Elapsed time is 43.276005 seconds.
+	71/1000Elapsed time is 26.340388 seconds.
+	72/1000Elapsed time is 26.078904 seconds.
+	73/1000Elapsed time is 26.809174 seconds.
+	74/1000Elapsed time is 26.634119 seconds.
+	75/1000Elapsed time is 26.396977 seconds.
+	76/1000Elapsed time is 25.975130 seconds.
+	77/1000Elapsed time is 26.831143 seconds.
+	78/1000Elapsed time is 26.200622 seconds.
+	79/1000Elapsed time is 31.989214 seconds.
+	80/1000Elapsed time is 50.747841 seconds.
+	81/1000Elapsed time is 33.809318 seconds.
+	82/1000Elapsed time is 34.225176 seconds.
+	83/1000Elapsed time is 33.835509 seconds.
+	84/1000Elapsed time is 34.360153 seconds.
+	85/1000Elapsed time is 33.741987 seconds.
+	86/1000Elapsed time is 34.005458 seconds.
+	87/1000Elapsed time is 32.210427 seconds.
+	88/1000Elapsed time is 31.299389 seconds.
+	89/1000Elapsed time is 32.737932 seconds.
+	90/1000Elapsed time is 44.766150 seconds.
+	91/1000Elapsed time is 25.018956 seconds.
+	92/1000Elapsed time is 25.126597 seconds.
+	93/1000Elapsed time is 24.866831 seconds.
+	94/1000Elapsed time is 25.185152 seconds.
+	95/1000Elapsed time is 24.984374 seconds.
+	96/1000Elapsed time is 25.085229 seconds.
+	97/1000Elapsed time is 31.007694 seconds.
+	98/1000Elapsed time is 33.880593 seconds.
+	99/1000Elapsed time is 33.511127 seconds.
+	100/1000Elapsed time is 47.401853 seconds.
+	101/1000Elapsed time is 33.353742 seconds.
+	102/1000Elapsed time is 31.902697 seconds.
+	103/1000Elapsed time is 32.162013 seconds.
+	104/1000Elapsed time is 31.842596 seconds.
+	105/1000Elapsed time is 32.422101 seconds.
+	106/1000Elapsed time is 32.462995 seconds.
+	107/1000Elapsed time is 32.519694 seconds.
+	108/1000Elapsed time is 32.598556 seconds.
+	109/1000Elapsed time is 33.345843 seconds.
+	110/1000Elapsed time is 45.914120 seconds.
+	111/1000Elapsed time is 31.856127 seconds.
+	112/1000Elapsed time is 31.005669 seconds.
+	113/1000Elapsed time is 31.578458 seconds.
+	114/1000Elapsed time is 31.532598 seconds.
+	115/1000Elapsed time is 32.028674 seconds.
+	116/1000Elapsed time is 31.763086 seconds.
+	117/1000Elapsed time is 31.608603 seconds.
+	118/1000Elapsed time is 31.554295 seconds.
+	119/1000Elapsed time is 31.741453 seconds.
+	120/1000Elapsed time is 44.608010 seconds.
+	121/1000Elapsed time is 30.661948 seconds.
+	122/1000Elapsed time is 31.067423 seconds.
+	123/1000Elapsed time is 30.555672 seconds.
+	124/1000Elapsed time is 30.733922 seconds.
+	125/1000Elapsed time is 30.498602 seconds.
+	126/1000Elapsed time is 29.151836 seconds.
+	127/1000Elapsed time is 29.139428 seconds.
+	128/1000Elapsed time is 29.011244 seconds.
+	129/1000Elapsed time is 24.872451 seconds.
+	130/1000Elapsed time is 34.836672 seconds.
+	131/1000Elapsed time is 21.710612 seconds.
+	132/1000Elapsed time is 21.527656 seconds.
+	133/1000Elapsed time is 21.680065 seconds.
+	134/1000Elapsed time is 21.442474 seconds.
+	135/1000Elapsed time is 21.797075 seconds.
+	136/1000Elapsed time is 21.535288 seconds.
+	137/1000Elapsed time is 21.538847 seconds.
+	138/1000Elapsed time is 21.386770 seconds.
+	139/1000Elapsed time is 21.553658 seconds.
+	140/1000Elapsed time is 33.324545 seconds.
+	141/1000Elapsed time is 25.004161 seconds.
+	142/1000Elapsed time is 27.664932 seconds.
+	143/1000Elapsed time is 27.755766 seconds.
+	144/1000Elapsed time is 27.668721 seconds.
+	145/1000Elapsed time is 28.566324 seconds.
+	146/1000Elapsed time is 27.945194 seconds.
+	147/1000Elapsed time is 27.621618 seconds.
+	148/1000Elapsed time is 27.693599 seconds.
+	149/1000Elapsed time is 28.469444 seconds.
+	150/1000Elapsed time is 40.714165 seconds.
+	151/1000Elapsed time is 28.238684 seconds.
+	152/1000Elapsed time is 28.431500 seconds.
+	153/1000Elapsed time is 27.890100 seconds.
+	154/1000Elapsed time is 27.924737 seconds.
+	155/1000Elapsed time is 28.070535 seconds.
+	156/1000Elapsed time is 28.176636 seconds.
+	157/1000Elapsed time is 27.998848 seconds.
+	158/1000Elapsed time is 27.737655 seconds.
+	159/1000Elapsed time is 27.581707 seconds.
+	160/1000Elapsed time is 37.978757 seconds.
+	161/1000Elapsed time is 26.174643 seconds.
+	162/1000Elapsed time is 27.636062 seconds.
+	163/1000Elapsed time is 27.616153 seconds.
+	164/1000Elapsed time is 27.213053 seconds.
+	165/1000Elapsed time is 26.084491 seconds.
+	166/1000Elapsed time is 26.196684 seconds.
+	167/1000Elapsed time is 26.925315 seconds.
+	168/1000Elapsed time is 26.585020 seconds.
+	169/1000Elapsed time is 26.348056 seconds.
+	170/1000Elapsed time is 37.940218 seconds.
+	171/1000Elapsed time is 26.623548 seconds.
+	172/1000Elapsed time is 27.318671 seconds.
+	173/1000Elapsed time is 26.945957 seconds.
+	174/1000Elapsed time is 27.161716 seconds.
+	175/1000Elapsed time is 26.259232 seconds.
+	176/1000Elapsed time is 26.531704 seconds.
+	177/1000Elapsed time is 26.464204 seconds.
+	178/1000Elapsed time is 26.342613 seconds.
+	179/1000Elapsed time is 26.792688 seconds.
+	180/1000Elapsed time is 36.432499 seconds.
+	181/1000Elapsed time is 25.879427 seconds.
+	182/1000Elapsed time is 25.814086 seconds.
+	183/1000Elapsed time is 25.762022 seconds.
+	184/1000Elapsed time is 26.058556 seconds.
+	185/1000Elapsed time is 25.621259 seconds.
+	186/1000Elapsed time is 25.930934 seconds.
+	187/1000Elapsed time is 25.667893 seconds.
+	188/1000Elapsed time is 25.332290 seconds.
+	189/1000Elapsed time is 25.859872 seconds.
+	190/1000Elapsed time is 36.108433 seconds.
+	191/1000Elapsed time is 25.321313 seconds.
+	192/1000Elapsed time is 25.716519 seconds.
+	193/1000Elapsed time is 25.536059 seconds.
+	194/1000Elapsed time is 25.868618 seconds.
+	195/1000Elapsed time is 25.634854 seconds.
+	196/1000Elapsed time is 25.880036 seconds.
+	197/1000Elapsed time is 25.697436 seconds.
+	198/1000Elapsed time is 25.528925 seconds.
+	199/1000Elapsed time is 25.304162 seconds.
+	200/1000Elapsed time is 33.547758 seconds.
+	201/1000Elapsed time is 24.230244 seconds.
+	202/1000Elapsed time is 23.746537 seconds.
+	203/1000Elapsed time is 24.230390 seconds.
+	204/1000Elapsed time is 24.218314 seconds.
+	205/1000Elapsed time is 24.214689 seconds.
+	206/1000Elapsed time is 24.267418 seconds.
+	207/1000Elapsed time is 24.448491 seconds.
+	208/1000Elapsed time is 24.156397 seconds.
+	209/1000Elapsed time is 24.201319 seconds.
+	210/1000Elapsed time is 33.482082 seconds.
+	211/1000Elapsed time is 23.915056 seconds.
+	212/1000Elapsed time is 24.196298 seconds.
+	213/1000Elapsed time is 23.738889 seconds.
+	214/1000Elapsed time is 23.875024 seconds.
+	215/1000Elapsed time is 23.849765 seconds.
+	216/1000Elapsed time is 23.887857 seconds.
+	217/1000Elapsed time is 24.048488 seconds.
+	218/1000Elapsed time is 23.598258 seconds.
+	219/1000Elapsed time is 24.023302 seconds.
+	220/1000Elapsed time is 32.703263 seconds.
+	221/1000Elapsed time is 23.538848 seconds.
+	222/1000Elapsed time is 23.252940 seconds.
+	223/1000Elapsed time is 23.384429 seconds.
+	224/1000Elapsed time is 23.522986 seconds.
+	225/1000Elapsed time is 23.425450 seconds.
+	226/1000Elapsed time is 23.598506 seconds.
+	227/1000Elapsed time is 23.758854 seconds.
+	228/1000Elapsed time is 23.379842 seconds.
+	229/1000Elapsed time is 24.044521 seconds.
+	230/1000Elapsed time is 31.948529 seconds.
+	231/1000Elapsed time is 22.989034 seconds.
+	232/1000Elapsed time is 22.703450 seconds.
+	233/1000Elapsed time is 22.852732 seconds.
+	234/1000Elapsed time is 23.012152 seconds.
+	235/1000Elapsed time is 23.267727 seconds.
+	236/1000Elapsed time is 22.829707 seconds.
+	237/1000Elapsed time is 22.531076 seconds.
+	238/1000Elapsed time is 22.655160 seconds.
+	239/1000Elapsed time is 22.887967 seconds.
+	240/1000Elapsed time is 31.105293 seconds.
+	241/1000Elapsed time is 22.229045 seconds.
+	242/1000Elapsed time is 22.238803 seconds.
+	243/1000Elapsed time is 22.725044 seconds.
+	244/1000Elapsed time is 22.158916 seconds.
+	245/1000Elapsed time is 22.156181 seconds.
+	246/1000Elapsed time is 21.632417 seconds.
+	247/1000Elapsed time is 21.526813 seconds.
+	248/1000Elapsed time is 22.211980 seconds.
+	249/1000Elapsed time is 21.038878 seconds.
+	250/1000Elapsed time is 30.221436 seconds.
+	251/1000Elapsed time is 21.751189 seconds.
+	252/1000Elapsed time is 21.499732 seconds.
+	253/1000Elapsed time is 22.021378 seconds.
+	254/1000Elapsed time is 21.870939 seconds.
+	255/1000Elapsed time is 21.661052 seconds.
+	256/1000Elapsed time is 21.908571 seconds.
+	257/1000Elapsed time is 21.881661 seconds.
+	258/1000Elapsed time is 21.429660 seconds.
+	259/1000Elapsed time is 21.571773 seconds.
+	260/1000Elapsed time is 29.324950 seconds.
+	261/1000Elapsed time is 21.071335 seconds.
+	262/1000Elapsed time is 21.262712 seconds.
+	263/1000Elapsed time is 21.027146 seconds.
+	264/1000Elapsed time is 20.842790 seconds.
+	265/1000Elapsed time is 21.065747 seconds.
+	266/1000Elapsed time is 20.897353 seconds.
+	267/1000Elapsed time is 21.225125 seconds.
+	268/1000Elapsed time is 21.298897 seconds.
+	269/1000Elapsed time is 21.333827 seconds.
+	270/1000Elapsed time is 28.625860 seconds.
+	271/1000Elapsed time is 20.762917 seconds.
+	272/1000Elapsed time is 20.685602 seconds.
+	273/1000Elapsed time is 20.856853 seconds.
+	274/1000Elapsed time is 20.489081 seconds.
+	275/1000Elapsed time is 20.537957 seconds.
+	276/1000Elapsed time is 20.639425 seconds.
+	277/1000Elapsed time is 21.297708 seconds.
+	278/1000Elapsed time is 20.715411 seconds.
+	279/1000Elapsed time is 20.758525 seconds.
+	280/1000Elapsed time is 27.929824 seconds.
+	281/1000Elapsed time is 20.286676 seconds.
+	282/1000Elapsed time is 20.164033 seconds.
+	283/1000Elapsed time is 20.187886 seconds.
+	284/1000Elapsed time is 20.854010 seconds.
+	285/1000Elapsed time is 20.411100 seconds.
+	286/1000Elapsed time is 20.200403 seconds.
+	287/1000Elapsed time is 20.188853 seconds.
+	288/1000Elapsed time is 20.254663 seconds.
+	289/1000Elapsed time is 19.758992 seconds.
+	290/1000Elapsed time is 27.337948 seconds.
+	291/1000Elapsed time is 19.550234 seconds.
+	292/1000Elapsed time is 19.682817 seconds.
+	293/1000Elapsed time is 19.567920 seconds.
+	294/1000Elapsed time is 19.414270 seconds.
+	295/1000Elapsed time is 19.625220 seconds.
+	296/1000Elapsed time is 19.496764 seconds.
+	297/1000Elapsed time is 19.640252 seconds.
+	298/1000Elapsed time is 19.476934 seconds.
+	299/1000Elapsed time is 19.274007 seconds.
+	300/1000Elapsed time is 27.032537 seconds.
+	301/1000Elapsed time is 19.475902 seconds.
+	302/1000Elapsed time is 19.376351 seconds.
+	303/1000Elapsed time is 19.447406 seconds.
+	304/1000Elapsed time is 19.103543 seconds.
+	305/1000Elapsed time is 19.316327 seconds.
+	306/1000Elapsed time is 19.228908 seconds.
+	307/1000Elapsed time is 19.239300 seconds.
+	308/1000Elapsed time is 19.176664 seconds.
+	309/1000Elapsed time is 19.275623 seconds.
+	310/1000Elapsed time is 25.727238 seconds.
+	311/1000Elapsed time is 19.040838 seconds.
+	312/1000Elapsed time is 19.022497 seconds.
+	313/1000Elapsed time is 18.729197 seconds.
+	314/1000Elapsed time is 18.697499 seconds.
+	315/1000Elapsed time is 18.480616 seconds.
+	316/1000Elapsed time is 18.834546 seconds.
+	317/1000Elapsed time is 18.660666 seconds.
+	318/1000Elapsed time is 19.089861 seconds.
+	319/1000Elapsed time is 19.013938 seconds.
+	320/1000Elapsed time is 25.443733 seconds.
+	321/1000Elapsed time is 18.506745 seconds.
+	322/1000Elapsed time is 18.766143 seconds.
+	323/1000Elapsed time is 18.862537 seconds.
+	324/1000Elapsed time is 18.665339 seconds.
+	325/1000Elapsed time is 18.511382 seconds.
+	326/1000Elapsed time is 18.261753 seconds.
+	327/1000Elapsed time is 18.836345 seconds.
+	328/1000Elapsed time is 18.317862 seconds.
+	329/1000Elapsed time is 18.797311 seconds.
+	330/1000Elapsed time is 24.845605 seconds.
+	331/1000Elapsed time is 18.689995 seconds.
+	332/1000Elapsed time is 17.909486 seconds.
+	333/1000Elapsed time is 18.118342 seconds.
+	334/1000Elapsed time is 17.861498 seconds.
+	335/1000Elapsed time is 18.172649 seconds.
+	336/1000Elapsed time is 17.773215 seconds.
+	337/1000Elapsed time is 17.791647 seconds.
+	338/1000Elapsed time is 18.256727 seconds.
+	339/1000Elapsed time is 18.130971 seconds.
+	340/1000Elapsed time is 24.204721 seconds.
+	341/1000Elapsed time is 18.153540 seconds.
+	342/1000Elapsed time is 17.705484 seconds.
+	343/1000Elapsed time is 17.804686 seconds.
+	344/1000Elapsed time is 17.719571 seconds.
+	345/1000Elapsed time is 18.056508 seconds.
+	346/1000Elapsed time is 17.820869 seconds.
+	347/1000Elapsed time is 17.732427 seconds.
+	348/1000Elapsed time is 17.722067 seconds.
+	349/1000Elapsed time is 17.836717 seconds.
+	350/1000Elapsed time is 22.505583 seconds.
+	351/1000Elapsed time is 16.929401 seconds.
+	352/1000Elapsed time is 16.181636 seconds.
+	353/1000Elapsed time is 17.199637 seconds.
+	354/1000Elapsed time is 16.499723 seconds.
+	355/1000Elapsed time is 16.984677 seconds.
+	356/1000Elapsed time is 16.768720 seconds.
+	357/1000Elapsed time is 16.705224 seconds.
+	358/1000Elapsed time is 17.020017 seconds.
+	359/1000Elapsed time is 17.106605 seconds.
+	360/1000Elapsed time is 22.457983 seconds.
+	361/1000Elapsed time is 16.706377 seconds.
+	362/1000Elapsed time is 16.794375 seconds.
+	363/1000Elapsed time is 16.972562 seconds.
+	364/1000Elapsed time is 16.552344 seconds.
+	365/1000Elapsed time is 16.869241 seconds.
+	366/1000Elapsed time is 16.663289 seconds.
+	367/1000Elapsed time is 16.937757 seconds.
+	368/1000Elapsed time is 16.638317 seconds.
+	369/1000Elapsed time is 16.881778 seconds.
+	370/1000Elapsed time is 22.360975 seconds.
+	371/1000Elapsed time is 16.534450 seconds.
+	372/1000Elapsed time is 16.177281 seconds.
+	373/1000Elapsed time is 16.415744 seconds.
+	374/1000Elapsed time is 16.460133 seconds.
+	375/1000Elapsed time is 16.515498 seconds.
+	376/1000Elapsed time is 16.377175 seconds.
+	377/1000Elapsed time is 15.814530 seconds.
+	378/1000Elapsed time is 16.477884 seconds.
+	379/1000Elapsed time is 16.288486 seconds.
+	380/1000Elapsed time is 22.015259 seconds.
+	381/1000Elapsed time is 16.157166 seconds.
+	382/1000Elapsed time is 16.266976 seconds.
+	383/1000Elapsed time is 16.348886 seconds.
+	384/1000Elapsed time is 16.453777 seconds.
+	385/1000Elapsed time is 16.125855 seconds.
+	386/1000Elapsed time is 16.143793 seconds.
+	387/1000Elapsed time is 16.419518 seconds.
+	388/1000Elapsed time is 16.199422 seconds.
+	389/1000Elapsed time is 16.105719 seconds.
+	390/1000Elapsed time is 21.468923 seconds.
+	391/1000Elapsed time is 16.029321 seconds.
+	392/1000Elapsed time is 16.015320 seconds.
+	393/1000Elapsed time is 15.731891 seconds.
+	394/1000Elapsed time is 15.903476 seconds.
+	395/1000Elapsed time is 15.750076 seconds.
+	396/1000Elapsed time is 15.716925 seconds.
+	397/1000Elapsed time is 15.941703 seconds.
+	398/1000Elapsed time is 16.015361 seconds.
+	399/1000Elapsed time is 15.690055 seconds.
+	400/1000Elapsed time is 20.871319 seconds.
+	401/1000Elapsed time is 15.472475 seconds.
+	402/1000Elapsed time is 15.301188 seconds.
+	403/1000Elapsed time is 15.740964 seconds.
+	404/1000Elapsed time is 15.387942 seconds.
+	405/1000Elapsed time is 15.269195 seconds.
+	406/1000Elapsed time is 15.360926 seconds.
+	407/1000Elapsed time is 15.399330 seconds.
+	408/1000Elapsed time is 15.357813 seconds.
+	409/1000Elapsed time is 15.600731 seconds.
+	410/1000Elapsed time is 20.482780 seconds.
+	411/1000Elapsed time is 15.331298 seconds.
+	412/1000Elapsed time is 15.205864 seconds.
+	413/1000Elapsed time is 15.015710 seconds.
+	414/1000Elapsed time is 15.304471 seconds.
+	415/1000Elapsed time is 15.346083 seconds.
+	416/1000Elapsed time is 15.378617 seconds.
+	417/1000Elapsed time is 15.704607 seconds.
+	418/1000Elapsed time is 15.278527 seconds.
+	419/1000Elapsed time is 15.436454 seconds.
+	420/1000Elapsed time is 20.199376 seconds.
+	421/1000Elapsed time is 14.926695 seconds.
+	422/1000Elapsed time is 15.260635 seconds.
+	423/1000Elapsed time is 15.151983 seconds.
+	424/1000Elapsed time is 15.105440 seconds.
+	425/1000Elapsed time is 14.823853 seconds.
+	426/1000Elapsed time is 15.279010 seconds.
+	427/1000Elapsed time is 15.044464 seconds.
+	428/1000Elapsed time is 14.627855 seconds.
+	429/1000Elapsed time is 14.981375 seconds.
+	430/1000Elapsed time is 19.345542 seconds.
+	431/1000Elapsed time is 14.668700 seconds.
+	432/1000Elapsed time is 14.579565 seconds.
+	433/1000Elapsed time is 14.627282 seconds.
+	434/1000Elapsed time is 14.509001 seconds.
+	435/1000Elapsed time is 14.393141 seconds.
+	436/1000Elapsed time is 14.449253 seconds.
+	437/1000Elapsed time is 14.669304 seconds.
+	438/1000Elapsed time is 14.461817 seconds.
+	439/1000Elapsed time is 14.690521 seconds.
+	440/1000Elapsed time is 19.221955 seconds.
+	441/1000Elapsed time is 14.289576 seconds.
+	442/1000Elapsed time is 14.440484 seconds.
+	443/1000Elapsed time is 14.218865 seconds.
+	444/1000Elapsed time is 14.237699 seconds.
+	445/1000Elapsed time is 14.476251 seconds.
+	446/1000Elapsed time is 14.108357 seconds.
+	447/1000Elapsed time is 14.627823 seconds.
+	448/1000Elapsed time is 14.194954 seconds.
+	449/1000Elapsed time is 14.271429 seconds.
+	450/1000Elapsed time is 18.843208 seconds.
+	451/1000Elapsed time is 14.089680 seconds.
+	452/1000Elapsed time is 13.697198 seconds.
+	453/1000Elapsed time is 14.212531 seconds.
+	454/1000Elapsed time is 14.176073 seconds.
+	455/1000Elapsed time is 13.788040 seconds.
+	456/1000Elapsed time is 14.271750 seconds.
+	457/1000Elapsed time is 14.184110 seconds.
+	458/1000Elapsed time is 14.103385 seconds.
+	459/1000Elapsed time is 13.722443 seconds.
+	460/1000Elapsed time is 18.171574 seconds.
+	461/1000Elapsed time is 13.864863 seconds.
+	462/1000Elapsed time is 13.893691 seconds.
+	463/1000Elapsed time is 13.984246 seconds.
+	464/1000Elapsed time is 14.246787 seconds.
+	465/1000Elapsed time is 13.527321 seconds.
+	466/1000Elapsed time is 13.903380 seconds.
+	467/1000Elapsed time is 13.910630 seconds.
+	468/1000Elapsed time is 13.611123 seconds.
+	469/1000Elapsed time is 13.827189 seconds.
+	470/1000Elapsed time is 18.368135 seconds.
+	471/1000Elapsed time is 13.489987 seconds.
+	472/1000Elapsed time is 13.974725 seconds.
+	473/1000Elapsed time is 13.422105 seconds.
+	474/1000Elapsed time is 13.987926 seconds.
+	475/1000Elapsed time is 13.599167 seconds.
+	476/1000Elapsed time is 13.758729 seconds.
+	477/1000Elapsed time is 13.558338 seconds.
+	478/1000Elapsed time is 14.024553 seconds.
+	479/1000Elapsed time is 13.300277 seconds.
+	480/1000Elapsed time is 17.212930 seconds.
+	481/1000Elapsed time is 13.386548 seconds.
+	482/1000Elapsed time is 13.126057 seconds.
+	483/1000Elapsed time is 13.106787 seconds.
+	484/1000Elapsed time is 13.028029 seconds.
+	485/1000Elapsed time is 12.818352 seconds.
+	486/1000Elapsed time is 13.052172 seconds.
+	487/1000Elapsed time is 13.364789 seconds.
+	488/1000Elapsed time is 13.072678 seconds.
+	489/1000Elapsed time is 13.419361 seconds.
+	490/1000Elapsed time is 17.568111 seconds.
+	491/1000Elapsed time is 12.624256 seconds.
+	492/1000Elapsed time is 13.305511 seconds.
+	493/1000Elapsed time is 12.803709 seconds.
+	494/1000Elapsed time is 13.407447 seconds.
+	495/1000Elapsed time is 12.483971 seconds.
+	496/1000Elapsed time is 12.861377 seconds.
+	497/1000Elapsed time is 12.552555 seconds.
+	498/1000Elapsed time is 13.275578 seconds.
+	499/1000Elapsed time is 13.066977 seconds.
+	500/1000Elapsed time is 17.318490 seconds.
+	501/1000Elapsed time is 13.209985 seconds.
+	502/1000Elapsed time is 13.156188 seconds.
+	503/1000Elapsed time is 13.458756 seconds.
+	504/1000Elapsed time is 12.832445 seconds.
+	505/1000Elapsed time is 13.126688 seconds.
+	506/1000Elapsed time is 13.079479 seconds.
+	507/1000Elapsed time is 13.144902 seconds.
+	508/1000Elapsed time is 12.838855 seconds.
+	509/1000Elapsed time is 13.406051 seconds.
+	510/1000Elapsed time is 17.154377 seconds.
+	511/1000Elapsed time is 12.687921 seconds.
+	512/1000Elapsed time is 13.028178 seconds.
+	513/1000Elapsed time is 12.621683 seconds.
+	514/1000Elapsed time is 12.888508 seconds.
+	515/1000Elapsed time is 12.696785 seconds.
+	516/1000Elapsed time is 13.129599 seconds.
+	517/1000Elapsed time is 12.758926 seconds.
+	518/1000Elapsed time is 12.826534 seconds.
+	519/1000Elapsed time is 12.556325 seconds.
+	520/1000Elapsed time is 16.493619 seconds.
+	521/1000Elapsed time is 12.834730 seconds.
+	522/1000Elapsed time is 12.567501 seconds.
+	523/1000Elapsed time is 13.115799 seconds.
+	524/1000Elapsed time is 12.324833 seconds.
+	525/1000Elapsed time is 12.805382 seconds.
+	526/1000Elapsed time is 12.505446 seconds.
+	527/1000Elapsed time is 12.864991 seconds.
+	528/1000Elapsed time is 12.419369 seconds.
+	529/1000Elapsed time is 12.619290 seconds.
+	530/1000Elapsed time is 16.766642 seconds.
+	531/1000Elapsed time is 12.553021 seconds.
+	532/1000Elapsed time is 12.862629 seconds.
+	533/1000Elapsed time is 12.477526 seconds.
+	534/1000Elapsed time is 12.679571 seconds.
+	535/1000Elapsed time is 12.639286 seconds.
+	536/1000Elapsed time is 13.002875 seconds.
+	537/1000Elapsed time is 12.429098 seconds.
+	538/1000Elapsed time is 13.067105 seconds.
+	539/1000Elapsed time is 12.628089 seconds.
+	540/1000Elapsed time is 15.775774 seconds.
+	541/1000Elapsed time is 12.284081 seconds.
+	542/1000Elapsed time is 11.996278 seconds.
+	543/1000Elapsed time is 12.300726 seconds.
+	544/1000Elapsed time is 11.994012 seconds.
+	545/1000Elapsed time is 12.517084 seconds.
+	546/1000Elapsed time is 12.173377 seconds.
+	547/1000Elapsed time is 12.309762 seconds.
+	548/1000Elapsed time is 12.051666 seconds.
+	549/1000Elapsed time is 12.906490 seconds.
+	550/1000Elapsed time is 15.978731 seconds.
+	551/1000Elapsed time is 11.879157 seconds.
+	552/1000Elapsed time is 12.418349 seconds.
+	553/1000Elapsed time is 12.067184 seconds.
+	554/1000Elapsed time is 12.211811 seconds.
+	555/1000Elapsed time is 12.190466 seconds.
+	556/1000Elapsed time is 12.510792 seconds.
+	557/1000Elapsed time is 11.958482 seconds.
+	558/1000Elapsed time is 12.285340 seconds.
+	559/1000Elapsed time is 11.947084 seconds.
+	560/1000Elapsed time is 15.361525 seconds.
+	561/1000Elapsed time is 12.239434 seconds.
+	562/1000Elapsed time is 11.730847 seconds.
+	563/1000Elapsed time is 12.061895 seconds.
+	564/1000Elapsed time is 11.794173 seconds.
+	565/1000Elapsed time is 11.976530 seconds.
+	566/1000Elapsed time is 11.755354 seconds.
+	567/1000Elapsed time is 12.211096 seconds.
+	568/1000Elapsed time is 12.323935 seconds.
+	569/1000Elapsed time is 12.208572 seconds.
+	570/1000Elapsed time is 15.707791 seconds.
+	571/1000Elapsed time is 11.510954 seconds.
+	572/1000Elapsed time is 11.910321 seconds.
+	573/1000Elapsed time is 11.504827 seconds.
+	574/1000Elapsed time is 11.978982 seconds.
+	575/1000Elapsed time is 11.628422 seconds.
+	576/1000Elapsed time is 12.126128 seconds.
+	577/1000Elapsed time is 11.758168 seconds.
+	578/1000Elapsed time is 12.075934 seconds.
+	579/1000Elapsed time is 11.868528 seconds.
+	580/1000Elapsed time is 14.652378 seconds.
+	581/1000Elapsed time is 11.581751 seconds.
+	582/1000Elapsed time is 11.148952 seconds.
+	583/1000Elapsed time is 11.582114 seconds.
+	584/1000Elapsed time is 11.220757 seconds.
+	585/1000Elapsed time is 11.593413 seconds.
+	586/1000Elapsed time is 11.341822 seconds.
+	587/1000Elapsed time is 11.405169 seconds.
+	588/1000Elapsed time is 11.374909 seconds.
+	589/1000Elapsed time is 11.763698 seconds.
+	590/1000Elapsed time is 14.863538 seconds.
+	591/1000Elapsed time is 11.164903 seconds.
+	592/1000Elapsed time is 11.532633 seconds.
+	593/1000Elapsed time is 11.144343 seconds.
+	594/1000Elapsed time is 11.842981 seconds.
+	595/1000Elapsed time is 11.354502 seconds.
+	596/1000Elapsed time is 11.569257 seconds.
+	597/1000Elapsed time is 11.093538 seconds.
+	598/1000Elapsed time is 11.519178 seconds.
+	599/1000Elapsed time is 11.162339 seconds.
+	600/1000Elapsed time is 14.199993 seconds.
+	601/1000Elapsed time is 11.443986 seconds.
+	602/1000Elapsed time is 10.855359 seconds.
+	603/1000Elapsed time is 11.203458 seconds.
+	604/1000Elapsed time is 10.967091 seconds.
+	605/1000Elapsed time is 11.335838 seconds.
+	606/1000Elapsed time is 11.007330 seconds.
+	607/1000Elapsed time is 11.520690 seconds.
+	608/1000Elapsed time is 10.880717 seconds.
+	609/1000Elapsed time is 11.280700 seconds.
+	610/1000Elapsed time is 14.566001 seconds.
+	611/1000Elapsed time is 10.912763 seconds.
+	612/1000Elapsed time is 11.289455 seconds.
+	613/1000Elapsed time is 10.861622 seconds.
+	614/1000Elapsed time is 11.488093 seconds.
+	615/1000Elapsed time is 10.764747 seconds.
+	616/1000Elapsed time is 11.270783 seconds.
+	617/1000Elapsed time is 10.907063 seconds.
+	618/1000Elapsed time is 11.400985 seconds.
+	619/1000Elapsed time is 11.074392 seconds.
+	620/1000Elapsed time is 13.917575 seconds.
+	621/1000Elapsed time is 11.025903 seconds.
+	622/1000Elapsed time is 10.637186 seconds.
+	623/1000Elapsed time is 10.949137 seconds.
+	624/1000Elapsed time is 10.669596 seconds.
+	625/1000Elapsed time is 11.076278 seconds.
+	626/1000Elapsed time is 10.623371 seconds.
+	627/1000Elapsed time is 11.015035 seconds.
+	628/1000Elapsed time is 10.747739 seconds.
+	629/1000Elapsed time is 10.965935 seconds.
+	630/1000Elapsed time is 14.209568 seconds.
+	631/1000Elapsed time is 10.611166 seconds.
+	632/1000Elapsed time is 11.024947 seconds.
+	633/1000Elapsed time is 10.634747 seconds.
+	634/1000Elapsed time is 10.865598 seconds.
+	635/1000Elapsed time is 11.044527 seconds.
+	636/1000Elapsed time is 11.001483 seconds.
+	637/1000Elapsed time is 10.742628 seconds.
+	638/1000Elapsed time is 11.023444 seconds.
+	639/1000Elapsed time is 10.666787 seconds.
+	640/1000Elapsed time is 13.572926 seconds.
+	641/1000Elapsed time is 11.049340 seconds.
+	642/1000Elapsed time is 10.370829 seconds.
+	643/1000Elapsed time is 10.841152 seconds.
+	644/1000Elapsed time is 10.625481 seconds.
+	645/1000Elapsed time is 10.737465 seconds.
+	646/1000Elapsed time is 10.665868 seconds.
+	647/1000Elapsed time is 11.006611 seconds.
+	648/1000Elapsed time is 10.568034 seconds.
+	649/1000Elapsed time is 10.890205 seconds.
+	650/1000Elapsed time is 13.940081 seconds.
+	651/1000Elapsed time is 10.800395 seconds.
+	652/1000Elapsed time is 10.637701 seconds.
+	653/1000Elapsed time is 10.361444 seconds.
+	654/1000Elapsed time is 10.639944 seconds.
+	655/1000Elapsed time is 10.585629 seconds.
+	656/1000Elapsed time is 10.799092 seconds.
+	657/1000Elapsed time is 10.800127 seconds.
+	658/1000Elapsed time is 10.773125 seconds.
+	659/1000Elapsed time is 10.573868 seconds.
+	660/1000Elapsed time is 13.396648 seconds.
+	661/1000Elapsed time is 10.698443 seconds.
+	662/1000Elapsed time is 10.193185 seconds.
+	663/1000Elapsed time is 10.749118 seconds.
+	664/1000Elapsed time is 10.119015 seconds.
+	665/1000Elapsed time is 10.654982 seconds.
+	666/1000Elapsed time is 10.109195 seconds.
+	667/1000Elapsed time is 10.594414 seconds.
+	668/1000Elapsed time is 10.041433 seconds.
+	669/1000Elapsed time is 10.753398 seconds.
+	670/1000Elapsed time is 13.439942 seconds.
+	671/1000Elapsed time is 10.328742 seconds.
+	672/1000Elapsed time is 10.583952 seconds.
+	673/1000Elapsed time is 10.183044 seconds.
+	674/1000Elapsed time is 10.531977 seconds.
+	675/1000Elapsed time is 10.527274 seconds.
+	676/1000Elapsed time is 10.454717 seconds.
+	677/1000Elapsed time is 10.007814 seconds.
+	678/1000Elapsed time is 10.485978 seconds.
+	679/1000Elapsed time is 10.142980 seconds.
+	680/1000Elapsed time is 12.979941 seconds.
+	681/1000Elapsed time is 10.322683 seconds.
+	682/1000Elapsed time is 10.034597 seconds.
+	683/1000Elapsed time is 9.992432 seconds.
+	684/1000Elapsed time is 9.713086 seconds.
+	685/1000Elapsed time is 10.408961 seconds.
+	686/1000Elapsed time is 10.047653 seconds.
+	687/1000Elapsed time is 9.982154 seconds.
+	688/1000Elapsed time is 9.731499 seconds.
+	689/1000Elapsed time is 10.326560 seconds.
+	690/1000Elapsed time is 12.927544 seconds.
+	691/1000Elapsed time is 9.827393 seconds.
+	692/1000Elapsed time is 9.867223 seconds.
+	693/1000Elapsed time is 10.239727 seconds.
+	694/1000Elapsed time is 10.016063 seconds.
+	695/1000Elapsed time is 10.287292 seconds.
+	696/1000Elapsed time is 9.935784 seconds.
+	697/1000Elapsed time is 9.853594 seconds.
+	698/1000Elapsed time is 10.355007 seconds.
+	699/1000Elapsed time is 9.933445 seconds.
+	700/1000Elapsed time is 12.568154 seconds.
+	701/1000Elapsed time is 9.670313 seconds.
+	702/1000Elapsed time is 9.884463 seconds.
+	703/1000Elapsed time is 9.848050 seconds.
+	704/1000Elapsed time is 9.956663 seconds.
+	705/1000Elapsed time is 10.051126 seconds.
+	706/1000Elapsed time is 9.851546 seconds.
+	707/1000Elapsed time is 9.594098 seconds.
+	708/1000Elapsed time is 9.930327 seconds.
+	709/1000Elapsed time is 9.598793 seconds.
+	710/1000Elapsed time is 12.578462 seconds.
+	711/1000Elapsed time is 9.703344 seconds.
+	712/1000Elapsed time is 9.937678 seconds.
+	713/1000Elapsed time is 9.703733 seconds.
+	714/1000Elapsed time is 9.434558 seconds.
+	715/1000Elapsed time is 9.891407 seconds.
+	716/1000Elapsed time is 9.600510 seconds.
+	717/1000Elapsed time is 9.622056 seconds.
+	718/1000Elapsed time is 9.991111 seconds.
+	719/1000Elapsed time is 9.565623 seconds.
+	720/1000Elapsed time is 12.177863 seconds.
+	721/1000Elapsed time is 9.793252 seconds.
+	722/1000Elapsed time is 9.557581 seconds.
+	723/1000Elapsed time is 9.306339 seconds.
+	724/1000Elapsed time is 9.185592 seconds.
+	725/1000Elapsed time is 9.997635 seconds.
+	726/1000Elapsed time is 9.472631 seconds.
+	727/1000Elapsed time is 9.327054 seconds.
+	728/1000Elapsed time is 9.494578 seconds.
+	729/1000Elapsed time is 9.244804 seconds.
+	730/1000Elapsed time is 12.092512 seconds.
+	731/1000Elapsed time is 9.128863 seconds.
+	732/1000Elapsed time is 9.648528 seconds.
+	733/1000Elapsed time is 9.205968 seconds.
+	734/1000Elapsed time is 9.439574 seconds.
+	735/1000Elapsed time is 9.683160 seconds.
+	736/1000Elapsed time is 9.412633 seconds.
+	737/1000Elapsed time is 9.072167 seconds.
+	738/1000Elapsed time is 9.496710 seconds.
+	739/1000Elapsed time is 9.174202 seconds.
+	740/1000Elapsed time is 11.757613 seconds.
+	741/1000Elapsed time is 9.060736 seconds.
+	742/1000Elapsed time is 9.590697 seconds.
+	743/1000Elapsed time is 9.131385 seconds.
+	744/1000Elapsed time is 9.072987 seconds.
+	745/1000Elapsed time is 9.475558 seconds.
+	746/1000Elapsed time is 9.182646 seconds.
+	747/1000Elapsed time is 8.990754 seconds.
+	748/1000Elapsed time is 9.549236 seconds.
+	749/1000Elapsed time is 9.195426 seconds.
+	750/1000Elapsed time is 11.517900 seconds.
+	751/1000Elapsed time is 8.894767 seconds.
+	752/1000Elapsed time is 9.404810 seconds.
+	753/1000Elapsed time is 9.249579 seconds.
+	754/1000Elapsed time is 9.011779 seconds.
+	755/1000Elapsed time is 9.458941 seconds.
+	756/1000Elapsed time is 9.204874 seconds.
+	757/1000Elapsed time is 9.126219 seconds.
+	758/1000Elapsed time is 9.374684 seconds.
+	759/1000Elapsed time is 9.273823 seconds.
+	760/1000Elapsed time is 11.427866 seconds.
+	761/1000Elapsed time is 8.889877 seconds.
+	762/1000Elapsed time is 9.437983 seconds.
+	763/1000Elapsed time is 8.848341 seconds.
+	764/1000Elapsed time is 8.767557 seconds.
+	765/1000Elapsed time is 9.353986 seconds.
+	766/1000Elapsed time is 8.962616 seconds.
+	767/1000Elapsed time is 9.209401 seconds.
+	768/1000Elapsed time is 9.320119 seconds.
+	769/1000Elapsed time is 8.876639 seconds.
+	770/1000Elapsed time is 11.375762 seconds.
+	771/1000Elapsed time is 8.904267 seconds.
+	772/1000Elapsed time is 9.396194 seconds.
+	773/1000Elapsed time is 8.929301 seconds.
+	774/1000Elapsed time is 8.949318 seconds.
+	775/1000Elapsed time is 9.208316 seconds.
+	776/1000Elapsed time is 9.181013 seconds.
+	777/1000Elapsed time is 8.924205 seconds.
+	778/1000Elapsed time is 9.290970 seconds.
+	779/1000Elapsed time is 8.810663 seconds.
+	780/1000Elapsed time is 11.336240 seconds.
+	781/1000Elapsed time is 8.727593 seconds.
+	782/1000Elapsed time is 9.013961 seconds.
+	783/1000Elapsed time is 8.787132 seconds.
+	784/1000Elapsed time is 8.663850 seconds.
+	785/1000Elapsed time is 8.958400 seconds.
+	786/1000Elapsed time is 8.703839 seconds.
+	787/1000Elapsed time is 8.712960 seconds.
+	788/1000Elapsed time is 8.977556 seconds.
+	789/1000Elapsed time is 8.795942 seconds.
+	790/1000Elapsed time is 11.417353 seconds.
+	791/1000Elapsed time is 8.778627 seconds.
+	792/1000Elapsed time is 9.293040 seconds.
+	793/1000Elapsed time is 8.922467 seconds.
+	794/1000Elapsed time is 8.777021 seconds.
+	795/1000Elapsed time is 8.957535 seconds.
+	796/1000Elapsed time is 8.746052 seconds.
+	797/1000Elapsed time is 8.903288 seconds.
+	798/1000Elapsed time is 9.114217 seconds.
+	799/1000Elapsed time is 8.816058 seconds.
+	800/1000Elapsed time is 11.254719 seconds.
+	801/1000Elapsed time is 8.881383 seconds.
+	802/1000Elapsed time is 9.152206 seconds.
+	803/1000Elapsed time is 8.898281 seconds.
+	804/1000Elapsed time is 8.781226 seconds.
+	805/1000Elapsed time is 9.232863 seconds.
+	806/1000Elapsed time is 9.000735 seconds.
+	807/1000Elapsed time is 9.027587 seconds.
+	808/1000Elapsed time is 9.247414 seconds.
+	809/1000Elapsed time is 8.835099 seconds.
+	810/1000Elapsed time is 10.940776 seconds.
+	811/1000Elapsed time is 8.198798 seconds.
+	812/1000Elapsed time is 8.285361 seconds.
+	813/1000Elapsed time is 8.668835 seconds.
+	814/1000Elapsed time is 8.541779 seconds.
+	815/1000Elapsed time is 8.401093 seconds.
+	816/1000Elapsed time is 8.772793 seconds.
+	817/1000Elapsed time is 8.649117 seconds.
+	818/1000Elapsed time is 8.240770 seconds.
+	819/1000Elapsed time is 8.656368 seconds.
+	820/1000Elapsed time is 10.666477 seconds.
+	821/1000Elapsed time is 8.170121 seconds.
+	822/1000Elapsed time is 7.998392 seconds.
+	823/1000Elapsed time is 8.560590 seconds.
+	824/1000Elapsed time is 8.211441 seconds.
+	825/1000Elapsed time is 8.439232 seconds.
+	826/1000Elapsed time is 8.628167 seconds.
+	827/1000Elapsed time is 8.550506 seconds.
+	828/1000Elapsed time is 8.104509 seconds.
+	829/1000Elapsed time is 8.455210 seconds.
+	830/1000Elapsed time is 10.792275 seconds.
+	831/1000Elapsed time is 8.522246 seconds.
+	832/1000Elapsed time is 8.545303 seconds.
+	833/1000Elapsed time is 9.049172 seconds.
+	834/1000Elapsed time is 8.524219 seconds.
+	835/1000Elapsed time is 8.380163 seconds.
+	836/1000Elapsed time is 8.352246 seconds.
+	837/1000Elapsed time is 8.226262 seconds.
+	838/1000Elapsed time is 8.035261 seconds.
+	839/1000Elapsed time is 8.757327 seconds.
+	840/1000Elapsed time is 10.594140 seconds.
+	841/1000Elapsed time is 8.269501 seconds.
+	842/1000Elapsed time is 7.997749 seconds.
+	843/1000Elapsed time is 8.244052 seconds.
+	844/1000Elapsed time is 8.160883 seconds.
+	845/1000Elapsed time is 8.253440 seconds.
+	846/1000Elapsed time is 8.290914 seconds.
+	847/1000Elapsed time is 8.157719 seconds.
+	848/1000Elapsed time is 7.805253 seconds.
+	849/1000Elapsed time is 8.236956 seconds.
+	850/1000Elapsed time is 10.511852 seconds.
+	851/1000Elapsed time is 8.384569 seconds.
+	852/1000Elapsed time is 8.266489 seconds.
+	853/1000Elapsed time is 8.492464 seconds.
+	854/1000Elapsed time is 8.217163 seconds.
+	855/1000Elapsed time is 8.411594 seconds.
+	856/1000Elapsed time is 8.640165 seconds.
+	857/1000Elapsed time is 8.294939 seconds.
+	858/1000Elapsed time is 8.256934 seconds.
+	859/1000Elapsed time is 8.498290 seconds.
+	860/1000Elapsed time is 10.073671 seconds.
+	861/1000Elapsed time is 8.166797 seconds.
+	862/1000Elapsed time is 8.455797 seconds.
+	863/1000Elapsed time is 8.161926 seconds.
+	864/1000Elapsed time is 7.807753 seconds.
+	865/1000Elapsed time is 8.259880 seconds.
+	866/1000Elapsed time is 8.123134 seconds.
+	867/1000Elapsed time is 7.798597 seconds.
+	868/1000Elapsed time is 8.545728 seconds.
+	869/1000Elapsed time is 8.127947 seconds.
+	870/1000Elapsed time is 10.253217 seconds.
+	871/1000Elapsed time is 7.964339 seconds.
+	872/1000Elapsed time is 7.911672 seconds.
+	873/1000Elapsed time is 7.974285 seconds.
+	874/1000Elapsed time is 7.813688 seconds.
+	875/1000Elapsed time is 7.826530 seconds.
+	876/1000Elapsed time is 8.047827 seconds.
+	877/1000Elapsed time is 7.909818 seconds.
+	878/1000Elapsed time is 7.748417 seconds.
+	879/1000Elapsed time is 8.127455 seconds.
+	880/1000Elapsed time is 9.851720 seconds.
+	881/1000Elapsed time is 7.815277 seconds.
+	882/1000Elapsed time is 8.255784 seconds.
+	883/1000Elapsed time is 7.993409 seconds.
+	884/1000Elapsed time is 7.573976 seconds.
+	885/1000Elapsed time is 8.198990 seconds.
+	886/1000Elapsed time is 7.717025 seconds.
+	887/1000Elapsed time is 8.024146 seconds.
+	888/1000Elapsed time is 7.859257 seconds.
+	889/1000Elapsed time is 8.053509 seconds.
+	890/1000Elapsed time is 9.659328 seconds.
+	891/1000Elapsed time is 7.774010 seconds.
+	892/1000Elapsed time is 7.533683 seconds.
+	893/1000Elapsed time is 8.212078 seconds.
+	894/1000Elapsed time is 7.890673 seconds.
+	895/1000Elapsed time is 7.730713 seconds.
+	896/1000Elapsed time is 7.627335 seconds.
+	897/1000Elapsed time is 7.636919 seconds.
+	898/1000Elapsed time is 7.895551 seconds.
+	899/1000Elapsed time is 7.851568 seconds.
+	900/1000Elapsed time is 9.821446 seconds.
+	901/1000Elapsed time is 7.748547 seconds.
+	902/1000Elapsed time is 7.814179 seconds.
+	903/1000Elapsed time is 7.908744 seconds.
+	904/1000Elapsed time is 7.654928 seconds.
+	905/1000Elapsed time is 8.171618 seconds.
+	906/1000Elapsed time is 8.018430 seconds.
+	907/1000Elapsed time is 7.863854 seconds.
+	908/1000Elapsed time is 8.009540 seconds.
+	909/1000Elapsed time is 7.777567 seconds.
+	910/1000Elapsed time is 9.692431 seconds.
+	911/1000Elapsed time is 7.444679 seconds.
+	912/1000Elapsed time is 7.955493 seconds.
+	913/1000Elapsed time is 7.564319 seconds.
+	914/1000Elapsed time is 7.825190 seconds.
+	915/1000Elapsed time is 7.283381 seconds.
+	916/1000Elapsed time is 7.584167 seconds.
+	917/1000Elapsed time is 7.517738 seconds.
+	918/1000Elapsed time is 7.512761 seconds.
+	919/1000Elapsed time is 8.098651 seconds.
+	920/1000Elapsed time is 9.584582 seconds.
+	921/1000Elapsed time is 7.609901 seconds.
+	922/1000Elapsed time is 7.594865 seconds.
+	923/1000Elapsed time is 7.521125 seconds.
+	924/1000Elapsed time is 7.646434 seconds.
+	925/1000Elapsed time is 7.495089 seconds.
+	926/1000Elapsed time is 7.630742 seconds.
+	927/1000Elapsed time is 7.481492 seconds.
+	928/1000Elapsed time is 7.436504 seconds.
+	929/1000Elapsed time is 7.538712 seconds.
+	930/1000Elapsed time is 9.533672 seconds.
+	931/1000Elapsed time is 7.150511 seconds.
+	932/1000Elapsed time is 7.243220 seconds.
+	933/1000Elapsed time is 7.416401 seconds.
+	934/1000Elapsed time is 7.403054 seconds.
+	935/1000Elapsed time is 7.353172 seconds.
+	936/1000Elapsed time is 7.177695 seconds.
+	937/1000Elapsed time is 7.096131 seconds.
+	938/1000Elapsed time is 7.332027 seconds.
+	939/1000Elapsed time is 7.528528 seconds.
+	940/1000Elapsed time is 9.565274 seconds.
+	941/1000Elapsed time is 7.743137 seconds.
+	942/1000Elapsed time is 7.507375 seconds.
+	943/1000Elapsed time is 7.595093 seconds.
+	944/1000Elapsed time is 7.771067 seconds.
+	945/1000Elapsed time is 7.667819 seconds.
+	946/1000Elapsed time is 7.828741 seconds.
+	947/1000Elapsed time is 7.597616 seconds.
+	948/1000Elapsed time is 7.526375 seconds.
+	949/1000Elapsed time is 7.541043 seconds.
+	950/1000Elapsed time is 9.216673 seconds.
+	951/1000Elapsed time is 7.387257 seconds.
+	952/1000Elapsed time is 7.491870 seconds.
+	953/1000Elapsed time is 7.286534 seconds.
+	954/1000Elapsed time is 7.689214 seconds.
+	955/1000Elapsed time is 7.590855 seconds.
+	956/1000Elapsed time is 7.508617 seconds.
+	957/1000Elapsed time is 7.455146 seconds.
+	958/1000Elapsed time is 7.681745 seconds.
+	959/1000Elapsed time is 7.242561 seconds.
+	960/1000Elapsed time is 9.099631 seconds.
+	961/1000Elapsed time is 7.275792 seconds.
+	962/1000Elapsed time is 7.466223 seconds.
+	963/1000Elapsed time is 7.213283 seconds.
+	964/1000Elapsed time is 7.446513 seconds.
+	965/1000Elapsed time is 7.127448 seconds.
+	966/1000Elapsed time is 7.299156 seconds.
+	967/1000Elapsed time is 7.488408 seconds.
+	968/1000Elapsed time is 7.321452 seconds.
+	969/1000Elapsed time is 7.460802 seconds.
+	970/1000Elapsed time is 9.219284 seconds.
+	971/1000Elapsed time is 7.178406 seconds.
+	972/1000Elapsed time is 7.186231 seconds.
+	973/1000Elapsed time is 7.366020 seconds.
+	974/1000Elapsed time is 7.110397 seconds.
+	975/1000Elapsed time is 7.595086 seconds.
+	976/1000Elapsed time is 7.285396 seconds.
+	977/1000Elapsed time is 7.264150 seconds.
+	978/1000Elapsed time is 7.173741 seconds.
+	979/1000Elapsed time is 7.210396 seconds.
+	980/1000Elapsed time is 8.877368 seconds.
+	981/1000Elapsed time is 7.187783 seconds.
+	982/1000Elapsed time is 7.172982 seconds.
+	983/1000Elapsed time is 7.266036 seconds.
+	984/1000Elapsed time is 7.224035 seconds.
+	985/1000Elapsed time is 7.245598 seconds.
+	986/1000Elapsed time is 7.389555 seconds.
+	987/1000Elapsed time is 7.338692 seconds.
+	988/1000Elapsed time is 7.489794 seconds.
+	989/1000Elapsed time is 7.317909 seconds.
+	990/1000Elapsed time is 8.775137 seconds.
+	991/1000Elapsed time is 7.165489 seconds.
+	992/1000Elapsed time is 7.172108 seconds.
+	993/1000Elapsed time is 7.217173 seconds.
+	994/1000Elapsed time is 7.008140 seconds.
+	995/1000Elapsed time is 6.926262 seconds.
+	996/1000Elapsed time is 7.095931 seconds.
+	997/1000Elapsed time is 7.008496 seconds.
+	998/1000Elapsed time is 7.179094 seconds.
+	999/1000Elapsed time is 6.986237 seconds.
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23440252: <comsolmatlab> in cluster <dcc> Done
+
+Job <comsolmatlab> was submitted from host <hpclogin1> by user <s194146> in cluster <dcc> at Thu Dec 12 23:42:54 2024
+Job was executed on host(s) <4*n-62-12-89>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Fri Dec 13 03:30:22 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/Comsol> was used as the working directory.
+Started at Fri Dec 13 03:30:22 2024
+Terminated at Fri Dec 13 08:14:19 2024
+Results reported at Fri Dec 13 08:14:19 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/sh
+#
+# LSF_comsolmatlab.batch - batch script for LSF, to start a COMSOL server
+# with a LiveLink connection to a MATLAB process
+#
+# Adapt the settings below to your needs, and submit with
+#     bsub < LSF_comsolmatlab.batch
+#
+# written for the LSF installation at DTU Computing Center
+# Sep  9, 2015: original version
+# Jun 30, 2016: fixed the awk line to get the version right after 5.2a
+# Jan 17, 2018: ported from MOAB to LSF
+# Apr 28, 2022: changed to module load ...
+# Oct 18, 2024: changed to -batch when calling MATLAB
+#
+# Current limitations:  this works on one compute node, only!  No
+# multi-node (aka cluster) execution!
+#
+# Define the settings here - first the scheduler:
+#
+#BSUB -J comsolmatlab
+#BSUB -q gpuh100
+#BSUB -n 4
+#BSUB -R "span[hosts=1]"
+#BSUB -W  24:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -o outfiles/comsolmatlab_%J.out
+## add other BSUB lines above, if needed
+
+
+# define some job specific settings
+# 
+# load the module with the COMSOL version you want
+module load comsol/6.1
+
+# the MATLAB script to execute (without the .m!!!)
+# replace mscript with the name of your MATLAB script
+MLSCR=generateDataForInverse
+
+############################################
+### Don't monkey with the stuff below!!! ###
+############################################
+
+# generate a numerical JOBID, which we can use in Matlab
+JOBID=$LSB_JOBID
+export JOBID
+
+# use the default comsol version - unless overwritten by CSCMD
+CSCMD=${CSCMD:=comsol}
+
+
+(... more ...)
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   50444.00 sec.
+    Max Memory :                                 11025 MB
+    Average Memory :                             7350.39 MB
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               21743.00 MB
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                242
+    Run time :                                   17036 sec.
+    Turnaround time :                            30685 sec.
+
+The output (if any) is above this job summary.
+

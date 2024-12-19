@@ -142,11 +142,11 @@ __global__ void combineAmatrixLoop(RealMatrix A, RealMatrix A_real, RealMatrix A
 }
 
 
-void setupSystemMatrix_GPU(RealMatrix A, int n_test, int n_int, int n_ext, RealMatrix n_x, RealMatrix n_y, ComplexMatrix F1_scat, ComplexMatrix F1_int, ComplexMatrix F2_scat, ComplexMatrix F2_int, ComplexMatrix F3_scat, ComplexMatrix F3_int) {
+void setupSystemMatrix_GPU(RealMatrix A, int n_test, int n_int, int n_ext, RealMatrix n_x, RealMatrix n_y, ComplexMatrix F1_scat, ComplexMatrix F1_int, ComplexMatrix F2_scat, ComplexMatrix F2_int, ComplexMatrix F3_scat, ComplexMatrix F3_int, RealMatrix A_real, RealMatrix A_imag) {
     bool host = false;
     bool device = true;
-    RealMatrix A_real = RealMatrix(2 * n_test, n_int + n_ext, host, device);
-    RealMatrix A_imag = RealMatrix(2 * n_test, n_int + n_ext, host, device);
+    //RealMatrix A_real = RealMatrix(2 * n_test, n_int + n_ext, host, device);
+    //RealMatrix A_imag = RealMatrix(2 * n_test, n_int + n_ext, host, device);
 
     // Blocks and threads
     dim3 dimBlock(32,32);
@@ -177,8 +177,8 @@ void setupSystemMatrix_GPU(RealMatrix A, int n_test, int n_int, int n_ext, RealM
     // Synchronize threads
     cudaDeviceSynchronize();
 
-    A_real.free();
-    A_imag.free();
+    //A_real.free();
+    //A_imag.free();
 
 }
 
@@ -186,10 +186,10 @@ void Segment::setupSystemMatrix() {
 
     if (deviceComputation) {
         if (polarisation == 1) {
-            setupSystemMatrix_GPU(A, n_test, n_int, n_ext, normal_vectors.x, normal_vectors.y, E_scat_matrix.z, E_int_matrix.z, H_scat_matrix.x, H_int_matrix.x, H_scat_matrix.y, H_int_matrix.y);
+            setupSystemMatrix_GPU(A, n_test, n_int, n_ext, normal_vectors.x, normal_vectors.y, E_scat_matrix.z, E_int_matrix.z, H_scat_matrix.x, H_int_matrix.x, H_scat_matrix.y, H_int_matrix.y, A_real, A_imag);
         }
         else if (polarisation == 2) {
-            setupSystemMatrix_GPU(A, n_test, n_int, n_ext, normal_vectors.x, normal_vectors.y, H_scat_matrix.z, H_int_matrix.z, E_scat_matrix.x, E_int_matrix.x, E_scat_matrix.y, E_int_matrix.y);
+            setupSystemMatrix_GPU(A, n_test, n_int, n_ext, normal_vectors.x, normal_vectors.y, H_scat_matrix.z, H_int_matrix.z, E_scat_matrix.x, E_int_matrix.x, E_scat_matrix.y, E_int_matrix.y, A_real, A_imag);
         }
         else {
             printf("You have to choose either 1 or 2 as the polarisation!\n");
@@ -209,58 +209,6 @@ void Segment::setupSystemMatrix() {
         }
 
     }
-
-
-
-    if (n_test < 200 && !deviceComputation) {
-    FILE *file;
-    char * filename;
-    /*filename = "A_real_C.txt";
-    file = fopen(filename, "w");
-    if (file == NULL) {
-        perror("Error opening file");
-        return;
-    }
-    for (int r = 0; r < 2*n_test; r++) {
-        for (int c = 0; c < n_int + n_ext; c++) {
-            fprintf(file, "%e ", A_real.getHostValue(r,c));
-        }
-        fprintf(file, "\n");
-    }
-    fclose(file);
-    filename = "A_imag_C.txt";
-    file = fopen(filename, "w");
-    if (file == NULL) {
-        perror("Error opening file");
-        return;
-    }
-    for (int r = 0; r < 2*n_test; r++) {
-        for (int c = 0; c < n_int + n_ext; c++) {
-            fprintf(file, "%e ", A_imag.getHostValue(r,c));
-        }
-        fprintf(file, "\n");
-    }
-    fclose(file);*/
-
-    filename = "Abig_C.txt";
-    file = fopen(filename, "w");
-    if (file == NULL) {
-        perror("Error opening file");
-        return;
-    }
-    for (int r = 0; r < A.rows; r++) {
-        for (int c = 0; c < A.cols; c++) {
-            fprintf(file, "%e ", A.getHostValue(r,c));
-        }
-        fprintf(file, "\n");
-    }
-    fclose(file);
-
-    
-
-    }
-
-    
 
     return;
 }

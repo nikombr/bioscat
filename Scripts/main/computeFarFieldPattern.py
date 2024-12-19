@@ -5,99 +5,144 @@ import os
 import time
 import matplotlib.pyplot as plt
 import math
+import sys
 
-def executeFarFieldPattern(phi, total_grid_points=100,num_segments = 1, protein_structure = "demoleus2x2", beta = 0, lambd = 325e-9, deviceComputation = False): # "Retinin2x2" or "demoleus2x2"
+def executeFarFieldPattern(total_grid_points=100,num_segments = 1, protein_structure = "demoleus2x2", beta = 0, lambd = 325e-9, deviceComputation = False, savefolder='.',printOutput=True): # "Retinin2x2" or "demoleus2x2"
+    if savefolder != "data_test":
+        obs_grid = 500;
+        phi = np.linspace(0,np.pi,obs_grid)
+    else:
+        phi = np.array([np.pi/2])
 
     # Prepare observation points
     n = len(phi)
     phi_arr = (ctypes.c_double * n)(*phi)
     
-    so_file = "./so/farFieldPattern.so"
+    so_file = "./so/computeFarFieldPattern.so"
 
     # Get C function
     c_func = ctypes.CDLL(so_file)
     protein_structure_encoded = protein_structure.encode('utf-8')
 
     # Execute C implementation
-    c_func.executeFarFieldPattern(phi_arr, n, protein_structure_encoded, num_segments,total_grid_points, ctypes.c_double(beta*math.pi/180), ctypes.c_double(lambd), int(deviceComputation))
+    if savefolder != "data_test":
+        c_func.computeFarFieldPattern(phi_arr, n, protein_structure_encoded, num_segments,total_grid_points, ctypes.c_double(beta*math.pi/180), ctypes.c_double(lambd), int(deviceComputation), int(printOutput))
 
-    mdic = dict();
-    mdic['phi'] = phi
+        mdic = dict();
+        mdic['phi'] = phi
 
-    filename = f'../../../Results/forward/farFieldPattern.txt'
-    F = np.loadtxt(filename)
-    print(F.shape)
-    plt.figure()
-    plt.polar(phi, F)
-    plt.savefig(f'plots/farFieldPattern.png')
-    plt.close()
-    #os.remove(filename)
+        dir = "../../../../../../../work3/s194146/bioscatdata"
 
-    location = 'far_field_pattern';
-    savename = f'../../../Results/forward/{protein_structure}/{location}/absolute_field_beta_{int(beta)}_lambda_{int(lambd*10**9)}_num_segments_{int(num_segments)}_total_grid_points_{int(total_grid_points)}.mat'
-    savemat(savename, mdic)
+        filename = f'{dir}/Results/forward/farFieldPattern.txt'
+        far_field_pattern = np.loadtxt(filename)
+        print(far_field_pattern.shape)
+        plt.figure()
+        plt.polar(phi, far_field_pattern)
+        plt.savefig(f'{dir}/tmpplots/farFieldPattern.png')
+        plt.close()
+        #os.remove(filename)
 
+        mdic['far_field_pattern'] = far_field_pattern
 
-    plt.figure()
-    for i in range(num_segments):
-        filename = f'../../../Data/segments/test_segment_{i+1}.txt'
-        data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1],'k.')
-    #plt.savefig('plots/test_points.png')
-
-    #plt.figure()
-    for i in range(num_segments):
-        filename = f'../../../Data/segments/ext_segment_{i+1}.txt'
-        data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1],'.')
-    #plt.savefig('plots/ext_points.png')
-
-    #plt.figure()
-    for i in range(num_segments):
-        filename = f'../../../Data/segments/int_segment_{i+1}.txt'
-        data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1],'.')
-    plt.savefig('plots/all_points.png')
-
-def getData():
-    obs_grid = 200;
-    Y = np.linspace(0,21*10**(-7),obs_grid);
-    location = "far"; # near, far, (far_field_pattern)
-    #Y = Y + 4.38059442329516e-08;
-    Y = Y + 3e-2;
-    X = np.linspace(-10.5*10**(-7),10.5*10**(-7),obs_grid);
-
-    grid_sizes = [100, 300, 500, 1000];
-    
-    for protein_structure in ["demoleus2x2", "Retinin2x2"]: # "Retinin2x2" or "demoleus2x2"
-        for beta in [0, 90]:
-            for n in grid_sizes:
-                executeForward(x = X, y = Y, num_segments = 1, beta = beta, total_grid_points=n, protein_structure = protein_structure, deviceComputation = True, location = location)
+        location = 'far_field_pattern';
+        savename = f'{dir}/Results/forward/{savefolder}/{protein_structure}/{location}/absolute_field_beta_{int(beta)}_lambda_{int(lambd*10**9)}_num_segments_{int(num_segments)}_total_grid_points_{int(total_grid_points)}.mat'
+        savemat(savename, mdic)
 
 
-def getFarFieldPattern():
-    obs_grid = 200;
-    phi = np.linspace(0,np.pi,obs_grid);
-    r = 3e-2; # 3 cm
-    X = np.cos(phi)*r
-    Y = np.sin(phi)*r
-    location = "far_field_pattern"
-    grid_sizes = [100, 300, 500, 1000];
-    
-    for protein_structure in ["demoleus2x2", "Retinin2x2"]: # "Retinin2x2" or "demoleus2x2"
-        for beta in [0, 90]:
-            for n in grid_sizes:
-                executeForward(x = X, y = Y, num_segments = 1, beta = beta, total_grid_points=n, protein_structure = protein_structure, deviceComputation = True, location = location)
+        plt.figure()
+        for i in range(num_segments):
+            filename = f'{dir}/Data/segments/test_segment_{i+1}.txt'
+            data = np.loadtxt(filename)
+            plt.plot(data[:,0],data[:,1],'k.')
+        #plt.savefig('plots/test_points.png')
+
+        #plt.figure()
+        for i in range(num_segments):
+            filename = f'{dir}/Data/segments/ext_segment_{i+1}.txt'
+            data = np.loadtxt(filename)
+            plt.plot(data[:,0],data[:,1],'.')
+        #plt.savefig('plots/ext_points.png')
+
+        #plt.figure()
+        for i in range(num_segments):
+            filename = f'{dir}/Data/segments/int_segment_{i+1}.txt'
+            data = np.loadtxt(filename)
+            plt.plot(data[:,0],data[:,1],'.')
+        plt.savefig(f'{dir}/tmpplots/all_points.png')
+    else:
+        dir = "../../../../../../../work3/s194146/bioscatdata"
+        filename = f'{dir}/Results/forward/farFieldPattern.txt'
+        lambdas = np.linspace(250,750,2000)*1e-9;
+        betas = np.arange(0,100,10)
+        reflectance = np.zeros((len(lambdas),len(betas)))
+        for i, lambd in enumerate(lambdas):
+            for j, beta in enumerate(betas):
+                print(j+i*len(betas)+1,"/",len(lambdas)*len(betas),flush=True)
+                c_func.computeFarFieldPattern(phi_arr, n, protein_structure_encoded, num_segments,total_grid_points, ctypes.c_double(beta*math.pi/180), ctypes.c_double(lambd), int(deviceComputation), int(printOutput))
+                reflectance[i,j] = np.loadtxt(filename)
+                
+
+        os.remove(filename)
+        mdic = dict();
+        mdic['lambdas'] = lambdas
+        mdic['betas'] = betas
+        mdic['reflectance'] = reflectance
+
+        savename = f'{dir}/Results/forward/{savefolder}/{protein_structure}.mat'
+        savemat(savename, mdic)
+
+
+
+
+
+def segmentTest(num_segments = 1,beta=0,protein_structure='demoleus2x2'):
+    grid_size = 300
+    executeFarFieldPattern(num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True,savefolder='segment_test',printOutput=False)
+
+
+def comsolTest(beta=0,protein_structure='demoleus2x2',grid_size=1000,lambd=325):
+    executeFarFieldPattern(num_segments = 1, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True,savefolder='comsol_test',lambd=lambd,printOutput=False)
+
+def gridPointTest(beta=0,protein_structure='demoleus2x2',grid_size=1000,lambd=325):
+    executeFarFieldPattern(num_segments = 1, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True,savefolder='grid_point_test',lambd=lambd,printOutput=False)
+
+def dataTest(protein_structure='demoleus2x2',grid_size=1000):
+    executeFarFieldPattern(num_segments = 1, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True,savefolder='data_test',printOutput=False)
+
 
 if __name__ == "__main__":
     
-    obs_grid = 200;
-    phi = np.linspace(0,np.pi,obs_grid);
-    location = "far_field_pattern"
     
-    protein_structure = ["demoleus2x2", "Retinin2x2"] # "Retinin2x2" or "demoleus2x2"
+    #location = "far_field_pattern"
+    
+    #protein_structure = ["demoleus2x2", "Retinin2x2"] # "Retinin2x2" or "demoleus2x2"
 
-    executeFarFieldPattern(phi=phi, num_segments = 1, beta = 0, total_grid_points=300, protein_structure = protein_structure[0], deviceComputation = True)
+    #executeFarFieldPattern(phi=phi, num_segments = 1, beta = 0, total_grid_points=300, protein_structure = protein_structure[0], deviceComputation = True)
+    if len(sys.argv) > 1:
+        typeTest = int(sys.argv[1])
+        
+    else:
+        print("Please choose something")
+    if typeTest == 1:
+        num_segments = int(sys.argv[2])
+        beta = int(sys.argv[3])
+        protein_structure = sys.argv[4] # "Retinin2x2" or "demoleus2x2"
+        segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+    elif typeTest == 2:
+        beta = int(sys.argv[2])
+        protein_structure = sys.argv[3] # "Retinin2x2" or "demoleus2x2"
+        lambd = int(sys.argv[4])*1e-9
+        print("lambda = ",lambd)
+        comsolTest(beta=beta,protein_structure=protein_structure,lambd=lambd)
+    elif typeTest == 4:
+        beta = int(sys.argv[2])
+        protein_structure = sys.argv[3] # "Retinin2x2" or "demoleus2x2"
+        lambd = int(sys.argv[4])*1e-9
+        grid_size = int(sys.argv[5])
+        gridPointTest(beta=beta,protein_structure=protein_structure,lambd=lambd,grid_size=grid_size)
+    elif typeTest == 5:
+        protein_structure = sys.argv[2] # "Retinin2x2" or "demoleus2x2"
+        dataTest(protein_structure=protein_structure)
 
 
 

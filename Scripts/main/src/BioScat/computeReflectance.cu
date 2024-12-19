@@ -37,7 +37,7 @@ __global__ void computeReflectanceKernel(RealMatrix reflectance, Field E_inc, Fi
 
 void BioScat::computeReflectance() {
 
-    if (deviceComputation) {
+    /*if (deviceComputation) {
         int n = x_obs.rows;
         // Blocks and threads
         dim3 dimBlock(256);
@@ -57,7 +57,7 @@ void BioScat::computeReflectance() {
                                                 E_scat.z.getHostRealValue(i), E_scat.z.getHostImagValue(i));
             reflectance.setHostValue(i, numerator/denominator);
         }
-    }
+    }*/
 }
 
 

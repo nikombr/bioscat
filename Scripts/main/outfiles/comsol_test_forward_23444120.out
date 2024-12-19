@@ -1,0 +1,75 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+0
+int
+int
+30
+int
+int
+60
+int
+int
+90
+int
+int
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23444120: <comsol_forward_does_in_fact_not_run_comsol_its_just_in_the_name_no_worries> in cluster <dcc> Done
+
+Job <comsol_forward_does_in_fact_not_run_comsol_its_just_in_the_name_no_worries> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Sat Dec 14 20:52:54 2024
+Job was executed on host(s) <4*n-62-12-89>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Sat Dec 14 20:52:56 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Sat Dec 14 20:52:56 2024
+Terminated at Sat Dec 14 20:59:37 2024
+Results reported at Sat Dec 14 20:59:37 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J comsol_forward_does_in_fact_not_run_comsol_its_just_in_the_name_no_worries # name
+#BSUB -o outfiles/comsol_test_forward_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 4 ## cores
+#BSUB -R "rusage[mem=8GB]" 
+#BSUB -W 4:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+# "Retinin2x2" or "demoleus2x2"
+ANGLE="0 30 60 90"
+
+for angle in $ANGLE;
+do
+echo $angle
+python forward.py 2 $angle demoleus2x2 300
+
+python forward.py 2 $angle Retinin2x2 300
+
+done
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   668.00 sec.
+    Max Memory :                                 229 MB
+    Average Memory :                             184.60 MB
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               32539.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                9
+    Run time :                                   430 sec.
+    Turnaround time :                            403 sec.
+
+The output (if any) is above this job summary.
+

@@ -89,11 +89,11 @@ __global__ void combineImag(RealMatrix b, RealMatrix b_imag, int n_test) {
     }
 }
 
-void setupRightHandSide_GPU(RealMatrix b, int n_test, RealMatrix n_y, ComplexMatrix F1, ComplexMatrix F2) {
-    bool host = false;
-    bool device = true;
-    RealMatrix b_imag = RealMatrix(2 * n_test, host, device);
-    RealMatrix b_real = RealMatrix(2 * n_test, host, device);
+void setupRightHandSide_GPU(RealMatrix b, int n_test, RealMatrix n_y, ComplexMatrix F1, ComplexMatrix F2, RealMatrix b_real, RealMatrix b_imag) {
+    //bool host = false;
+    //bool device = true;
+    //RealMatrix b_imag = RealMatrix(2 * n_test, host, device);
+    //RealMatrix b_real = RealMatrix(2 * n_test, host, device);
     double val;
 
     // Blocks and threads
@@ -118,8 +118,8 @@ void setupRightHandSide_GPU(RealMatrix b, int n_test, RealMatrix n_y, ComplexMat
     // Synchronize threads
     cudaDeviceSynchronize();
 
-    b_real.free();
-    b_imag.free();
+    //b_real.free();
+    //b_imag.free();
 }
 
 
@@ -128,10 +128,10 @@ void Segment::setupRightHandSide() {
 
     if (deviceComputation) {
         if (polarisation == 1) {
-            setupRightHandSide_GPU(b, n_test, normal_vectors.y, E_inc.z, H_inc.x);
+            setupRightHandSide_GPU(b, n_test, normal_vectors.y, E_inc.z, H_inc.x, b_real, b_imag);
         }
         else if (polarisation == 2) {
-            setupRightHandSide_GPU(b, n_test, normal_vectors.y, H_inc.z, E_inc.x);
+            setupRightHandSide_GPU(b, n_test, normal_vectors.y, H_inc.z, E_inc.x, b_real, b_imag);
         }
         else {
             printf("You have to choose either 1 or 2 as the polarisation!\n");

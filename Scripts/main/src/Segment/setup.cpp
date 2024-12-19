@@ -6,12 +6,13 @@
 #include <math.h>
 #include "../../lib/Segment.h"
 #include "../../lib/utils/RealMatrix.h"
+#include "../../lib/Coordinates.h"
 extern "C" {
 using namespace std;
 
-void computeExteriorPointsAndNormalVectors(RealMatrix x_ext, RealMatrix y_ext, RealMatrix n_x, RealMatrix n_y, Nanostructure nanostructure, int start, int end, double alpha, double leftStep, double rightStep, int leftNum, int rightNum, int n_top, int n_right, int n_bottom, int n_left, double left_x_value, double right_x_value, bool deviceComputation, bool printOutput);
-void computeTestPoints(RealMatrix x_test, RealMatrix y_test, Nanostructure nanostructure, int start, int end, double leftStep, double rightStep,int n_top, int n_right, int n_bottom, int n_left, double left_x_value, double right_x_value, bool deviceComputation, bool printOutput);
-void computeInteriorPoints(RealMatrix x_int, RealMatrix y_int, RealMatrix x_test, RealMatrix y_test,double alpha, int n_top, int n_right, int n_bottom, int n_left, bool deviceComputation, bool printOutput);
+void computeExteriorPointsAndNormalVectors(Coordinates aux_ext, Coordinates normal_vectors, Coordinates aux_ext_temp, Nanostructure nanostructure, int start, int end, double alpha, double leftStep, double rightStep, int leftNum, int rightNum, int n_top, int n_right, int n_bottom, int n_left, double left_x_value, double right_x_value, int n_ext, bool deviceComputation, bool printOutput);
+void computeTestPoints(Coordinates test_points, Nanostructure nanostructure, int start, int end, double leftStep, double rightStep,int n_top, int n_right, int n_bottom, int n_left, double left_x_value, double right_x_value, bool deviceComputation, bool printOutput);
+void computeInteriorPoints(Coordinates aux_int,Coordinates test_points,double alpha, int n_top, int n_right, int n_bottom, int n_left, int n_int, bool deviceComputation, bool printOutput);
 
 void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_segments) {
     // Sets up test points and auxiliary points for the segment given a nanostructure
@@ -45,25 +46,27 @@ void Segment::setup(Nanostructure nanostructure, int total_grid_points, int num_
     //printf("alpha = %e",alpha);
     
     // Compute exterior points
-    computeExteriorPointsAndNormalVectors(aux_ext.x, aux_ext.y, normal_vectors.x, normal_vectors.y, nanostructure, start, end, alpha, leftStep, rightStep, leftNum, rightNum, n_top, n_right, n_bottom, n_left, left_x_value, right_x_value, deviceComputation, printOutput);
+    computeExteriorPointsAndNormalVectors(aux_ext, normal_vectors, aux_ext_temp, nanostructure, start, end, alpha, leftStep, rightStep, leftNum, rightNum, n_top, n_right, n_bottom, n_left, left_x_value, right_x_value, n_ext, deviceComputation, printOutput);
 
     // Compute test points and temporary test points for interior points
-    computeTestPoints(test_points.x, test_points.y, nanostructure, start,  end,  leftStep,  rightStep, n_top, n_right, n_bottom, n_left, left_x_value, right_x_value, deviceComputation, printOutput);
+    computeTestPoints(test_points, nanostructure, start,  end,  leftStep,  rightStep, n_top, n_right, n_bottom, n_left, left_x_value, right_x_value, deviceComputation, printOutput);
 
     // Compute interior points
-    computeInteriorPoints(aux_int.x, aux_int.y, test_points.x, test_points.y, alpha, n_top, n_right,  n_bottom,  n_left, deviceComputation, printOutput); 
+    computeInteriorPoints(aux_int, test_points, alpha, n_top, n_right,  n_bottom,  n_left, n_int, deviceComputation, printOutput); 
     
     
-    bool save_segment = true;
+    bool save_segment = false;
     if (save_segment) {
-        test_points.allocateHost();
+        /*test_points.allocateHost();
         aux_ext.allocateHost();
         aux_int.allocateHost();
-        normal_vectors.allocateHost();
-        test_points.toHost();
-        aux_ext.toHost();
-        aux_int.toHost();
-        normal_vectors.toHost();
+        normal_vectors.allocateHost();*/
+        if (deviceComputation) {
+            test_points.toHost();
+            aux_ext.toHost();
+            aux_int.toHost();
+            normal_vectors.toHost();
+        }
         FILE *file;
         char filename[256];
         char dir[256];

@@ -21,9 +21,11 @@ void BioScat::dumpFarFields() {
     }
 
     char filename[256];
+    char dir[256];
+    sprintf(dir,"../../../../../../../work3/s194146/bioscatdata");
 
     // Save scattered electric fields
-    sprintf(filename, "../../../Results/forward/farFieldPattern.txt");
+    sprintf(filename, "%s/Results/forward/farFieldPattern.txt", dir);
     F.dumpResult(filename);
 }
 }

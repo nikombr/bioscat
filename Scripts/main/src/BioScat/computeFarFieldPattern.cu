@@ -27,12 +27,16 @@ __global__ void combineFields(ComplexMatrix pol1, ComplexMatrix pol2, RealMatrix
         double Efar2sq = pol2.getDeviceRealValue(k) * pol2.getDeviceRealValue(k) + pol2.getDeviceImagValue(k) * pol2.getDeviceImagValue(k);
         double cosBeta = cos(beta);
         double sinBeta = sin(beta);
-        double val = cosBeta * cosBeta * Efar1sq + sinBeta * sinBeta * Efar1sq;
+        double val = cosBeta * cosBeta * Efar1sq + sinBeta * sinBeta * Efar2sq;
         field.setDeviceValue(k, sqrt(val));
     }
 }
 
 void BioScat::combineFarFieldPattern() {
+    combineFarFieldPattern(beta);
+}
+
+void BioScat::combineFarFieldPattern(double beta) {
 
     int n = phi_obs.rows;
 

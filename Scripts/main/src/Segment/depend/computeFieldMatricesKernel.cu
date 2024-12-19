@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
+#include <omp.h>
 #include "../../../lib/Segment.h"
 #include "../../../lib/utils/RealMatrix.h"
 extern "C" {
@@ -69,6 +70,40 @@ __global__ void computeFieldMatricesKernel(ComplexMatrix F1, ComplexMatrix F2, C
         // Compute the third field
         F3.setDeviceRealValue(r, c, - const2 * 1/abs_aux * H_imag * xdiff);
         F3.setDeviceImagValue(r, c,   const2 * 1/abs_aux * H_real * xdiff);
+    }
+}
+
+void computeFieldMatricesCPU(ComplexMatrix F1, ComplexMatrix F2, ComplexMatrix F3, RealMatrix x, RealMatrix x_aux, RealMatrix y, RealMatrix y_aux, double const1, double const2, int rows, int cols, double k) {
+    #pragma omp parallel for collapse(2) 
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            double abs_aux, xdiff, ydiff, H_real, H_imag;
+
+            // Get data
+            xdiff   = x.getHostValue(r) - x_aux.getHostValue(c);
+            ydiff   = y.getHostValue(r) - y_aux.getHostValue(c);
+            abs_aux = std::sqrt(xdiff * xdiff + ydiff * ydiff);
+
+            // Compute first Hankel functions
+            H_real = H02_real(k * abs_aux);
+            H_imag = H02_imag(k * abs_aux);
+
+            // Compute the first field
+            F1.setHostRealValue(r, c, const1 * H_real);
+            F1.setHostImagValue(r, c, const1 * H_imag);
+
+            // Compute second Hankel functions
+            H_real = H12_real(k * abs_aux);
+            H_imag = H12_imag(k * abs_aux);
+
+            // Compute the second field
+            F2.setHostRealValue(r, c,   const2 * 1/abs_aux * H_imag * ydiff);
+            F2.setHostImagValue(r, c, - const2 * 1/abs_aux * H_real * ydiff);
+
+            // Compute the third field
+            F3.setHostRealValue(r, c, - const2 * 1/abs_aux * H_imag * xdiff);
+            F3.setHostImagValue(r, c,   const2 * 1/abs_aux * H_real * xdiff);
+        }
     }
 }
 

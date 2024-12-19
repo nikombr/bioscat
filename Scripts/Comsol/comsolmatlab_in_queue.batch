@@ -1,0 +1,110 @@
+#!/bin/sh
+#
+# LSF_comsolmatlab.batch - batch script for LSF, to start a COMSOL server
+# with a LiveLink connection to a MATLAB process
+#
+# Adapt the settings below to your needs, and submit with
+#     bsub < LSF_comsolmatlab.batch
+#
+# written for the LSF installation at DTU Computing Center
+# Sep  9, 2015: original version
+# Jun 30, 2016: fixed the awk line to get the version right after 5.2a
+# Jan 17, 2018: ported from MOAB to LSF
+# Apr 28, 2022: changed to module load ...
+# Oct 18, 2024: changed to -batch when calling MATLAB
+#
+# Current limitations:  this works on one compute node, only!  No
+# multi-node (aka cluster) execution!
+#
+# Define the settings here - first the scheduler:
+#
+#BSUB -J comsolmatlab
+#BSUB -q hpc
+#BSUB -n 4
+#BSUB -R "span[hosts=1]"
+#BSUB -W  24:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -o outfiles/comsolmatlab_%J.out
+## add other BSUB lines above, if needed
+
+
+# define some job specific settings
+# 
+# load the module with the COMSOL version you want
+module load comsol/6.1
+
+# the MATLAB script to execute (without the .m!!!)
+# replace mscript with the name of your MATLAB script
+MLSCR=generateDataForInverse
+
+############################################
+### Don't monkey with the stuff below!!! ###
+############################################
+
+# generate a numerical JOBID, which we can use in Matlab
+JOBID=$LSB_JOBID
+export JOBID
+
+# use the default comsol version - unless overwritten by CSCMD
+CSCMD=${CSCMD:=comsol}
+
+# start delay (to prevent port clash) - random between 1 and 15 secs
+sleep $(( ( RANDOM % 15 )  + 1 ))
+
+# start comsol server process in the background
+$CSCMD server -np ${LSB_DJOB_NUMPROC} > .csport.$$ &
+
+# give it some time to settle - 30 seconds is a good guess
+CSSDELAY=30
+sleep ${CSSDELAY}
+
+# if the information is not there, yet, give it more time
+# wail till the file size is larger than zero
+until  [ -s .csport.$$ ] ; do sleep 2; done
+# and wait until the line with 'port' is there, too
+isthere=1
+until [ $isthere -eq 0 ]; do 
+    sleep 2 
+    grep -q port .csport.$$
+    isthere=$?
+done
+
+# get the port number from the server
+CSPORT=`awk '/port/ { print $NF };' .csport.$$`
+#echo "Comsol server proc is listening on $CSPORT"
+
+# get the Comsol version from the server 
+CSVER=`awk '/COMSOL/ { sub(".Build.*",""); print $NF; };' .csport.$$`
+#echo "Comsol is version $CSVER"
+
+# get the correct Matlab version, configured for this Comsol version
+# a) try the comsol.prefs file
+#
+MLPATH=`awk -F = '/livelinks.matlab.matlabpath/ { print $2 };' /appl/comsol/$CSVER/comsol.prefs`
+# b) check MLROOT in the comsol script
+#
+if [ "x$MLPATH" == "x" ]; then
+    MLPATH=`awk -F ":=" ' /MLROOT:=/ { print $2; }' /appl/comsol/$CSVER/bin/comsol | sed 's/\}//'`
+fi
+
+# call Matlab with the right settings/args
+$MLPATH/bin/matlab -batch "addpath /appl/comsol/$CSVER/mli /appl/comsol/$CSVER/mli/startup; mphstart($CSPORT); $MLSCR"
+
+# save the exit status of the Matlab process
+MLSTAT=$?
+
+# clean up
+
+# wait for the server to shut down
+sleep 5
+
+# uncomment the next line if you are interested in the output from the
+# Comsol server process
+#cat .csport.$$
+
+# remove the server log file
+/bin/rm -f .csport.$$
+
+# return the exit status of the Matlab process
+exit $MLSTAT
+

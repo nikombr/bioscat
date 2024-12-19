@@ -14,12 +14,17 @@ class Segment {
     public:
         Coordinates aux_int; // Interior auxilliary points
         Coordinates aux_ext; // Exterior auxilliary points
+        Coordinates aux_ext_temp; 
         Coordinates test_points; // Test points
         Coordinates normal_vectors; // Normal vectors of test points
         ComplexMatrix C; // Partial solution of the linear system
         ComplexMatrix D; // Partial solution of the linear system
         RealMatrix A; // Linear system matrix in Ax = b
+        RealMatrix A_real;
+        RealMatrix A_imag;
         RealMatrix b; // Linear system vector in Ax = b
+        RealMatrix b_real;
+        RealMatrix b_imag;
         ComplexMatrix F; // Far field pattern
         Field E_scat_matrix;
         Field H_scat_matrix;
@@ -43,6 +48,7 @@ class Segment {
         double * A_T_d, *x_d;
 
         Segment();                                                                        // Constructor
+        Segment(int n_obs, int n_int, int n_ext, int n_test, int n_top, int n_right, int n_bottom, int n_left, int segment_length, bool deviceComputation);
         void allocate();                                                                  // Allocation of matrices
         void free();                                                                      // Free segment and everything allocated
         void setup(Nanostructure nanostructure, int total_grid_points, int num_segments); // Setup segment

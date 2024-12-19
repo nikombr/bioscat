@@ -17,9 +17,9 @@ double GaussianProcess::compute_prior(double * f_d) {
     double val = 0;
 
     // cuBLAS handle creation
-    cublasHandle_t handle;
-    cublasStatus_t status;
-    status = cublasCreate(&handle);
+    //cublasHandle_t handle;
+    //cublasStatus_t status;
+    //status = cublasCreate(&handle);
 
     double * x_d;
     cudaMalloc((void**) &x_d, n * sizeof(double));
@@ -41,6 +41,6 @@ double GaussianProcess::compute_prior(double * f_d) {
     printf("hmm %f\n",n/2*log(2*M_PI));
     double prior = -0.5*val - 0.5*logDeterminant - 0.5*n*log(2*M_PI);
     printf("prior = %f\n",prior);*/
-    return -val;
+    return - 0.5 * val - 0.5 * logDeterminant - 0.5 * n * log(2*M_PI);
 }
 }

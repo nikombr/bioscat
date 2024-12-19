@@ -10,12 +10,14 @@
 #include "../../lib/Segment.h"
 #include "../../lib/utils/RealMatrix.h"
 #include "../../lib/combinePolarisation.h"
+#include <vector>
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 extern "C" {
 using namespace std;
 
 void BioScat::allocateSegments() {
+    printf("Please remove this function!\n");
     int sideSteps      = 0.75*total_grid_points;
     int segment_length = total_grid_points / num_segments;
     int n_top          = segment_length - 2;
@@ -27,20 +29,9 @@ void BioScat::allocateSegments() {
     int n_test         = n_top + n_bottom + n_right + n_left;
     int n = std::max(n_obs, n_test);
     if (printOutput) printf("n_test:  \t%d\nn_top:  \t%d\nn_right:  \t%d\nn_bottom:\t%d\nn_left:  \t%d\nn_int:  \t%d\nn_ext:  \t%d\nn_obs:  \t%d\nn:      \t%d\n", n_test, n_top, n_right, n_bottom, n_left, n_int, n_ext, n_obs, n);
-    this->segments = new Segment[num_segments];
+    this->segments.reserve(num_segments);
     for (int i = 0; i < num_segments; i++) {
-        segments[i].n_obs    = n_obs;
-        segments[i].n_int    = n_int;
-        segments[i].n_ext    = n_ext;
-        segments[i].n_test   = n_test;
-        segments[i].n_top    = n_top;
-        segments[i].n_right  = n_right;
-        segments[i].n_bottom = n_bottom;
-        segments[i].n_left   = n_left;
-        segments[i].segment_length = segment_length;
-        segments[i].deviceComputation = deviceComputation;
-        segments[i].allocate();
-        
+        segments.emplace_back(n_obs, n_int, n_ext, n_test, n_top, n_right, n_bottom, n_left, segment_length, deviceComputation);;
     }
 }
 

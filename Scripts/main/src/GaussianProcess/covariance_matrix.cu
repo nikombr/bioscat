@@ -28,11 +28,12 @@ __device__ __host__ double squared_exponential(double* a, double* b, int dim,  d
 
 }
 
-__device__ __host__ double matern(double* a, double* b, int dim,  double* hyper) {
-    double p = hyper[0];
+__device__ __host__ double matern(double* a, double* b, int dim, double* hyper) {
+    double tau = hyper[0];
     double ell = hyper[1];
-    double nu = p + 1/2;
-    double d = 0;
+    double p   = hyper[2];
+    double nu  = p + 1/2;
+    double d   = 0;
     for (int i = 0; i < dim; i++) {
         d += (a[i]-b[i]) * (a[i]-b[i]);
     }
@@ -46,7 +47,7 @@ __device__ __host__ double matern(double* a, double* b, int dim,  double* hyper)
         sum += facfrac*pow(d*sqrt(8*nu)/ell,p-i);
     }   
 
-    return exp(-d*sqrt(2*nu)/ell)*factorial(p)/factorial(2*p)*sum;
+    return tau*tau*exp(-d*sqrt(2*nu)/ell)*factorial(p)/factorial(2*p)*sum;
 
 }
 

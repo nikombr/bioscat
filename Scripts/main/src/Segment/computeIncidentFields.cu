@@ -27,7 +27,7 @@ void Segment::computeIncidentFields(RealMatrix y) {
     
     int rows = y.rows;
 
-    if (true) {
+    if (deviceComputation) {
         // Blocks and threads
         dim3 dimBlock(256);
         dim3 dimGrid((rows + dimBlock.x - 1)/dimBlock.x);

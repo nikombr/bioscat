@@ -14,6 +14,14 @@
 extern "C" {
 using namespace std;
 
+#define cudaCheckError() {                                          \
+    cudaError_t e = cudaGetLastError();                             \
+    if (e != cudaSuccess) {                                         \
+        printf("CUDA error %s:%d: %s\n", __FILE__, __LINE__, cudaGetErrorString(e)); \
+        exit(EXIT_FAILURE);                                         \
+    }                                                               \
+}
+
 // LAPACK routine for solving linear system
 void dgels_(const char * trans, const int * m, const int * n, const int * nrhs, double * A, const int * lda, double * B,  const int * ldb, double * work, int * lwork,int * info);
 
@@ -41,12 +49,20 @@ void solveLinearSystem_CPU(RealMatrix A, RealMatrix b, ComplexMatrix C, ComplexM
     lda = m;
     ldb = std::max(m, n);
     lwork = -1;
-
+  
     dgels_(&trans, &m, &n, &nrhs, A.getHostPointer(), &lda, b.getHostPointer(), &ldb, &work_query, &lwork, &info);
+
+    if (info != 0) {
+        printf("An error occurred when computing work size: %d\n", info);
+    }
     
     lwork = (int)work_query;
+  
     work = (double*)malloc(lwork * sizeof(double));
-
+    if (work == NULL) {
+        printf("Work allocation failed!\n");
+    }
+    
     dgels_(&trans, &m, &n, &nrhs, A.getHostPointer(), &lda, b.getHostPointer(), &ldb, work, &lwork, &info);
     if (info != 0) {
         printf("An error occurred in solving: %d\n", info);
@@ -142,6 +158,7 @@ void solveLinearSystem_GPU(RealMatrix A, RealMatrix b, ComplexMatrix C, ComplexM
 
     double end = omp_get_wtime();
     //printf("Linear solve part: %f\n",(end_inner-start_inner)/(end-start));
+    cudaCheckError()
 
 
 }

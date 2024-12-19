@@ -1,0 +1,22 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+2
+angle_resolved
+squaredExponentialParameterTest/demoleus2x2_tau_0.7_ell_0.10_delta_0.005_gamma_1e5
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0309 seconds
+
+log(det) =-4.280099e+02 
+Computing covariance matrix: 0.0003 seconds
+
+Computing inverse of covariance matrix: 0.0441 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0056 seconds
+
+Gaussian Process freed!

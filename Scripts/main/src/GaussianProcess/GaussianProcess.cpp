@@ -19,7 +19,7 @@ GaussianProcess::GaussianProcess(int n, double* hyper, int num, int type_covfunc
     double * y = NULL; // 2D problem
     double * x; 
     cudaMallocHost((void **) &x, n*sizeof(double));
-    double step = 10 / ((double) n - 1);
+    double step = 2 / ((double) n - 1);
     for (int i = 0; i < n; i++) {
         x[i] = i * step;
     }
@@ -33,7 +33,7 @@ GaussianProcess::GaussianProcess(int n, double* hyper, int num, int type_covfunc
     this->y_h       = y;
     this->n         = n;
     this->hyper_h   = hyper;
-    this->num       = num;
+    this->num_hyper = num;
     this->dim       = dim;
     this->type_covfunc = type_covfunc;
 
@@ -93,7 +93,7 @@ GaussianProcess::GaussianProcess(int n, double* hyper, int num, int type_covfunc
         cudaMalloc((void **) &x_d,     n*sizeof(double));
         if (y_h != NULL) cudaMalloc((void **) &y_d,     n*sizeof(double));
         cudaMalloc((void **) &p_d,     n*sizeof(double));
-        cudaMalloc((void **) &hyper_d,     num*sizeof(double));
+        cudaMalloc((void **) &hyper_d,     num_hyper*sizeof(double));
 
         // Check allocation
         if (x_d == NULL || !(y_h == NULL || (y_h != NULL && y_d != NULL)) || p_d == NULL) {
@@ -105,7 +105,14 @@ GaussianProcess::GaussianProcess(int n, double* hyper, int num, int type_covfunc
         cudaMemcpy(x_d, x_h, n * sizeof(double), cudaMemcpyHostToDevice);
         if (y_h != NULL) cudaMemcpy(y_d, y_h, n * sizeof(double), cudaMemcpyHostToDevice);
         cudaMemcpy(M_log, *M_h, n * n * sizeof(double), cudaMemcpyHostToDevice);
-        cudaMemcpy(hyper_d, hyper_h, num * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(hyper_d, hyper_h, num_hyper * sizeof(double), cudaMemcpyHostToDevice);
+
+        status = cublasCreate(&handle);
+
+        if (status != CUBLAS_STATUS_SUCCESS) {
+            printf("cuBLAS initialization failed %d\n",status);
+            return;
+        }
         
     }
 
@@ -123,7 +130,7 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
     this->y_h       = y;
     this->n         = n;
     this->hyper_h   = hyper;
-    this->num       = num;
+    this->num_hyper = num;
     this->dim       = dim;
     this->type_covfunc = type_covfunc;
 
@@ -174,7 +181,7 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
         cudaMalloc((void **) &x_d,     n*sizeof(double));
         if (y_h != NULL) cudaMalloc((void **) &y_d,     n*sizeof(double));
         cudaMalloc((void **) &p_d,     n*sizeof(double));
-        cudaMalloc((void **) &hyper_d,     num*sizeof(double));
+        cudaMalloc((void **) &hyper_d,     num_hyper*sizeof(double));
 
         // Check allocation
         if (x_d == NULL || !(y_h == NULL || (y_h != NULL && y_d != NULL)) || p_d == NULL) {
@@ -186,7 +193,14 @@ GaussianProcess::GaussianProcess(double* x, double* y, int n, double* hyper, int
         cudaMemcpy(x_d, x_h, n * sizeof(double), cudaMemcpyHostToDevice);
         if (y_h != NULL) cudaMemcpy(y_d, y_h, n * sizeof(double), cudaMemcpyHostToDevice);
         cudaMemcpy(M_log, *M_h, n * n * sizeof(double), cudaMemcpyHostToDevice);
-        cudaMemcpy(hyper_d, hyper_h, num * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(hyper_d, hyper_h, num_hyper * sizeof(double), cudaMemcpyHostToDevice);
+
+        status = cublasCreate(&handle);
+
+        if (status != CUBLAS_STATUS_SUCCESS) {
+            printf("cuBLAS initialization failed %d\n",status);
+            return;
+        }
         
     }
 
@@ -231,6 +245,13 @@ void GaussianProcess::free() {
         err = cudaFree(p_d);
         if (err != cudaSuccess) {
             std::cerr << "Failed to free memory on device: " << cudaGetErrorString(err) << std::endl;
+        }
+
+        // Destroy cuBLAS handle
+        status = cublasDestroy(handle);
+        if (status != CUBLAS_STATUS_SUCCESS) {
+            printf("CUBLAS destruction failed\n");
+            return;
         }
     }
 

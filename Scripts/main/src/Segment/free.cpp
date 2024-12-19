@@ -19,7 +19,11 @@ void Segment::free() {
     C.free();
     D.free();
     A.free();
+    A_real.free();
+    A_imag.free();
     b.free();
+    b_real.free();
+    b_imag.free();
     F.free();
     E_scat_matrix.free();
     H_scat_matrix.free();

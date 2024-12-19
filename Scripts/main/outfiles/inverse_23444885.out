@@ -1,0 +1,65 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+  File "/zhome/00/b/147112/bioscat/Scripts/main/inverse.py", line 25
+    filename = f"{protein_structure}/{covfunc}/{spec}_delta_{delta}_gamma_{gamma:.0e}".replace("+0", ""):
+                                                                                                        ^
+SyntaxError: invalid syntax
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23444885: <inverse> in cluster <dcc> Exited
+
+Job <inverse> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Sun Dec 15 13:24:09 2024
+Job was executed on host(s) <8*n-62-12-89>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Sun Dec 15 13:24:10 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Sun Dec 15 13:24:10 2024
+Terminated at Sun Dec 15 13:24:12 2024
+Results reported at Sun Dec 15 13:24:12 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J inverse # name
+#BSUB -o outfiles/inverse_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 8 ## cores
+#BSUB -R "rusage[mem=1GB]" 
+#BSUB -W 4:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+
+ELL="0.04 0.07 0.1";
+TAU="0.5 0.7 0.9";
+P="1 2 3";
+
+tau=0.7
+ell=0.7
+p=2
+
+OMP_NUM_THREADS=64 python inverse.py 1 demoleus2x2 angle_resolved $p $tau $ell
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   0.66 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     8192.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   15 sec.
+    Turnaround time :                            3 sec.
+
+The output (if any) is above this job summary.
+

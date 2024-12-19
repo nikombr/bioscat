@@ -1,0 +1,1114 @@
+Loaded module: comsol/6.1
+
+MATLAB is now connected to a COMSOL Multiphysics Server at localhost:2037
+
+Run the commands below to access the COMSOL ModelUtil commands:
+import com.comsol.model.util.*
+
+fine_part =
+
+     1
+
+
+protein_structure =
+
+    'Retinin2x2'
+
+	0/1010Elapsed time is 64.778208 seconds.
+	1/1010Elapsed time is 37.672948 seconds.
+	2/1010Elapsed time is 37.851298 seconds.
+	3/1010Elapsed time is 37.290055 seconds.
+	4/1010Elapsed time is 36.670922 seconds.
+	5/1010Elapsed time is 36.809899 seconds.
+	6/1010Elapsed time is 37.108735 seconds.
+	7/1010Elapsed time is 36.458067 seconds.
+	8/1010Elapsed time is 36.515132 seconds.
+	9/1010Elapsed time is 37.047443 seconds.
+	10/1010Elapsed time is 58.957716 seconds.
+	11/1010Elapsed time is 35.516055 seconds.
+	12/1010Elapsed time is 35.106868 seconds.
+	13/1010Elapsed time is 34.844959 seconds.
+	14/1010Elapsed time is 35.430743 seconds.
+	15/1010Elapsed time is 34.870916 seconds.
+	16/1010Elapsed time is 35.184855 seconds.
+	17/1010Elapsed time is 34.744402 seconds.
+	18/1010Elapsed time is 42.204419 seconds.
+	19/1010Elapsed time is 44.526961 seconds.
+	20/1010Elapsed time is 68.740590 seconds.
+	21/1010Elapsed time is 44.689028 seconds.
+	22/1010Elapsed time is 45.186073 seconds.
+	23/1010Elapsed time is 45.497267 seconds.
+	24/1010Elapsed time is 44.369999 seconds.
+	25/1010Elapsed time is 44.920734 seconds.
+	26/1010Elapsed time is 44.204496 seconds.
+	27/1010Elapsed time is 43.307468 seconds.
+	28/1010Elapsed time is 41.498801 seconds.
+	29/1010Elapsed time is 37.218962 seconds.
+	30/1010Elapsed time is 52.565609 seconds.
+	31/1010Elapsed time is 32.155531 seconds.
+	32/1010Elapsed time is 32.196650 seconds.
+	33/1010Elapsed time is 31.634555 seconds.
+	34/1010Elapsed time is 31.757119 seconds.
+	35/1010Elapsed time is 31.939358 seconds.
+	36/1010Elapsed time is 32.021616 seconds.
+	37/1010Elapsed time is 31.939028 seconds.
+	38/1010Elapsed time is 32.447947 seconds.
+	39/1010Elapsed time is 31.799731 seconds.
+	40/1010Elapsed time is 50.607737 seconds.
+	41/1010Elapsed time is 30.413001 seconds.
+	42/1010Elapsed time is 30.230953 seconds.
+	43/1010Elapsed time is 30.111474 seconds.
+	44/1010Elapsed time is 29.890120 seconds.
+	45/1010Elapsed time is 29.764506 seconds.
+	46/1010Elapsed time is 36.555740 seconds.
+	47/1010Elapsed time is 40.574183 seconds.
+	48/1010Elapsed time is 40.322163 seconds.
+	49/1010Elapsed time is 40.794409 seconds.
+	50/1010Elapsed time is 58.690702 seconds.
+	51/1010Elapsed time is 37.100888 seconds.
+	52/1010Elapsed time is 34.169008 seconds.
+	53/1010Elapsed time is 30.219395 seconds.
+	54/1010Elapsed time is 30.150090 seconds.
+	55/1010Elapsed time is 30.513106 seconds.
+	56/1010Elapsed time is 30.677499 seconds.
+	57/1010Elapsed time is 30.793452 seconds.
+	58/1010Elapsed time is 29.835315 seconds.
+	59/1010Elapsed time is 29.858677 seconds.
+	60/1010Elapsed time is 46.688418 seconds.
+	61/1010Elapsed time is 28.377903 seconds.
+	62/1010Elapsed time is 28.462608 seconds.
+	63/1010Elapsed time is 29.151733 seconds.
+	64/1010Elapsed time is 28.817944 seconds.
+	65/1010Elapsed time is 28.870824 seconds.
+	66/1010Elapsed time is 29.217827 seconds.
+	67/1010Elapsed time is 29.315377 seconds.
+	68/1010Elapsed time is 28.525460 seconds.
+	69/1010Elapsed time is 28.556829 seconds.
+	70/1010Elapsed time is 45.241219 seconds.
+	71/1010Elapsed time is 27.284229 seconds.
+	72/1010Elapsed time is 27.069102 seconds.
+	73/1010Elapsed time is 27.571449 seconds.
+	74/1010Elapsed time is 27.573096 seconds.
+	75/1010Elapsed time is 27.213110 seconds.
+	76/1010Elapsed time is 27.081993 seconds.
+	77/1010Elapsed time is 32.421751 seconds.
+	78/1010Elapsed time is 34.992785 seconds.
+	79/1010Elapsed time is 33.418508 seconds.
+	80/1010Elapsed time is 46.216214 seconds.
+	81/1010Elapsed time is 25.937228 seconds.
+	82/1010Elapsed time is 25.641535 seconds.
+	83/1010Elapsed time is 25.668738 seconds.
+	84/1010Elapsed time is 25.623221 seconds.
+	85/1010Elapsed time is 25.774234 seconds.
+	86/1010Elapsed time is 25.910861 seconds.
+	87/1010Elapsed time is 25.934233 seconds.
+	88/1010Elapsed time is 25.742368 seconds.
+	89/1010Elapsed time is 26.415115 seconds.
+	90/1010Elapsed time is 40.763479 seconds.
+	91/1010Elapsed time is 25.618750 seconds.
+	92/1010Elapsed time is 25.283293 seconds.
+	93/1010Elapsed time is 24.984567 seconds.
+	94/1010Elapsed time is 25.199226 seconds.
+	95/1010Elapsed time is 25.887605 seconds.
+	96/1010Elapsed time is 25.309035 seconds.
+	97/1010Elapsed time is 25.862911 seconds.
+	98/1010Elapsed time is 25.697075 seconds.
+	99/1010Elapsed time is 25.406303 seconds.
+	100/1010Elapsed time is 39.975013 seconds.
+	101/1010Elapsed time is 24.745308 seconds.
+	102/1010Elapsed time is 24.675108 seconds.
+	103/1010Elapsed time is 24.623436 seconds.
+	104/1010Elapsed time is 24.481062 seconds.
+	105/1010Elapsed time is 24.871474 seconds.
+	106/1010Elapsed time is 24.487184 seconds.
+	107/1010Elapsed time is 24.708210 seconds.
+	108/1010Elapsed time is 24.361353 seconds.
+	109/1010Elapsed time is 24.729107 seconds.
+	110/1010Elapsed time is 38.599669 seconds.
+	111/1010Elapsed time is 29.426956 seconds.
+	112/1010Elapsed time is 32.409107 seconds.
+	113/1010Elapsed time is 32.465414 seconds.
+	114/1010Elapsed time is 32.017643 seconds.
+	115/1010Elapsed time is 31.774716 seconds.
+	116/1010Elapsed time is 32.015242 seconds.
+	117/1010Elapsed time is 31.691732 seconds.
+	118/1010Elapsed time is 32.013933 seconds.
+	119/1010Elapsed time is 32.927524 seconds.
+	120/1010Elapsed time is 45.605027 seconds.
+	121/1010Elapsed time is 31.292026 seconds.
+	122/1010Elapsed time is 31.526483 seconds.
+	123/1010Elapsed time is 31.139973 seconds.
+	124/1010Elapsed time is 31.830378 seconds.
+	125/1010Elapsed time is 31.936968 seconds.
+	126/1010Elapsed time is 31.862786 seconds.
+	127/1010Elapsed time is 32.076328 seconds.
+	128/1010Elapsed time is 31.394850 seconds.
+	129/1010Elapsed time is 32.002219 seconds.
+	130/1010Elapsed time is 43.883431 seconds.
+	131/1010Elapsed time is 30.882294 seconds.
+	132/1010Elapsed time is 30.848901 seconds.
+	133/1010Elapsed time is 30.337747 seconds.
+	134/1010Elapsed time is 30.529525 seconds.
+	135/1010Elapsed time is 30.270708 seconds.
+	136/1010Elapsed time is 30.459283 seconds.
+	137/1010Elapsed time is 30.164775 seconds.
+	138/1010Elapsed time is 30.267624 seconds.
+	139/1010Elapsed time is 30.479329 seconds.
+	140/1010Elapsed time is 43.206505 seconds.
+	141/1010Elapsed time is 29.410225 seconds.
+	142/1010Elapsed time is 29.297739 seconds.
+	143/1010Elapsed time is 29.620981 seconds.
+	144/1010Elapsed time is 30.285522 seconds.
+	145/1010Elapsed time is 29.210458 seconds.
+	146/1010Elapsed time is 29.538358 seconds.
+	147/1010Elapsed time is 29.617166 seconds.
+	148/1010Elapsed time is 29.415902 seconds.
+	149/1010Elapsed time is 29.768840 seconds.
+	150/1010Elapsed time is 41.446453 seconds.
+	151/1010Elapsed time is 28.893568 seconds.
+	152/1010Elapsed time is 28.901764 seconds.
+	153/1010Elapsed time is 28.889535 seconds.
+	154/1010Elapsed time is 29.345285 seconds.
+	155/1010Elapsed time is 28.753671 seconds.
+	156/1010Elapsed time is 28.808282 seconds.
+	157/1010Elapsed time is 28.564825 seconds.
+	158/1010Elapsed time is 28.437699 seconds.
+	159/1010Elapsed time is 28.664090 seconds.
+	160/1010Elapsed time is 40.720889 seconds.
+	161/1010Elapsed time is 28.327163 seconds.
+	162/1010Elapsed time is 27.993918 seconds.
+	163/1010Elapsed time is 28.111377 seconds.
+	164/1010Elapsed time is 28.674182 seconds.
+	165/1010Elapsed time is 28.418745 seconds.
+	166/1010Elapsed time is 28.427841 seconds.
+	167/1010Elapsed time is 28.125516 seconds.
+	168/1010Elapsed time is 27.874566 seconds.
+	169/1010Elapsed time is 27.872760 seconds.
+	170/1010Elapsed time is 38.296591 seconds.
+	171/1010Elapsed time is 26.624956 seconds.
+	172/1010Elapsed time is 26.944644 seconds.
+	173/1010Elapsed time is 27.264420 seconds.
+	174/1010Elapsed time is 27.503697 seconds.
+	175/1010Elapsed time is 26.903255 seconds.
+	176/1010Elapsed time is 26.936888 seconds.
+	177/1010Elapsed time is 27.467205 seconds.
+	178/1010Elapsed time is 26.933364 seconds.
+	179/1010Elapsed time is 27.297355 seconds.
+	180/1010Elapsed time is 36.345879 seconds.
+	181/1010Elapsed time is 24.031597 seconds.
+	182/1010Elapsed time is 24.052757 seconds.
+	183/1010Elapsed time is 21.518889 seconds.
+	184/1010Elapsed time is 19.111365 seconds.
+	185/1010Elapsed time is 19.160193 seconds.
+	186/1010Elapsed time is 19.040551 seconds.
+	187/1010Elapsed time is 19.244739 seconds.
+	188/1010Elapsed time is 18.994908 seconds.
+	189/1010Elapsed time is 18.932179 seconds.
+	190/1010Elapsed time is 29.204302 seconds.
+	191/1010Elapsed time is 18.672133 seconds.
+	192/1010Elapsed time is 18.653239 seconds.
+	193/1010Elapsed time is 18.680878 seconds.
+	194/1010Elapsed time is 18.494372 seconds.
+	195/1010Elapsed time is 18.501870 seconds.
+	196/1010Elapsed time is 18.624924 seconds.
+	197/1010Elapsed time is 18.382649 seconds.
+	198/1010Elapsed time is 18.332297 seconds.
+	199/1010Elapsed time is 18.614518 seconds.
+	200/1010Elapsed time is 27.714173 seconds.
+	201/1010Elapsed time is 17.946840 seconds.
+	202/1010Elapsed time is 17.806946 seconds.
+	203/1010Elapsed time is 17.878405 seconds.
+	204/1010Elapsed time is 17.842564 seconds.
+	205/1010Elapsed time is 17.887012 seconds.
+	206/1010Elapsed time is 17.924445 seconds.
+	207/1010Elapsed time is 17.871680 seconds.
+	208/1010Elapsed time is 17.874125 seconds.
+	209/1010Elapsed time is 17.875678 seconds.
+	210/1010Elapsed time is 27.060191 seconds.
+	211/1010Elapsed time is 17.324217 seconds.
+	212/1010Elapsed time is 17.598579 seconds.
+	213/1010Elapsed time is 17.602500 seconds.
+	214/1010Elapsed time is 17.551610 seconds.
+	215/1010Elapsed time is 17.676243 seconds.
+	216/1010Elapsed time is 17.544315 seconds.
+	217/1010Elapsed time is 17.395540 seconds.
+	218/1010Elapsed time is 17.449565 seconds.
+	219/1010Elapsed time is 17.557335 seconds.
+	220/1010Elapsed time is 26.607162 seconds.
+	221/1010Elapsed time is 17.274340 seconds.
+	222/1010Elapsed time is 17.488961 seconds.
+	223/1010Elapsed time is 17.432445 seconds.
+	224/1010Elapsed time is 17.189159 seconds.
+	225/1010Elapsed time is 17.259069 seconds.
+	226/1010Elapsed time is 17.190866 seconds.
+	227/1010Elapsed time is 17.315029 seconds.
+	228/1010Elapsed time is 17.355359 seconds.
+	229/1010Elapsed time is 17.303967 seconds.
+	230/1010Elapsed time is 25.763013 seconds.
+	231/1010Elapsed time is 16.742372 seconds.
+	232/1010Elapsed time is 16.659012 seconds.
+	233/1010Elapsed time is 20.770153 seconds.
+	234/1010Elapsed time is 23.632909 seconds.
+	235/1010Elapsed time is 23.196605 seconds.
+	236/1010Elapsed time is 23.029606 seconds.
+	237/1010Elapsed time is 23.215493 seconds.
+	238/1010Elapsed time is 23.377644 seconds.
+	239/1010Elapsed time is 23.272501 seconds.
+	240/1010Elapsed time is 31.302745 seconds.
+	241/1010Elapsed time is 22.099143 seconds.
+	242/1010Elapsed time is 22.455200 seconds.
+	243/1010Elapsed time is 22.206478 seconds.
+	244/1010Elapsed time is 22.592898 seconds.
+	245/1010Elapsed time is 22.147553 seconds.
+	246/1010Elapsed time is 21.826207 seconds.
+	247/1010Elapsed time is 22.329415 seconds.
+	248/1010Elapsed time is 22.017414 seconds.
+	249/1010Elapsed time is 22.308691 seconds.
+	250/1010Elapsed time is 30.472821 seconds.
+	251/1010Elapsed time is 20.769064 seconds.
+	252/1010Elapsed time is 21.872867 seconds.
+	253/1010Elapsed time is 20.896168 seconds.
+	254/1010Elapsed time is 21.890807 seconds.
+	255/1010Elapsed time is 21.872911 seconds.
+	256/1010Elapsed time is 21.836303 seconds.
+	257/1010Elapsed time is 20.912216 seconds.
+	258/1010Elapsed time is 21.876258 seconds.
+	259/1010Elapsed time is 21.882590 seconds.
+	260/1010Elapsed time is 30.870979 seconds.
+	261/1010Elapsed time is 22.232968 seconds.
+	262/1010Elapsed time is 21.984442 seconds.
+	263/1010Elapsed time is 21.930265 seconds.
+	264/1010Elapsed time is 22.178476 seconds.
+	265/1010Elapsed time is 21.906569 seconds.
+	266/1010Elapsed time is 22.548298 seconds.
+	267/1010Elapsed time is 21.928512 seconds.
+	268/1010Elapsed time is 21.976159 seconds.
+	269/1010Elapsed time is 21.638252 seconds.
+	270/1010Elapsed time is 29.152710 seconds.
+	271/1010Elapsed time is 21.798241 seconds.
+	272/1010Elapsed time is 21.159163 seconds.
+	273/1010Elapsed time is 21.118007 seconds.
+	274/1010Elapsed time is 21.342993 seconds.
+	275/1010Elapsed time is 21.116860 seconds.
+	276/1010Elapsed time is 21.055732 seconds.
+	277/1010Elapsed time is 21.112649 seconds.
+	278/1010Elapsed time is 20.997991 seconds.
+	279/1010Elapsed time is 21.144591 seconds.
+	280/1010Elapsed time is 28.297030 seconds.
+	281/1010Elapsed time is 20.029566 seconds.
+	282/1010Elapsed time is 20.273107 seconds.
+	283/1010Elapsed time is 20.549027 seconds.
+	284/1010Elapsed time is 20.346906 seconds.
+	285/1010Elapsed time is 19.996889 seconds.
+	286/1010Elapsed time is 20.137389 seconds.
+	287/1010Elapsed time is 20.158712 seconds.
+	288/1010Elapsed time is 20.207375 seconds.
+	289/1010Elapsed time is 20.523935 seconds.
+	290/1010Elapsed time is 27.647892 seconds.
+	291/1010Elapsed time is 19.989044 seconds.
+	292/1010Elapsed time is 19.768489 seconds.
+	293/1010Elapsed time is 20.051135 seconds.
+	294/1010Elapsed time is 19.845346 seconds.
+	295/1010Elapsed time is 19.964921 seconds.
+	296/1010Elapsed time is 20.159414 seconds.
+	297/1010Elapsed time is 20.058761 seconds.
+	298/1010Elapsed time is 20.048964 seconds.
+	299/1010Elapsed time is 19.732292 seconds.
+	300/1010Elapsed time is 27.014422 seconds.
+	301/1010Elapsed time is 19.620442 seconds.
+	302/1010Elapsed time is 19.714080 seconds.
+	303/1010Elapsed time is 19.637454 seconds.
+	304/1010Elapsed time is 19.765883 seconds.
+	305/1010Elapsed time is 19.321961 seconds.
+	306/1010Elapsed time is 19.531559 seconds.
+	307/1010Elapsed time is 19.491850 seconds.
+	308/1010Elapsed time is 19.596753 seconds.
+	309/1010Elapsed time is 19.360752 seconds.
+	310/1010Elapsed time is 26.147458 seconds.
+	311/1010Elapsed time is 18.726378 seconds.
+	312/1010Elapsed time is 18.480495 seconds.
+	313/1010Elapsed time is 18.768785 seconds.
+	314/1010Elapsed time is 18.781305 seconds.
+	315/1010Elapsed time is 18.983369 seconds.
+	316/1010Elapsed time is 18.891435 seconds.
+	317/1010Elapsed time is 18.672461 seconds.
+	318/1010Elapsed time is 19.081334 seconds.
+	319/1010Elapsed time is 19.034263 seconds.
+	320/1010Elapsed time is 25.842843 seconds.
+	321/1010Elapsed time is 18.209660 seconds.
+	322/1010Elapsed time is 18.607246 seconds.
+	323/1010Elapsed time is 18.656354 seconds.
+	324/1010Elapsed time is 18.774431 seconds.
+	325/1010Elapsed time is 18.812958 seconds.
+	326/1010Elapsed time is 18.493744 seconds.
+	327/1010Elapsed time is 18.742896 seconds.
+	328/1010Elapsed time is 18.807035 seconds.
+	329/1010Elapsed time is 19.124046 seconds.
+	330/1010Elapsed time is 24.943167 seconds.
+	331/1010Elapsed time is 18.075907 seconds.
+	332/1010Elapsed time is 18.362674 seconds.
+	333/1010Elapsed time is 18.171264 seconds.
+	334/1010Elapsed time is 18.264029 seconds.
+	335/1010Elapsed time is 18.583714 seconds.
+	336/1010Elapsed time is 18.013634 seconds.
+	337/1010Elapsed time is 18.447492 seconds.
+	338/1010Elapsed time is 18.384274 seconds.
+	339/1010Elapsed time is 18.334566 seconds.
+	340/1010Elapsed time is 24.013559 seconds.
+	341/1010Elapsed time is 17.043799 seconds.
+	342/1010Elapsed time is 17.905189 seconds.
+	343/1010Elapsed time is 17.694816 seconds.
+	344/1010Elapsed time is 18.090736 seconds.
+	345/1010Elapsed time is 17.185127 seconds.
+	346/1010Elapsed time is 17.895177 seconds.
+	347/1010Elapsed time is 17.950517 seconds.
+	348/1010Elapsed time is 17.238229 seconds.
+	349/1010Elapsed time is 17.749268 seconds.
+	350/1010Elapsed time is 24.288510 seconds.
+	351/1010Elapsed time is 17.249941 seconds.
+	352/1010Elapsed time is 17.355368 seconds.
+	353/1010Elapsed time is 17.473033 seconds.
+	354/1010Elapsed time is 17.505379 seconds.
+	355/1010Elapsed time is 17.465687 seconds.
+	356/1010Elapsed time is 17.616367 seconds.
+	357/1010Elapsed time is 17.494419 seconds.
+	358/1010Elapsed time is 17.744022 seconds.
+	359/1010Elapsed time is 17.765806 seconds.
+	360/1010Elapsed time is 23.502682 seconds.
+	361/1010Elapsed time is 17.488471 seconds.
+	362/1010Elapsed time is 16.955821 seconds.
+	363/1010Elapsed time is 17.337665 seconds.
+	364/1010Elapsed time is 17.203828 seconds.
+	365/1010Elapsed time is 17.717900 seconds.
+	366/1010Elapsed time is 17.495229 seconds.
+	367/1010Elapsed time is 17.560788 seconds.
+	368/1010Elapsed time is 17.516190 seconds.
+	369/1010Elapsed time is 17.741974 seconds.
+	370/1010Elapsed time is 22.722490 seconds.
+	371/1010Elapsed time is 16.558901 seconds.
+	372/1010Elapsed time is 16.767020 seconds.
+	373/1010Elapsed time is 16.639146 seconds.
+	374/1010Elapsed time is 16.883073 seconds.
+	375/1010Elapsed time is 16.861636 seconds.
+	376/1010Elapsed time is 16.848711 seconds.
+	377/1010Elapsed time is 16.766751 seconds.
+	378/1010Elapsed time is 16.767988 seconds.
+	379/1010Elapsed time is 16.419705 seconds.
+	380/1010Elapsed time is 22.268792 seconds.
+	381/1010Elapsed time is 16.164221 seconds.
+	382/1010Elapsed time is 16.296603 seconds.
+	383/1010Elapsed time is 16.371875 seconds.
+	384/1010Elapsed time is 16.222348 seconds.
+	385/1010Elapsed time is 15.692675 seconds.
+	386/1010Elapsed time is 15.649115 seconds.
+	387/1010Elapsed time is 16.178424 seconds.
+	388/1010Elapsed time is 16.411332 seconds.
+	389/1010Elapsed time is 16.250882 seconds.
+	390/1010Elapsed time is 21.918788 seconds.
+	391/1010Elapsed time is 16.138057 seconds.
+	392/1010Elapsed time is 16.148491 seconds.
+	393/1010Elapsed time is 16.345827 seconds.
+	394/1010Elapsed time is 16.063029 seconds.
+	395/1010Elapsed time is 16.127949 seconds.
+	396/1010Elapsed time is 16.062339 seconds.
+	397/1010Elapsed time is 15.995032 seconds.
+	398/1010Elapsed time is 16.118917 seconds.
+	399/1010Elapsed time is 16.216017 seconds.
+	400/1010Elapsed time is 21.423276 seconds.
+	401/1010Elapsed time is 15.990907 seconds.
+	402/1010Elapsed time is 15.741728 seconds.
+	403/1010Elapsed time is 15.834743 seconds.
+	404/1010Elapsed time is 15.921139 seconds.
+	405/1010Elapsed time is 15.672155 seconds.
+	406/1010Elapsed time is 15.889728 seconds.
+	407/1010Elapsed time is 15.581781 seconds.
+	408/1010Elapsed time is 16.140188 seconds.
+	409/1010Elapsed time is 15.714894 seconds.
+	410/1010Elapsed time is 20.298783 seconds.
+	411/1010Elapsed time is 15.221411 seconds.
+	412/1010Elapsed time is 15.479386 seconds.
+	413/1010Elapsed time is 14.990114 seconds.
+	414/1010Elapsed time is 15.124338 seconds.
+	415/1010Elapsed time is 14.877714 seconds.
+	416/1010Elapsed time is 15.224274 seconds.
+	417/1010Elapsed time is 15.366494 seconds.
+	418/1010Elapsed time is 15.489069 seconds.
+	419/1010Elapsed time is 15.458534 seconds.
+	420/1010Elapsed time is 20.297883 seconds.
+	421/1010Elapsed time is 15.295714 seconds.
+	422/1010Elapsed time is 15.219536 seconds.
+	423/1010Elapsed time is 14.824733 seconds.
+	424/1010Elapsed time is 15.028365 seconds.
+	425/1010Elapsed time is 14.927056 seconds.
+	426/1010Elapsed time is 15.318728 seconds.
+	427/1010Elapsed time is 15.045713 seconds.
+	428/1010Elapsed time is 14.912623 seconds.
+	429/1010Elapsed time is 15.078709 seconds.
+	430/1010Elapsed time is 19.873084 seconds.
+	431/1010Elapsed time is 14.793376 seconds.
+	432/1010Elapsed time is 14.626362 seconds.
+	433/1010Elapsed time is 14.661709 seconds.
+	434/1010Elapsed time is 14.686610 seconds.
+	435/1010Elapsed time is 14.915118 seconds.
+	436/1010Elapsed time is 14.671529 seconds.
+	437/1010Elapsed time is 14.600261 seconds.
+	438/1010Elapsed time is 14.947755 seconds.
+	439/1010Elapsed time is 14.643228 seconds.
+	440/1010Elapsed time is 19.624447 seconds.
+	441/1010Elapsed time is 14.507812 seconds.
+	442/1010Elapsed time is 14.631740 seconds.
+	443/1010Elapsed time is 14.644069 seconds.
+	444/1010Elapsed time is 14.828561 seconds.
+	445/1010Elapsed time is 14.578603 seconds.
+	446/1010Elapsed time is 14.624838 seconds.
+	447/1010Elapsed time is 14.572144 seconds.
+	448/1010Elapsed time is 14.611122 seconds.
+	449/1010Elapsed time is 14.558958 seconds.
+	450/1010Elapsed time is 19.255701 seconds.
+	451/1010Elapsed time is 14.184550 seconds.
+	452/1010Elapsed time is 14.479219 seconds.
+	453/1010Elapsed time is 14.280795 seconds.
+	454/1010Elapsed time is 14.436978 seconds.
+	455/1010Elapsed time is 14.295083 seconds.
+	456/1010Elapsed time is 14.612556 seconds.
+	457/1010Elapsed time is 14.278970 seconds.
+	458/1010Elapsed time is 14.348252 seconds.
+	459/1010Elapsed time is 14.375408 seconds.
+	460/1010Elapsed time is 18.889840 seconds.
+	461/1010Elapsed time is 14.008674 seconds.
+	462/1010Elapsed time is 14.263385 seconds.
+	463/1010Elapsed time is 14.256466 seconds.
+	464/1010Elapsed time is 14.166153 seconds.
+	465/1010Elapsed time is 14.107327 seconds.
+	466/1010Elapsed time is 14.099441 seconds.
+	467/1010Elapsed time is 14.198031 seconds.
+	468/1010Elapsed time is 14.272402 seconds.
+	469/1010Elapsed time is 14.181447 seconds.
+	470/1010Elapsed time is 18.394100 seconds.
+	471/1010Elapsed time is 13.978178 seconds.
+	472/1010Elapsed time is 13.874633 seconds.
+	473/1010Elapsed time is 13.494716 seconds.
+	474/1010Elapsed time is 14.008983 seconds.
+	475/1010Elapsed time is 13.848450 seconds.
+	476/1010Elapsed time is 13.613631 seconds.
+	477/1010Elapsed time is 13.998709 seconds.
+	478/1010Elapsed time is 13.532917 seconds.
+	479/1010Elapsed time is 14.170309 seconds.
+	480/1010Elapsed time is 17.526857 seconds.
+	481/1010Elapsed time is 13.325683 seconds.
+	482/1010Elapsed time is 13.589832 seconds.
+	483/1010Elapsed time is 13.494580 seconds.
+	484/1010Elapsed time is 13.618428 seconds.
+	485/1010Elapsed time is 13.379523 seconds.
+	486/1010Elapsed time is 12.932179 seconds.
+	487/1010Elapsed time is 13.373111 seconds.
+	488/1010Elapsed time is 13.103758 seconds.
+	489/1010Elapsed time is 12.965434 seconds.
+	490/1010Elapsed time is 17.554576 seconds.
+	491/1010Elapsed time is 13.610998 seconds.
+	492/1010Elapsed time is 13.344955 seconds.
+	493/1010Elapsed time is 13.538242 seconds.
+	494/1010Elapsed time is 13.208265 seconds.
+	495/1010Elapsed time is 13.652351 seconds.
+	496/1010Elapsed time is 13.411257 seconds.
+	497/1010Elapsed time is 13.615060 seconds.
+	498/1010Elapsed time is 13.252243 seconds.
+	499/1010Elapsed time is 13.769908 seconds.
+	500/1010Elapsed time is 17.508575 seconds.
+	501/1010Elapsed time is 12.976612 seconds.
+	502/1010Elapsed time is 13.110475 seconds.
+	503/1010Elapsed time is 13.007560 seconds.
+	504/1010Elapsed time is 13.376409 seconds.
+	505/1010Elapsed time is 12.799300 seconds.
+	506/1010Elapsed time is 13.669365 seconds.
+	507/1010Elapsed time is 13.157235 seconds.
+	508/1010Elapsed time is 13.192465 seconds.
+	509/1010Elapsed time is 12.990756 seconds.
+	510/1010Elapsed time is 16.811517 seconds.
+	511/1010Elapsed time is 13.309202 seconds.
+	512/1010Elapsed time is 13.113133 seconds.
+	513/1010Elapsed time is 13.559298 seconds.
+	514/1010Elapsed time is 12.820159 seconds.
+	515/1010Elapsed time is 13.464778 seconds.
+	516/1010Elapsed time is 13.112563 seconds.
+	517/1010Elapsed time is 13.435122 seconds.
+	518/1010Elapsed time is 13.095220 seconds.
+	519/1010Elapsed time is 13.146558 seconds.
+	520/1010Elapsed time is 16.848129 seconds.
+	521/1010Elapsed time is 12.699742 seconds.
+	522/1010Elapsed time is 12.966049 seconds.
+	523/1010Elapsed time is 12.634046 seconds.
+	524/1010Elapsed time is 12.816647 seconds.
+	525/1010Elapsed time is 12.570308 seconds.
+	526/1010Elapsed time is 12.807215 seconds.
+	527/1010Elapsed time is 12.631288 seconds.
+	528/1010Elapsed time is 12.903036 seconds.
+	529/1010Elapsed time is 12.688264 seconds.
+	530/1010Elapsed time is 16.525240 seconds.
+	531/1010Elapsed time is 12.742340 seconds.
+	532/1010Elapsed time is 12.636326 seconds.
+	533/1010Elapsed time is 13.358063 seconds.
+	534/1010Elapsed time is 12.573036 seconds.
+	535/1010Elapsed time is 12.778625 seconds.
+	536/1010Elapsed time is 12.546220 seconds.
+	537/1010Elapsed time is 13.165083 seconds.
+	538/1010Elapsed time is 12.764010 seconds.
+	539/1010Elapsed time is 12.913946 seconds.
+	540/1010Elapsed time is 16.511678 seconds.
+	541/1010Elapsed time is 12.566021 seconds.
+	542/1010Elapsed time is 12.195966 seconds.
+	543/1010Elapsed time is 12.318369 seconds.
+	544/1010Elapsed time is 12.358895 seconds.
+	545/1010Elapsed time is 11.805213 seconds.
+	546/1010Elapsed time is 12.427732 seconds.
+	547/1010Elapsed time is 12.247574 seconds.
+	548/1010Elapsed time is 12.401804 seconds.
+	549/1010Elapsed time is 11.739188 seconds.
+	550/1010Elapsed time is 15.660923 seconds.
+	551/1010Elapsed time is 12.455507 seconds.
+	552/1010Elapsed time is 12.085443 seconds.
+	553/1010Elapsed time is 12.238815 seconds.
+	554/1010Elapsed time is 12.075313 seconds.
+	555/1010Elapsed time is 12.260670 seconds.
+	556/1010Elapsed time is 12.019504 seconds.
+	557/1010Elapsed time is 12.345990 seconds.
+	558/1010Elapsed time is 12.081111 seconds.
+	559/1010Elapsed time is 12.458671 seconds.
+	560/1010Elapsed time is 16.051340 seconds.
+	561/1010Elapsed time is 12.018375 seconds.
+	562/1010Elapsed time is 12.150757 seconds.
+	563/1010Elapsed time is 11.709993 seconds.
+	564/1010Elapsed time is 12.161535 seconds.
+	565/1010Elapsed time is 11.657479 seconds.
+	566/1010Elapsed time is 12.207874 seconds.
+	567/1010Elapsed time is 11.926976 seconds.
+	568/1010Elapsed time is 12.121956 seconds.
+	569/1010Elapsed time is 11.836667 seconds.
+	570/1010Elapsed time is 15.350008 seconds.
+	571/1010Elapsed time is 12.062083 seconds.
+	572/1010Elapsed time is 11.754327 seconds.
+	573/1010Elapsed time is 11.804101 seconds.
+	574/1010Elapsed time is 11.782589 seconds.
+	575/1010Elapsed time is 12.132694 seconds.
+	576/1010Elapsed time is 11.773512 seconds.
+	577/1010Elapsed time is 11.922944 seconds.
+	578/1010Elapsed time is 11.543057 seconds.
+	579/1010Elapsed time is 12.097403 seconds.
+	580/1010Elapsed time is 15.489029 seconds.
+	581/1010Elapsed time is 11.489593 seconds.
+	582/1010Elapsed time is 12.037436 seconds.
+	583/1010Elapsed time is 11.678882 seconds.
+	584/1010Elapsed time is 11.756445 seconds.
+	585/1010Elapsed time is 11.647225 seconds.
+	586/1010Elapsed time is 11.769354 seconds.
+	587/1010Elapsed time is 11.680180 seconds.
+	588/1010Elapsed time is 12.014669 seconds.
+	589/1010Elapsed time is 11.936113 seconds.
+	590/1010Elapsed time is 14.643107 seconds.
+	591/1010Elapsed time is 11.679574 seconds.
+	592/1010Elapsed time is 11.395451 seconds.
+	593/1010Elapsed time is 11.537142 seconds.
+	594/1010Elapsed time is 11.287593 seconds.
+	595/1010Elapsed time is 11.624735 seconds.
+	596/1010Elapsed time is 11.620293 seconds.
+	597/1010Elapsed time is 11.885226 seconds.
+	598/1010Elapsed time is 11.308059 seconds.
+	599/1010Elapsed time is 11.460976 seconds.
+	600/1010Elapsed time is 14.889294 seconds.
+	601/1010Elapsed time is 11.252579 seconds.
+	602/1010Elapsed time is 11.387091 seconds.
+	603/1010Elapsed time is 11.244829 seconds.
+	604/1010Elapsed time is 11.613007 seconds.
+	605/1010Elapsed time is 11.268562 seconds.
+	606/1010Elapsed time is 11.540389 seconds.
+	607/1010Elapsed time is 11.343175 seconds.
+	608/1010Elapsed time is 11.585385 seconds.
+	609/1010Elapsed time is 11.385519 seconds.
+	610/1010Elapsed time is 14.299662 seconds.
+	611/1010Elapsed time is 11.480399 seconds.
+	612/1010Elapsed time is 11.049716 seconds.
+	613/1010Elapsed time is 11.344770 seconds.
+	614/1010Elapsed time is 10.708092 seconds.
+	615/1010Elapsed time is 11.499863 seconds.
+	616/1010Elapsed time is 12.505409 seconds.
+	617/1010Elapsed time is 12.065309 seconds.
+	618/1010Elapsed time is 11.464240 seconds.
+	619/1010Elapsed time is 11.666168 seconds.
+	620/1010Elapsed time is 15.191562 seconds.
+	621/1010Elapsed time is 10.849988 seconds.
+	622/1010Elapsed time is 11.433839 seconds.
+	623/1010Elapsed time is 11.011085 seconds.
+	624/1010Elapsed time is 11.532516 seconds.
+	625/1010Elapsed time is 11.075524 seconds.
+	626/1010Elapsed time is 11.622750 seconds.
+	627/1010Elapsed time is 10.889130 seconds.
+	628/1010Elapsed time is 11.138948 seconds.
+	629/1010Elapsed time is 11.047802 seconds.
+	630/1010Elapsed time is 13.891954 seconds.
+	631/1010Elapsed time is 10.805007 seconds.
+	632/1010Elapsed time is 10.772359 seconds.
+	633/1010Elapsed time is 10.865337 seconds.
+	634/1010Elapsed time is 10.425242 seconds.
+	635/1010Elapsed time is 11.124190 seconds.
+	636/1010Elapsed time is 10.587514 seconds.
+	637/1010Elapsed time is 11.088171 seconds.
+	638/1010Elapsed time is 10.507350 seconds.
+	639/1010Elapsed time is 10.236055 seconds.
+	640/1010Elapsed time is 13.078897 seconds.
+	641/1010Elapsed time is 9.668967 seconds.
+	642/1010Elapsed time is 9.545429 seconds.
+	643/1010Elapsed time is 9.789163 seconds.
+	644/1010Elapsed time is 9.558908 seconds.
+	645/1010Elapsed time is 9.486638 seconds.
+	646/1010Elapsed time is 8.928679 seconds.
+	647/1010Elapsed time is 7.531784 seconds.
+	648/1010Elapsed time is 7.212658 seconds.
+	649/1010Elapsed time is 7.356384 seconds.
+	650/1010Elapsed time is 9.991269 seconds.
+	651/1010Elapsed time is 7.237791 seconds.
+	652/1010Elapsed time is 7.199854 seconds.
+	653/1010Elapsed time is 7.201448 seconds.
+	654/1010Elapsed time is 7.170957 seconds.
+	655/1010Elapsed time is 7.177188 seconds.
+	656/1010Elapsed time is 9.221511 seconds.
+	657/1010Elapsed time is 10.891473 seconds.
+	658/1010Elapsed time is 10.704332 seconds.
+	659/1010Elapsed time is 10.777109 seconds.
+	660/1010Elapsed time is 13.525687 seconds.
+	661/1010Elapsed time is 10.229881 seconds.
+	662/1010Elapsed time is 10.545710 seconds.
+	663/1010Elapsed time is 10.194424 seconds.
+	664/1010Elapsed time is 10.693394 seconds.
+	665/1010Elapsed time is 10.386262 seconds.
+	666/1010Elapsed time is 10.675593 seconds.
+	667/1010Elapsed time is 10.298029 seconds.
+	668/1010Elapsed time is 10.545644 seconds.
+	669/1010Elapsed time is 10.267214 seconds.
+	670/1010Elapsed time is 13.100359 seconds.
+	671/1010Elapsed time is 10.514496 seconds.
+	672/1010Elapsed time is 10.258420 seconds.
+	673/1010Elapsed time is 10.235920 seconds.
+	674/1010Elapsed time is 10.218263 seconds.
+	675/1010Elapsed time is 10.284434 seconds.
+	676/1010Elapsed time is 10.205863 seconds.
+	677/1010Elapsed time is 10.379892 seconds.
+	678/1010Elapsed time is 10.202678 seconds.
+	679/1010Elapsed time is 10.359278 seconds.
+	680/1010Elapsed time is 13.170672 seconds.
+	681/1010Elapsed time is 9.886932 seconds.
+	682/1010Elapsed time is 10.200495 seconds.
+	683/1010Elapsed time is 10.133706 seconds.
+	684/1010Elapsed time is 10.350195 seconds.
+	685/1010Elapsed time is 10.261160 seconds.
+	686/1010Elapsed time is 10.285634 seconds.
+	687/1010Elapsed time is 10.103572 seconds.
+	688/1010Elapsed time is 10.432491 seconds.
+	689/1010Elapsed time is 9.828948 seconds.
+	690/1010Elapsed time is 12.782651 seconds.
+	691/1010Elapsed time is 9.763474 seconds.
+	692/1010Elapsed time is 10.201217 seconds.
+	693/1010Elapsed time is 9.656891 seconds.
+	694/1010Elapsed time is 9.854132 seconds.
+	695/1010Elapsed time is 10.108764 seconds.
+	696/1010Elapsed time is 10.024466 seconds.
+	697/1010Elapsed time is 10.043959 seconds.
+	698/1010Elapsed time is 9.826528 seconds.
+	699/1010Elapsed time is 9.960217 seconds.
+	700/1010Elapsed time is 12.675983 seconds.
+	701/1010Elapsed time is 9.621881 seconds.
+	702/1010Elapsed time is 10.176632 seconds.
+	703/1010Elapsed time is 9.680305 seconds.
+	704/1010Elapsed time is 9.845693 seconds.
+	705/1010Elapsed time is 10.123195 seconds.
+	706/1010Elapsed time is 9.723320 seconds.
+	707/1010Elapsed time is 9.824207 seconds.
+	708/1010Elapsed time is 10.189175 seconds.
+	709/1010Elapsed time is 9.669391 seconds.
+	710/1010Elapsed time is 12.006145 seconds.
+	711/1010Elapsed time is 9.483449 seconds.
+	712/1010Elapsed time is 9.892185 seconds.
+	713/1010Elapsed time is 9.320145 seconds.
+	714/1010Elapsed time is 9.366537 seconds.
+	715/1010Elapsed time is 9.912664 seconds.
+	716/1010Elapsed time is 9.491946 seconds.
+	717/1010Elapsed time is 9.252295 seconds.
+	718/1010Elapsed time is 9.888176 seconds.
+	719/1010Elapsed time is 9.436102 seconds.
+	720/1010Elapsed time is 11.990842 seconds.
+	721/1010Elapsed time is 9.360401 seconds.
+	722/1010Elapsed time is 9.731206 seconds.
+	723/1010Elapsed time is 9.512708 seconds.
+	724/1010Elapsed time is 9.224321 seconds.
+	725/1010Elapsed time is 9.734145 seconds.
+	726/1010Elapsed time is 9.470379 seconds.
+	727/1010Elapsed time is 9.434472 seconds.
+	728/1010Elapsed time is 9.548375 seconds.
+	729/1010Elapsed time is 9.552131 seconds.
+	730/1010Elapsed time is 12.084607 seconds.
+	731/1010Elapsed time is 9.459076 seconds.
+	732/1010Elapsed time is 9.671539 seconds.
+	733/1010Elapsed time is 9.598834 seconds.
+	734/1010Elapsed time is 9.346241 seconds.
+	735/1010Elapsed time is 9.859680 seconds.
+	736/1010Elapsed time is 9.322812 seconds.
+	737/1010Elapsed time is 9.483245 seconds.
+	738/1010Elapsed time is 9.811415 seconds.
+	739/1010Elapsed time is 9.426905 seconds.
+	740/1010Elapsed time is 12.039557 seconds.
+	741/1010Elapsed time is 9.116864 seconds.
+	742/1010Elapsed time is 9.727461 seconds.
+	743/1010Elapsed time is 9.144483 seconds.
+	744/1010Elapsed time is 9.160651 seconds.
+	745/1010Elapsed time is 9.895595 seconds.
+	746/1010Elapsed time is 9.431492 seconds.
+	747/1010Elapsed time is 9.108773 seconds.
+	748/1010Elapsed time is 9.512518 seconds.
+	749/1010Elapsed time is 9.364754 seconds.
+	750/1010Elapsed time is 11.820320 seconds.
+	751/1010Elapsed time is 9.141863 seconds.
+	752/1010Elapsed time is 9.274954 seconds.
+	753/1010Elapsed time is 9.206244 seconds.
+	754/1010Elapsed time is 8.848564 seconds.
+	755/1010Elapsed time is 9.419382 seconds.
+	756/1010Elapsed time is 9.151966 seconds.
+	757/1010Elapsed time is 8.995964 seconds.
+	758/1010Elapsed time is 9.474989 seconds.
+	759/1010Elapsed time is 9.369514 seconds.
+	760/1010Elapsed time is 11.499954 seconds.
+	761/1010Elapsed time is 9.117858 seconds.
+	762/1010Elapsed time is 9.426551 seconds.
+	763/1010Elapsed time is 9.070344 seconds.
+	764/1010Elapsed time is 9.196004 seconds.
+	765/1010Elapsed time is 9.419486 seconds.
+	766/1010Elapsed time is 9.057205 seconds.
+	767/1010Elapsed time is 9.020476 seconds.
+	768/1010Elapsed time is 9.263197 seconds.
+	769/1010Elapsed time is 8.943912 seconds.
+	770/1010Elapsed time is 11.211807 seconds.
+	771/1010Elapsed time is 8.888118 seconds.
+	772/1010Elapsed time is 9.264026 seconds.
+	773/1010Elapsed time is 8.949487 seconds.
+	774/1010Elapsed time is 9.002697 seconds.
+	775/1010Elapsed time is 8.987595 seconds.
+	776/1010Elapsed time is 9.007452 seconds.
+	777/1010Elapsed time is 9.287192 seconds.
+	778/1010Elapsed time is 9.384611 seconds.
+	779/1010Elapsed time is 8.844594 seconds.
+	780/1010Elapsed time is 11.240335 seconds.
+	781/1010Elapsed time is 8.830332 seconds.
+	782/1010Elapsed time is 9.303079 seconds.
+	783/1010Elapsed time is 8.891287 seconds.
+	784/1010Elapsed time is 8.779597 seconds.
+	785/1010Elapsed time is 8.925800 seconds.
+	786/1010Elapsed time is 8.722847 seconds.
+	787/1010Elapsed time is 9.089529 seconds.
+	788/1010Elapsed time is 9.067050 seconds.
+	789/1010Elapsed time is 8.861003 seconds.
+	790/1010Elapsed time is 11.475510 seconds.
+	791/1010Elapsed time is 8.895955 seconds.
+	792/1010Elapsed time is 9.138349 seconds.
+	793/1010Elapsed time is 9.018181 seconds.
+	794/1010Elapsed time is 8.825546 seconds.
+	795/1010Elapsed time is 9.208329 seconds.
+	796/1010Elapsed time is 8.796712 seconds.
+	797/1010Elapsed time is 8.830236 seconds.
+	798/1010Elapsed time is 9.010036 seconds.
+	799/1010Elapsed time is 8.839538 seconds.
+	800/1010Elapsed time is 11.124974 seconds.
+	801/1010Elapsed time is 8.803363 seconds.
+	802/1010Elapsed time is 8.787532 seconds.
+	803/1010Elapsed time is 8.725146 seconds.
+	804/1010Elapsed time is 8.702220 seconds.
+	805/1010Elapsed time is 8.979700 seconds.
+	806/1010Elapsed time is 8.656291 seconds.
+	807/1010Elapsed time is 8.637869 seconds.
+	808/1010Elapsed time is 9.136533 seconds.
+	809/1010Elapsed time is 8.706823 seconds.
+	810/1010Elapsed time is 11.417643 seconds.
+	811/1010Elapsed time is 8.497250 seconds.
+	812/1010Elapsed time is 8.894132 seconds.
+	813/1010Elapsed time is 8.608049 seconds.
+	814/1010Elapsed time is 8.511956 seconds.
+	815/1010Elapsed time is 8.996845 seconds.
+	816/1010Elapsed time is 8.541362 seconds.
+	817/1010Elapsed time is 8.505179 seconds.
+	818/1010Elapsed time is 8.881342 seconds.
+	819/1010Elapsed time is 8.686918 seconds.
+	820/1010Elapsed time is 10.872583 seconds.
+	821/1010Elapsed time is 8.673873 seconds.
+	822/1010Elapsed time is 8.331990 seconds.
+	823/1010Elapsed time is 8.662923 seconds.
+	824/1010Elapsed time is 8.501628 seconds.
+	825/1010Elapsed time is 8.380494 seconds.
+	826/1010Elapsed time is 8.808979 seconds.
+	827/1010Elapsed time is 8.410914 seconds.
+	828/1010Elapsed time is 8.477098 seconds.
+	829/1010Elapsed time is 8.830037 seconds.
+	830/1010Elapsed time is 10.636314 seconds.
+	831/1010Elapsed time is 8.149835 seconds.
+	832/1010Elapsed time is 8.069229 seconds.
+	833/1010Elapsed time is 8.468362 seconds.
+	834/1010Elapsed time is 8.400951 seconds.
+	835/1010Elapsed time is 7.953900 seconds.
+	836/1010Elapsed time is 8.368659 seconds.
+	837/1010Elapsed time is 8.586401 seconds.
+	838/1010Elapsed time is 8.408551 seconds.
+	839/1010Elapsed time is 8.897493 seconds.
+	840/1010Elapsed time is 10.367380 seconds.
+	841/1010Elapsed time is 8.309711 seconds.
+	842/1010Elapsed time is 8.168708 seconds.
+	843/1010Elapsed time is 8.421338 seconds.
+	844/1010Elapsed time is 8.561038 seconds.
+	845/1010Elapsed time is 8.401303 seconds.
+	846/1010Elapsed time is 8.333570 seconds.
+	847/1010Elapsed time is 8.094173 seconds.
+	848/1010Elapsed time is 8.210499 seconds.
+	849/1010Elapsed time is 8.220642 seconds.
+	850/1010Elapsed time is 10.250098 seconds.
+	851/1010Elapsed time is 8.074288 seconds.
+	852/1010Elapsed time is 8.348035 seconds.
+	853/1010Elapsed time is 8.166226 seconds.
+	854/1010Elapsed time is 8.114921 seconds.
+	855/1010Elapsed time is 8.271098 seconds.
+	856/1010Elapsed time is 8.346661 seconds.
+	857/1010Elapsed time is 8.030963 seconds.
+	858/1010Elapsed time is 8.333742 seconds.
+	859/1010Elapsed time is 7.991635 seconds.
+	860/1010Elapsed time is 10.295767 seconds.
+	861/1010Elapsed time is 7.999413 seconds.
+	862/1010Elapsed time is 8.145865 seconds.
+	863/1010Elapsed time is 8.005006 seconds.
+	864/1010Elapsed time is 7.917773 seconds.
+	865/1010Elapsed time is 7.987376 seconds.
+	866/1010Elapsed time is 8.020471 seconds.
+	867/1010Elapsed time is 7.948306 seconds.
+	868/1010Elapsed time is 7.732534 seconds.
+	869/1010Elapsed time is 8.205104 seconds.
+	870/1010Elapsed time is 9.695703 seconds.
+	871/1010Elapsed time is 7.773399 seconds.
+	872/1010Elapsed time is 7.855507 seconds.
+	873/1010Elapsed time is 7.841183 seconds.
+	874/1010Elapsed time is 8.503696 seconds.
+	875/1010Elapsed time is 8.135481 seconds.
+	876/1010Elapsed time is 7.727659 seconds.
+	877/1010Elapsed time is 8.001598 seconds.
+	878/1010Elapsed time is 8.149797 seconds.
+	879/1010Elapsed time is 8.018368 seconds.
+	880/1010Elapsed time is 10.808485 seconds.
+	881/1010Elapsed time is 8.093307 seconds.
+	882/1010Elapsed time is 7.995563 seconds.
+	883/1010Elapsed time is 8.038136 seconds.
+	884/1010Elapsed time is 8.012419 seconds.
+	885/1010Elapsed time is 7.960067 seconds.
+	886/1010Elapsed time is 8.275142 seconds.
+	887/1010Elapsed time is 8.078217 seconds.
+	888/1010Elapsed time is 8.160156 seconds.
+	889/1010Elapsed time is 8.297479 seconds.
+	890/1010Elapsed time is 9.866487 seconds.
+	891/1010Elapsed time is 7.764406 seconds.
+	892/1010Elapsed time is 8.071846 seconds.
+	893/1010Elapsed time is 7.881314 seconds.
+	894/1010Elapsed time is 8.009997 seconds.
+	895/1010Elapsed time is 8.207676 seconds.
+	896/1010Elapsed time is 8.455477 seconds.
+	897/1010Elapsed time is 7.926015 seconds.
+	898/1010Elapsed time is 8.221711 seconds.
+	899/1010Elapsed time is 7.964678 seconds.
+	900/1010Elapsed time is 9.771530 seconds.
+	901/1010Elapsed time is 7.975613 seconds.
+	902/1010Elapsed time is 7.938653 seconds.
+	903/1010Elapsed time is 7.759025 seconds.
+	904/1010Elapsed time is 8.128752 seconds.
+	905/1010Elapsed time is 7.912424 seconds.
+	906/1010Elapsed time is 7.539615 seconds.
+	907/1010Elapsed time is 7.859573 seconds.
+	908/1010Elapsed time is 8.002721 seconds.
+	909/1010Elapsed time is 7.771764 seconds.
+	910/1010Elapsed time is 9.510787 seconds.
+	911/1010Elapsed time is 7.979546 seconds.
+	912/1010Elapsed time is 7.629875 seconds.
+	913/1010Elapsed time is 7.605665 seconds.
+	914/1010Elapsed time is 7.521317 seconds.
+	915/1010Elapsed time is 7.478300 seconds.
+	916/1010Elapsed time is 7.698247 seconds.
+	917/1010Elapsed time is 7.907392 seconds.
+	918/1010Elapsed time is 7.554626 seconds.
+	919/1010Elapsed time is 7.378508 seconds.
+	920/1010Elapsed time is 9.343519 seconds.
+	921/1010Elapsed time is 7.405371 seconds.
+	922/1010Elapsed time is 7.362690 seconds.
+	923/1010Elapsed time is 7.976016 seconds.
+	924/1010Elapsed time is 7.394398 seconds.
+	925/1010Elapsed time is 7.538365 seconds.
+	926/1010Elapsed time is 7.743989 seconds.
+	927/1010Elapsed time is 7.598159 seconds.
+	928/1010Elapsed time is 7.495588 seconds.
+	929/1010Elapsed time is 7.376948 seconds.
+	930/1010Elapsed time is 9.329119 seconds.
+	931/1010Elapsed time is 7.547625 seconds.
+	932/1010Elapsed time is 7.448052 seconds.
+	933/1010Elapsed time is 7.493204 seconds.
+	934/1010Elapsed time is 7.423989 seconds.
+	935/1010Elapsed time is 7.446694 seconds.
+	936/1010Elapsed time is 7.349420 seconds.
+	937/1010Elapsed time is 7.413799 seconds.
+	938/1010Elapsed time is 7.450864 seconds.
+	939/1010Elapsed time is 7.503674 seconds.
+	940/1010Elapsed time is 9.285827 seconds.
+	941/1010Elapsed time is 7.414253 seconds.
+	942/1010Elapsed time is 8.026788 seconds.
+	943/1010Elapsed time is 7.374053 seconds.
+	944/1010Elapsed time is 7.608172 seconds.
+	945/1010Elapsed time is 7.341831 seconds.
+	946/1010Elapsed time is 7.755259 seconds.
+	947/1010Elapsed time is 7.416135 seconds.
+	948/1010Elapsed time is 7.407099 seconds.
+	949/1010Elapsed time is 7.707201 seconds.
+	950/1010Elapsed time is 9.694245 seconds.
+	951/1010Elapsed time is 7.759295 seconds.
+	952/1010Elapsed time is 7.476139 seconds.
+	953/1010Elapsed time is 7.403375 seconds.
+	954/1010Elapsed time is 7.376302 seconds.
+	955/1010Elapsed time is 7.493309 seconds.
+	956/1010Elapsed time is 7.646590 seconds.
+	957/1010Elapsed time is 7.760794 seconds.
+	958/1010Elapsed time is 7.459574 seconds.
+	959/1010Elapsed time is 7.212496 seconds.
+	960/1010Elapsed time is 9.044148 seconds.
+	961/1010Elapsed time is 7.197715 seconds.
+	962/1010Elapsed time is 7.250917 seconds.
+	963/1010Elapsed time is 7.274578 seconds.
+	964/1010Elapsed time is 7.286404 seconds.
+	965/1010Elapsed time is 7.323596 seconds.
+	966/1010Elapsed time is 7.145616 seconds.
+	967/1010Elapsed time is 7.787502 seconds.
+	968/1010Elapsed time is 7.263732 seconds.
+	969/1010Elapsed time is 7.468501 seconds.
+	970/1010Elapsed time is 8.954793 seconds.
+	971/1010Elapsed time is 7.313160 seconds.
+	972/1010Elapsed time is 7.115867 seconds.
+	973/1010Elapsed time is 7.077124 seconds.
+	974/1010Elapsed time is 7.372931 seconds.
+	975/1010Elapsed time is 7.306878 seconds.
+	976/1010Elapsed time is 7.367955 seconds.
+	977/1010Elapsed time is 7.061407 seconds.
+	978/1010Elapsed time is 7.215655 seconds.
+	979/1010Elapsed time is 7.260350 seconds.
+	980/1010Elapsed time is 8.824093 seconds.
+	981/1010Elapsed time is 7.049355 seconds.
+	982/1010Elapsed time is 6.988686 seconds.
+	983/1010Elapsed time is 7.392834 seconds.
+	984/1010Elapsed time is 7.063116 seconds.
+	985/1010Elapsed time is 7.153657 seconds.
+	986/1010Elapsed time is 7.170235 seconds.
+	987/1010Elapsed time is 6.957655 seconds.
+	988/1010Elapsed time is 7.079370 seconds.
+	989/1010Elapsed time is 6.909502 seconds.
+	990/1010Elapsed time is 8.420110 seconds.
+	991/1010Elapsed time is 7.109114 seconds.
+	992/1010Elapsed time is 6.640583 seconds.
+	993/1010Elapsed time is 6.939221 seconds.
+	994/1010Elapsed time is 6.885758 seconds.
+	995/1010Elapsed time is 6.996909 seconds.
+	996/1010Elapsed time is 6.953297 seconds.
+	997/1010Elapsed time is 6.759894 seconds.
+	998/1010Elapsed time is 6.654544 seconds.
+	999/1010Elapsed time is 6.583439 seconds.
+	1000/1010Elapsed time is 8.212025 seconds.
+	1001/1010Elapsed time is 6.351103 seconds.
+	1002/1010Elapsed time is 6.221327 seconds.
+	1003/1010Elapsed time is 6.695751 seconds.
+	1004/1010Elapsed time is 6.376093 seconds.
+	1005/1010Elapsed time is 6.479561 seconds.
+	1006/1010Elapsed time is 6.294693 seconds.
+	1007/1010Elapsed time is 6.285910 seconds.
+	1008/1010Elapsed time is 5.519268 seconds.
+	1009/1010Elapsed time is 4.622072 seconds.
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23442871: <comsolmatlab> in cluster <dcc> Done
+
+Job <comsolmatlab> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Fri Dec 13 21:19:23 2024
+Job was executed on host(s) <4*n-62-12-88>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Fri Dec 13 21:19:24 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/Comsol> was used as the working directory.
+Started at Fri Dec 13 21:19:24 2024
+Terminated at Sat Dec 14 01:58:41 2024
+Results reported at Sat Dec 14 01:58:41 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/sh
+#
+# LSF_comsolmatlab.batch - batch script for LSF, to start a COMSOL server
+# with a LiveLink connection to a MATLAB process
+#
+# Adapt the settings below to your needs, and submit with
+#     bsub < LSF_comsolmatlab.batch
+#
+# written for the LSF installation at DTU Computing Center
+# Sep  9, 2015: original version
+# Jun 30, 2016: fixed the awk line to get the version right after 5.2a
+# Jan 17, 2018: ported from MOAB to LSF
+# Apr 28, 2022: changed to module load ...
+# Oct 18, 2024: changed to -batch when calling MATLAB
+#
+# Current limitations:  this works on one compute node, only!  No
+# multi-node (aka cluster) execution!
+#
+# Define the settings here - first the scheduler:
+#
+#BSUB -J comsolmatlab
+#BSUB -q gpuh100
+#BSUB -n 4
+#BSUB -R "span[hosts=1]"
+#BSUB -W  24:00
+#BSUB -R "rusage[mem=8GB]"
+#BSUB -o outfiles/comsolmatlab_%J.out
+## add other BSUB lines above, if needed
+
+
+# define some job specific settings
+# 
+# load the module with the COMSOL version you want
+module load comsol/6.1
+
+# the MATLAB script to execute (without the .m!!!)
+# replace mscript with the name of your MATLAB script
+MLSCR=generateDataForInverse
+
+############################################
+### Don't monkey with the stuff below!!! ###
+############################################
+
+# generate a numerical JOBID, which we can use in Matlab
+JOBID=$LSB_JOBID
+export JOBID
+
+# use the default comsol version - unless overwritten by CSCMD
+CSCMD=${CSCMD:=comsol}
+
+
+(... more ...)
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   50558.00 sec.
+    Max Memory :                                 11225 MB
+    Average Memory :                             5600.49 MB
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               21543.00 MB
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                244
+    Run time :                                   16849 sec.
+    Turnaround time :                            16758 sec.
+
+The output (if any) is above this job summary.
+

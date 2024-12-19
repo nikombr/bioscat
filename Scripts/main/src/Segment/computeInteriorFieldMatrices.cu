@@ -58,40 +58,8 @@ void Segment::computeInteriorFieldMatrices(RealMatrix x, RealMatrix y) {
 
     }
     else {
-        /*#pragma omp parallel for collapse(2) 
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                double abs_ext, xdiff, ydiff, H_real, H_imag, val;
-
-                // Get data
-                xdiff   = x.getHostValue(r) - x_ext.getHostValue(c);
-                ydiff   = y.getHostValue(r) - y_ext.getHostValue(c);
-                abs_ext = std::sqrt(xdiff*xdiff + ydiff*ydiff);
-
-                // Compute first Hankel functions
-                H_real = H02_real(k1 * abs_ext);
-                H_imag = H02_imag(k1 * abs_ext);
-                
-                val = H_real;
-                F1.setHostRealValue(r, c, val);
-                val = H_imag;
-                F1.setHostImagValue(r, c, val);
-
-                // Compute second Hankel functions
-                H_real = H12_real(k1 * abs_ext);
-                H_imag = H12_imag(k1 * abs_ext);
-
-                val =   constant * 1/abs_ext * ydiff * H_imag;
-                F2.setHostRealValue(r, c, val);
-                val = - constant * 1/abs_ext * ydiff * H_real;
-                F2.setHostImagValue(r, c, val);
-
-                val = -constant * 1/abs_ext * xdiff * H_imag;
-                F3.setHostRealValue(r, c, val);
-                val =  constant * 1/abs_ext * xdiff * H_real;
-                F3.setHostImagValue(r, c, val);
-            }
-        }*/
+        //#pragma omp parallel for collapse(2) 
+        computeFieldMatricesCPU(F1, F2, F3, x, aux_ext.x, y, aux_ext.y, const1, const2, rows, cols, k1);
     }
 }
 

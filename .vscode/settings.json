@@ -3,6 +3,21 @@
         "*.rmd": "markdown",
         "cmath": "cpp",
         "complex": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "memory": "cpp",
+        "optional": "cpp",
+        "array": "cpp",
+        "hash_map": "cpp",
+        "chrono": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "string_view": "cpp",
+        "format": "cpp",
+        "initializer_list": "cpp",
+        "span": "cpp"
     }
 }

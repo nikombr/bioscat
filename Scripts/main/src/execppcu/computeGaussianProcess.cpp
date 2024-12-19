@@ -29,7 +29,7 @@ void print_matrix(double **M_h, double * M_log, bool device, int n) {
 }
 
 
-void gaussian_process_inner(double * x, double * y, int n, double * hyper, int num, int dim, int dev, int type_covfunc) {
+void computeGaussianProcess(double * x, double * y, int n, double * hyper, int num, int dim, int dev, int type_covfunc) {
     double start, stop;
 
 
@@ -60,7 +60,7 @@ void gaussian_process_inner(double * x, double * y, int n, double * hyper, int n
     char dir[256];
     sprintf(dir,"../../../../../../../work3/s194146/bioscatdata");
     char filename[256];
-    sprintf(filename, "%s/Data/gaussian_process_realisations/output.txt",dir);
+    sprintf(filename, "%s/Results/gaussian_process_realisations/output.txt",dir);
     file = fopen(filename, "w");
     if (file == NULL) {
         perror("Error opening file");
@@ -69,8 +69,10 @@ void gaussian_process_inner(double * x, double * y, int n, double * hyper, int n
     // Seed the random number generator with the current time
     srand(time(NULL));
     //srand(0);
-    for (int k = 0; k < 20000; k++) {
+    for (int k = 0; k < 100; k++) {
         GP.realisation();
+        // Send to host
+        cudaMemcpy(GP.p_h, GP.p_d, n * sizeof(double), cudaMemcpyDeviceToHost);
         for (int j = 0; j < n; j++) {
             fprintf(file, "%.4f ", GP.p_h[j]);
         }
@@ -80,6 +82,8 @@ void gaussian_process_inner(double * x, double * y, int n, double * hyper, int n
     stop = omp_get_wtime();
 
     printf("Computation of random vector and realisation: %.4f seconds\n\n", stop - start);
+
+    GP.free();
 
 
 

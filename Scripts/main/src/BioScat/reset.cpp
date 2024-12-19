@@ -38,4 +38,19 @@ void BioScat::reset() {
         }
     }
 }
+
+void BioScat::resetFarField() {
+    if (deviceComputation) {
+        // Initialize all arrays to zero on the host
+        for (int i = 0; i < 2; i++) {
+            F_pol[i].setDeviceZero();
+        }
+    }
+    else {
+        // Initialize all arrays to zero on the host
+        for (int i = 0; i < 2; i++) {
+            F_pol[i].setHostZero();
+        }
+    }
+}
 }

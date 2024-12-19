@@ -36,18 +36,18 @@ void showProgressBar(float progress) {
 
 void computeReflectanceMatrixGetData(BioScat bioscat, RealMatrix reflectance, double * lambdas, double * betas, int num_lambdas, int num_betas, int n_obs, bool deviceComputation)  {
 
-    bioscat.setupSegments();
+    /*bioscat.setupSegments();
 
     for (int i = 0; i < num_lambdas; i++) {
         double lambda = lambdas[i];
-        bioscat.reset(); // Set fields to zero
+        //bioscat.resetFarField(); // Set fields to zero
         bioscat.prepareForward(lambda);
         double start_test = omp_get_wtime();
         for (int polarisation = 1; polarisation <= 2; polarisation++) {
+           
             bioscat.forwardSolver(polarisation);
-            bioscat.computeScatteredSubFields();
-            //bioscat.computeReflectedSubFields();
-            bioscat.computeIncidentSubFields();
+          
+            bioscat.computeFarFieldPattern();
         }
 
        
@@ -55,28 +55,26 @@ void computeReflectanceMatrixGetData(BioScat bioscat, RealMatrix reflectance, do
             showProgressBar((i*num_betas + j) / ((double) num_lambdas*num_betas));
             double beta = betas[j];
             
-            bioscat.computeScatteredFields(beta);
-            //bioscat.computeReflectedFields(beta);
-            bioscat.computeIncidentFields(beta);
-            bioscat.computeReflectance();
+            bioscat.combineFarFieldPattern(beta);
+
             
             if (deviceComputation) {
                 // Blocks and threads
                 dim3 dimBlock(256);
                 dim3 dimGrid((n_obs + dimBlock.x - 1)/dimBlock.x);
-                storeReflectanceKernel<<<dimGrid, dimBlock>>>(reflectance, bioscat.reflectance, i, j, n_obs);
+                storeReflectanceKernel<<<dimGrid, dimBlock>>>(reflectance, bioscat.F, i, j, n_obs);
                 cudaDeviceSynchronize();
             }
             else {
                 for (int k = 0; k < n_obs; k++) {
-                    reflectance.setHostValue(k,j,i,bioscat.reflectance.getHostValue(k));
+                    reflectance.setHostValue(k,j,i,bioscat.F.getHostValue(k));
                 }   
             }
             
             
         }
     }
-    showProgressBar(1.0);
+    showProgressBar(1.0);*/
 }
 
 void computeReflectanceMatrix(Nanostructure proposedNanostructure, BioScat bioscat, RealMatrix reflectance, RealMatrix lambdas, RealMatrix betas, int num_lambdas, int num_betas, int n_obs, bool deviceComputation)  {
@@ -86,35 +84,30 @@ void computeReflectanceMatrix(Nanostructure proposedNanostructure, BioScat biosc
 
     for (int i = 0; i < num_lambdas; i++) {
         double lambda = lambdas.getHostValue(i);
-        bioscat.reset(); // Set fields to zero
+        bioscat.resetFarField(); // Set fields to zero
         bioscat.prepareForward(lambda);
-         double start_test = omp_get_wtime();
+        double start_test = omp_get_wtime();
+
         for (int polarisation = 1; polarisation <= 2; polarisation++) {
             bioscat.forwardSolver(polarisation);
-            bioscat.computeScatteredSubFields();
-            //bioscat.computeReflectedSubFields();
-            bioscat.computeIncidentSubFields();
+            bioscat.computeFarFieldPattern();
         }
-
        
         for (int j = 0; j < num_betas; j++) {
             double beta = betas.getHostValue(j);
-            
-            bioscat.computeScatteredFields(beta);
-            //bioscat.computeReflectedFields(beta);
-            bioscat.computeIncidentFields(beta);
-            bioscat.computeReflectance();
+
+            bioscat.combineFarFieldPattern(beta);
             
             if (deviceComputation) {
                 // Blocks and threads
                 dim3 dimBlock(256);
                 dim3 dimGrid((n_obs + dimBlock.x - 1)/dimBlock.x);
-                storeReflectanceKernel<<<dimGrid, dimBlock>>>(reflectance, bioscat.reflectance, i, j, n_obs);
+                storeReflectanceKernel<<<dimGrid, dimBlock>>>(reflectance, bioscat.F, i, j, n_obs);
                 cudaDeviceSynchronize();
             }
             else {
                 for (int k = 0; k < n_obs; k++) {
-                    reflectance.setHostValue(k,j,i,bioscat.reflectance.getHostValue(k));
+                    reflectance.setHostValue(k,j,i,bioscat.F.getHostValue(k));
                 }   
             }
             

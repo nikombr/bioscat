@@ -24,12 +24,11 @@ void BioScat::getNanostructure() {
     sprintf(dir,"../../../../../../../work3/s194146/bioscatdata");
 
     sprintf(filename, "%s/Data/nanostructures/2D/%s_x_%d.txt", dir, protein_structure, total_grid_points);
-    printf("filename = %s\n",filename);
 
     FILE *file;
     file = fopen(filename, "r");
     if (file == NULL) {
-        perror("Error opening file 1");
+        printf("Error opening file %s\n",filename);
         return;
     }
     for (int i = 0; i < total_grid_points; i++) {
@@ -42,7 +41,7 @@ void BioScat::getNanostructure() {
 
     file = fopen(filename, "r");
     if (file == NULL) {
-        perror("Error opening file 2");
+        printf("Error opening file %s\n",filename);
         return;
     }
 
@@ -53,9 +52,11 @@ void BioScat::getNanostructure() {
 
     fclose(file);
 
-    // Move data to the device
-    nanostructure.x.toDevice();
-    nanostructure.f.toDevice();
+    if (deviceComputation) {
+        // Move data to the device
+        nanostructure.x.toDevice();
+        nanostructure.f.toDevice();
+    }
 
 }
 

@@ -9,3 +9,4 @@ fs = load(sprintf("%s/Data/nanostructures/2D/%s_f_1000.txt",dir,protein_structur
 %figure, plot(xs,fs), grid on, axis equal
 surface = [xs' fs'];
 save(sprintf('%s/Data/comsol/surface_%s.txt',dir,protein_structure),'surface','-ascii')
+

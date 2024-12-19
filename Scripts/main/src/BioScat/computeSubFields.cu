@@ -271,7 +271,7 @@ void BioScat::computeIncidentSubFields() {
     double val;
     double start = omp_get_wtime();
     segments[0].computeIncidentFields(y_obs);
-    if (true) {
+    if (deviceComputation) {
         // Blocks and threads
         dim3 dimBlock(256);
         dim3 dimGrid((n + dimBlock.x - 1)/dimBlock.x);

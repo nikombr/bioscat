@@ -9,8 +9,8 @@ class ComplexMatrix {
         double * real_d;    // Real entries on device
         double * imag_d;    // Imag entries on device
     public:
-        int    rows; // Number of rows
-        int    cols; // Number of cols
+        int    rows = 0; // Number of rows
+        int    cols = 0; // Number of cols
         bool host;
         bool device;
 

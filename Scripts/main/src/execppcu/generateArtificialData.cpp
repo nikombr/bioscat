@@ -11,18 +11,20 @@
 extern "C" {
 using namespace std;
 
+// Outdated function that was simply used for testing early on before we could generate data in Comsol :)
+
 void generateArtificialData(double *x, double*y, int n, char * protein_structure, int num_segments, int total_grid_points, double * betas, double * lambdas, int num_betas, int num_lambdas) {
     
     RealMatrix reflectance = RealMatrix(n, num_betas, num_lambdas);
    
     bool deviceComputation = true;
+    bool printOutput = false;
     //double start = omp_get_wtime();
-    BioScat bioscat = BioScat(protein_structure, num_segments, total_grid_points, deviceComputation);
-    bioscat.printOutput = false;
+    BioScat bioscat = BioScat(protein_structure, num_segments, total_grid_points, deviceComputation, x, y, n, printOutput);
     
-    bioscat.setupObservationPoints(x, y, n);
+    //bioscat.setupObservationPoints(x, y, n);
 
-    bioscat.allocateSegments();
+    //bioscat.allocateSegments();
     double start = omp_get_wtime();
     bioscat.getNanostructure();
 

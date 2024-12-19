@@ -4,22 +4,12 @@
 #include "../../../lib/Nanostructure.h"
 #include "../../../lib/utils/RealMatrix.h"
 #include "../../../lib/Segment/kernels.h"
+#include "../../../lib/Coordinates.h"
 extern "C" {
 using namespace std;
 
 
-void computeTestPoints(RealMatrix x_test, RealMatrix y_test, Nanostructure nanostructure, int start, int end, double leftStep, double rightStep, int n_top, int n_right, int n_bottom, int n_left, double left_x_value, double right_x_value, bool deviceComputation, bool printOutput) {
-
-    bool host = !deviceComputation;
-    bool device = deviceComputation;
-    RealMatrix x_test_top       = RealMatrix(n_top,    host, device);
-    RealMatrix y_test_top       = RealMatrix(n_top,    host, device);
-    RealMatrix x_test_right     = RealMatrix(n_right,  host, device);
-    RealMatrix y_test_right     = RealMatrix(n_right,  host, device);
-    RealMatrix x_test_bottom    = RealMatrix(n_bottom, host, device);
-    RealMatrix y_test_bottom    = RealMatrix(n_bottom, host, device);
-    RealMatrix x_test_left      = RealMatrix(n_left,   host, device);
-    RealMatrix y_test_left      = RealMatrix(n_left,   host, device);
+void computeTestPoints(Coordinates test_points, Nanostructure nanostructure, int start, int end, double leftStep, double rightStep, int n_top, int n_right, int n_bottom, int n_left, double left_x_value, double right_x_value, bool deviceComputation, bool printOutput) {
 
     // Remove end points
     start     += 1;
@@ -30,49 +20,58 @@ void computeTestPoints(RealMatrix x_test, RealMatrix y_test, Nanostructure nanos
 
         // Blocks and threads
         dim3 dimBlock(256);
-        dim3 dimGrid((n_right + dimBlock.x - 1)/dimBlock.x);
-
-        setConstantKernel<<<dimGrid, dimBlock>>>(x_test_right, 0,  n_right, right_x_value);
-        setReversedKernel<<<dimGrid, dimBlock>>>(y_test_right, 0, n_right, rightStep);
-
-        dimGrid.x = (n_left + dimBlock.x - 1)/dimBlock.x;
-        setConstantKernel<<<dimGrid, dimBlock>>>(x_test_left, 0, n_left, left_x_value);
-        setLinearKernel<<<dimGrid, dimBlock>>>(y_test_left,  0, n_left, leftStep);
-
-        dimGrid.x = (end - start + dimBlock.x - 1)/dimBlock.x;
-        setVectorKernel<<<dimGrid, dimBlock>>>(x_test_top, 0,         end - start, nanostructure.x, start);
-        setVectorKernel<<<dimGrid, dimBlock>>>(y_test_top, 0,         end - start, nanostructure.f, start);
-        setReversedVectorKernel<<<dimGrid, dimBlock>>>(x_test_bottom, 0, end - start, nanostructure.x, start);
-        setConstantKernel<<<dimGrid, dimBlock>>>(y_test_bottom, 0,     end - start, 0.0);
-
-        cudaDeviceSynchronize();
-
-        // Combine all points to the same vector
+        dim3 dimGrid((n_top + dimBlock.x - 1)/dimBlock.x);
         int shift = 0;
-        dimGrid.x = (n_top + dimBlock.x - 1)/dimBlock.x;
-        setVectorKernel<<<dimGrid, dimBlock>>>(x_test, shift, n_top,   x_test_top,     0);
-        setVectorKernel<<<dimGrid, dimBlock>>>(y_test, shift, n_top,   y_test_top,     0);
-        shift += n_top;
+        setVectorKernel<<<dimGrid, dimBlock>>>(test_points.x,            shift,         n_top, nanostructure.x, start);
+        setVectorKernel<<<dimGrid, dimBlock>>>(test_points.y,            shift,         n_top, nanostructure.f, start);
+
         dimGrid.x = (n_right + dimBlock.x - 1)/dimBlock.x;
-        setVectorKernel<<<dimGrid, dimBlock>>>(x_test, shift, n_right,  x_test_right,  0);
-        setVectorKernel<<<dimGrid, dimBlock>>>(y_test, shift, n_right,  y_test_right,  0);
-        shift += n_right;
+        shift += n_top;
+        setConstantKernel<<<dimGrid, dimBlock>>>(test_points.x, shift, n_right, right_x_value);
+        setReversedKernel<<<dimGrid, dimBlock>>>(test_points.y, shift, n_right, rightStep);
+
         dimGrid.x = (n_bottom + dimBlock.x - 1)/dimBlock.x;
-        setVectorKernel<<<dimGrid, dimBlock>>>(x_test, shift, n_bottom, x_test_bottom, 0);
-        setVectorKernel<<<dimGrid, dimBlock>>>(y_test, shift, n_bottom, y_test_bottom, 0);
-        shift += n_bottom;
+        shift += n_right;
+        setReversedVectorKernel<<<dimGrid, dimBlock>>>(test_points.x, shift, n_bottom, nanostructure.x, start);
+        setConstantKernel<<<dimGrid, dimBlock>>>(test_points.y,       shift, n_bottom, 0.0);
+
         dimGrid.x = (n_left + dimBlock.x - 1)/dimBlock.x;
-        setVectorKernel<<<dimGrid, dimBlock>>>(x_test, shift, n_left,   x_test_left,   0);
-        setVectorKernel<<<dimGrid, dimBlock>>>(y_test, shift, n_left,   y_test_left,   0);
+        shift += n_bottom;
+        setConstantKernel<<<dimGrid, dimBlock>>>(test_points.x, shift, n_left, left_x_value);
+        setLinearKernel<<<dimGrid, dimBlock>>>(test_points.y,   shift, n_left, leftStep);
 
         cudaDeviceSynchronize();
-
-        //x_test.toHost();
-        //y_test.toHost();
 
     }
     else { // CPU
         if (printOutput) printf("Computing test points on the CPU.\n");
+        int shift = 0;
+        setVectorCPU(test_points.x,            shift,         n_top, nanostructure.x, start);
+        setVectorCPU(test_points.y,            shift,         n_top, nanostructure.f, start);
+
+        shift += n_top;
+        setConstantCPU(test_points.x, shift, n_right, right_x_value);
+        setReversedCPU(test_points.y, shift, n_right, rightStep);
+
+     
+        shift += n_right;
+        setReversedVectorCPU(test_points.x, shift, n_bottom, nanostructure.x, start);
+        setConstantCPU(test_points.y,       shift, n_bottom, 0.0);
+
+        shift += n_bottom;
+        setConstantCPU(test_points.x, shift, n_left, left_x_value);
+        setLinearCPU(test_points.y,   shift, n_left, leftStep);
+
+        /*bool host = !deviceComputation;
+        bool device = deviceComputation;
+        RealMatrix x_test_top       = RealMatrix(n_top,    host, device);
+        RealMatrix y_test_top       = RealMatrix(n_top,    host, device);
+        RealMatrix x_test_right     = RealMatrix(n_right,  host, device);
+        RealMatrix y_test_right     = RealMatrix(n_right,  host, device);
+        RealMatrix x_test_bottom    = RealMatrix(n_bottom, host, device);
+        RealMatrix y_test_bottom    = RealMatrix(n_bottom, host, device);
+        RealMatrix x_test_left      = RealMatrix(n_left,   host, device);
+        RealMatrix y_test_left      = RealMatrix(n_left,   host, device);
 
         // Compute points along each side
         for (int j = 0; j < n_right; j++) {
@@ -96,30 +95,30 @@ void computeTestPoints(RealMatrix x_test, RealMatrix y_test, Nanostructure nanos
         // Combine points into combined vector
         int shift = 0;
         for (int j = 0; j < n_top;    j++) {
-            x_test.setHostValue(j + shift,x_test_top.getHostValue(j));
-            y_test.setHostValue(j + shift,y_test_top.getHostValue(j));
+            test_points.x.setHostValue(j + shift,x_test_top.getHostValue(j));
+            test_points.y.setHostValue(j + shift,y_test_top.getHostValue(j));
         }
         shift += n_top;
         for (int j = 0; j < n_right;  j++) {
-            x_test.setHostValue(j + shift,x_test_right.getHostValue(j));
-            y_test.setHostValue(j + shift,y_test_right.getHostValue(j));
+            test_points.x.setHostValue(j + shift,x_test_right.getHostValue(j));
+            test_points.y.setHostValue(j + shift,y_test_right.getHostValue(j));
         }
         shift += n_right;
         for (int j = 0; j < n_bottom; j++) {
-            x_test.setHostValue(j + shift,x_test_bottom.getHostValue(j));
-            y_test.setHostValue(j + shift,y_test_bottom.getHostValue(j));
+            test_points.x.setHostValue(j + shift,x_test_bottom.getHostValue(j));
+            test_points.y.setHostValue(j + shift,y_test_bottom.getHostValue(j));
         }
         shift += n_bottom;
         for (int j = 0; j < n_left;   j++) {
-            x_test.setHostValue(j + shift,x_test_left.getHostValue(j));
-            y_test.setHostValue(j + shift,y_test_left.getHostValue(j));
+            test_points.x.setHostValue(j + shift,x_test_left.getHostValue(j));
+            test_points.y.setHostValue(j + shift,y_test_left.getHostValue(j));
         }        
-
+        x_test_top.free();      y_test_top.free();
+        x_test_right.free();    y_test_right.free();
+        x_test_bottom.free();   y_test_bottom.free();
+        x_test_left.free();     y_test_left.free();*/
     }
-    x_test_top.free();      y_test_top.free();
-    x_test_right.free();    y_test_right.free();
-    x_test_bottom.free();   y_test_bottom.free();
-    x_test_left.free();     y_test_left.free();
+    
 }
 
 }

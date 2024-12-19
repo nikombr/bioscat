@@ -1,0 +1,278 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+0 1
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+0 2
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+0 3
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+0 4
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+0 5
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+90 1
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+90 2
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+90 3
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+90 4
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+90 5
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 229, in <module>
+    segmentTest(num_segments=num_segments, beta = beta, protein_structure = protein_structure)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 182, in segmentTest
+    executeForward(ystart = 16,num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location,obs_grid=obs_grid,savefolder='/segment_test')
+  File "/zhome/00/b/147112/bioscat/Scripts/main/forward.py", line 51, in executeForward
+    c_func = ctypes.CDLL(so_file)
+  File "/usr/lib64/python3.9/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: obj/Segment/computeInteriorFields.o: undefined symbol: computeFieldsFromMatricesCPU
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23444122: <segment_forward> in cluster <dcc> Exited
+
+Job <segment_forward> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Sat Dec 14 20:53:08 2024
+Job was executed on host(s) <5*n-62-12-89>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Sat Dec 14 21:31:29 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Sat Dec 14 21:31:29 2024
+Terminated at Sat Dec 14 21:31:39 2024
+Results reported at Sat Dec 14 21:31:39 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J segment_forward # name
+#BSUB -o outfiles/segment_test_forward_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 5 ## cores
+#BSUB -R "rusage[mem=4GB]" 
+#BSUB -W 4:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+# "Retinin2x2" or "demoleus2x2"
+
+ANGLE="0 90"
+N_SEG="1 2 3 4 5"
+
+for angle in $ANGLE;
+do
+    for n in $N_SEG;
+    do  
+        echo $angle $n
+        OMP_NUM_THREADS=5 python forward.py 1 $n $angle demoleus2x2
+
+        OMP_NUM_THREADS=5 python forward.py 1 $n $angle Retinin2x2
+done
+
+done
+
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   8.32 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     20480.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   12 sec.
+    Turnaround time :                            2311 sec.
+
+The output (if any) is above this job summary.
+

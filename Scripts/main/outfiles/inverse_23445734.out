@@ -1,0 +1,95 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+angle_resolved
+maternParameterTest/Retinin2x2_tau_0.7_ell_0.07_p_2_delta_0.005_gamma_1e5
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0293 seconds
+
+log(det) =-5.706799e+02 
+Computing covariance matrix: 0.0004 seconds
+
+Computing inverse of covariance matrix: 0.0319 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0188 seconds
+
+Gaussian Process freed!
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23445734: <inverseM> in cluster <dcc> Done
+
+Job <inverseM> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Sun Dec 15 21:58:38 2024
+Job was executed on host(s) <8*n-62-12-89>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Mon Dec 16 14:02:02 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Mon Dec 16 14:02:02 2024
+Terminated at Mon Dec 16 19:23:42 2024
+Results reported at Mon Dec 16 19:23:42 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J inverseM # name
+#BSUB -o outfiles/inverse_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 8 ## cores
+#BSUB -R "rusage[mem=1GB]" 
+#BSUB -W 24:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+
+python inverse.py 1 Retinin2x2 angle_resolved 2 0.7 0.07
+
+#python inverse.py 1 Retinin2x2 angle_resolved 1 0.7 0.07
+#python inverse.py 1 Retinin2x2 angle_resolved 2 0.7 0.07
+
+#python inverse.py 1 Retinin2x2 angle_resolved 2 0.5 0.07
+#python inverse.py 1 Retinin2x2 angle_resolved 2 0.9 0.07
+
+#python inverse.py 1 Retinin2x2 angle_resolved 2 0.7 0.04
+#python inverse.py 1 Retinin2x2 angle_resolved 2 0.7 0.1
+
+## ELL="0.04 0.07 0.1";
+## TAU="0.5 0.7 0.9";
+## P="1 2 3";
+
+## p=2
+
+## for ell in $ELL;
+## do
+##     for tau in $TAU;
+##     do
+##         OMP_NUM_THREADS=64 python inverse.py 1 Retinin2x2 angle_resolved $p $tau $ell
+##     done
+## done
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   18603.00 sec.
+    Max Memory :                                 226 MB
+    Average Memory :                             222.99 MB
+    Total Requested Memory :                     8192.00 MB
+    Delta Memory :                               7966.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                9
+    Run time :                                   19299 sec.
+    Turnaround time :                            77104 sec.
+
+The output (if any) is above this job summary.
+

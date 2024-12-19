@@ -8,17 +8,12 @@
 extern "C" {
 using namespace std;
 
-void farFieldPattern(double * phi, int n, char* protein_structure, int num_segments, int total_grid_points, double beta, double lambda, int deviceComputation_int) {
+void computeFarFieldPattern(double * phi, int n, char* protein_structure, int num_segments, int total_grid_points, double beta, double lambda, int deviceComputation_int,  int printOutput_int) {
 
     bool deviceComputation = deviceComputation_int == 1 ? true : false;
+    bool printOutput = printOutput_int == 1 ? true : false;
 
-    BioScat bioscat = BioScat(protein_structure, num_segments, total_grid_points, deviceComputation);
-
-    bioscat.printOutput = true;
-
-    bioscat.setupObservationPoints(phi, n);
-
-    bioscat.allocateSegments();
+    BioScat bioscat = BioScat(protein_structure, num_segments, total_grid_points, deviceComputation, phi, n, printOutput);
 
     bioscat.getNanostructure();
 
@@ -32,9 +27,6 @@ void farFieldPattern(double * phi, int n, char* protein_structure, int num_segme
        
         bioscat.forwardSolver(polarisation);
         
-        //bioscat.computeScatteredSubFields();
-        //bioscat.computeReflectedSubFields();
-        //bioscat.computeIncidentSubFields();
         bioscat.computeFarFieldPattern();
 
     }

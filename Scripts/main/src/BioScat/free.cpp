@@ -21,10 +21,11 @@ void BioScat::free() {
         segments[i].free();
     }
 
-    delete[] segments;
-    reflectance.free();
+   // delete[] segments;
+    //reflectance.free();
     x_obs.free();
     y_obs.free();
+    phi_obs.free();
 
     E_scat.free();
     H_scat.free();
@@ -32,6 +33,7 @@ void BioScat::free() {
     H_inc.free();
     E_int.free();
     H_int.free();
+    F.free();
     for (int i = 0; i < 2; i++) {
         E_scat_pol[i].free();
         H_scat_pol[i].free();
@@ -39,6 +41,7 @@ void BioScat::free() {
         H_inc_pol[i].free();
         E_int_pol[i].free();
         H_int_pol[i].free();
+        F_pol[i].free();
     }
     cudaDeviceReset();
     if (printOutput) printf("DESTRUCTED!\n");
