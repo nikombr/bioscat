@@ -4,8 +4,8 @@
 #include <iostream>
 #include <string.h>
 #include <omp.h>
-#include "../../lib/Segment.h"
-#include "../../lib/utils/RealMatrix.h"
+#include "Segment.h"
+#include "RealMatrix.h"
 extern "C" {
 using namespace std;
 
@@ -17,7 +17,7 @@ using namespace std;
     }                                                               \
 }
 
-__global__ void computeFarFieldPatternKernel(ComplexMatrix F, ComplexMatrix C, RealMatrix phi, RealMatrix x_int, RealMatrix y_int, int n_obs, int n_int, double k) {
+__global__ void computeFarFieldPatternKernel(ComplexMatrix far_field_pattern, ComplexMatrix C, RealMatrix phi, RealMatrix x_int, RealMatrix y_int, int n_obs, int n_int, double k) {
     int r = threadIdx.x + blockIdx.x * blockDim.x;
     if (r < n_obs) {
         double exp_real, exp_imag, rho_int, phi_int, x, y, C_real, C_imag, phiIdx, val_real,val_imag,scaling_constant;
@@ -46,8 +46,8 @@ __global__ void computeFarFieldPatternKernel(ComplexMatrix F, ComplexMatrix C, R
         }
         // Setup scaling constant
         scaling_constant = sqrt(2/(M_PI*k));
-        F.setDeviceRealValue(r, scaling_constant*val_real);
-        F.setDeviceImagValue(r, scaling_constant*val_imag);
+        far_field_pattern.setDeviceRealValue(r, scaling_constant*val_real);
+        far_field_pattern.setDeviceImagValue(r, scaling_constant*val_imag);
     }
 }
 
@@ -62,7 +62,7 @@ void Segment::computeFarFieldPattern(RealMatrix phi) {
         // Blocks and threads
         dim3 dimBlock(32);
         dim3 dimGrid((n_obs + dimBlock.x - 1)/dimBlock.x);
-        computeFarFieldPatternKernel<<<dimGrid, dimBlock>>>(F, C, phi, aux_int.x, aux_int.y, n_obs, n_int, k0);
+        computeFarFieldPatternKernel<<<dimGrid, dimBlock>>>(far_field_pattern, C, phi, aux_int.x, aux_int.y, n_obs, n_int, k0);
         cudaCheckError();
         cudaDeviceSynchronize();
         
@@ -95,8 +95,8 @@ void Segment::computeFarFieldPattern(RealMatrix phi) {
             }
             // Setup scaling constant
             scaling_constant = sqrt(2/(M_PI*k0));
-            F.setHostRealValue(r, scaling_constant*val_real);
-            F.setHostImagValue(r, scaling_constant*val_imag);
+            far_field_pattern.setHostRealValue(r, scaling_constant*val_real);
+            far_field_pattern.setHostImagValue(r, scaling_constant*val_imag);
         }
     }
 

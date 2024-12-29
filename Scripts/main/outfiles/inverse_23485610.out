@@ -1,0 +1,615 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+total_grid_points =  50
+total_grid_points =  100
+total_grid_points =  150
+total_grid_points =  200
+total_grid_points =  250
+total_grid_points =  300
+total_grid_points =  350
+total_grid_points =  400
+total_grid_points =  450
+total_grid_points =  500
+total_grid_points =  550
+total_grid_points =  600
+total_grid_points =  650
+total_grid_points =  700
+angle_resolved
+runtimeTest/Retinin2x2_50
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0398 seconds
+
+log(det) =-1.386294e+02 
+Computing covariance matrix: 0.0003 seconds
+
+Computing inverse of covariance matrix: 0.0269 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0032 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_100
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0061 seconds
+
+log(det) =-2.772589e+02 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0269 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0025 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_150
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0115 seconds
+
+log(det) =-4.158883e+02 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0263 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0026 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_200
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0064 seconds
+
+log(det) =-5.545177e+02 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0247 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0026 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_250
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0024 seconds
+
+log(det) =-6.931472e+02 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0221 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0027 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_300
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0041 seconds
+
+log(det) =-8.317766e+02 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0225 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0031 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_350
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0112 seconds
+
+log(det) =-9.704061e+02 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0275 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0060 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_400
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0142 seconds
+
+log(det) =-1.109035e+03 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0284 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0025 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_450
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0044 seconds
+
+log(det) =-1.247665e+03 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0293 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0027 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_500
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0096 seconds
+
+log(det) =-1.386294e+03 
+Computing covariance matrix: 0.0003 seconds
+
+Computing inverse of covariance matrix: 0.0420 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0051 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_550
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0204 seconds
+
+log(det) =-1.524924e+03 
+Computing covariance matrix: 0.0003 seconds
+
+Computing inverse of covariance matrix: 0.0227 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0230 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_600
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0160 seconds
+
+log(det) =-1.663553e+03 
+Computing covariance matrix: 0.0003 seconds
+
+Computing inverse of covariance matrix: 0.0249 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0197 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_650
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0138 seconds
+
+log(det) =-1.802183e+03 
+Computing covariance matrix: 0.0004 seconds
+
+Computing inverse of covariance matrix: 0.0339 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0253 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_700
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0162 seconds
+
+log(det) =-1.940812e+03 
+Computing covariance matrix: 0.0004 seconds
+
+Computing inverse of covariance matrix: 0.0289 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0169 seconds
+
+Gaussian Process freed!
+total_grid_points =  50
+total_grid_points =  100
+total_grid_points =  150
+total_grid_points =  200
+total_grid_points =  250
+total_grid_points =  300
+total_grid_points =  350
+total_grid_points =  400
+total_grid_points =  450
+total_grid_points =  500
+total_grid_points =  550
+total_grid_points =  600
+total_grid_points =  650
+total_grid_points =  700
+one_observation
+runtimeTest/Retinin2x2_50
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0434 seconds
+
+log(det) =-1.386294e+02 
+Computing covariance matrix: 0.0003 seconds
+
+Computing inverse of covariance matrix: 0.0310 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0032 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_100
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0034 seconds
+
+log(det) =-2.772589e+02 
+Computing covariance matrix: 0.0001 seconds
+
+Computing inverse of covariance matrix: 0.0315 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0024 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_150
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0048 seconds
+
+log(det) =-4.158883e+02 
+Computing covariance matrix: 0.0001 seconds
+
+Computing inverse of covariance matrix: 0.0362 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0024 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_200
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0059 seconds
+
+log(det) =-5.545177e+02 
+Computing covariance matrix: 0.0001 seconds
+
+Computing inverse of covariance matrix: 0.0322 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0025 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_250
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0036 seconds
+
+log(det) =-6.931472e+02 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0259 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0025 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_300
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0064 seconds
+
+log(det) =-8.317766e+02 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0356 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0060 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_350
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0107 seconds
+
+log(det) =-9.704061e+02 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0200 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0026 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_400
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0104 seconds
+
+log(det) =-1.109035e+03 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0218 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0024 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_450
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0120 seconds
+
+log(det) =-1.247665e+03 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0206 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0027 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_500
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0139 seconds
+
+log(det) =-1.386294e+03 
+Computing covariance matrix: 0.0003 seconds
+
+Computing inverse of covariance matrix: 0.0225 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0028 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_550
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0130 seconds
+
+log(det) =-1.524924e+03 
+Computing covariance matrix: 0.0003 seconds
+
+Computing inverse of covariance matrix: 0.0224 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0167 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_600
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0086 seconds
+
+log(det) =-1.663553e+03 
+Computing covariance matrix: 0.0003 seconds
+
+Computing inverse of covariance matrix: 0.0468 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0032 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_650
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0138 seconds
+
+log(det) =-1.802183e+03 
+Computing covariance matrix: 0.0004 seconds
+
+Computing inverse of covariance matrix: 0.0253 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0178 seconds
+
+Gaussian Process freed!
+one_observation
+runtimeTest/Retinin2x2_700
+(n_obs, n_lambdas, n_beta) = (1, 51, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0160 seconds
+
+log(det) =-1.940812e+03 
+Computing covariance matrix: 0.0004 seconds
+
+Computing inverse of covariance matrix: 0.0245 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0148 seconds
+
+Gaussian Process freed!
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23485610: <inverseRUN> in cluster <dcc> Done
+
+Job <inverseRUN> was submitted from host <hpclogin1> by user <s194146> in cluster <dcc> at Fri Dec 20 10:27:25 2024
+Job was executed on host(s) <4*n-62-12-81>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Fri Dec 20 10:27:27 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Fri Dec 20 10:27:27 2024
+Terminated at Fri Dec 20 19:23:36 2024
+Results reported at Fri Dec 20 19:23:36 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J inverseRUN # name
+#BSUB -o outfiles/inverse_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 4 ## cores
+#BSUB -R "rusage[mem=1GB]" 
+#BSUB -W 24:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+
+python inverse.py 7 angle_resolved
+python inverse.py 7 one_observation
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   32918.00 sec.
+    Max Memory :                                 262 MB
+    Average Memory :                             240.63 MB
+    Total Requested Memory :                     4096.00 MB
+    Delta Memory :                               3834.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                9
+    Run time :                                   32217 sec.
+    Turnaround time :                            32171 sec.
+
+The output (if any) is above this job summary.
+

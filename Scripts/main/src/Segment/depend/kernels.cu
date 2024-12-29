@@ -1,7 +1,7 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
-#include "../../../lib/utils/RealMatrix.h"
+#include "RealMatrix.h"
 extern "C" {
 using namespace std;
 

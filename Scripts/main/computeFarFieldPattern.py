@@ -8,11 +8,12 @@ import math
 import sys
 
 def executeFarFieldPattern(total_grid_points=100,num_segments = 1, protein_structure = "demoleus2x2", beta = 0, lambd = 325e-9, deviceComputation = False, savefolder='.',printOutput=True): # "Retinin2x2" or "demoleus2x2"
-    if savefolder != "data_test":
+    if savefolder == "data_test":
+        phi = np.array([np.pi/2])
+    else:
         obs_grid = 500;
         phi = np.linspace(0,np.pi,obs_grid)
-    else:
-        phi = np.array([np.pi/2])
+        
 
     # Prepare observation points
     n = len(phi)
@@ -25,7 +26,7 @@ def executeFarFieldPattern(total_grid_points=100,num_segments = 1, protein_struc
     protein_structure_encoded = protein_structure.encode('utf-8')
 
     # Execute C implementation
-    if savefolder != "data_test":
+    if savefolder != "data_test" and savefolder != "data_test2":
         c_func.computeFarFieldPattern(phi_arr, n, protein_structure_encoded, num_segments,total_grid_points, ctypes.c_double(beta*math.pi/180), ctypes.c_double(lambd), int(deviceComputation), int(printOutput))
 
         mdic = dict();
@@ -69,7 +70,7 @@ def executeFarFieldPattern(total_grid_points=100,num_segments = 1, protein_struc
             data = np.loadtxt(filename)
             plt.plot(data[:,0],data[:,1],'.')
         plt.savefig(f'{dir}/tmpplots/all_points.png')
-    else:
+    elif savefolder == 'data_test':
         dir = "../../../../../../../work3/s194146/bioscatdata"
         filename = f'{dir}/Results/forward/farFieldPattern.txt'
         lambdas = np.linspace(250,750,2000)*1e-9;
@@ -88,7 +89,28 @@ def executeFarFieldPattern(total_grid_points=100,num_segments = 1, protein_struc
         mdic['betas'] = betas
         mdic['reflectance'] = reflectance
 
-        savename = f'{dir}/Results/forward/{savefolder}/{protein_structure}.mat'
+        savename = f'{dir}/Results/forward/data_test/one_observation/{protein_structure}.mat'
+        savemat(savename, mdic)
+    elif savefolder == 'data_test2':
+        dir = "../../../../../../../work3/s194146/bioscatdata"
+        filename = f'{dir}/Results/forward/farFieldPattern.txt'
+        lambdas = np.array([325,425,525,625])*1e-9;
+        betas = np.arange(0,100,10)
+        reflectance = np.zeros((len(lambdas),len(betas), 500))
+        for i, lambd in enumerate(lambdas):
+            for j, beta in enumerate(betas):
+                print(j+i*len(betas)+1,"/",len(lambdas)*len(betas),flush=True)
+                c_func.computeFarFieldPattern(phi_arr, n, protein_structure_encoded, num_segments,total_grid_points, ctypes.c_double(beta*math.pi/180), ctypes.c_double(lambd), int(deviceComputation), int(printOutput))
+                reflectance[i,j,:] = np.loadtxt(filename)
+                
+
+        os.remove(filename)
+        mdic = dict();
+        mdic['lambdas'] = lambdas
+        mdic['betas'] = betas
+        mdic['reflectance'] = reflectance
+
+        savename = f'{dir}/Results/forward/data_test/angle_resolved/{protein_structure}.mat'
         savemat(savename, mdic)
 
 
@@ -108,6 +130,9 @@ def gridPointTest(beta=0,protein_structure='demoleus2x2',grid_size=1000,lambd=32
 
 def dataTest(protein_structure='demoleus2x2',grid_size=1000):
     executeFarFieldPattern(num_segments = 1, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True,savefolder='data_test',printOutput=False)
+
+def dataTest2(protein_structure='demoleus2x2',grid_size=1000):
+    executeFarFieldPattern(num_segments = 1, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True,savefolder='data_test2',printOutput=False)
 
 
 if __name__ == "__main__":
@@ -143,6 +168,9 @@ if __name__ == "__main__":
     elif typeTest == 5:
         protein_structure = sys.argv[2] # "Retinin2x2" or "demoleus2x2"
         dataTest(protein_structure=protein_structure)
+    elif typeTest == 6:
+        protein_structure = sys.argv[2] # "Retinin2x2" or "demoleus2x2"
+        dataTest2(protein_structure=protein_structure)
 
 
 

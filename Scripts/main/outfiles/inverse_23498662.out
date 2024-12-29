@@ -1,0 +1,93 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+1
+Terminated
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23498662: <inverseM> in cluster <dcc> Exited
+
+Job <inverseM> was submitted from host <hpclogin1> by user <s194146> in cluster <dcc> at Sun Dec 29 11:51:07 2024
+Job was executed on host(s) <4*n-62-12-88>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Sun Dec 29 11:51:09 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Sun Dec 29 11:51:09 2024
+Terminated at Sun Dec 29 12:15:27 2024
+Results reported at Sun Dec 29 12:15:27 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J inverseM # name
+#BSUB -o outfiles/inverse_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 4 ## cores
+#BSUB -R "rusage[mem=1GB]" 
+#BSUB -W 24:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+
+num_execution=1
+chainNum=1
+echo $num_execution
+
+if [ $num_execution == 1 ];
+then
+    python inverse.py 1 $chainNum Retinin2x2 angle_resolved 2 0.7 0.07
+    python inverse.py 1 $chainNum demoleus2x2 angle_resolved 2 0.7 0.07
+fi
+
+if [ $num_execution == 2 ];
+then
+    python inverse.py 1 $chainNum Retinin2x2 angle_resolved 1 0.7 0.07
+    python inverse.py 1 $chainNum demoleus2x2 angle_resolved 1 0.7 0.07
+fi
+if [ $num_execution == 3 ];
+then
+    python inverse.py 1 $chainNum Retinin2x2 angle_resolved 3 0.7 0.07
+    python inverse.py 1 $chainNum demoleus2x2 angle_resolved 3 0.7 0.07
+fi
+
+if [ $num_execution == 4 ];
+then
+    python inverse.py 1 $chainNum Retinin2x2 angle_resolved 2 0.5 0.07
+    python inverse.py 1 $chainNum demoleus2x2 angle_resolved 2 0.5 0.07
+fi
+if [ $num_execution == 5 ];
+then
+    python inverse.py 1 $chainNum Retinin2x2 angle_resolved 2 0.9 0.07
+    python inverse.py 1 $chainNum demoleus2x2 angle_resolved 2 0.9 0.07
+fi
+
+if [ $num_execution == 6 ];
+then
+    python inverse.py 1 $chainNum Retinin2x2 angle_resolved 2 0.7 0.04
+    python inverse.py 1 $chainNum demoleus2x2 angle_resolved 2 0.7 0.04
+
+(... more ...)
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 143.
+
+Resource usage summary:
+
+    CPU time :                                   1386.00 sec.
+    Max Memory :                                 202 MB
+    Average Memory :                             174.08 MB
+    Total Requested Memory :                     4096.00 MB
+    Delta Memory :                               3894.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                9
+    Run time :                                   1463 sec.
+    Turnaround time :                            1460 sec.
+
+The output (if any) is above this job summary.
+

@@ -1,10 +1,10 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
-#include "../../../lib/Nanostructure.h"
-#include "../../../lib/utils/RealMatrix.h"
-#include "../../../lib/Segment/kernels.h"
-#include "../../../lib/Coordinates.h"
+#include "Nanostructure.h"
+#include "RealMatrix.h"
+#include "kernels.h"
+#include "Coordinates.h"
 extern "C" {
 using namespace std;
 

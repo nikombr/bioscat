@@ -1,0 +1,104 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+total_grid_points =  50
+total_grid_points =  100
+angle_resolved
+runtimeTest/Retinin2x2_tau_0.5_ell_0.07_delta_0.005_gamma_1e5
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0358 seconds
+
+log(det) =-1.386294e+02 
+Computing covariance matrix: 0.0003 seconds
+
+Computing inverse of covariance matrix: 0.0171 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0205 seconds
+
+Gaussian Process freed!
+angle_resolved
+runtimeTest/Retinin2x2_tau_0.5_ell_0.07_delta_0.005_gamma_1e5
+(n_obs, n_lambdas, n_beta) = (200, 4, 10)
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0065 seconds
+
+log(det) =-2.772589e+02 
+Computing covariance matrix: 0.0002 seconds
+
+Computing inverse of covariance matrix: 0.0414 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0119 seconds
+
+Gaussian Process freed!
+Traceback (most recent call last):
+  File "/zhome/00/b/147112/bioscat/Scripts/main/inverse.py", line 118, in <module>
+    runtimeTest(datatype)
+  File "/zhome/00/b/147112/bioscat/Scripts/main/inverse.py", line 80, in runtimeTest
+    executeInverse(testTypeName = 'runtimeTest', tau = tau, ell = ell, gamma = gamma, delta = delta, datatype = datatype, total_grid_points=total_grid_points, maxiter=100, covfunc = "squared_exponential", protein_structure = protein_structure, decay_rate=0, fine_tuning = False) 
+  File "/zhome/00/b/147112/bioscat/Scripts/main/inverse.py", line 39, in executeInverse
+    c_func.inverse(protein_structure_encoded, num_segments, total_grid_points, hyper_arr, len(hyper_arr), type_covfunc, ctypes.c_double(delta), maxiter, filename.encode('utf-8'), ctypes.c_double(decay_rate), ctypes.c_double(gamma), int(fine_tuning), datatype.encode('utf-8'))
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23485603: <inverseRUN> in cluster <dcc> Exited
+
+Job <inverseRUN> was submitted from host <hpclogin1> by user <s194146> in cluster <dcc> at Fri Dec 20 10:22:59 2024
+Job was executed on host(s) <4*n-62-12-81>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Fri Dec 20 10:23:00 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Fri Dec 20 10:23:00 2024
+Terminated at Fri Dec 20 10:23:54 2024
+Results reported at Fri Dec 20 10:23:54 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J inverseRUN # name
+#BSUB -o outfiles/inverse_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 4 ## cores
+#BSUB -R "rusage[mem=1GB]" 
+#BSUB -W 24:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+
+python inverse.py 7 angle_resolved
+python inverse.py 7 one_observation
+
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   45.00 sec.
+    Max Memory :                                 196 MB
+    Average Memory :                             189.33 MB
+    Total Requested Memory :                     4096.00 MB
+    Delta Memory :                               3900.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                9
+    Run time :                                   132 sec.
+    Turnaround time :                            55 sec.
+
+The output (if any) is above this job summary.
+

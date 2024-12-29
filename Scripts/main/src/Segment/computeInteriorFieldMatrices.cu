@@ -4,9 +4,9 @@
 #include <iostream>
 #include <string.h>
 #include <omp.h>
-#include "../../lib/Segment.h"
-#include "../../lib/utils/RealMatrix.h"
-#include "../../lib/Segment/computeFieldMatricesKernel.h"
+#include "Segment.h"
+#include "RealMatrix.h"
+#include "computeFieldMatricesKernel.h"
 extern "C" {
 using namespace std;
 
@@ -57,8 +57,7 @@ void Segment::computeInteriorFieldMatrices(RealMatrix x, RealMatrix y) {
         cudaDeviceSynchronize();
 
     }
-    else {
-        //#pragma omp parallel for collapse(2) 
+    else { 
         computeFieldMatricesCPU(F1, F2, F3, x, aux_ext.x, y, aux_ext.y, const1, const2, rows, cols, k1);
     }
 }

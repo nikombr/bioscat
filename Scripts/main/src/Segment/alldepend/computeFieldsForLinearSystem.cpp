@@ -3,7 +3,7 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
-#include "../../../lib/Segment.h"
+#include "Segment.h"
 extern "C" {
 using namespace std;
 

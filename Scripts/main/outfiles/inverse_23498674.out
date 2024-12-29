@@ -1,0 +1,31 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23498674: <inverseM> in cluster <dcc> Exited
+
+Job <inverseM> was submitted from host <hpclogin1> by user <s194146> in cluster <dcc> at Sun Dec 29 12:11:28 2024
+Job was executed on host(s) <4*n-62-12-88>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Sun Dec 29 12:15:27 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Sun Dec 29 12:15:27 2024
+Terminated at Sun Dec 29 12:15:28 2024
+Results reported at Sun Dec 29 12:15:28 2024
+Cannot open your job file: /zhome/00/b/147112/.lsbatch/1735470688.23498674
+TERM_OWNER: job killed by owner.
+Exited with signal termination: 2.
+
+Resource usage summary:
+
+    CPU time :                                   0.04 sec.
+    Max Memory :                                 1 MB
+    Average Memory :                             1.00 MB
+    Total Requested Memory :                     4096.00 MB
+    Delta Memory :                               4095.00 MB
+    Max Swap :                                   -
+    Max Processes :                              1
+    Max Threads :                                1
+    Run time :                                   1 sec.
+    Turnaround time :                            240 sec.
+
+The output (if any) is above this job summary.
+

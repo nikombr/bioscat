@@ -8,7 +8,7 @@ import math
 import shutil
 
 datatype = 'angle_resolved' # 'one_observation'  'angle_resolved'
-protein_structure = 'Retinin2x2';
+protein_structure = 'demoleus2x2'; # Retinin2x2 demoleus2x2
 total_grid_points = 1000
 testTypeName = 'maternParameterTest' # maternParameterTest squaredExponentialParameterTest
 
@@ -35,7 +35,7 @@ else:
 if testTypeName == None:
     filenamespec = f"{protein_structure}/{covfunc}/{spec}_delta_{delta}_gamma_{gamma:.0e}".replace("+0", "")
 else:
-    filenamespec = f"{testTypeName}/{protein_structure}_{spec}_delta_{delta}_gamma_{gamma:.0e}".replace("+0", "")
+    filenamespec = f"{testTypeName}/{protein_structure}/{spec}_delta_{delta}_gamma_{gamma:.0e}".replace("+0", "")
 
 dir = "../../../../../../../work3/s194146/bioscatdata"
 plt.figure()
@@ -56,7 +56,7 @@ elif covfunc == "matern":
     type_covfunc = 2
     hyper = np.array([tau,ell,p])
     spec = f"tau_{tau}_ell_{ell:.2f}_p_{p}"
-filename = f"{dir}/Results/inverse/{datatype}/{filenamespec}_output.txt"
+filename = f"{dir}/Results/inverse/{datatype}/{filenamespec}/chain_1_output.txt"
 data = np.loadtxt(filename);
 [m, n] = data.shape
 print(f"{m} accepted")

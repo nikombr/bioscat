@@ -3,8 +3,8 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
+#include "ComplexMatrix.h"
 extern "C" {
-#include "../../lib/utils/ComplexMatrix.h"
 using namespace std;
 
 ComplexMatrix::ComplexMatrix(int rows, int cols) {

@@ -1,0 +1,31 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23490838: <profile->> in cluster <dcc> Exited
+
+Job <profile->> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Sat Dec 21 23:44:25 2024
+Job was executed on host(s) <64*n-62-12-89>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Sun Dec 22 15:48:28 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Sun Dec 22 15:48:28 2024
+Terminated at Sun Dec 22 15:48:28 2024
+Results reported at Sun Dec 22 15:48:28 2024
+Cannot open your job file: /zhome/00/b/147112/.lsbatch/1734821065.23490838
+TERM_OWNER: job killed by owner.
+Exited with signal termination: 2.
+
+Resource usage summary:
+
+    CPU time :                                   0.03 sec.
+    Max Memory :                                 13 MB
+    Average Memory :                             13.00 MB
+    Total Requested Memory :                     524288.00 MB
+    Delta Memory :                               524275.00 MB
+    Max Swap :                                   -
+    Max Processes :                              1
+    Max Threads :                                1
+    Run time :                                   0 sec.
+    Turnaround time :                            57843 sec.
+
+The output (if any) is above this job summary.
+

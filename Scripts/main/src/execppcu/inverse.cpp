@@ -96,24 +96,23 @@ void initCoordInNanostructure(Nanostructure nanostructure, char * protein_struct
 
 double computeLogLikelihood(RealMatrix trueReflectance, RealMatrix reflectance, bool deviceComputation, double gamma) {
 
-    if (false) {
-        return 0;
-    }
-    else {
+    if (deviceComputation) {
         reflectance.toHost();
-        double L = 0;
-        //#pragma omp parallel for reduction(+:L)
-        for (int i = 0; i < reflectance.rows; i++) {
-            for (int j = 0; j < reflectance.cols; j++) {
-                for (int k = 0; k < reflectance.depth; k++) {
-                    double val = abs(trueReflectance.getHostValue(i,j,k) - reflectance.getHostValue(i,j,k));
-                    L += val*val;
-                }
+    }
+
+    double L = 0;
+    //#pragma omp parallel for reduction(+:L)
+    for (int i = 0; i < reflectance.rows; i++) {
+        for (int j = 0; j < reflectance.cols; j++) {
+            for (int k = 0; k < reflectance.depth; k++) {
+                double val = abs(trueReflectance.getHostValue(i,j,k) - reflectance.getHostValue(i,j,k));
+                L += val*val;
             }
         }
-        //int N = reflectance.rows * reflectance.cols * reflectance.depth;
-        return -0.5*gamma*sqrt(L);
     }
+    //int N = reflectance.rows * reflectance.cols * reflectance.depth;
+    return -0.5*gamma*sqrt(L);
+    
     
 
 }
@@ -135,7 +134,7 @@ double computeInverseStep(Nanostructure proposedNanostructure, BioScat bioscat, 
     return computeLogLikelihood(trueReflectance, reflectance, deviceComputation, gamma);
 }
 
-void inverse(char * protein_structure, int num_segments, int total_grid_points, double * hyper, int num, int type_covfunc, double delta, int maxiter, char * filename, double decay_rate, double gamma, int fine_tuning_int, char * datatype) {
+void inverse(char * protein_structure, int num_segments, int total_grid_points, double * hyper, int num, int type_covfunc, double delta, int maxiter, char * filename, double decay_rate, double gamma, int fine_tuning_int, char * datatype, int chainNum) {
 
     double start, stop; // Time measurement
     double Lprev, Lstar, alpha, u, logPrior;
@@ -221,7 +220,7 @@ void inverse(char * protein_structure, int num_segments, int total_grid_points, 
 
     
     // Seed the random number generator with the current time
-    //srand(time(NULL));
+    srand(time(NULL));
     
     GP.realisation();
     // Send to host
@@ -329,6 +328,7 @@ void inverse(char * protein_structure, int num_segments, int total_grid_points, 
         fprintf(logfile, "%d %e %e %f %f %f %e\n", acc, delta, gamma, Lprev, Lstar, alpha, end - start);
         fflush(logfile);
 
+        if (acc > 5000) break;
           
     }
 

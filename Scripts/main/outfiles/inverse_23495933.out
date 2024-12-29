@@ -1,0 +1,164 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+4
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+Error opening file: No such file or directory
+Error opening file: No such file or directory
+Error opening file: No such file or directory
+Error opening file: No such file or directory
+Memory allocation failed.
+Memory allocation failed.
+angle_resolved
+maternDecayTest/Retinin2x2/chain_1_tau_0.7_ell_0.04_p_2_delta_0.1_gamma_1e5
+Error opening file: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/Retinin2x2/phi.txt
+Error opening file: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/Retinin2x2/lambdas.txt
+Error opening file: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/Retinin2x2/betas.txt
+(n_obs, n_lambdas, n_beta) = (0, 0, 0)
+File: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/Retinin2x2/reflectance.txt
+File: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/Retinin2x2/lambdas.txt
+File: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/Retinin2x2/betas.txt
+File: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/Retinin2x2/phi.txt
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0260 seconds
+
+log(det) =-4.280099e+02 
+Computing covariance matrix: 0.0004 seconds
+
+Computing inverse of covariance matrix: 0.0331 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0152 seconds
+
+Failed to free memory on device: invalid argument
+Failed to free memory on device: invalid argument
+Failed to free memory on device: invalid argument
+Gaussian Process freed!
+Failed to free memory on device: invalid argument
+Failed to free memory on device: invalid argument
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+Memory allocation failed.
+Error opening file: No such file or directory
+Error opening file: No such file or directory
+Error opening file: No such file or directory
+Error opening file: No such file or directory
+Memory allocation failed.
+Memory allocation failed.
+angle_resolved
+maternDecayTest/demoleus2x2/chain_1_tau_0.7_ell_0.04_p_2_delta_0.1_gamma_1e5
+Error opening file: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/demoleus2x2/phi.txt
+Error opening file: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/demoleus2x2/lambdas.txt
+Error opening file: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/demoleus2x2/betas.txt
+(n_obs, n_lambdas, n_beta) = (0, 0, 0)
+File: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/demoleus2x2/reflectance.txt
+File: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/demoleus2x2/lambdas.txt
+File: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/demoleus2x2/betas.txt
+File: ../../../../../../../work3/s194146/bioscatdata/Data/artificial_data/comsol/angle_resolved/demoleus2x2/phi.txt
+--------------------------------------
+We are computing curves on device!
+--------------------------------------
+
+Initialization and allocation: 0.0212 seconds
+
+log(det) =-4.280099e+02 
+Computing covariance matrix: 0.0004 seconds
+
+Computing inverse of covariance matrix: 0.0447 seconds
+
+Cholesky factorization successful.
+
+Cholesky factorization: 0.0055 seconds
+
+Failed to free memory on device: invalid argument
+Failed to free memory on device: invalid argument
+Failed to free memory on device: invalid argument
+Gaussian Process freed!
+Failed to free memory on device: invalid argument
+Failed to free memory on device: invalid argument
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23495933: <invDecayM> in cluster <dcc> Done
+
+Job <invDecayM> was submitted from host <hpclogin1> by user <s194146> in cluster <dcc> at Wed Dec 25 12:50:41 2024
+Job was executed on host(s) <4*n-62-12-81>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Wed Dec 25 12:50:46 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Wed Dec 25 12:50:46 2024
+Terminated at Wed Dec 25 12:51:03 2024
+Results reported at Wed Dec 25 12:51:03 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J invDecayM # name
+#BSUB -o outfiles/inverse_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 4 ## cores
+#BSUB -R "rusage[mem=1GB]" 
+#BSUB -W 24:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+
+num_execution=4
+echo $num_execution
+
+if [ $num_execution == 1 ];
+then
+    python inverse.py 3 Retinin2x2 angle_resolved 0.1 1e-3
+    python inverse.py 3 demoleus2x2 angle_resolved 0.1 1e-3
+fi
+
+if [ $num_execution == 2 ];
+then
+    python inverse.py 3 Retinin2x2 angle_resolved 0.3 1e-3
+    python inverse.py 3 demoleus2x2 angle_resolved 0.3 1e-3
+fi
+if [ $num_execution == 3 ];
+then
+    python inverse.py 3 Retinin2x2 angle_resolved 0.1 1e-2
+    python inverse.py 3 demoleus2x2 angle_resolved 0.1 1e-2
+fi
+
+if [ $num_execution == 4 ];
+then
+    python inverse.py 3 Retinin2x2 angle_resolved 0.3 1e-2
+    python inverse.py 3 demoleus2x2 angle_resolved 0.3 1e-2
+fi
+
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   17.00 sec.
+    Max Memory :                                 176 MB
+    Average Memory :                             176.00 MB
+    Total Requested Memory :                     4096.00 MB
+    Delta Memory :                               3920.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                9
+    Run time :                                   19 sec.
+    Turnaround time :                            22 sec.
+
+The output (if any) is above this job summary.
+

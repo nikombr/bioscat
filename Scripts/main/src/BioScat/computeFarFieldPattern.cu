@@ -83,13 +83,13 @@ void BioScat::computeFarFieldPattern() {
         if (polarisation == 1) {
             
             for (int i = 0; i < num_segments; i++) {
-                moveFieldsFromSegments<<<dimGrid, dimBlock>>>(F_pol[0], segments[i].F, n);
+                moveFieldsFromSegments<<<dimGrid, dimBlock>>>(F_pol[0], segments[i].far_field_pattern, n);
                 cudaDeviceSynchronize();
             }
         }
         else if (polarisation == 2) {
             for (int i = 0; i < num_segments; i++) {
-                moveFieldsFromSegments<<<dimGrid, dimBlock>>>(F_pol[1], segments[i].F, n);
+                moveFieldsFromSegments<<<dimGrid, dimBlock>>>(F_pol[1], segments[i].far_field_pattern, n);
                 cudaDeviceSynchronize();
             }
         }

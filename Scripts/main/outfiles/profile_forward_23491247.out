@@ -1,0 +1,220 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+/zhome/00/b/147112/.lsbatch/1734878948.23491247.shell: line 15: 1833490 Killed                  OMP_NUM_THREADS=1 python profileForward.py 2 1
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23491247: <prof->h01> in cluster <dcc> Exited
+
+Job <prof->h01> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Sun Dec 22 15:49:08 2024
+Job was executed on host(s) <4*n-62-12-88>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Sun Dec 22 15:49:09 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Sun Dec 22 15:49:09 2024
+Terminated at Mon Dec 23 04:15:49 2024
+Results reported at Mon Dec 23 04:15:49 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J prof->h01 # name
+#BSUB -o outfiles/profile_forward_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 4 ## cores
+#BSUB -R "rusage[mem=8GB]" 
+#BSUB -W 24:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+
+OMP_NUM_THREADS=1 python profileForward.py 2 1
+
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 137.
+
+Resource usage summary:
+
+    CPU time :                                   46279.00 sec.
+    Max Memory :                                 32768 MB
+    Average Memory :                             1327.99 MB
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               0.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                9
+    Run time :                                   44828 sec.
+    Turnaround time :                            44801 sec.
+
+The output (if any) is above this job summary.
+

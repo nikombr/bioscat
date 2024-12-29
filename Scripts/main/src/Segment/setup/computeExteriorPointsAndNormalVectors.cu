@@ -2,10 +2,10 @@
 #include <iostream>
 #include <string.h>
 extern "C" {
-#include "../../../lib/Nanostructure.h"
-#include "../../../lib/Coordinates.h"
-#include "../../../lib/utils/RealMatrix.h"
-#include "../../../lib/Segment/kernels.h"
+#include "Nanostructure.h"
+#include "Coordinates.h"
+#include "RealMatrix.h"
+#include "kernels.h"
 using namespace std;
 
 __global__ void computeExteriorPointsAndNormalVectorsKernel(Coordinates aux_ext, Coordinates normal_vectors, RealMatrix x_temp, RealMatrix y_temp, int n, double alpha, int n_top) {

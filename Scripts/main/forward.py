@@ -216,10 +216,10 @@ if __name__ == "__main__":
         typeTest = 0;
         print("Running with default.")
         num_segments = 1
-        beta = 0
+        beta = 30
         obs_grid = 300;
-        grid_size=10
-        protein_structure = "sintest" # "Retinin2x2" or "demoleus2x2"
+        grid_size=300
+        protein_structure = "Retinin2x2" # "Retinin2x2" or "demoleus2x2"
         location = "near"
         executeForward(num_segments = num_segments, beta = beta, total_grid_points=grid_size, protein_structure = protein_structure, deviceComputation = True, location = location, obs_grid=obs_grid,savefolder='')
     if typeTest == 1:

@@ -4,9 +4,9 @@
 #include <iostream>
 #include <string.h>
 #include <omp.h>
-#include "../../lib/Segment.h"
-#include "../../lib/utils/RealMatrix.h"
-#include "../../lib/Segment/computeFieldMatricesKernel.h"
+#include "Segment.h"
+#include "RealMatrix.h"
+#include "computeFieldMatricesKernel.h"
 extern "C" {
 using namespace std;
 

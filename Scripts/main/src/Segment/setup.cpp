@@ -4,9 +4,9 @@
 #include <iostream>
 #include <string.h>
 #include <math.h>
-#include "../../lib/Segment.h"
-#include "../../lib/utils/RealMatrix.h"
-#include "../../lib/Coordinates.h"
+#include "Segment.h"
+#include "RealMatrix.h"
+#include "Coordinates.h"
 extern "C" {
 using namespace std;
 

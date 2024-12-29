@@ -39,29 +39,29 @@ def executeProfileForward(total_grid_points=100, obs_grid=300, num_segments = 1,
 
     # Execute C implementation
     c_func.executeProfileForward(x_arr, y_arr, n, protein_structure_encoded, num_segments,total_grid_points, ctypes.c_double(beta*math.pi/180), ctypes.c_double(lambd), int(deviceComputation))
-    dir = "../../../../../../../work3/s194146/bioscatdata"
-    plt.figure()
-    for i in range(num_segments):
-        filename = f'{dir}/Data/segments/test_segment_{i+1}.txt'
-        data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1],'k.')
-
-    #plt.figure()
-    for i in range(num_segments):
-        filename = f'{dir}/Data/segments/ext_segment_{i+1}.txt'
-        data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1],'b.')
-    #plt.savefig('plots/ext_points.png')
-
-    #plt.figure()
-    for i in range(num_segments):
-        filename = f'{dir}/Data/segments/int_segment_{i+1}.txt'
-        data = np.loadtxt(filename)
-        plt.plot(data[:,0],data[:,1],'r.')
-    ax = plt.gca()
-    ax.set_aspect('equal', adjustable='box')
-    plt.savefig(f'{dir}/tmpplots/all_points.png',dpi=300)
-    plt.close()
 
 if __name__ == "__main__":
-    executeProfileForward(total_grid_points=100,obs_grid=100,deviceComputation=False)
+
+    if len(sys.argv) > 1:
+        dev = int(sys.argv[1])
+        if dev == 1:
+            deviceComputation = True
+        else:
+            deviceComputation = False
+            num_threads = int(sys.argv[2])
+    else:
+        deviceComputation = True;
+
+    dir = "../../../../../../../work3/s194146/bioscatdata"
+    if deviceComputation:
+        filename = f'{dir}/Results/profiling/grid/forward_device.txt'
+        if os.path.isfile(filename):
+            os.remove(filename)
+    else:
+        filename = f'{dir}/Results/profiling/grid/forward_host_{num_threads}.txt'
+        if os.path.isfile(filename):
+            os.remove(filename)
+    obs_grid = 300;
+    
+    for total_grid_points in range(50,1050,50):
+        executeProfileForward(total_grid_points=total_grid_points,obs_grid=obs_grid,deviceComputation=deviceComputation)

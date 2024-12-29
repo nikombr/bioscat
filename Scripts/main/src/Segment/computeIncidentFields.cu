@@ -3,9 +3,9 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
-#include "../../lib/Segment.h"
+#include "Segment.h"
 extern "C" {
-#include "../../lib/utils/RealMatrix.h"
+#include "RealMatrix.h"
 using namespace std;
 
 __global__ void computeFieldKernelReal(ComplexMatrix field, RealMatrix y, int n, double interior_constant, double exterior_constant) {
@@ -48,16 +48,21 @@ void Segment::computeIncidentFields(RealMatrix y) {
     }
     else {
         if (polarisation == 1) {
-            for (int j = 0; j < rows; j++) E_inc.z.setHostRealValue(j,                     cos(constants.k0 * y.getHostValue(j)));
-            for (int j = 0; j < rows; j++) E_inc.z.setHostImagValue(j,                     sin(constants.k0 * y.getHostValue(j)));
-            for (int j = 0; j < rows; j++) H_inc.x.setHostRealValue(j, -1/constants.eta0 * cos(constants.k0 * y.getHostValue(j)));
-            for (int j = 0; j < rows; j++) H_inc.x.setHostImagValue(j, -1/constants.eta0 * sin(constants.k0 * y.getHostValue(j)));
+            #pragma omp parallel for
+            for (int j = 0; j < rows; j++) {
+                E_inc.z.setHostRealValue(j,                     cos(constants.k0 * y.getHostValue(j)));
+                E_inc.z.setHostImagValue(j,                     sin(constants.k0 * y.getHostValue(j)));
+                H_inc.x.setHostRealValue(j, -1/constants.eta0 * cos(constants.k0 * y.getHostValue(j)));
+                H_inc.x.setHostImagValue(j, -1/constants.eta0 * sin(constants.k0 * y.getHostValue(j)));
+            }
         }
         else {
-            for (int j = 0; j < rows; j++) E_inc.x.setHostRealValue(j,                    cos(constants.k0 * y.getHostValue(j)));
-            for (int j = 0; j < rows; j++) E_inc.x.setHostImagValue(j,                    sin(constants.k0 * y.getHostValue(j)));
-            for (int j = 0; j < rows; j++) H_inc.z.setHostRealValue(j, 1/constants.eta0 * cos(constants.k0 * y.getHostValue(j)));
-            for (int j = 0; j < rows; j++) H_inc.z.setHostImagValue(j, 1/constants.eta0 * sin(constants.k0 * y.getHostValue(j)));
+            for (int j = 0; j < rows; j++) {
+                E_inc.x.setHostRealValue(j,                    cos(constants.k0 * y.getHostValue(j)));
+                E_inc.x.setHostImagValue(j,                    sin(constants.k0 * y.getHostValue(j)));
+                H_inc.z.setHostRealValue(j, 1/constants.eta0 * cos(constants.k0 * y.getHostValue(j)));
+                H_inc.z.setHostImagValue(j, 1/constants.eta0 * sin(constants.k0 * y.getHostValue(j)));
+            }
         }
     }
 }

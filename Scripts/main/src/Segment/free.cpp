@@ -1,10 +1,4 @@
-//#include <stdlib.h>
-//#include <stdio.h>
-//#include <cuda_runtime_api.h>
-//#include <iostream>
-//#include <string.h>
-//#include "../../lib/cuSolver.h"
-#include "../../lib/Segment.h"
+#include "Segment.h"
 
 extern "C" {
 using namespace std;
@@ -14,17 +8,14 @@ void Segment::free() {
     // Frees all allocated arrays
     aux_int.free();
     aux_ext.free();
+    aux_ext_temp.free();
     test_points.free();
     normal_vectors.free();
     C.free();
     D.free();
     A.free();
-    A_real.free();
-    A_imag.free();
     b.free();
-    b_real.free();
-    b_imag.free();
-    F.free();
+    far_field_pattern.free();
     E_scat_matrix.free();
     H_scat_matrix.free();
     E_int_matrix.free(); 

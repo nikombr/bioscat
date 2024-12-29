@@ -4,7 +4,7 @@
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <string.h>
-#include "../../lib/utils/RealMatrix.h"
+#include "RealMatrix.h"
 extern "C" {
 using namespace std;
 
@@ -17,7 +17,8 @@ RealMatrix::RealMatrix(int rows) {
     this->device     = true;
 
     // Allocate vectors on host
-    cudaMallocHost((void **) &val_h,    rows*cols*depth*sizeof(double));
+    cudaMallocHost((void **) &val_h, rows*cols*depth*sizeof(double));
+
     if (val_h == NULL) {
         fprintf(stderr, "Memory allocation failed.\n");
         return;
@@ -42,7 +43,7 @@ RealMatrix::RealMatrix(int rows, bool host, bool device) {
 
     // Allocate vectors on host
     if (host) {
-        cudaMallocHost((void **) &val_h,    rows*cols*depth*sizeof(double));
+        cudaMallocHost((void **) &val_h, rows*cols*depth*sizeof(double));
         if (val_h == NULL) {
             fprintf(stderr, "Memory allocation failed.\n");
             return;

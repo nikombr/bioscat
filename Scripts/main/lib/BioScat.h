@@ -15,7 +15,6 @@ class BioScat {
         char * protein_structure;    // Type of protein structure. Either "Retinin2x2" or "demoleus2x2"
         
         int total_grid_points = 1000;       // The number of grid points used along each axis
-        vector<Segment> segments;
         int num_segments;
         Field E_scat;
         Field H_scat;
@@ -31,10 +30,11 @@ class BioScat {
         Field H_int_pol[2];
         ComplexMatrix F_pol[2];
         bool deviceComputation = false; // True if we should compute on the device
-        int polarisation; // Polarisation polarisation, 1 or 2
         double beta;
 
     public:
+        int polarisation; // Polarisation polarisation, 1 or 2
+        vector<Segment> segments;
         Nanostructure nanostructure; // Information stored about the specific nanostructure 
         //RealMatrix reflectance;
         GaussianProcess GP;

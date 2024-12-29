@@ -12,36 +12,57 @@
 module load gcc/12.3.0-binutils-2.40
 module load cuda/12.2.2
 
-num_execution=5
+num_execution=2
+chainNum=1
 echo $num_execution
 
 if [ $num_execution == 1 ];
 then
-    python inverse.py 2 demoleus2x2 angle_resolved 0.7 0.07
-    python inverse.py 2 Retinin2x2 angle_resolved 0.7 0.07
+    python inverse.py 2 $chainNum Retinin2x2 angle_resolved 0.7 0.07
+    python inverse.py 2 $chainNum Retinin2x2 angle_resolved 0.7 0.1
+    python inverse.py 2 $chainNum Retinin2x2 angle_resolved 0.7 0.04
+    python inverse.py 2 $chainNum Retinin2x2 angle_resolved 0.5 0.07
+    python inverse.py 2 $chainNum Retinin2x2 angle_resolved 0.9 0.07
 fi
 
 if [ $num_execution == 2 ];
 then
-    python inverse.py 2 demoleus2x2 angle_resolved 0.7 0.1
-    python inverse.py 2 Retinin2x2 angle_resolved 0.7 0.1
+    python inverse.py 2 $chainNum demoleus2x2 angle_resolved 0.7 0.07
+    python inverse.py 2 $chainNum demoleus2x2 angle_resolved 0.7 0.1
+    python inverse.py 2 $chainNum demoleus2x2 angle_resolved 0.7 0.04
+    python inverse.py 2 $chainNum demoleus2x2 angle_resolved 0.5 0.07
+    python inverse.py 2 $chainNum demoleus2x2 angle_resolved 0.9 0.07
+fi
+
+exit
+
+if [ $num_execution == 1 ];
+then
+    python inverse.py 2 $chainNum demoleus2x2 angle_resolved 0.7 0.07
+    python inverse.py 2 $chainNum Retinin2x2 angle_resolved 0.7 0.07
+fi
+
+if [ $num_execution == 2 ];
+then
+    python inverse.py 2 $chainNum demoleus2x2 angle_resolved 0.7 0.1
+    python inverse.py 2 $chainNum Retinin2x2 angle_resolved 0.7 0.1
 fi
 
 if [ $num_execution == 3 ];
 then
-    python inverse.py 2 demoleus2x2 angle_resolved 0.7 0.04
-    python inverse.py 2 Retinin2x2 angle_resolved 0.7 0.04
+    python inverse.py 2 $chainNum demoleus2x2 angle_resolved 0.7 0.04
+    python inverse.py 2 $chainNum Retinin2x2 angle_resolved 0.7 0.04
 fi
 
 if [ $num_execution == 4 ];
 then
-    python inverse.py 2 demoleus2x2 angle_resolved 0.5 0.07
-    python inverse.py 2 Retinin2x2 angle_resolved 0.5 0.07
+    python inverse.py 2 $chainNum demoleus2x2 angle_resolved 0.5 0.07
+    python inverse.py 2 $chainNum Retinin2x2 angle_resolved 0.5 0.07
 fi
 if [ $num_execution == 5 ];
 then
-    python inverse.py 2 demoleus2x2 angle_resolved 0.9 0.07
-    python inverse.py 2 Retinin2x2 angle_resolved 0.9 0.07
+    python inverse.py 2 $chainNum demoleus2x2 angle_resolved 0.9 0.07
+    python inverse.py 2 $chainNum Retinin2x2 angle_resolved 0.9 0.07
 fi
 
 ## ELL="0.04 0.07 0.1";

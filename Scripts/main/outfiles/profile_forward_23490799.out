@@ -1,0 +1,92 @@
+Loaded module: gcc/12.3.0-binutils-2.40
+Loaded module: cuda/12.2.2
+2
+/zhome/00/b/147112/.lsbatch/1734818733.23490799.shell: line 26: 1609430 Segmentation fault      OMP_NUM_THREADS=1 python profileForward.py 2 1
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23490799: <profile->> in cluster <dcc> Done
+
+Job <profile->> was submitted from host <n-62-11-47> by user <s194146> in cluster <dcc> at Sat Dec 21 23:05:33 2024
+Job was executed on host(s) <64*n-62-12-88>, in queue <gpuh100>, as user <s194146> in cluster <dcc> at Sat Dec 21 23:05:34 2024
+</zhome/00/b/147112> was used as the home directory.
+</zhome/00/b/147112/bioscat/Scripts/main> was used as the working directory.
+Started at Sat Dec 21 23:05:34 2024
+Terminated at Sat Dec 21 23:05:37 2024
+Results reported at Sat Dec 21 23:05:37 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J profile-> # name
+#BSUB -o outfiles/profile_forward_%J.out # output file
+#BSUB -q gpuh100
+#BSUB -n 64 ## cores
+#BSUB -R "rusage[mem=8GB]" 
+#BSUB -W 24:00 # useable time in minutes
+##BSUB -N # send mail when done
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=1:mode=exclusive_process"
+
+module load gcc/12.3.0-binutils-2.40
+module load cuda/12.2.2
+
+num_execution=2
+echo $num_execution
+
+if [ $num_execution == 1 ];
+then
+    python profileForward.py 1
+fi
+
+if [ $num_execution == 2 ];
+then
+    OMP_NUM_THREADS=1 python profileForward.py 2 1
+fi
+
+if [ $num_execution == 3 ];
+then
+    OMP_NUM_THREADS=8 python profileForward.py 2 8
+fi
+
+if [ $num_execution == 4 ];
+then
+    OMP_NUM_THREADS=16 python profileForward.py 2 16
+fi
+if [ $num_execution == 5 ];
+then
+    OMP_NUM_THREADS=24 python profileForward.py 2 24
+fi
+if [ $num_execution == 6 ];
+then
+    OMP_NUM_THREADS=32 python profileForward.py 2 32
+fi
+
+if [ $num_execution == 7 ];
+then
+    OMP_NUM_THREADS=40 python profileForward.py 2 40
+fi
+
+
+(... more ...)
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1.08 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     524288.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   3 sec.
+    Turnaround time :                            4 sec.
+
+The output (if any) is above this job summary.
+

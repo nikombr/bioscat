@@ -4,8 +4,8 @@
 #include <iostream>
 #include <string.h>
 #include <omp.h>
-#include "../../../lib/Segment.h"
-#include "../../../lib/utils/RealMatrix.h"
+#include "Segment.h"
+#include "RealMatrix.h"
 extern "C" {
 using namespace std;
 

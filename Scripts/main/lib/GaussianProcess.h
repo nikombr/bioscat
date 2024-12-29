@@ -11,7 +11,7 @@ class GaussianProcess {
         int n;              // number of points for estimating plane
         double *hyper_h;    // hyperparameters on host
         double *hyper_d;    // hyperparameters on device
-        int num_hyper;            // number of hyperparameters
+        int num_hyper;      // number of hyperparameters
         int dim;            // dimension of the problem, either 1 for curve or 2 for plane
         double *x_h;        // x coordinates for estimating plane on host
         double *x_d;        // x coordinates for estimating plane on device
@@ -31,6 +31,8 @@ class GaussianProcess {
         double *p_h;        // random vector and later height of plane in location (x,y) on host
         double *p_d;        // random vector and later height of plane in location (x,y) on device
         double logDeterminant;
+
+        // Functions
         GaussianProcess();
         GaussianProcess(double* x_h, double* y_h, int n, double* hyper, int num, int dim, int dev, int type_covfunc);  // Constructer, sets default values and allocates
         void free();                                                                // Destructer

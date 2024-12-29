@@ -20,7 +20,7 @@ void BioScat::forwardSolver(int polarisation) {
 
     double start, end, start_inner, end_inner;
     start = omp_get_wtime();
-    #pragma omp parallel for num_threads(num_segments)
+    //#pragma omp parallel for num_threads(num_segments)
     for (int i = 0; i < num_segments; i++) {
         segments[i].polarisation = polarisation;
 

@@ -63,7 +63,7 @@ IPO		=
 ISA		= 
 CHIP	= 
 ARCH	= 
-PARA	= -fopenmp -llapacke -llapack -lblas -lopenblas -lcusolver -lcublas -lcurand
+PARA	= -fopenmp -llapacke -llapack -lblas -lopenblas -lcusolver -lcublas -lcurand -Ilib -Ilib/utils -Ilib/reflectance -Ilib/Segment 
 XOPTS 	= -Xptxas=-v -arch=sm_90 -lineinfo -diag-suppress 2464 -diag-suppress 68  -diag-suppress 177 # Suppressing error regarding string conversion
 CFLAGS	= $(DEFS) $(ARCH) $(OPT) $(ISA) $(CHIP) $(IPO) $(PARA) -lstdc++
 CXXFLAGS= --compiler-options "$(OPT) $(PARA)" $(XOPTS)
